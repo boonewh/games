@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import SnowWithAccumulation from "@/components/ui/SnowWithAccumulation";
 
 // Define the snowflake type
 interface Snowflake {
@@ -15,26 +16,6 @@ interface Snowflake {
 
 const PathSixHomepage = () => {
   const [hoveredCharacter, setHoveredCharacter] = useState<number | null>(null);
-  const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
-
-  // Generate snowflakes for atmospheric effect
-  useEffect(() => {
-    const generateSnowflakes = () => {
-      const flakes: Snowflake[] = [];
-      for (let i = 0; i < 40; i++) {           // THIS IS WHERE THE SNOWFLAKES ARE GENERATED. The number after the less than symbol.
-        flakes.push({
-          id: i,
-          left: Math.random() * 100,
-          animationDuration: Math.random() * 7 + 6,   // Duration of the falling animation. Bigger numbers at the end mean slower flakes
-          opacity: Math.random() * 0.6 + 0.2,
-          fontSize: Math.random() * 10 + 10
-        });
-      }
-      setSnowflakes(flakes);
-    };
-
-    generateSnowflakes();
-  }, []);
 
   const characters = [
     {
@@ -69,24 +50,7 @@ const PathSixHomepage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      
-      {/* Animated Snow Effect */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        {snowflakes.map((flake) => (
-          <div
-            key={flake.id}
-            className="absolute text-blue-200 select-none"
-            style={{
-              left: `${flake.left}%`,
-              opacity: flake.opacity,
-              fontSize: `${flake.fontSize}px`,
-              animation: `fall ${flake.animationDuration}s linear infinite`
-            }}
-          >
-            ❄
-          </div>
-        ))}
-      </div>
+      <SnowWithAccumulation density={90} maxSize={3} wind={0.15} />
 
       <style jsx>{`
         @keyframes fall {
@@ -124,10 +88,10 @@ const PathSixHomepage = () => {
 
         <div className="relative z-20 px-4 sm:px-6 lg:px-8">
           <div className="ml-8 sm:ml-12 lg:ml-16 max-w-3xl text-left mb-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-6">
+            <h1 className="font-alkatra text-5xl sm:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-6">
               Welcome, Brave Souls
             </h1>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-300 mb-4">
+            <h2 className="font-alkatra text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-300 mb-4">
               Reign of Winter
             </h2>
             <h3 className="text-xl sm:text-2xl text-blue-200 mb-8 font-medium">

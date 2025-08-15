@@ -4,26 +4,23 @@ import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
-const alkatra = Alkatra({ 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const alkatra = Alkatra({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
-  variable: '--font-alkatra'
+  variable: '--font-alkatra',
 })
 
 export const metadata: Metadata = {
   title: 'PathSix Games | Reign of Winter',
-  description: 'PathSix is a website for friends who have been playing RPGs together for three decades. Follow our current Pathfinder campaign, Reign of Winter.',
+  description:
+    'PathSix is a website for friends who have been playing RPGs together for three decades. Follow our current Pathfinder campaign, Reign of Winter.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${alkatra.variable}`}>
+      <body className={`${inter.variable} ${alkatra.variable}`}>
         <Header />
         {children}
         <Footer />

@@ -66,7 +66,7 @@ const Header = () => {
             
             {/* Site Title - Left side, but with padding to avoid logo */}
             <div className="hidden md:block pl-20 sm:pl-24 lg:pl-28">
-              <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400">
+              <h1 className="font-alkatra text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400">
                 PathSix Games
               </h1>
               <p className="text-sm text-slate-400 mt-1">Reign of Winter</p>

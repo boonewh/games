@@ -8,18 +8,19 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  /* Default body font from Inter variable */
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-@layer components {
-  /* Renamed to avoid collision with the Typography plugin's .prose-invert */
-  .custom-prose-invert {
-    @apply text-slate-200;
-  }
+/* ✅ Define Tailwind v4 font tokens */
+@theme {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-alkatra: var(--font-alkatra), cursive; /* this creates the .font-alkatra utility */
+}
 
+@layer components {
+  .custom-prose-invert { @apply text-slate-200; }
   .custom-prose-invert h1,
   .custom-prose-invert h2,
-  .custom-prose-invert h3 {
-    @apply text-white;
-  }
+  .custom-prose-invert h3 { @apply text-white; }
 }
