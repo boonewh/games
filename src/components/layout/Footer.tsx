@@ -41,7 +41,7 @@ const Footer = () => {
 
             {/* Central Baba Yaga's Hut Image */}
             <div className="flex-shrink-0 group">
-              <div className="relative w-24 h-16 lg:w-32 lg:h-20">
+              <div className="relative w-24 h-16 lg:w-32 lg:h-48">
                 <Image
                   src="/images/baba_yagas_hut_footer.png"
                   alt="Baba Yaga's hut"
