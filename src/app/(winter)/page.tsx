@@ -5,14 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SnowWithAccumulation from "@/components/ui/SnowWithAccumulation";
 
-// Define the snowflake type
-interface Snowflake {
-  id: number;
-  left: number;
-  animationDuration: number;
-  opacity: number;
-  fontSize: number;
-}
 
 const PathSixHomepage = () => {
   const [hoveredCharacter, setHoveredCharacter] = useState<number | null>(null);
@@ -21,29 +13,29 @@ const PathSixHomepage = () => {
     {
       name: "Aelira Kaldren",
       class: "Human Witch/Kineticist",
-      image: "/images/aelira.jpg",
-      sheet: "/images/aelira.pdf",
+      image: "/images/winter/aelira.jpg",
+      sheet: "/images/winter/aelira.pdf",
       description: "Master of elemental forces and ancient magics"
     },
     {
       name: "Alaric Aethelred", 
       class: "Human Gunslinger/Inquisitor",
-      image: "/images/alaric.jpg",
-      sheet: "/images/alaric.pdf",
+      image: "/images/winter/alaric.jpg",
+      sheet: "/images/winter/alaric.pdf",
       description: "Divine justice delivered through powder and steel"
     },
     {
       name: "Joshua",
       class: "Human Druid/Monk",
-      image: "/images/joshua.jpg", 
-      sheet: "/images/joshua.pdf",
+      image: "/images/winter/joshua.jpg", 
+      sheet: "/images/winter/joshua.pdf",
       description: "Guardian of nature's balance and inner harmony"
     },
     {
       name: "Ivan",
-      class: "Human Inquisitor/Wizard",
-      image: "/images/ivan.jpg",
-      sheet: "/images/ivan.pdf", 
+      class: "Half-Elf Inquisitor/Wizard",
+      image: "/images/winter/ivan.jpg",
+      sheet: "/images/winter/ivan.pdf",
       description: "Scholar-warrior wielding faith and arcane knowledge"
     }
   ];
@@ -77,7 +69,7 @@ const PathSixHomepage = () => {
       <section className="relative min-h-screen flex items-center justify-start">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/baba_yaga_hero.jpg"
+            src="/images/winter/baba_yaga_hero.jpg"
             alt="Baba Yaga's mystical realm"
             fill
             className="object-cover opacity-40"
@@ -99,7 +91,7 @@ const PathSixHomepage = () => {
             </h3>
           </div>
 
-          <div className="ml-8 sm:ml-12 lg:ml-16 max-w-3xl mb-12">
+          <div className="ml-8 sm:ml-12 lg:ml-16 max-w-4xl mb-12">
             <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-8">
               Welcome to our chilling expedition into the icy realms of Golarion and beyond, where the cold conceals ancient mysteries! Follow our bold heroes as they unravel the secrets of a wintry curse threatening the lands. What truths lie buried beneath the snow? What perils await in the frozen reaches?
             </p>
@@ -139,7 +131,7 @@ const PathSixHomepage = () => {
 
       {/* Current Chapter Status */}
       <section className="relative py-16 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-y border-slate-600/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-20 px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
@@ -147,7 +139,7 @@ const PathSixHomepage = () => {
               </h2>
               <div className="space-y-4 text-lg text-slate-300">
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Chapter:</span> The Snows of Summer
+                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>Maiden, Mother, Crone</i>
                 </p>
                 <p>
                   <span className="text-blue-200 font-semibold">Location:</span> The frozen lands of Irrisen
@@ -163,23 +155,21 @@ const PathSixHomepage = () => {
               </div>
             </div>
             
-            <div className="relative">
-              <div className="aspect-square max-w-md mx-auto relative group">
-                <Image
-                  src="/images/irrisen.jpg"
-                  alt="Map of Irrisen, our current realm of adventure"
-                  fill
-                  className="object-cover rounded-lg shadow-2xl group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-white font-semibold text-lg drop-shadow-lg">
-                    The Frozen Realm of Irrisen
-                  </p>
-                  <p className="text-blue-200 text-sm drop-shadow-lg">
-                    Where our heroes face the spreading winter curse
-                  </p>
-                </div>
+            <div className="mx-auto relative group w-[900px] h-[700px]">
+              <Image
+                src="/images/winter/irrisen.jpg"
+                alt="Map of Irrisen, our current realm of adventure"
+                fill
+                className="object-contain rounded-lg shadow-2xl group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
+              <div className="absolute bottom-4 left-4 right-4">
+                <p className="text-white font-semibold text-lg drop-shadow-lg">
+                  The Frozen Realm of Irrisen
+                </p>
+                <p className="text-blue-200 text-sm drop-shadow-lg">
+                  Where our heroes face the spreading winter curse
+                </p>
               </div>
             </div>
           </div>
@@ -190,13 +180,14 @@ const PathSixHomepage = () => {
       <section className="relative py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-6">
+            <h2 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-6 leading-tight pb-1">
               The Legendary Party
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
               Four heroes united by destiny, bound by friendship forged over three decades of adventure
             </p>
           </div>
+
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {characters.map((character, index) => (
@@ -351,7 +342,7 @@ const PathSixHomepage = () => {
               <div className="flex-shrink-0">
                 <div className="relative w-full lg:w-80 aspect-[4/5] group">
                   <Image
-                    src="/images/baba_yaga_hero.jpg"
+                    src="/images/winter/baba_yaga_hero.jpg"
                     alt="Scene from our latest adventure"
                     fill
                     className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"

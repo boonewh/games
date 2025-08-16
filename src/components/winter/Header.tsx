@@ -28,7 +28,7 @@ const Header = () => {
             {/* Logo container */}
             <div className="relative w-full h-full bg-slate-800/90 backdrop-blur-sm rounded-full border border-blue-400/30 overflow-hidden group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-2xl">
               <Image
-                src="/images/pathsix-games-logo.jpg"
+                src="/images/winter/pathsix-games-logo.jpg"
                 alt="PathSix Games"
                 fill
                 className="object-cover"
@@ -127,7 +127,7 @@ const Header = () => {
                           Skull & Shackles
                         </Link>
                         <Link 
-                          href="/jade-regent" 
+                          href="/regent" 
                           className="block px-4 py-2 text-sm text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
                           onClick={() => setIsPastAdventuresOpen(false)}
                         >
@@ -178,14 +178,25 @@ const Header = () => {
               </button>
             </div>
           </div>
+        </nav>
+      </header>
 
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="lg:hidden border-t border-slate-600/30 mt-4">
-              <div className="px-2 pt-4 pb-3 space-y-1 bg-slate-800/50 backdrop-blur-sm rounded-lg mt-2 mr-4 ml-20 sm:ml-24">
+      {/* Mobile Navigation Overlay - MOVED OUTSIDE HEADER for proper positioning */}
+      {isMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            onClick={() => setIsMenuOpen(false)}
+          ></div>
+          
+          {/* Mobile Menu */}
+          <div className="fixed top-16 left-4 right-4 z-50 lg:hidden">
+            <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-600/30 shadow-2xl overflow-hidden">
+              <div className="p-4 space-y-2">
                 <Link 
                   href="/" 
-                  className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
+                  className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Home Page
@@ -193,7 +204,7 @@ const Header = () => {
                 
                 <Link 
                   href="/book/snows-of-summer" 
-                  className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
+                  className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Adventure Log
@@ -201,25 +212,25 @@ const Header = () => {
                 
                 <Link 
                   href="/dice" 
-                  className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
+                  className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Dice Roller
                 </Link>
 
                 {/* Mobile Past Adventures */}
-                <div className="border-l-2 border-slate-600/30 ml-3 pl-3">
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Past Adventures</div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-4">Past Adventures</div>
                   <Link 
                     href="/skull-and-shackles" 
-                    className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
+                    className="block px-4 py-2 ml-4 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Skull & Shackles
                   </Link>
                   <Link 
-                    href="/jade-regent" 
-                    className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
+                    href="/regent" 
+                    className="block px-4 py-2 ml-4 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Jade Regent
@@ -228,17 +239,17 @@ const Header = () => {
                 
                 <Link 
                   href="/rules" 
-                  className="block px-3 py-2 rounded-md text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
+                  className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Rules Page
                 </Link>
 
                 {/* Mobile call to action */}
-                <div className="pt-3 border-t border-slate-600/30 mt-3">
+                <div className="pt-4 border-t border-slate-600/30 mt-4">
                   <Link 
                     href="/book/snows-of-summer" 
-                    className="block w-full text-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium"
+                    className="block w-full text-center px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Latest Adventure
@@ -246,10 +257,9 @@ const Header = () => {
                 </div>
               </div>
             </div>
-          )}
-        </nav>
-      </header>
-
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="flex-shrink-0 group">
               <div className="relative w-24 h-16 lg:w-32 lg:h-48">
                 <Image
-                  src="/images/baba_yagas_hut_footer.png"
+                  src="/images/winter/baba_yagas_hut_footer.png"
                   alt="Baba Yaga's hut"
                   fill
                   className="object-contain filter drop-shadow-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1"
