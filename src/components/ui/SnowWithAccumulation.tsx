@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useParams } from 'next/navigation';
 
 export default function SnowWithAccumulation({
   density = 120,                 // active falling flakes

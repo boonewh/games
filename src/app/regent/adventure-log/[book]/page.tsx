@@ -1,13 +1,13 @@
-// /app/adventure-log/[book]/page.tsx
+// /app/regent/adventure-log/[book]/page.tsx
 'use client';
 
 import React, { useState } from 'react';
-import { notFound } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Calendar, Users, MapPin, BookOpen, Star, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 
-// Import adventure data - Updated paths for your structure
+// Import adventure data
 import forestSpiritData from '@/app/regent/data/adventures/forest-spirit.json';
 import tideOfHonorData from '@/app/regent/data/adventures/tide-of-honor.json';
 import emptyThroneData from '@/app/regent/data/adventures/empty-throne.json';
@@ -46,20 +46,37 @@ const adventureBooks: Record<string, AdventureBook> = {
   'empty-throne': emptyThroneData,
 };
 
-interface AdventureLogPageProps {
-  params: {
-    book: string;
-  };
-}
+export default function AdventureLogPage() {
+  const { book: rawBook } = useParams<{ book: string | string[] }>();
+  const bookSlug = Array.isArray(rawBook) ? rawBook[0] : rawBook;
 
-export default function AdventureLogPage({ params }: AdventureLogPageProps) {
   const [selectedEntry, setSelectedEntry] = useState<AdventureEntry | null>(null);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(0);
 
-  const book = adventureBooks[params.book as keyof typeof adventureBooks];
-  
+  const book = adventureBooks[bookSlug as keyof typeof adventureBooks];
+
+  if (!bookSlug) {
+    // still resolving on client (very brief)
+    return null;
+  }
   if (!book) {
-    notFound();
+    return (
+      <div className="min-h-screen bg-[#EFCAA3]">
+        <section className="relative bg-gradient-to-b from-red-900 to-red-800 text-white">
+          <div className="relative max-w-4xl mx-auto px-4 py-16">
+            <Link
+              href="/regent/adventure-log"
+              className="inline-flex items-center text-yellow-300 hover:text-yellow-200 transition-colors mb-8"
+            >
+              <ArrowLeft size={20} className="mr-2" />
+              Back to Adventure Chronicles
+            </Link>
+            <h1 className="text-4xl font-bold mb-2">Book Not Found</h1>
+            <p className="text-yellow-200">We couldn’t find “{bookSlug}”. Please choose a book from the Adventure Chronicles.</p>
+          </div>
+        </section>
+      </div>
+    );
   }
 
   const entries = book.entries || [];
@@ -69,20 +86,19 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
     setCurrentEntryIndex(index);
   };
 
-  const closeEntry = () => {
-    setSelectedEntry(null);
-  };
+  const closeEntry = () => setSelectedEntry(null);
 
   const navigateEntry = (direction: 'next' | 'prev') => {
-    const newIndex = direction === 'next' 
-      ? Math.min(currentEntryIndex + 1, entries.length - 1)
-      : Math.max(currentEntryIndex - 1, 0);
-    
+    const newIndex =
+      direction === 'next'
+        ? Math.min(currentEntryIndex + 1, entries.length - 1)
+        : Math.max(currentEntryIndex - 1, 0);
+
     setCurrentEntryIndex(newIndex);
     setSelectedEntry(entries[newIndex]);
   };
 
-  // Enhanced content processing function
+  // Enhanced content processing
   const processContent = (content: string) => {
     return content.split('\n\n').map((paragraph, index) => {
       if (paragraph.startsWith('## ')) {
@@ -113,24 +129,22 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
         {/* Entry Header */}
         <div className="relative bg-gradient-to-b from-red-900 to-red-800 text-white">
           <div className="max-w-4xl mx-auto px-4 py-8">
-            <button 
+            <button
               onClick={closeEntry}
               className="mb-4 flex items-center text-yellow-300 hover:text-yellow-200 transition-colors"
             >
               <ChevronLeft size={20} className="mr-1" />
               Back to {book.title}
             </button>
-            
+
             <div className="flex items-center text-sm mb-2 text-yellow-200">
               <Calendar size={16} className="mr-2" />
               {selectedEntry.date}
             </div>
-            
+
             <h1 className="text-3xl md:text-4xl font-bold mb-2">{selectedEntry.title}</h1>
-            {selectedEntry.subtitle && (
-              <h2 className="text-xl text-yellow-300 mb-4">{selectedEntry.subtitle}</h2>
-            )}
-            
+            {selectedEntry.subtitle && <h2 className="text-xl text-yellow-300 mb-4">{selectedEntry.subtitle}</h2>}
+
             {selectedEntry.isFeatured && (
               <div className="flex items-center text-yellow-300 mb-4">
                 <Star size={16} className="mr-2" />
@@ -145,24 +159,20 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
           <article className="bg-white rounded-lg shadow-lg p-6 md:p-8">
             {selectedEntry.image && (
               <div className="mb-8">
-                <Image 
-                  src={selectedEntry.image} 
+                <Image
+                  src={selectedEntry.image}
                   alt={selectedEntry.imageCaption || selectedEntry.title}
                   width={600}
                   height={400}
                   className="w-full max-w-md mx-auto rounded-lg shadow-md"
                 />
                 {selectedEntry.imageCaption && (
-                  <p className="text-center text-gray-600 mt-2 italic text-sm">
-                    {selectedEntry.imageCaption}
-                  </p>
+                  <p className="text-center text-gray-600 mt-2 italic text-sm">{selectedEntry.imageCaption}</p>
                 )}
               </div>
             )}
-            
-            <div className="prose prose-lg max-w-none">
-              {processContent(selectedEntry.content)}
-            </div>
+
+            <div className="prose prose-lg max-w-none">{processContent(selectedEntry.content)}</div>
 
             {/* Character & Location Info */}
             <div className="mt-8 pt-6 border-t border-gray-200 grid md:grid-cols-2 gap-6">
@@ -174,17 +184,14 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedEntry.charactersInvolved.map((character: string) => (
-                      <span 
-                        key={character}
-                        className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm"
-                      >
+                      <span key={character} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
                         {character}
                       </span>
                     ))}
                   </div>
                 </div>
               )}
-              
+
               {selectedEntry.locationsFeatured && selectedEntry.locationsFeatured.length > 0 && (
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
@@ -193,10 +200,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedEntry.locationsFeatured.map((location: string) => (
-                      <span 
-                        key={location}
-                        className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm"
-                      >
+                      <span key={location} className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">
                         {location}
                       </span>
                     ))}
@@ -211,10 +215,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                 <h4 className="font-semibold text-gray-900 mb-2">Tags</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedEntry.tags.map((tag: string) => (
-                    <span 
-                      key={tag}
-                      className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium"
-                    >
+                    <span key={tag} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
                       {tag}
                     </span>
                   ))}
@@ -233,7 +234,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
               <ChevronLeft size={20} className="mr-2" />
               Previous Entry
             </button>
-            
+
             <span className="text-gray-600">
               {currentEntryIndex + 1} of {entries.length}
             </span>
@@ -256,10 +257,11 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
   const bookThemes = {
     'forest-spirit': 'from-green-900 to-green-800',
     'tide-of-honor': 'from-blue-900 to-blue-800',
-    'empty-throne': 'from-purple-900 to-purple-800'
-  };
+    'empty-throne': 'from-purple-900 to-purple-800',
+  } as const;
 
-  const currentTheme = bookThemes[params.book as keyof typeof bookThemes] || 'from-red-900 to-red-800';
+  const currentTheme = bookThemes[bookSlug as keyof typeof bookThemes] || 'from-red-900 to-red-800';
+
 
   return (
     <div className="min-h-screen bg-[#EFCAA3]">
@@ -267,22 +269,20 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
       <section className={`relative bg-gradient-to-b ${currentTheme} text-white`}>
         <div className="absolute inset-0 bg-black bg-opacity-20" />
         <div className="relative max-w-6xl mx-auto px-4 py-16">
-          <Link 
+          <Link
             href="/regent/adventure-log"
             className="inline-flex items-center text-yellow-300 hover:text-yellow-200 transition-colors mb-8"
           >
             <ArrowLeft size={20} className="mr-2" />
             Back to Adventure Chronicles
           </Link>
-          
+
           <div className="text-center">
             <div className="text-4xl font-bold mb-4">Book {book.bookNumber}</div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4">{book.title}</h1>
             <h2 className="text-2xl text-yellow-300 mb-8">{book.subtitle}</h2>
-            <p className="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">
-              {book.description}
-            </p>
-            
+            <p className="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">{book.description}</p>
+
             {/* Book Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
               <div className="text-center">
@@ -306,7 +306,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                 <div className="text-sm text-gray-300">Locations</div>
               </div>
             </div>
-            
+
             <div className="mt-8 text-yellow-200">
               <p className="text-lg">{book.dateRange}</p>
             </div>
@@ -316,10 +316,8 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
 
       {/* Adventure Entries */}
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-red-900 mb-8 text-center">
-          Adventure Entries
-        </h2>
-        
+        <h2 className="text-4xl font-bold text-red-900 mb-8 text-center">Adventure Entries</h2>
+
         {entries.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-xl text-gray-600 mb-4">No entries available yet.</p>
@@ -328,7 +326,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
         ) : (
           <div className="grid gap-6">
             {entries.map((entry, index) => (
-              <article 
+              <article
                 key={entry.id}
                 className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                 onClick={() => openEntry(entry, index)}
@@ -346,7 +344,7 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                       </div>
                     </div>
                   )}
-                  
+
                   <div className={`${entry.image ? 'md:w-2/3' : 'w-full'} p-6`}>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center text-sm text-gray-500">
@@ -360,38 +358,29 @@ export default function AdventureLogPage({ params }: AdventureLogPageProps) {
                         </div>
                       )}
                     </div>
-                    
+
                     <h3 className="text-2xl font-bold text-red-900 mb-2 hover:text-red-700 transition-colors">
                       {entry.title}
                     </h3>
-                    
-                    {entry.subtitle && (
-                      <h4 className="text-lg text-red-700 mb-3">{entry.subtitle}</h4>
-                    )}
-                    
-                    <p className="text-gray-700 mb-4 leading-relaxed">
-                      {entry.excerpt}
-                    </p>
-                    
+
+                    {entry.subtitle && <h4 className="text-lg text-red-700 mb-3">{entry.subtitle}</h4>}
+
+                    <p className="text-gray-700 mb-4 leading-relaxed">{entry.excerpt}</p>
+
                     {/* Tags */}
                     {entry.tags && entry.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {entry.tags.slice(0, 4).map(tag => (
-                          <span 
-                            key={tag}
-                            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
-                          >
+                        {entry.tags.slice(0, 4).map((tag) => (
+                          <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
                             {tag}
                           </span>
                         ))}
                         {entry.tags.length > 4 && (
-                          <span className="text-gray-500 text-xs">
-                            +{entry.tags.length - 4} more
-                          </span>
+                          <span className="text-gray-500 text-xs">+{entry.tags.length - 4} more</span>
                         )}
                       </div>
                     )}
-                    
+
                     <div className="text-red-800 font-medium hover:text-red-600 transition-colors">
                       Read Full Entry →
                     </div>
