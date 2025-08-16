@@ -25,7 +25,7 @@ const PathSixHomepage = () => {
       description: "Divine justice delivered through powder and steel"
     },
     {
-      name: "Joshua",
+      name: "Joshua the Red",
       class: "Human Druid/Monk",
       image: "/images/winter/joshua.jpg", 
       sheet: "/images/winter/joshua.pdf",
