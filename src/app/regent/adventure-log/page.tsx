@@ -32,7 +32,7 @@ const adventureBooks = [
     sessions: 10,
     keyCharacters: ['Aelfread', 'Edam', 'Haldir', 'Shura', 'Tim', 'Hirabashi Jiro'],
     keyLocations: ['Ronin Camp', 'Seinaru Heikiku', 'Kiniro Kyomai', 'Enganoka'],
-    coverImage: '/images/regent/tide-of-honor-cover.jpg',
+    coverImage: '/images/regent/execution.jpg',
     status: 'completed',
     featuredEntry: 'The Sorcerer\'s Last Gambit',
     theme: 'from-blue-900 to-blue-800'
@@ -47,7 +47,7 @@ const adventureBooks = [
     sessions: 8,
     keyCharacters: ['Aelfread', 'Edam', 'Haldir', 'Shura', 'Tim', 'Ameiko'],
     keyLocations: ['Kasai', 'Imperial Shrine', 'Imperial Palace', 'Well of Demons'],
-    coverImage: '/images/regent/empty-throne-cover.jpg',
+    coverImage: '/images/regent/palace.jpg',
     status: 'completed',
     featuredEntry: 'The Twilight Throne Room',
     theme: 'from-purple-900 to-purple-800'
@@ -62,7 +62,13 @@ export default function AdventureLogIndex() {
     <div className="min-h-screen bg-[#EFCAA3]">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-b from-red-900 to-red-800 text-white">
-        <div className="absolute inset-0 bg-black bg-opacity-20" />
+        <Image
+          src={`/images/regent/forestSpirts.jpg`}
+          alt={`Forest of Spirits cover`}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/80" />
         <div className="relative max-w-6xl mx-auto px-4 py-16">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -132,8 +138,14 @@ export default function AdventureLogIndex() {
                 <div className="md:flex">
                   {/* Book Cover */}
                   <div className="md:w-1/3 relative">
-                    <div className={`h-64 md:h-full bg-gradient-to-br ${book.theme} flex items-center justify-center text-white relative overflow-hidden`}>
-                      <div className="absolute inset-0 bg-black bg-opacity-20" />
+                      <Image
+                        src={book.coverImage}
+                        alt={`${book.title} cover`}
+                        fill
+                        className="object-cover"
+                      />
+                    <div className={`h-64 md:h-full flex items-center justify-center text-white relative overflow-hidden`}>
+                      <div className="absolute inset-0 bg-black/60" />
                       <div className="relative text-center p-6">
                         <div className="text-4xl font-bold mb-2">Book {book.bookNumber}</div>
                         <div className="text-lg font-medium">{book.title}</div>

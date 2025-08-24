@@ -120,7 +120,7 @@ const Header = () => {
                     <div className="absolute top-full left-0 mt-2 w-48 bg-slate-800/95 backdrop-blur-sm border border-slate-600/30 rounded-lg shadow-2xl z-50">
                       <div className="py-2">
                         <Link 
-                          href="/skull-and-shackles" 
+                          href="/shackles" 
                           className="block px-4 py-2 text-sm text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
                           onClick={() => setIsPastAdventuresOpen(false)}
                         >
@@ -222,7 +222,7 @@ const Header = () => {
                 <div>
                   <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-4">Past Adventures</div>
                   <Link 
-                    href="/skull-and-shackles" 
+                    href="/shackles" 
                     className="block px-4 py-2 ml-4 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300"
                     onClick={() => setIsMenuOpen(false)}
                   >

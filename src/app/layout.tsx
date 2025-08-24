@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${alkatra.variable}`}>
+      <body className={`${inter.variable} ${alkatra.variable}`} style={{ backgroundColor: '#30393e' }}>
         {children}
       </body>
     </html>
