@@ -1,23 +1,16 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-
 import Header from '@/components/shackles/Header';
 import Footer from '@/components/shackles/Footer';
 import IndexLayout from '@/app/shackles/components/IndexLayout';
 
-interface SkullShacklesLayoutProps {
-  children: ReactNode;
-  className?: string;
-}
-
-export default function SkullShacklesLayout({ children, className = '' }: SkullShacklesLayoutProps) {
+export default function ShacklesLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isShacklesIndex = pathname === '/shackles';
 
-  // Shackles landing page: over-hero header + footer
   if (isShacklesIndex) {
+    // If your IndexLayout already renders <Footer/>, remove the <Footer /> below.
     return (
       <>
         <IndexLayout>{children}</IndexLayout>
@@ -26,9 +19,8 @@ export default function SkullShacklesLayout({ children, className = '' }: SkullS
     );
   }
 
-  // All other Shackles pages: normal header/footer
   return (
-    <div className={`bg-[#30393e] text-[#c6c4ba] font-[Verdana,Geneva,sans-serif] text-base font-normal ${className}`}>
+    <div className="bg-[#30393e] text-[#c6c4ba] font-[Verdana,Geneva,sans-serif] text-base font-normal">
       <Header />
       <main>{children}</main>
       <div className="w-full">

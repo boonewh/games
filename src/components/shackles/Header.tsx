@@ -14,7 +14,7 @@ export default function SkullShacklesNavigation() {
         alt="The Pathfinder 6" 
         width={400}
         height={100}
-        className="w-full lg:w-[28%] mx-auto"
+        className="w-full lg:w-[20%]"
         priority
       />
       
