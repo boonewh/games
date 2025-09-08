@@ -70,7 +70,7 @@ export default function SkullShacklesNavigation() {
           
           <li className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
             <Link 
-              href="/shackles/book1" 
+              href="/shackles/adventure-log" 
               className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
             >
               Adventure Log
