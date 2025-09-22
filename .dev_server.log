@@ -1,0 +1,53 @@
+   ▲ Next.js 15.4.6
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.254.8:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.1s
+ ○ Compiling /sign-in/[[...sign-in]] ...
+ ✓ Compiled /sign-in/[[...sign-in]] in 1440ms (985 modules)
+ GET /sign-in 200 in 2959ms
+ ✓ Compiled in 1261ms (999 modules)
+ ✓ Compiled in 476ms (383 modules)
+ ✓ Compiled in 282ms (383 modules)
+ ✓ Compiled in 541ms (383 modules)
+ ✓ Compiled in 403ms (383 modules)
+ ✓ Compiled in 310ms (383 modules)
+ ⨯ ./src/components/ClerkClientProvider.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\William Boone\Desktop\Websites\games\src\components\ClerkClientProvider.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/ClerkClientProvider.tsx
+ ⨯ ./src/components/ClerkClientProvider.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\William Boone\Desktop\Websites\games\src\components\ClerkClientProvider.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/ClerkClientProvider.tsx
+ ⨯ ./src/components/ClerkClientProvider.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\William Boone\Desktop\Websites\games\src\components\ClerkClientProvider.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/ClerkClientProvider.tsx
+ ⨯ ./src/components/ClerkClientProvider.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\William Boone\Desktop\Websites\games\src\components\ClerkClientProvider.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/ClerkClientProvider.tsx
+^Cnpm error A complete log of this run can be found in: C:\Users\William Boone\AppData\Local\npm-cache\_logs\2025-09-22T05_45_22_028Z-debug-0.log
