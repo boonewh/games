@@ -1,0 +1,13 @@
+{
+  "photos": [
+    {
+      "id": "winter-campfire",
+      "relativePath": "/images/winter/shadowcat.jpg",
+      "alt": "A mysterious shadowcat perched against a snowy backdrop",
+      "caption": "A shadowcat familiar keeps watch as the heroes make camp on the Irriseni border.",
+      "credit": "Campaign photography",
+      "createdAt": "2024-01-10T12:00:00.000Z",
+      "updatedAt": "2024-01-10T12:00:00.000Z"
+    }
+  ]
+}

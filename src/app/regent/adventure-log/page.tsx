@@ -128,7 +128,7 @@ export default function AdventureLogIndex() {
         </p>
         
         <div className="grid gap-8">
-          {adventureBooks.map((book, index) => (
+          {adventureBooks.map((book) => (
             <Link 
               key={book.slug}
               href={`/regent/adventure-log/${book.slug}`}

@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "id": "entry-001",
+      "slug": "crossing-the-border",
+      "bookSlug": "snows-of-summer",
+      "title": "Crossing the Border",
+      "subtitle": "Unnatural winter grips Heldren",
+      "publishedAt": "2024-01-15T18:30:00.000Z",
+      "excerpt": "Our heroes answered Heldren's call for aid and stepped into the Border Wood, where the summer heat gave way to killing frost.",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "heading",
+            "attrs": { "level": 2 },
+            "content": [
+              { "type": "text", "text": "Crossing the Border" }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Heldren's council begged for help after patrols vanished near the Border Wood. Answering the call, our companions packed winter gear and blessings for the road."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "{{photo:winter-campfire}}"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Within hours the summer heat died, replaced by a razor wind that carried flurries of strange blue snow. The trail of the missing caravan led deeper into the unnatural storm."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

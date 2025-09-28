@@ -1,0 +1,10 @@
+{
+  "books": [
+    {
+      "slug": "snows-of-summer",
+      "title": "Snows of Summer",
+      "description": "The first volume of the Reign of Winter adventure path, where Irrisen's eternal frost begins to creep across Golarion.",
+      "coverImage": "/images/winter/baba_yaga_hero.jpg"
+    }
+  ]
+}

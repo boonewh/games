@@ -1,13 +1,40 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import SnowWithAccumulation from "@/components/ui/SnowWithAccumulation";
+import type { WinterAdventureEntry } from '@/lib/winter/types';
 
 
 const PathSixHomepage = () => {
   const [hoveredCharacter, setHoveredCharacter] = useState<number | null>(null);
+  const [latestEntry, setLatestEntry] = useState<WinterAdventureEntry | null>(null);
+  const [loadingEntry, setLoadingEntry] = useState(true);
+
+  useEffect(() => {
+    async function loadLatestEntry() {
+      try {
+        const response = await fetch('/api/winter/adventure?book=snows-of-summer', {
+          cache: 'no-store',
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+        const entries = (data.entries ?? []) as WinterAdventureEntry[];
+        if (entries.length > 0) {
+          setLatestEntry(entries[0]);
+        }
+      } finally {
+        setLoadingEntry(false);
+      }
+    }
+
+    loadLatestEntry();
+  }, []);
 
   const characters = [
     {
@@ -39,6 +66,14 @@ const PathSixHomepage = () => {
       description: "Scholar-warrior wielding faith and arcane knowledge"
     }
   ];
+
+  const adventureHref = latestEntry
+    ? `/book/${latestEntry.bookSlug}/${latestEntry.slug}`
+    : '/book/snows-of-summer';
+
+  const publishedLabel = latestEntry
+    ? new Date(latestEntry.publishedAt).toLocaleDateString()
+    : null;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -104,7 +139,7 @@ const PathSixHomepage = () => {
           </div>
 
           <div className="ml-8 sm:ml-12 lg:ml-16 flex flex-col sm:flex-row items-start gap-6">
-            <Link href="/book/snows-of-summer">
+            <Link href={adventureHref}>
               <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                 <span className="flex items-center">
                   Begin the Adventure
@@ -297,29 +332,31 @@ const PathSixHomepage = () => {
               {/* Adventure excerpt text */}
               <div className="flex-1">
                 <h3 className="text-2xl font-bold text-blue-200 mb-3">
-                  The Frozen Trail Beckons
+                  {latestEntry ? latestEntry.title : 'Our first winter tale arrives soon'}
                 </h3>
                 <p className="text-slate-400 text-sm mb-4">
-                  Posted on December 15th, 2024
+                  {loadingEntry
+                    ? 'Checking for the latest updates…'
+                    : latestEntry && publishedLabel
+                      ? `Posted on ${publishedLabel}`
+                      : 'No log entries have been published yet.'}
                 </p>
-                
+
                 <div className="prose prose-invert prose-lg max-w-none">
-                  <p className="text-slate-300 leading-relaxed mb-6">
-                    The icy wind howled through the ancient pines as our heroes pressed deeper into the cursed lands of Irrisen. What began as whispers of unnatural winter had become a bitter reality—snow fell where flowers should bloom, and the very air crackled with malevolent magic. Aelira&apos;s breath misted in the frigid air as she traced arcane symbols, seeking answers in the elemental forces that seemed to rebel against nature itself...
-                  </p>
-                  
-                  <blockquote className="border-l-4 border-blue-400 pl-6 py-2 bg-slate-700/30 rounded-r-lg my-6">
-                    <p className="text-blue-200 italic text-lg">
-                      &ldquo;The very stones here remember winter&rsquo;s eternal embrace. We tread where mortals were never meant to walk.&rdquo;
+                  {loadingEntry ? (
+                    <p className="text-slate-400">Loading excerpt…</p>
+                  ) : latestEntry ? (
+                    <p className="text-slate-300 leading-relaxed mb-6">{latestEntry.excerpt}</p>
+                  ) : (
+                    <p className="text-slate-400">
+                      The logbook is open and ready. Check back after our next session for the first full chapter of the
+                      Reign of Winter saga.
                     </p>
-                    <footer className="text-slate-400 text-sm mt-2">
-                      — Aelira Kaldren, upon sensing the ancient magics
-                    </footer>
-                  </blockquote>
+                  )}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Link href="/book/snows-of-summer">
+                  <Link href={adventureHref}>
                     <button className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
                       <span className="flex items-center">
                         Read the Full Adventure
@@ -329,8 +366,8 @@ const PathSixHomepage = () => {
                       </span>
                     </button>
                   </Link>
-                  
-                  <Link href="/book/snows-of-summer">
+
+                  <Link href="/adventure-log">
                     <button className="px-6 py-3 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium">
                       View All Entries
                     </button>
@@ -367,7 +404,7 @@ const PathSixHomepage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/book/snows-of-summer">
+              <Link href={adventureHref}>
                 <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                   Start Reading
                 </button>
