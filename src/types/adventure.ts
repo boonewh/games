@@ -6,6 +6,7 @@ export type AdventureEntry = {
   title: string
   image?: string
   createdAt: string // ISO
+  updatedAt?: string // ISO
   excerpt: string
   content: JSONContent // Tiptap JSONContent
 }
