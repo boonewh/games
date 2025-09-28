@@ -2,15 +2,70 @@
 import { listEntries } from '@/lib/entries'
 import Link from 'next/link'
 import Image from 'next/image'
-import { BookOpen, Calendar, Sparkles, PenLine } from 'lucide-react'
+import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
 
 export const dynamic = 'force-dynamic' // reflect new files during dev
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
-const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
-  dateStyle: 'long',
-  timeStyle: 'short',
-})
+const dateTimeFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeStyle: 'short' })
+
+// Hardcoded Reign of Winter adventure books
+const adventureBooks = [
+  {
+    slug: 'the-snows-of-summer',
+    title: 'The Snows of Summer',
+    description: 'Our heroes begin their journey in the border town of Heldren, where an unseasonable blizzard threatens the harvest. They must venture into the mysterious Pale Tower and confront the ice witch Radosek Pavril to save the town and uncover the first clues about Baba Yaga\'s disappearance.',
+    bookNumber: 1,
+    coverImage: "/images/winter/snows-of-summer.jpg",
+    status: 'completed',
+    theme: 'from-blue-900 to-cyan-800'
+  },
+  {
+    slug: 'the-shackled-hut',
+    title: 'The Shackled Hut',
+    description: 'The party discovers Baba Yaga\'s legendary dancing hut, but it has been magically bound and stripped of its power. To free the hut and continue their quest, they must venture into the frozen realm of Irrisen and navigate the deadly politics of the Winter Witches.',
+    bookNumber: 2,
+    coverImage: '/images/winter/shackled-hut.jpg',
+    status: 'completed',
+    theme: 'from-cyan-900 to-blue-800'
+  },
+  {
+    slug: 'maiden-mother-crone',
+    title: 'Maiden, Mother, Crone',
+    description: 'The heroes journey to the capital of Irrisen, Whitethrone, where they must infiltrate the Winter Palace and confront Queen Elvanna. They discover the true scope of her plans to bring eternal winter to all of Golarion and learn more about Baba Yaga\'s fate.',
+    bookNumber: 3,
+    coverImage: '/images/winter/maiden-mother-crone.jpg',
+    status: 'completed',
+    theme: 'from-slate-900 to-cyan-800'
+  },
+  {
+    slug: 'the-frozen-stars',
+    title: 'The Frozen Stars',
+    description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face the dragon Logrivich while seeking one of Baba Yaga\'s riders in this alien frozen world.',
+    bookNumber: 4,
+    coverImage: '/images/winter/frozen-stars.jpg',
+    status: 'current',
+    theme: 'from-indigo-900 to-slate-800'
+  },
+  {
+    slug: 'rasputin-must-die',
+    title: 'Rasputin Must Die!',
+    description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
+    bookNumber: 5,
+    coverImage: '/images/winter/rasputin-must-die.jpg',
+    status: 'not-started',
+    theme: 'from-red-900 to-slate-800'
+  },
+  {
+    slug: 'the-witch-queen-revenge',
+    title: 'The Witch Queen\'s Revenge',
+    description: 'In the epic finale, the heroes must rescue Baba Yaga herself and face Queen Elvanna in a climactic battle that will determine the fate of not just Golarion, but multiple worlds. The eternal winter\'s grip must be broken once and for all.',
+    bookNumber: 6,
+    coverImage: '/images/winter/witch-queen-revenge.jpg',
+    status: 'not-started',
+    theme: 'from-purple-900 to-blue-800'
+  }
+];
 
 export default async function AdventureLogPage() {
   const entries = await listEntries()
@@ -19,8 +74,12 @@ export default async function AdventureLogPage() {
   const earliestEntry = entries[entries.length - 1]
 
   const journeyRange = latestEntry && earliestEntry
-    ? `${dateFormatter.format(new Date(earliestEntry.createdAt))} – ${dateFormatter.format(new Date(latestEntry.createdAt))}`
+    ? `${dateFormatter.format(new Date(earliestEntry.createdAt))} — ${dateFormatter.format(new Date(latestEntry.createdAt))}`
     : 'The long winter begins'
+
+  // Calculate stats
+  const totalSessions = entries.length // number of logged sessions/entries
+  const campaignDateRange = "October 2023 - September 2024" // Placeholder
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -76,9 +135,7 @@ export default async function AdventureLogPage() {
                 <span className="text-sm uppercase tracking-[0.2em] text-cyan-200/70">Entries</span>
               </div>
               <p className="mt-4 text-3xl font-bold text-blue-100 font-['Alkatra']">{totalEntries || '—'}</p>
-              <p className="mt-2 text-sm text-slate-300/80">
-                Stories chronicled from the snows of Irrisen and beyond.
-              </p>
+              <p className="mt-2 text-sm text-slate-300/80">{totalSessions} sessions recorded</p>
             </div>
 
             <div className="rounded-3xl border border-slate-700/70 bg-slate-950/70 p-6 shadow-lg shadow-slate-900/40">
@@ -100,7 +157,7 @@ export default async function AdventureLogPage() {
                 <span className="text-sm uppercase tracking-[0.2em] text-cyan-200/70">Latest Entry</span>
               </div>
               <p className="mt-4 text-3xl font-bold text-blue-100 font-['Alkatra']">
-                {latestEntry ? dateFormatter.format(new Date(latestEntry.updatedAt ?? latestEntry.createdAt)) : 'Soon'}
+                {latestEntry ? dateTimeFormatter.format(new Date(latestEntry.updatedAt ?? latestEntry.createdAt)) : 'Soon'}
               </p>
               {latestEntry && (
                 <p className="mt-2 text-sm text-slate-300/80">
@@ -117,97 +174,113 @@ export default async function AdventureLogPage() {
         </div>
       </section>
 
-      {/* Entries */}
-      <section id="entries" className="relative max-w-6xl mx-auto px-6 py-16">
-        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-['Alkatra'] font-semibold text-blue-100">Chronicle Archive</h2>
-            <p className="mt-2 text-slate-300/80 max-w-2xl">
-              Each entry captures the cold breath of the north, the clash of steel, and the whispers of ancient magic guiding our
-              heroes forward.
-            </p>
-          </div>
-          <Link
-            href="/editor"
-            className="inline-flex items-center gap-2 rounded-full border border-blue-400/60 px-5 py-2.5 text-sm font-semibold text-blue-100 transition hover:border-blue-300 hover:text-blue-200"
-          >
-            <PenLine size={18} />
-            Start a Fresh Entry
-          </Link>
-        </div>
-
-        {totalEntries === 0 ? (
-          <div className="rounded-3xl border border-dashed border-slate-700 bg-slate-900/60 p-12 text-center">
-            <p className="text-lg text-slate-300/80">
-              The chronicle is quiet—for now. Brave chronicler, will you pen the first tale?
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-10 lg:grid-cols-2">
-            {entries.map((entry, index) => {
-              const createdAt = new Date(entry.createdAt)
-              const updatedAt = entry.updatedAt ? new Date(entry.updatedAt) : null
-              return (
-                <article
-                  key={entry.id}
-                  className="group relative overflow-hidden rounded-[32px] border border-slate-800 bg-gradient-to-br from-slate-900/90 via-slate-950 to-slate-900/90 shadow-2xl shadow-slate-950/40 transition hover:border-cyan-400/40"
-                >
-                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl transition group-hover:bg-cyan-400/20" />
-                  {entry.image ? (
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={entry.image}
-                        alt={entry.title}
-                        fill
-                        className="object-cover transition duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20" />
-                    </div>
-                  ) : (
-                    <div className="h-2 bg-gradient-to-r from-blue-500/40 via-cyan-400/30 to-blue-500/40" />
-                  )}
-
-                  <div className="relative p-6 lg:p-8">
-                    <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-cyan-200/70">
-                      <span>Entry {totalEntries - index}</span>
-                      <span>{dateFormatter.format(createdAt)}</span>
-                    </div>
-                    <h3 className="mt-4 text-2xl font-semibold text-blue-100">{entry.title}</h3>
-                    <p className="mt-3 text-sm text-slate-300/80 leading-relaxed">
-                      {entry.excerpt || 'A fresh tale waiting to be told.'}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                      <span className="rounded-full border border-slate-700/70 px-3 py-1">
-                        Logged {dateTimeFormatter.format(createdAt)}
-                      </span>
-                      {updatedAt && updatedAt.getTime() !== createdAt.getTime() && (
-                        <span className="rounded-full border border-slate-700/70 px-3 py-1">
-                          Updated {dateTimeFormatter.format(updatedAt)}
+      {/* Adventure Books */}
+      <section id="entries" className="max-w-6xl mx-auto px-6 py-16">
+        <h2 className="text-4xl font-bold text-blue-100 mb-4 text-center font-['Alkatra']">
+          The Winter Chronicles
+        </h2>
+        <p className="text-lg text-slate-300/80 mb-12 text-center max-w-3xl mx-auto">
+          Each book chronicles a crucial chapter in our heroes&apos; quest to save Baba Yaga and prevent eternal winter 
+          from consuming all worlds. Follow their journey through frozen realms, political intrigue, and epic battles 
+          that span multiple planes of existence.
+        </p>
+        
+        <div className="grid gap-8">
+          {adventureBooks.map((book) => (
+            <Link 
+              key={book.slug}
+              href={`/adventure-log/${book.slug}`}
+              className="group block"
+            >
+              <article className="bg-slate-950/60 border border-slate-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1 hover:border-cyan-400/40">
+                <div className="md:flex">
+                  {/* Book Cover */}
+                  <div className="md:w-1/3 relative">
+                    <Image
+                      src={book.coverImage}
+                      alt={`${book.title} cover`}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className={`h-64 md:h-full flex items-center justify-center text-blue-100 relative overflow-hidden`}>
+                      <div className="absolute inset-0 bg-black/70" />
+                      <div className="relative text-center p-6">
+                        <div className="text-4xl font-bold mb-2 font-['Alkatra']">Book {book.bookNumber}</div>
+                        <div className="text-lg font-medium font-['Alkatra']">{book.title}</div>
+                      </div>
+                      {/* Status Badge */}
+                      <div className="absolute top-4 right-4">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          book.status === 'completed' 
+                            ? 'bg-green-600 text-green-100' 
+                            : book.status === 'current'
+                            ? 'bg-amber-600 text-amber-100'
+                            : 'bg-slate-600 text-slate-300'
+                        }`}>
+                          {book.status === 'completed' 
+                            ? 'Completed' 
+                            : book.status === 'current'
+                            ? 'Current'
+                            : 'Not Started'
+                          }
                         </span>
-                      )}
-                    </div>
-
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <Link
-                        href={`/adventure-log/${entry.id}`}
-                        className="inline-flex items-center gap-2 rounded-full bg-cyan-500/20 px-5 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/25 hover:text-cyan-100"
-                      >
-                        Read Full Chronicle
-                      </Link>
-                      <Link
-                        href={`/editor?id=${entry.id}`}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 transition hover:text-blue-200"
-                      >
-                        Edit Entry
-                      </Link>
+                      </div>
                     </div>
                   </div>
-                </article>
-              )
-            })}
-          </div>
-        )}
+                  
+                  {/* Book Info */}
+                  <div className="md:w-2/3 p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-2xl font-bold text-blue-100 group-hover:text-cyan-300 transition-colors font-['Alkatra']">
+                        {book.title}
+                      </h3>
+                      <ArrowRight className="text-blue-100 group-hover:translate-x-1 transition-transform" size={24} />
+                    </div>
+                    
+                    <p className="text-slate-300/80 leading-relaxed mb-6">
+                      {book.description}
+                    </p>
+                    
+                    {/* Book Stats */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-center text-sm text-slate-400">
+                        <Calendar size={16} className="mr-2 text-cyan-400" />
+                        {campaignDateRange} {/* Placeholder for now */}
+                      </div>
+                      <div className="flex items-center text-sm text-slate-400">
+                        <BookOpen size={16} className="mr-2 text-cyan-400" />
+                        8 Sessions {/* Placeholder for now */}
+                      </div>
+                    </div>
+                    
+                    <div className="text-cyan-400 font-medium group-hover:text-cyan-300 transition-colors font-['Alkatra']">
+                      Explore this Chronicle →
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-gradient-to-r from-blue-900 to-slate-800 text-blue-100 py-16">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4 font-['Alkatra']">Ready to Brave the Winter?</h2>
+          <p className="text-xl mb-8">
+            Begin with the heroes&apos; first encounter with unnatural winter in Heldren and follow their 
+            transformation from small-town adventurers to saviors of multiple worlds in their quest 
+            to rescue Baba Yaga and break the eternal winter&apos;s hold.
+          </p>
+          <Link 
+            href="/adventure-log/the-snows-of-summer"
+            className="inline-flex items-center px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded-lg transition-colors duration-300 shadow-lg font-['Alkatra']"
+          >
+            Start Reading: The Snows of Summer
+            <ArrowRight size={20} className="ml-2" />
+          </Link>
+        </div>
       </section>
     </div>
   )

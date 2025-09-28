@@ -87,7 +87,13 @@ const Footer = () => {
               {/* Quick navigation */}
               <div className="flex items-center space-x-6 text-xs">
                 <Link 
-                  href="/book/snows-of-summer" 
+                  href="/vault" 
+                  className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
+                >
+                  Character Vault
+                </Link>
+                <Link 
+                  href="/adventure-log" 
                   className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
                 >
                   Latest Adventure
