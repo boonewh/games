@@ -60,14 +60,19 @@ function Render({ node }: { node?: TiptapNode | TiptapNode[] | null }): React.Re
   }
 }
 
-export default async function EntryPage({ params }: { params: { id: string } }) {
-  const entry = await readEntry(params.id)
+export default async function EntryPage(
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
+  const entry = await readEntry(id)
   if (!entry) return notFound()
 
   return (
     <article className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-blue-200">{entry.title}</h1>
-      <p className="text-sm text-slate-500 mt-1">{new Date(entry.createdAt).toLocaleString()}</p>
+      <p className="text-sm text-slate-500 mt-1">
+        {new Date(entry.createdAt).toLocaleString()}
+      </p>
       {entry.image && (
         <div className="relative w-full h-72 my-6 rounded-2xl overflow-hidden">
           <Image src={entry.image} alt={entry.title} fill className="object-cover" />
@@ -79,3 +84,4 @@ export default async function EntryPage({ params }: { params: { id: string } }) 
     </article>
   )
 }
+
