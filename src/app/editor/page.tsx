@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -204,9 +205,13 @@ export default function EditorPage() {
       if (!res.ok) {
         throw new Error('Save failed')
       }
-      const saved = await res.json()
-      // Add timestamp to force page refresh after save
-      router.push(`/adventure-log/${book}?t=${Date.now()}`)
+      const saved = (await res.json()) as { id?: string }
+      // If API returned an id, navigate to it; otherwise fall back to book
+      if (saved?.id) {
+        router.push(`/adventure-log/${saved.id}`)
+      } else {
+        router.push(`/adventure-log/${book}?t=${Date.now()}`)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed')
     } finally {
@@ -333,9 +338,11 @@ export default function EditorPage() {
             </div>
             {image && (
               <div className="relative">
-                <img
+                <Image
                   src={image}
                   alt="Chronicle preview"
+                  width={320}
+                  height={128}
                   className="max-w-sm h-32 object-cover rounded-lg border border-slate-600"
                 />
                 <div className="text-xs text-slate-400 mt-1">
