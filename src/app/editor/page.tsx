@@ -1,8 +1,7 @@
 // src/app/editor/page.tsx
 'use client'
 
-import { useEffect, useState, ChangeEvent } from 'react'
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -133,7 +132,7 @@ export default function EditorPage() {
     }
   }, [editor, entryId, isEditing])
 
-  async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -165,8 +164,8 @@ export default function EditorPage() {
         throw new Error('Upload failed')
       }
 
-  const { url } = await response.json()
-  setImage(url)
+      const { url } = await response.json()
+      setImage(url)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Image upload failed')
     } finally {
@@ -205,12 +204,9 @@ export default function EditorPage() {
       if (!res.ok) {
         throw new Error('Save failed')
       }
-      const saved = (await res.json()) as { id?: string }
-      if (saved?.id) {
-        router.push(`/adventure-log/${saved.id}`)
-      } else {
-        router.push(`/adventure-log/${book}`)
-      }
+      const saved = await res.json()
+      // Add timestamp to force page refresh after save
+      router.push(`/adventure-log/${book}?t=${Date.now()}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed')
     } finally {
@@ -337,11 +333,9 @@ export default function EditorPage() {
             </div>
             {image && (
               <div className="relative">
-                <Image
+                <img
                   src={image}
                   alt="Chronicle preview"
-                  width={320}
-                  height={128}
                   className="max-w-sm h-32 object-cover rounded-lg border border-slate-600"
                 />
                 <div className="text-xs text-slate-400 mt-1">

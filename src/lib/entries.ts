@@ -41,8 +41,13 @@ export async function listEntries(): Promise<AdventureEntry[]> {
     }
     entries.push(normalized)
   }
-  // newest first
+  // Sort by session date, then by created date (newest first)
   return entries.sort((a, b) => {
+    // If both have session dates, sort by session date
+    if (a.sessionDate && b.sessionDate) {
+      return new Date(b.sessionDate).getTime() - new Date(a.sessionDate).getTime()
+    }
+    // Fallback to created/updated date
     const aDate = a.updatedAt ?? a.createdAt
     const bDate = b.updatedAt ?? b.createdAt
     return bDate.localeCompare(aDate)
@@ -70,6 +75,7 @@ export async function saveEntry(partial: Omit<AdventureEntry,'id'|'createdAt'> &
   const id = partial.id ?? isoNow.replace(/[:.]/g, '-')
   const createdAt = existing?.createdAt ?? isoNow
   const excerpt = partial.excerpt?.trim() || deriveExcerpt(partial.content) || existing?.excerpt || ''
+  
   const entry: AdventureEntry = {
     id,
     title: partial.title?.trim() || 'Untitled Adventure',
@@ -78,7 +84,10 @@ export async function saveEntry(partial: Omit<AdventureEntry,'id'|'createdAt'> &
     updatedAt: isoNow,
     excerpt,
     content: partial.content,
+    book: partial.book || 'the-snows-of-summer', // Default to first book if missing
+    sessionDate: partial.sessionDate || isoNow, // Default to current date if missing
   }
+  
   await fs.writeFile(path.join(dir, `${id}.json`), JSON.stringify(entry, null, 2), 'utf8')
   return entry
 }
