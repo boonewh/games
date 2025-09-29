@@ -2,11 +2,28 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { AdventureEntry } from '@/types/adventure'
+import { JSONContent } from '@tiptap/react'
 
 const dir = path.join(process.cwd(), 'content', 'entries')
 
 async function ensureDir() {
   await fs.mkdir(dir, { recursive: true })
+}
+
+function deriveExcerpt(content: JSONContent | undefined, limit = 220): string {
+  if (!content || !Array.isArray(content.content)) return ''
+  for (const node of content.content) {
+    if (node.type !== 'paragraph' || !Array.isArray(node.content)) continue
+    const text = node.content
+      .filter(child => child.type === 'text' && typeof child.text === 'string')
+      .map(child => child.text as string)
+      .join('')
+      .trim()
+    if (text) {
+      return text.slice(0, limit)
+    }
+  }
+  return ''
 }
 
 export async function listEntries(): Promise<AdventureEntry[]> {
@@ -16,16 +33,35 @@ export async function listEntries(): Promise<AdventureEntry[]> {
   const entries: AdventureEntry[] = []
   for (const f of jsonFiles) {
     const raw = await fs.readFile(path.join(dir, f), 'utf8')
-    entries.push(JSON.parse(raw))
+    const parsed = JSON.parse(raw) as AdventureEntry
+    const excerpt = parsed.excerpt?.trim() || deriveExcerpt(parsed.content)
+    const normalized: AdventureEntry = {
+      ...parsed,
+      excerpt,
+    }
+    entries.push(normalized)
   }
-  // newest first
-  return entries.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  // Sort by session date, then by created date (newest first)
+  return entries.sort((a, b) => {
+    // If both have session dates, sort by session date
+    if (a.sessionDate && b.sessionDate) {
+      return new Date(b.sessionDate).getTime() - new Date(a.sessionDate).getTime()
+    }
+    // Fallback to created/updated date
+    const aDate = a.updatedAt ?? a.createdAt
+    const bDate = b.updatedAt ?? b.createdAt
+    return bDate.localeCompare(aDate)
+  })
 }
 
 export async function readEntry(id: string): Promise<AdventureEntry | null> {
   try {
     const raw = await fs.readFile(path.join(dir, `${id}.json`), 'utf8')
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw) as AdventureEntry
+    return {
+      ...parsed,
+      excerpt: parsed.excerpt?.trim() || deriveExcerpt(parsed.content),
+    }
   } catch {
     return null
   }
@@ -34,15 +70,24 @@ export async function readEntry(id: string): Promise<AdventureEntry | null> {
 export async function saveEntry(partial: Omit<AdventureEntry,'id'|'createdAt'> & {id?: string}): Promise<AdventureEntry> {
   await ensureDir()
   const now = new Date()
-  const id = partial.id ?? now.toISOString().replace(/[:.]/g, '-')
+  const isoNow = now.toISOString()
+  const existing = partial.id ? await readEntry(partial.id) : null
+  const id = partial.id ?? isoNow.replace(/[:.]/g, '-')
+  const createdAt = existing?.createdAt ?? isoNow
+  const excerpt = partial.excerpt?.trim() || deriveExcerpt(partial.content) || existing?.excerpt || ''
+  
   const entry: AdventureEntry = {
     id,
     title: partial.title?.trim() || 'Untitled Adventure',
-    image: partial.image,
-    createdAt: now.toISOString(),
-    excerpt: partial.excerpt?.trim() || '',
+    image: partial.image?.trim() || undefined,
+    createdAt,
+    updatedAt: isoNow,
+    excerpt,
     content: partial.content,
+    book: partial.book || 'the-snows-of-summer', // Default to first book if missing
+    sessionDate: partial.sessionDate || isoNow, // Default to current date if missing
   }
+  
   await fs.writeFile(path.join(dir, `${id}.json`), JSON.stringify(entry, null, 2), 'utf8')
   return entry
 }

@@ -86,7 +86,7 @@ const Header = () => {
                 </Link>
                 
                 <Link 
-                  href="/book/snows-of-summer" 
+                  href="/adventure-log" 
                   className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm"
                 >
                   Adventure Log
@@ -151,7 +151,7 @@ const Header = () => {
             <div className="flex items-center space-x-3">
               {/* Call to action button */}
               <Link
-                href="/book/snows-of-summer"
+                href="/adventure-log"
                 className="hidden sm:block px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium text-sm shadow-lg hover:shadow-xl"
               >
                 Latest Adventure
@@ -203,7 +203,7 @@ const Header = () => {
                 </Link>
                 
                 <Link 
-                  href="/book/snows-of-summer" 
+                  href="/adventure-log" 
                   className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -248,7 +248,7 @@ const Header = () => {
                 {/* Mobile call to action */}
                 <div className="pt-4 border-t border-slate-600/30 mt-4">
                   <Link 
-                    href="/book/snows-of-summer" 
+                    href="/adventure-log" 
                     className="block w-full text-center px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >

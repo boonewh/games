@@ -31,14 +31,14 @@ const DiceRollerPage = () => {
 
   const diceTypes = [4, 6, 8, 10, 12, 20, 100];
   const commonRolls = [
-    { name: 'Attack Roll', dice: '1d20', mod: 0 },
-    { name: 'Damage (Longsword)', dice: '1d8', mod: 0 },
-    { name: 'Saving Throw', dice: '1d20', mod: 0 },
-    { name: 'Initiative', dice: '1d20', mod: 0 },
-    { name: 'Skill Check', dice: '1d20', mod: 0 },
-    { name: 'Ability Score', dice: '4d6', mod: 0 },
-    { name: 'Fireball Damage', dice: '8d6', mod: 0 },
-    { name: 'Heal Spell', dice: '1d8', mod: 1 },
+    { name: 'Quick d4', dice: '1d4', mod: 0 },
+    { name: 'Quick d6', dice: '1d6', mod: 0 },
+    { name: 'Quick d8', dice: '1d8', mod: 0 },
+    { name: 'Quick d10', dice: '1d10', mod: 0 },
+    { name: 'Quick d12', dice: '1d12', mod: 0 },
+    { name: 'Quick d20', dice: '1d20', mod: 0 },
+    { name: 'Quick Percentage', dice: '1d100', mod: 0 },
+    { name: 'Healing (Potion)', dice: '1d8', mod: 3 },
   ];
 
   const rollDice = (customDice: string | null = null, customMod: number | null = null, customName: string | null = null) => {
@@ -321,7 +321,7 @@ const DiceRollerPage = () => {
                   </select>
                 </div>
 
-                <div className="sm:w-68 mx-auto">
+                <div className="sm:w-48 mx-auto">
                   <label className="block text-slate-300 font-medium mb-2">
                     Modifier
                   </label>
@@ -337,7 +337,7 @@ const DiceRollerPage = () => {
                       type="number"
                       value={modifier}
                       onChange={(e) => setModifier(parseInt(e.target.value) || 0)}
-                      className="flex-1 px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white text-center focus:border-blue-400 focus:outline-none"
+                      className="w-30 flex-1 px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white text-center focus:border-blue-400 focus:outline-none"
                       disabled={isRolling}
                     />
                     <button

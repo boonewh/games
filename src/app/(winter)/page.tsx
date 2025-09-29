@@ -104,7 +104,7 @@ const PathSixHomepage = () => {
           </div>
 
           <div className="ml-8 sm:ml-12 lg:ml-16 flex flex-col sm:flex-row items-start gap-6">
-            <Link href="/book/snows-of-summer">
+            <Link href="/adventure-log">
               <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                 <span className="flex items-center">
                   Begin the Adventure
@@ -139,10 +139,10 @@ const PathSixHomepage = () => {
               </h2>
               <div className="space-y-4 text-lg text-slate-300">
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>Maiden, Mother, Crone</i>
+                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>The Frozen Stars</i>
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Location:</span> The frozen lands of Irrisen
+                  <span className="text-blue-200 font-semibold">Location:</span> The frozen lands of Triaxus
                 </p>
                 <p>
                   <span className="text-blue-200 font-semibold">Campaign Status:</span> The immortal witch Baba Yaga has vanished, and unnatural winter spreads across the realm...
@@ -155,26 +155,88 @@ const PathSixHomepage = () => {
               </div>
             </div>
             
-            <div className="mx-auto relative group w-[900px] h-[700px]">
+          <div className="mx-auto relative group w-[900px] h-[700px] overflow-hidden rounded-lg">
+            {/* This is the element that scales */}
+            <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
                 src="/images/winter/irrisen.jpg"
                 alt="Map of Irrisen, our current realm of adventure"
                 fill
-                className="object-contain rounded-lg shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                className="object-contain rounded-lg shadow-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="text-white font-semibold text-lg drop-shadow-lg">
-                  The Frozen Realm of Irrisen
-                </p>
-                <p className="text-blue-200 text-sm drop-shadow-lg">
-                  Where our heroes face the spreading winter curse
-                </p>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg pointer-events-none"></div>
+            </div>
+
+            {/* Caption stays fixed on top */}
+            <div className="absolute bottom-4 left-4 right-4 z-10">
+              <p className="text-white font-semibold text-lg drop-shadow-lg">
+                The Frozen Realm of Irrisen
+              </p>
+              <p className="text-blue-200 text-sm drop-shadow-lg">
+                Where our heroes face the spreading winter curse
+              </p>
             </div>
           </div>
         </div>
+        </div>
       </section>
+
+      <aside className="flex items-center justify-between shadow-inner p-5 gap-4 border-t border-slate-600/30">
+        <a
+          href="https://www.d20srd.org/srd/variant/classes/gestaltCharacters.htm"
+          className="flex-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/gestalt-link.jpg"
+            alt="Link to Gestalt characters rules"
+            width={400}
+            height={250}
+            className="w-full rounded-lg h-auto"
+          />
+        </a>
+
+        <a
+          href="/shackles"
+          className="flex-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/shackles-link.jpg"
+            alt="Ship Combat rules"
+            width={400}
+            height={250}
+            className="w-full rounded-lg h-auto"
+          />
+        </a>
+
+        <a href="/regent" className="flex-1">
+          <Image
+            src="/images/winter/jade-regent-link.jpg"
+            alt="Our last adventure"
+            width={400}
+            height={250}
+            className="w-full rounded-lg h-auto"
+          />
+        </a>
+
+        <a
+          href="https://www.sortekanin.com/collection/items/"
+          className="flex-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/SorteKanin_link.jpg"
+            alt="SorteKanin Treasure Database"
+            width={400}
+            height={250}
+            className="w-full rounded-lg h-auto"
+          />
+        </a>
+      </aside>
 
       {/* The Party Section */}
       <section className="relative py-20">
@@ -319,7 +381,7 @@ const PathSixHomepage = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Link href="/book/snows-of-summer">
+                  <Link href="/adventure-log">
                     <button className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
                       <span className="flex items-center">
                         Read the Full Adventure
@@ -327,12 +389,6 @@ const PathSixHomepage = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                       </span>
-                    </button>
-                  </Link>
-                  
-                  <Link href="/book/snows-of-summer">
-                    <button className="px-6 py-3 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium">
-                      View All Entries
                     </button>
                   </Link>
                 </div>
@@ -367,7 +423,7 @@ const PathSixHomepage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/book/snows-of-summer">
+              <Link href="/adventure-log">
                 <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                   Start Reading
                 </button>

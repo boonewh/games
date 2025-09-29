@@ -1,11 +1,11 @@
 // /app/regent/adventure-log/[book]/page.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Users, MapPin, BookOpen, Star, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 // Import adventure data
 import forestSpiritData from '@/app/regent/data/adventures/forest-spirit.json';
@@ -52,6 +52,18 @@ export default function AdventureLogPage() {
 
   const [selectedEntry, setSelectedEntry] = useState<AdventureEntry | null>(null);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(0);
+  const pathname = usePathname();
+
+  // 1) Always scroll to top on route (slug) change
+  useEffect(() => {
+    // 'auto' is instant; change to 'smooth' if you want animation
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  // 2) Also scroll to top when opening an entry or switching entries
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [selectedEntry, currentEntryIndex]);
 
   const book = adventureBooks[bookSlug as keyof typeof adventureBooks];
 
@@ -66,6 +78,7 @@ export default function AdventureLogPage() {
           <div className="relative max-w-4xl mx-auto px-4 py-16">
             <Link
               href="/regent/adventure-log"
+              scroll
               className="inline-flex items-center text-yellow-300 hover:text-yellow-200 transition-colors mb-8"
             >
               <ArrowLeft size={20} className="mr-2" />
