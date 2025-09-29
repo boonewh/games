@@ -16,7 +16,7 @@ const adventureBooks = [
     title: 'The Snows of Summer',
     description: 'Our heroes begin their journey in the border town of Heldren, where an unseasonable blizzard threatens the harvest. They must venture into the mysterious Pale Tower and confront the ice witch Radosek Pavril to save the town and uncover the first clues about Baba Yaga\'s disappearance.',
     bookNumber: 1,
-    coverImage: "/images/winter/snows-of-summer.jpg",
+    coverImage: "/images/winter/pale_tower.webp",
     status: 'completed',
     theme: 'from-blue-900 to-cyan-800'
   },
@@ -25,7 +25,7 @@ const adventureBooks = [
     title: 'The Shackled Hut',
     description: 'The party discovers Baba Yaga\'s legendary dancing hut, but it has been magically bound and stripped of its power. To free the hut and continue their quest, they must venture into the frozen realm of Irrisen and navigate the deadly politics of the Winter Witches.',
     bookNumber: 2,
-    coverImage: '/images/winter/shackled-hut.jpg',
+    coverImage: '/images/winter/statues.jpg',
     status: 'completed',
     theme: 'from-cyan-900 to-blue-800'
   },
@@ -34,7 +34,7 @@ const adventureBooks = [
     title: 'Maiden, Mother, Crone',
     description: 'The heroes journey to the capital of Irrisen, Whitethrone, where they must infiltrate the Winter Palace and confront Queen Elvanna. They discover the true scope of her plans to bring eternal winter to all of Golarion and learn more about Baba Yaga\'s fate.',
     bookNumber: 3,
-    coverImage: '/images/winter/maiden-mother-crone.jpg',
+    coverImage: '/images/winter/third_raven.jpg',
     status: 'completed',
     theme: 'from-slate-900 to-cyan-800'
   },
@@ -43,7 +43,7 @@ const adventureBooks = [
     title: 'The Frozen Stars',
     description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face the dragon Logrivich while seeking one of Baba Yaga\'s riders in this alien frozen world.',
     bookNumber: 4,
-    coverImage: '/images/winter/frozen-stars.jpg',
+    coverImage: '/images/winter/svet2.jpg',
     status: 'current',
     theme: 'from-indigo-900 to-slate-800'
   },
@@ -52,7 +52,7 @@ const adventureBooks = [
     title: 'Rasputin Must Die!',
     description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
     bookNumber: 5,
-    coverImage: '/images/winter/rasputin-must-die.jpg',
+    coverImage: '/images/winter/baba_yaga_hero.jpg',
     status: 'not-started',
     theme: 'from-red-900 to-slate-800'
   },
@@ -61,7 +61,7 @@ const adventureBooks = [
     title: 'The Witch Queen\'s Revenge',
     description: 'In the epic finale, the heroes must rescue Baba Yaga herself and face Queen Elvanna in a climactic battle that will determine the fate of not just Golarion, but multiple worlds. The eternal winter\'s grip must be broken once and for all.',
     bookNumber: 6,
-    coverImage: '/images/winter/witch-queen-revenge.jpg',
+    coverImage: '/images/winter/baba_yaga_hero.jpg',
     status: 'not-started',
     theme: 'from-purple-900 to-blue-800'
   }

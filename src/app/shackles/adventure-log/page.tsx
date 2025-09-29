@@ -62,7 +62,7 @@ const adventureBooks = [
     sessions: 10,
     keyCharacters: ['Kasmira', 'Finn', 'Red', 'Varen', 'Ederleigh Baines', 'Bikendi Otongu', 'Sefina', 'Audessa Reyquio', 'Lord Avimar Sorrinash', 'Lady Cerise Bloodmourn', 'Captain Mase Darimar'],
     keyLocations: ['Island of Empty Eyes', 'Sumitha', 'Fort', 'Underwater Shrine', 'Pirate Council Feast', 'Sefina\'s Grotto', 'Cyclops Tower', 'Treant Grove'],
-    coverImage: '/images/shackles/empty-eyes-cover.jpg',
+    coverImage: '/images/shackles/phantasms.jpg',
     status: 'completed',
     featuredEntry: 'The Feast and the Fireworks',
     theme: 'from-emerald-900 to-emerald-800'
@@ -77,7 +77,7 @@ const adventureBooks = [
     sessions: 7,
     keyCharacters: ['Kasmira', 'Finn', 'Red', 'Varen', 'Tessa Fairwind', 'Hurricane King', 'Barnabas Harrigan', 'Valerande Aiger', 'Pierce Jerrell', 'Merrill Pegsworthy', 'Arronax Endymion'],
     keyLocations: ['Port Peril', 'Island of Empty Eyes', 'Black Tower', 'Dagon\'s Jaws', 'Hell Harbor', 'Gannet Island', 'Harrigan\'s Fortress'],
-    coverImage: '/images/shackles/price-infamy-cover.jpg',
+    coverImage: '/images/shackles/tide_turns.jpg',
     status: 'completed',
     featuredEntry: 'The Tyrant\'s Fall',
     theme: 'from-red-900 to-red-800'
@@ -92,7 +92,7 @@ const adventureBooks = [
     sessions: 6,
     keyCharacters: ['Kasmira', 'Finn', 'Red', 'Varen', 'Admiral Thrune', 'Kerdak Bonefist', 'Tessa Fairwind', 'Tsadok Goldtooth', 'Master of Gales', 'Arronax Endymion'],
     keyLocations: ['Gannet Island', 'Port Peril', 'Quent', 'Hell Harbor', 'Drenchport', 'Fort Hazard', 'Lucrehold', 'Filthy Lucre'],
-    coverImage: '/images/shackles/hells-heart-cover.jpg',
+    coverImage: '/images/shackles/group.jpg',
     status: 'completed',
     featuredEntry: 'The Hurricane Crown',
     theme: 'from-amber-900 to-amber-800'
