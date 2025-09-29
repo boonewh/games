@@ -1,7 +1,7 @@
 // src/app/editor/page.tsx 
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Image from 'next/image'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -44,7 +44,7 @@ const adventureBooks = [
   { slug: 'the-witch-queen-revenge', title: 'The Witch Queen\'s Revenge', bookNumber: 6 }
 ]
 
-export default function EditorPage() {
+function EditorContent_Inner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const entryId = searchParams.get('id')
@@ -388,5 +388,28 @@ export default function EditorPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+// Loading fallback component
+function EditorLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="text-center py-20">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-cyan-500 border-r-transparent"></div>
+          <p className="mt-4 text-slate-400">Loading editor...</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Main export with Suspense boundary
+export default function EditorPage() {
+  return (
+    <Suspense fallback={<EditorLoadingFallback />}>
+      <EditorContent_Inner />
+    </Suspense>
   )
 }
