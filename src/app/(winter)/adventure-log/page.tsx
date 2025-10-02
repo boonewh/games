@@ -1,5 +1,6 @@
 // app/(winter)/adventure-log/page.tsx
-import { listEntries } from '@/lib/entries'
+import { listStories, listAllKey } from '@/lib/storage'
+import { StoryEntry } from '@/types/story'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
@@ -7,7 +8,6 @@ import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic' // reflect new files during dev
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
-const dateTimeFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeStyle: 'short' })
 
 // Hardcoded Reign of Winter adventure books
 const adventureBooks = [
@@ -68,17 +68,18 @@ const adventureBooks = [
 ];
 
 export default async function AdventureLogPage() {
-  const entries = await listEntries()
-  const totalEntries = entries.length
-  const latestEntry = entries[0]
-  const earliestEntry = entries[entries.length - 1]
+  const storyData = await listStories(listAllKey(), 100) // Get all winter stories
+  const stories = storyData.map(item => item.value) as StoryEntry[] // Extract story objects
+  const totalEntries = stories.length
+  const latestEntry = stories[0]
+  const earliestEntry = stories[stories.length - 1]
 
   const journeyRange = latestEntry && earliestEntry
-    ? `${dateFormatter.format(new Date(earliestEntry.createdAt))} — ${dateFormatter.format(new Date(latestEntry.createdAt))}`
+    ? `${dateFormatter.format(new Date(earliestEntry.date))} — ${dateFormatter.format(new Date(latestEntry.date))}`
     : 'The long winter begins'
 
   // Calculate stats
-  const totalSessions = entries.length // number of logged sessions/entries
+  const totalSessions = stories.length // number of logged sessions/entries
   const campaignDateRange = "October 2023 - September 2024" // Placeholder
 
   return (
@@ -157,11 +158,11 @@ export default async function AdventureLogPage() {
                 <span className="text-sm uppercase tracking-[0.2em] text-cyan-200/70">Latest Entry</span>
               </div>
               <p className="mt-4 text-3xl font-bold text-blue-100 font-['Alkatra']">
-                {latestEntry ? dateTimeFormatter.format(new Date(latestEntry.updatedAt ?? latestEntry.createdAt)) : 'Soon'}
+                {latestEntry ? dateFormatter.format(new Date(latestEntry.date)) : 'Soon'}
               </p>
               {latestEntry && (
                 <p className="mt-2 text-sm text-slate-300/80">
-                  &ldquo;{latestEntry.title}&rdquo;
+                  &ldquo;{latestEntry.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}&rdquo;
                 </p>
               )}
               {!latestEntry && (

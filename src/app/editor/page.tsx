@@ -8,6 +8,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useRouter, useSearchParams } from 'next/navigation'
 
+
 type JSONNode = {
   type?: string
   content?: JSONNode[]
@@ -101,25 +102,67 @@ function EditorContent_Inner() {
     setLoading(true)
     setError(null)
 
-    fetch(`/api/entries/${entryId}`)
+    // Parse the entryId format: "book-date-slug"
+    const parts = entryId.split('-')
+    if (parts.length < 3) {
+      setError('Invalid entry ID format')
+      setLoading(false)
+      return
+    }
+    
+    const book = parts[0]
+    const date = parts[1]
+    const slug = parts.slice(2).join('-') // Handle slugs with multiple hyphens
+
+    fetch(`/api/stories/${book}/${date}/${slug}`)
       .then(async (res) => {
         if (!res.ok) {
-          throw new Error(res.status === 404 ? 'Entry not found' : 'Failed to load entry')
+          throw new Error(res.status === 404 ? 'Story not found' : 'Failed to load story')
         }
         return res.json()
       })
-      .then((data) => {
+      .then((story) => {
         if (cancelled) return
-        setTitle(data.title ?? '')
-        setImage(data.image ?? '')
-        setExcerpt(data.excerpt ?? '')
-        setBook(data.book ?? adventureBooks[0].slug)
-        setSessionDate(data.sessionDate ?? '')
-        editor.commands.setContent(data.content ?? '')
+        
+        // Convert story back to editor format
+        const title = story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+        setTitle(title)
+        setImage(story.coverUrl ?? '')
+        
+        // Convert story blocks back to TipTap content
+        const tiptapContent = {
+          type: 'doc',
+          content: story.story.map((block: unknown) => {
+            if (typeof block === 'object' && block !== null && 'type' in block) {
+              const typedBlock = block as { type: string; content?: string; level?: number }
+              
+              if (typedBlock.type === 'paragraph') {
+                return {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: typedBlock.content || '' }]
+                }
+              } else if (typedBlock.type === 'heading') {
+                return {
+                  type: 'heading',
+                  attrs: { level: typedBlock.level || 1 },
+                  content: [{ type: 'text', text: typedBlock.content || '' }]
+                }
+              }
+            }
+            return {
+              type: 'paragraph',
+              content: [{ type: 'text', text: 'Unsupported content' }]
+            }
+          })
+        }
+        
+        setBook(story.book)
+        setSessionDate(story.date)
+        editor.commands.setContent(tiptapContent)
       })
       .catch((err: unknown) => {
         if (cancelled) return
-        setError(err instanceof Error ? err.message : 'Failed to load entry')
+        setError(err instanceof Error ? err.message : 'Failed to load story')
       })
       .finally(() => {
         if (!cancelled) {
@@ -140,19 +183,9 @@ function EditorContent_Inner() {
     setError(null)
 
     try {
-      // Compress the image
-      const options = {
-        maxSizeMB: 1, // Maximum file size in MB
-        maxWidthOrHeight: 1920, // Maximum width or height
-        useWebWorker: true, // Use web worker for better performance
-        fileType: 'image/jpeg' as const, // Convert to JPEG for better compression
-      }
-
-      const compressedFile = await imageCompression(file, options)
-      
-      // Create FormData for upload
+      // Create FormData for upload (Sharp compression happens server-side)
       const formData = new FormData()
-      formData.append('image', compressedFile)
+      formData.append('image', file)
 
       // Upload to your API endpoint
       const response = await fetch('/api/upload', {
@@ -183,16 +216,51 @@ function EditorContent_Inner() {
     setSaving(true)
     setError(null)
     const content = editor?.getJSON()
+    // Convert TipTap content to story blocks
+    const storyBlocks = content?.content?.map((node: unknown) => {
+      if (typeof node === 'object' && node !== null && 'type' in node) {
+        const typedNode = node as { 
+          type: string; 
+          content?: Array<{ text?: string; type?: string }>; 
+          attrs?: { level?: number } 
+        }
+        
+        if (typedNode.type === 'paragraph') {
+          const text = typedNode.content?.map((child) => child.text || '').join('') || ''
+          return { type: 'paragraph' as const, content: text }
+        } else if (typedNode.type === 'heading') {
+          const text = typedNode.content?.map((child) => child.text || '').join('') || ''
+          const level = typedNode.attrs?.level || 1
+          return { type: 'heading' as const, level, content: text }
+        }
+      }
+      return { type: 'paragraph' as const, content: '' } // Default fallback
+    }) || []
+
+    // When editing, preserve the original slug, date, and book from entryId
+    // When creating new, generate slug from title
+    let finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled'
+    let finalDate = sessionDate
+    let finalBook = book
+    
+    if (isEditing && entryId) {
+      const parts = entryId.split('-')
+      if (parts.length >= 3) {
+        finalBook = parts[0]
+        finalDate = parts[1]
+        finalSlug = parts.slice(2).join('-')
+      }
+    }
+    
     const payload = {
-      title,
-      image: image.trim() ? image.trim() : undefined,
-      excerpt,
-      content,
-      book,
-      sessionDate,
+      date: finalDate,
+      book: finalBook,
+      slug: finalSlug,
+      story: storyBlocks,
+      coverUrl: image.trim() ? image.trim() : undefined,
     }
 
-    const endpoint = isEditing && entryId ? `/api/entries/${entryId}` : '/api/entries'
+    const endpoint = '/api/stories'
     const method = isEditing ? 'PUT' : 'POST'
 
     try {
@@ -204,13 +272,9 @@ function EditorContent_Inner() {
       if (!res.ok) {
         throw new Error('Save failed')
       }
-      const saved = (await res.json()) as { id?: string }
-      // If API returned an id, navigate to it; otherwise fall back to book
-      if (saved?.id) {
-        router.push(`/adventure-log/${saved.id}`)
-      } else {
-        router.push(`/adventure-log/${book}?t=${Date.now()}`)
-      }
+      await res.json() // Parse response but don't need to use it
+      // Navigate to the book's adventure log
+      router.push(`/adventure-log/${book}?t=${Date.now()}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed')
     } finally {

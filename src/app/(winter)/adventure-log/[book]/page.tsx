@@ -2,10 +2,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
+import { StoryEntry, StoryBlock } from '@/types/story';
 
 // Types for TipTap content
 interface TiptapNode {
@@ -88,6 +89,17 @@ const adventureBooks: AdventureBook[] = [
     theme: 'from-purple-900 to-blue-800'
   }
 ];
+
+// Helper function to extract excerpt from story blocks
+function getStoryExcerpt(story: StoryBlock[], limit = 200): string {
+  for (const block of story) {
+    if (block.type === 'paragraph' && 'content' in block && typeof block.content === 'string') {
+      const text = block.content.substring(0, limit);
+      return text.length < block.content.length ? text + '...' : text;
+    }
+  }
+  return 'No excerpt available';
+}
 
 // TipTap content renderer
 function renderTiptapContent(node: TiptapNode | TiptapNode[] | null): React.ReactNode {
@@ -178,13 +190,40 @@ export default function AdventureBookPage() {
     const loadEntries = async () => {
       setLoading(true);
       try {
-        // Fetch all entries and filter by book
-        const response = await fetch('/api/entries');
+        // Fetch stories for this specific book from the new API
+        const response = await fetch(`/api/stories?book=${bookSlug}&limit=100`);
         if (response.ok) {
-          const allEntries: AdventureEntry[] = await response.json();
-          const bookEntries = allEntries
-            .filter(entry => entry.book === bookSlug)
-            .sort((a, b) => new Date(a.sessionDate).getTime() - new Date(b.sessionDate).getTime());
+          const stories = await response.json();
+          // Convert story format to match AdventureEntry interface expected by the UI
+          const bookEntries: AdventureEntry[] = stories.map((story: StoryEntry) => ({
+            id: `${story.book}-${story.date}-${story.slug}`,
+            title: story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+            createdAt: story.date,
+            updatedAt: story.date,
+            excerpt: getStoryExcerpt(story.story),
+            content: { type: 'doc', content: story.story.map((block: StoryBlock) => {
+              if (block.type === 'paragraph') {
+                return {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: block.content }]
+                }
+              } else if (block.type === 'heading') {
+                return {
+                  type: 'heading',
+                  attrs: { level: block.level },
+                  content: [{ type: 'text', text: block.content }]
+                }
+              }
+              return {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'Unsupported content type' }]
+              }
+            }) },
+            image: story.coverUrl,
+            book: story.book,
+            sessionDate: story.date
+          }))
+          .sort((a: AdventureEntry, b: AdventureEntry) => new Date(a.sessionDate).getTime() - new Date(b.sessionDate).getTime());
           setEntries(bookEntries);
         }
       } catch (error) {
@@ -253,9 +292,19 @@ export default function AdventureBookPage() {
               Back to {book.title}
             </button>
 
-            <div className="flex items-center text-sm mb-2 text-cyan-200">
-              <Calendar size={16} className="mr-2" />
-              {new Date(selectedEntry.sessionDate).toLocaleDateString()}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center text-sm text-cyan-200">
+                <Calendar size={16} className="mr-2" />
+                {new Date(selectedEntry.sessionDate).toLocaleDateString()}
+              </div>
+              
+              <Link
+                href={`/editor?id=${selectedEntry.id}`}
+                className="flex items-center px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-sm rounded-lg transition-colors"
+              >
+                <Edit size={14} className="mr-1" />
+                Edit
+              </Link>
             </div>
 
             <h1 className="text-3xl md:text-4xl font-bold mb-2 font-['Alkatra']">{selectedEntry.title}</h1>
@@ -402,6 +451,15 @@ export default function AdventureBookPage() {
                         <Calendar size={16} className="mr-2" />
                         {new Date(entry.sessionDate).toLocaleDateString()}
                       </div>
+                      
+                      <Link
+                        href={`/editor?id=${entry.id}`}
+                        className="flex items-center px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs rounded transition-colors"
+                        onClick={(e) => e.stopPropagation()} // Prevent triggering the card click
+                      >
+                        <Edit size={12} className="mr-1" />
+                        Edit
+                      </Link>
                     </div>
 
                     <h3 className="text-2xl font-bold text-blue-100 mb-2 hover:text-cyan-300 transition-colors font-['Alkatra']">
