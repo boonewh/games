@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+import { Typography } from '@tiptap/extension-typography'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
 
@@ -65,6 +66,12 @@ function EditorContent_Inner() {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Typography.configure({
+        openDoubleQuote: '"',
+        closeDoubleQuote: '"',
+        openSingleQuote: "'",
+        closeSingleQuote: "'",
+      }),
       Placeholder.configure({
         placeholder: 'Write the tale of tonight…',
       }),
