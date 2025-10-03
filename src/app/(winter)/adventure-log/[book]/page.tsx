@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 import { StoryEntry, StoryBlock } from '@/types/story';
 
 // Types for TipTap content
@@ -166,6 +167,7 @@ function renderTiptapContent(node: TiptapNode | TiptapNode[] | null): React.Reac
 }
 
 export default function AdventureBookPage() {
+  const { userId } = useAuth(); // Check if user is authenticated
   const { book: rawBook } = useParams<{ book: string | string[] }>();
   const bookSlug = Array.isArray(rawBook) ? rawBook[0] : rawBook;
   const pathname = usePathname();
@@ -300,13 +302,15 @@ export default function AdventureBookPage() {
                 {new Date(selectedEntry.sessionDate).toLocaleDateString()}
               </div>
               
-              <Link
-                href={`/editor?id=${selectedEntry.id}`}
-                className="flex items-center px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-sm rounded-lg transition-colors"
-              >
-                <Edit size={14} className="mr-1" />
-                Edit
-              </Link>
+              {userId && (
+                <Link
+                  href={`/editor?id=${selectedEntry.id}`}
+                  className="flex items-center px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-sm rounded-lg transition-colors"
+                >
+                  <Edit size={14} className="mr-1" />
+                  Edit
+                </Link>
+              )}
             </div>
 
             <h1 className="text-3xl md:text-4xl font-bold mb-2 font-['Alkatra']">{selectedEntry.title}</h1>
@@ -417,13 +421,17 @@ export default function AdventureBookPage() {
         ) : entries.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-xl text-slate-300 mb-4">No entries chronicled yet for this book.</p>
-            <p className="text-slate-400">The adventures await to be written!</p>
-            <Link
-              href="/editor"
-              className="inline-flex items-center px-6 py-3 mt-6 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-colors duration-300"
-            >
-              Chronicle the First Adventure
-            </Link>
+            <p className="text-slate-400">
+              {userId ? "The adventures await to be written!" : "The adventures are waiting to be chronicled."}
+            </p>
+            {userId && (
+              <Link
+                href="/editor"
+                className="inline-flex items-center px-6 py-3 mt-6 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-colors duration-300"
+              >
+                Chronicle the First Adventure
+              </Link>
+            )}
           </div>
         ) : (
           <div className="grid gap-6">
@@ -454,14 +462,16 @@ export default function AdventureBookPage() {
                         {new Date(entry.sessionDate).toLocaleDateString()}
                       </div>
                       
-                      <Link
-                        href={`/editor?id=${entry.id}`}
-                        className="flex items-center px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs rounded transition-colors"
-                        onClick={(e) => e.stopPropagation()} // Prevent triggering the card click
-                      >
-                        <Edit size={12} className="mr-1" />
-                        Edit
-                      </Link>
+                      {userId && (
+                        <Link
+                          href={`/editor?id=${entry.id}`}
+                          className="flex items-center px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs rounded transition-colors"
+                          onClick={(e) => e.stopPropagation()} // Prevent triggering the card click
+                        >
+                          <Edit size={12} className="mr-1" />
+                          Edit
+                        </Link>
+                      )}
                     </div>
 
                     <h3 className="text-2xl font-bold text-blue-100 mb-2 hover:text-cyan-300 transition-colors font-['Alkatra']">

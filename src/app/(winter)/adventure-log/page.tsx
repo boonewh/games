@@ -1,6 +1,7 @@
 // app/(winter)/adventure-log/page.tsx
-import { listStories, listAllKey } from '@/lib/storage'
+import { listStories, listAllKey, listKey } from '@/lib/storage'
 import { StoryEntry } from '@/types/story'
+import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
@@ -8,6 +9,33 @@ import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic' // reflect new files during dev
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
+
+// Helper function to get a readable title or excerpt from a story
+function getStoryTitle(story: StoryEntry): string {
+  // Try to find a heading block first
+  const heading = story.story.find(block => block.type === 'heading')
+  if (heading && 'content' in heading && typeof heading.content === 'string') {
+    return heading.content
+  }
+  
+  // Fall back to formatted slug
+  return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+}
+
+// Helper function to get a story excerpt
+function getStoryExcerpt(story: StoryEntry, limit = 100): string {
+  // Find the first paragraph with content
+  const paragraph = story.story.find(block => 
+    block.type === 'paragraph' && 'content' in block && typeof block.content === 'string'
+  )
+  
+  if (paragraph && 'content' in paragraph && typeof paragraph.content === 'string') {
+    const content = paragraph.content.trim()
+    return content.length > limit ? content.substring(0, limit) + '...' : content
+  }
+  
+  return 'No excerpt available'
+}
 
 // Hardcoded Reign of Winter adventure books
 const adventureBooks = [
@@ -68,21 +96,45 @@ const adventureBooks = [
 ];
 
 export default async function AdventureLogPage() {
-  const storyData = await listStories(listAllKey(), 100) // Get all winter stories
-  const stories = storyData
+  const { userId } = await auth() // Check if user is authenticated
+  let storyData = await listStories(listAllKey(), 100) // Get all winter stories
+  
+  // If no stories in global list, try to get from individual book lists
+  if (storyData.length === 0) {
+    const allBookStories = await Promise.all(
+      adventureBooks.map(book => listStories(listKey(book.slug), 100))
+    )
+    storyData = allBookStories.flat()
+  }
+  
+  const stories = (storyData
     .map(item => item.value)
-    .filter(Boolean) as StoryEntry[] // Extract story objects and filter out null/undefined
+    .filter(Boolean) as StoryEntry[]) // Extract story objects and filter out null/undefined
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by date, newest first
+  
   const totalEntries = stories.length
-  const latestEntry = stories[0]
-  const earliestEntry = stories[stories.length - 1]
+  const latestEntry = stories[0] // Most recent after sorting
+  const earliestEntry = stories[stories.length - 1] // Oldest after sorting
 
-  const journeyRange = latestEntry && earliestEntry
+  const journeyRange = latestEntry && earliestEntry && stories.length > 1
     ? `${dateFormatter.format(new Date(earliestEntry.date))} — ${dateFormatter.format(new Date(latestEntry.date))}`
+    : latestEntry
+    ? dateFormatter.format(new Date(latestEntry.date))
     : 'The long winter begins'
 
   // Calculate stats
   const totalSessions = stories.length // number of logged sessions/entries
-  const campaignDateRange = "October 2023 - September 2024" // Placeholder
+  
+  // Calculate stories per book for the hardcoded book display
+  const storiesPerBook = adventureBooks.map(book => {
+    const bookStories = stories.filter(story => story.book === book.slug)
+    return {
+      ...book,
+      storyCount: bookStories.length,
+      latestStory: bookStories[0], // Already sorted by date
+      earliestStory: bookStories[bookStories.length - 1]
+    }
+  })
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -109,13 +161,15 @@ export default async function AdventureLogPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/editor"
-                className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:bg-blue-500"
-              >
-                <PenLine size={18} />
-                Record a New Chronicle
-              </Link>
+              {userId && (
+                <Link
+                  href="/editor"
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:bg-blue-500"
+                >
+                  <PenLine size={18} />
+                  Record a New Chronicle
+                </Link>
+              )}
               <Link
                 href="#entries"
                 className="inline-flex items-center gap-2 rounded-full border border-cyan-300/60 px-5 py-2.5 text-sm font-semibold text-cyan-200 transition hover:border-cyan-200 hover:text-cyan-100"
@@ -138,7 +192,9 @@ export default async function AdventureLogPage() {
                 <span className="text-sm uppercase tracking-[0.2em] text-cyan-200/70">Entries</span>
               </div>
               <p className="mt-4 text-3xl font-bold text-blue-100 font-['Alkatra']">{totalEntries || '—'}</p>
-              <p className="mt-2 text-sm text-slate-300/80">{totalSessions} sessions recorded</p>
+              <p className="mt-2 text-sm text-slate-300/80">
+                {totalSessions} {totalSessions === 1 ? 'session' : 'sessions'} recorded
+              </p>
             </div>
 
             <div className="rounded-3xl border border-slate-700/70 bg-slate-950/70 p-6 shadow-lg shadow-slate-900/40">
@@ -163,9 +219,14 @@ export default async function AdventureLogPage() {
                 {latestEntry ? dateFormatter.format(new Date(latestEntry.date)) : 'Soon'}
               </p>
               {latestEntry && (
-                <p className="mt-2 text-sm text-slate-300/80">
-                  &ldquo;{latestEntry.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}&rdquo;
-                </p>
+                <div className="mt-2">
+                  <p className="text-sm font-medium text-slate-300">
+                    &ldquo;{getStoryTitle(latestEntry)}&rdquo;
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {getStoryExcerpt(latestEntry, 80)}
+                  </p>
+                </div>
               )}
               {!latestEntry && (
                 <p className="mt-2 text-sm text-slate-300/80">
@@ -189,7 +250,7 @@ export default async function AdventureLogPage() {
         </p>
         
         <div className="grid gap-8">
-          {adventureBooks.map((book) => (
+          {storiesPerBook.map((book) => (
             <Link 
               key={book.slug}
               href={`/adventure-log/${book.slug}`}
@@ -248,11 +309,16 @@ export default async function AdventureLogPage() {
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="flex items-center text-sm text-slate-400">
                         <Calendar size={16} className="mr-2 text-cyan-400" />
-                        {campaignDateRange} {/* Placeholder for now */}
+                        {book.earliestStory && book.latestStory && book.storyCount > 1
+                          ? `${new Date(book.earliestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${new Date(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
+                          : book.latestStory
+                          ? new Date(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                          : 'Not started'
+                        }
                       </div>
                       <div className="flex items-center text-sm text-slate-400">
                         <BookOpen size={16} className="mr-2 text-cyan-400" />
-                        8 Sessions {/* Placeholder for now */}
+                        {book.storyCount} {book.storyCount === 1 ? 'Session' : 'Sessions'}
                       </div>
                     </div>
                     

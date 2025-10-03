@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       book: body.book!,
       slug: body.slug!,
       data: storyData,
-      includeAll: body.includeAll,
+      includeAll: body.includeAll ?? true, // Default to true for winter stories
     });
 
     return NextResponse.json({ key });
@@ -72,7 +72,9 @@ export async function PUT(req: Request) {
     // move to top of lists  
     await kv.lrem(listKey(body.book!), 0, key);
     await kv.lpush(listKey(body.book!), key);
-    if (body.includeAll) {
+    
+    const includeAll = body.includeAll ?? true; // Default to true for winter stories
+    if (includeAll) {
       await kv.lrem(listAllKey(), 0, key);
       await kv.lpush(listAllKey(), key);
     }

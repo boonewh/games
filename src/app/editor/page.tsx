@@ -7,6 +7,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuth } from '@clerk/nextjs'
 
 
 type JSONNode = {
@@ -45,6 +46,7 @@ const adventureBooks = [
 ]
 
 function EditorContent_Inner() {
+  const { userId, isLoaded } = useAuth() // Check if user is authenticated
   const router = useRouter()
   const searchParams = useSearchParams()
   const entryId = searchParams.get('id')
@@ -178,6 +180,29 @@ function EditorContent_Inner() {
       cancelled = true
     }
   }, [editor, entryId, isEditing])
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (isLoaded && !userId) {
+      router.push('/sign-in')
+    }
+  }, [isLoaded, userId, router])
+
+  // Show loading while checking authentication
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-xl text-slate-300">Loading...</div>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!userId) {
+    return null
+  }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
