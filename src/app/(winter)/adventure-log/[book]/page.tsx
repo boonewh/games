@@ -195,7 +195,9 @@ export default function AdventureBookPage() {
         if (response.ok) {
           const stories = await response.json();
           // Convert story format to match AdventureEntry interface expected by the UI
-          const bookEntries: AdventureEntry[] = stories.map((story: StoryEntry) => ({
+          const bookEntries: AdventureEntry[] = stories
+            .filter((story: StoryEntry) => story && story.slug && story.book && story.date) // Filter out invalid stories
+            .map((story: StoryEntry) => ({
             id: `${story.book}-${story.date}-${story.slug}`,
             title: story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
             createdAt: story.date,

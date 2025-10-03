@@ -69,7 +69,9 @@ const adventureBooks = [
 
 export default async function AdventureLogPage() {
   const storyData = await listStories(listAllKey(), 100) // Get all winter stories
-  const stories = storyData.map(item => item.value) as StoryEntry[] // Extract story objects
+  const stories = storyData
+    .map(item => item.value)
+    .filter(Boolean) as StoryEntry[] // Extract story objects and filter out null/undefined
   const totalEntries = stories.length
   const latestEntry = stories[0]
   const earliestEntry = stories[stories.length - 1]

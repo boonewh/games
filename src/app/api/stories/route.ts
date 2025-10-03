@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
-import { listAllKey, listKey, saveStory, storyKey, getStory, listStories } from '@/lib/storage';
+import { listAllKey, listKey, saveStory, storyKey, listStories } from '@/lib/storage';
 import type { StoryEntry } from '@/types/story';
 
 export const runtime = 'nodejs';
@@ -23,11 +23,13 @@ export async function GET(req: Request) {
 
     if (book) {
       // Get stories for a specific book
-      const stories = await listStories(listKey(book), limit);
+      const storiesData = await listStories(listKey(book), limit);
+      const stories = storiesData.map(item => item.value);
       return NextResponse.json(stories);
     } else {
       // Get all stories across books
-      const stories = await listStories(listAllKey(), limit);
+      const storiesData = await listStories(listAllKey(), limit);
+      const stories = storiesData.map(item => item.value);
       return NextResponse.json(stories);
     }
   } catch (e: unknown) {
