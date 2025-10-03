@@ -294,13 +294,38 @@ export default function AdventureBookPage() {
     setDeleting(true);
 
     try {
-      // Parse the entry ID to get book, date, and slug
-      const parts = entry.id.split('-');
-      const book = parts[0];
-      const date = parts[1];
-      const slug = parts.slice(2).join('-'); // Handle slugs with hyphens
+      // Parse the entry ID to extract book, date, and slug
+      // Format: {book}-{date}-{slug} where date is YYYY-MM-DD
+      console.log('Full entry ID:', entry.id);
+      console.log('Entry book field:', entry.book);
+      console.log('Entry sessionDate field:', entry.sessionDate);
+      
+      // Use the actual book and date from the entry object instead of parsing the ID
+      const book = entry.book;
+      const date = entry.sessionDate;
+      
+      // To get the slug, we need to reconstruct what it should be
+      // Since ID = book + '-' + date + '-' + slug, we can extract the slug
+      const expectedPrefix = `${book}-${date}-`;
+      console.log('Expected prefix:', expectedPrefix);
+      
+      if (!entry.id.startsWith(expectedPrefix)) {
+        throw new Error(`Entry ID doesn't match expected format. ID: ${entry.id}, Expected prefix: ${expectedPrefix}`);
+      }
+      
+      const slug = entry.id.substring(expectedPrefix.length);
+      
+      console.log('Parsed components:', { 
+        book, 
+        date, 
+        slug,
+        originalId: entry.id 
+      });
+      
+      const apiPath = `/api/stories/${encodeURIComponent(book)}/${encodeURIComponent(date)}/${encodeURIComponent(slug)}`;
+      console.log('API path:', apiPath);
 
-      const response = await fetch(`/api/stories/${book}/${date}/${slug}`, {
+      const response = await fetch(apiPath, {
         method: 'DELETE',
       });
 
