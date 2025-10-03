@@ -138,7 +138,14 @@ function EditorContent_Inner() {
         if (cancelled) return
         
         // Convert story back to editor format
-        const title = story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+        // Try to get title from first heading block, fallback to slug-derived title
+        const headingBlock = story.story.find((block: unknown) => {
+          return typeof block === 'object' && block !== null && 'type' in block && 
+                 (block as { type: string }).type === 'heading'
+        }) as { content?: string } | undefined
+        
+        const title = headingBlock?.content || 
+                     story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
         setTitle(title)
         setImage(story.coverUrl ?? '')
         
@@ -253,7 +260,7 @@ function EditorContent_Inner() {
     setError(null)
     const content = editor?.getJSON()
     // Convert TipTap content to story blocks
-    const storyBlocks = content?.content?.map((node: unknown) => {
+    let storyBlocks = content?.content?.map((node: unknown) => {
       if (typeof node === 'object' && node !== null && 'type' in node) {
         const typedNode = node as { 
           type: string; 
@@ -272,6 +279,23 @@ function EditorContent_Inner() {
       }
       return { type: 'paragraph' as const, content: '' } // Default fallback
     }) || []
+
+    // Ensure the title is saved as the first heading block
+    // Remove any existing heading with the same content as the title
+    const titleContent = title.trim()
+    if (titleContent) {
+      // Remove any existing heading that matches the title
+      storyBlocks = storyBlocks.filter(block => 
+        !(block.type === 'heading' && block.content === titleContent)
+      )
+      
+      // Add the title as the first heading block
+      storyBlocks.unshift({
+        type: 'heading' as const,
+        level: 1,
+        content: titleContent
+      })
+    }
 
     // When editing, preserve the original slug, date, and book from entryId
     // When creating new, generate slug from title

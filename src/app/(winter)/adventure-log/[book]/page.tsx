@@ -9,6 +9,20 @@ import { useParams, usePathname } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { StoryEntry, StoryBlock } from '@/types/story';
 
+export const dynamic = 'force-dynamic' // reflect new files during dev
+
+// Helper function to get a readable title from a story (same as main page)
+function getStoryTitle(story: StoryEntry): string {
+  // Try to find a heading block first
+  const heading = story.story.find(block => block.type === 'heading')
+  if (heading && 'content' in heading && typeof heading.content === 'string') {
+    return heading.content
+  }
+  
+  // Fall back to formatted slug
+  return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+}
+
 // Types for TipTap content
 interface TiptapNode {
   type?: string;
@@ -193,7 +207,7 @@ export default function AdventureBookPage() {
       setLoading(true);
       try {
         // Fetch stories for this specific book from the new API
-        const response = await fetch(`/api/stories?book=${bookSlug}&limit=100`);
+        const response = await fetch(`/api/stories?book=${bookSlug}&limit=100&t=${Date.now()}`);
         if (response.ok) {
           const stories = await response.json();
           // Convert story format to match AdventureEntry interface expected by the UI
@@ -201,7 +215,7 @@ export default function AdventureBookPage() {
             .filter((story: StoryEntry) => story && story.slug && story.book && story.date) // Filter out invalid stories
             .map((story: StoryEntry) => ({
             id: `${story.book}-${story.date}-${story.slug}`,
-            title: story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+            title: getStoryTitle(story),
             createdAt: story.date,
             updatedAt: story.date,
             excerpt: getStoryExcerpt(story.story),
