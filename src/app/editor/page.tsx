@@ -102,17 +102,21 @@ function EditorContent_Inner() {
     setLoading(true)
     setError(null)
 
-    // Parse the entryId format: "book-date-slug"
-    const parts = entryId.split('-')
-    if (parts.length < 3) {
-      setError('Invalid entry ID format')
+    // Parse the entryId format: "book-YYYY-MM-DD-slug"
+    // Use regex to match the date pattern (YYYY-MM-DD) to properly split
+    const datePattern = /(\d{4}-\d{2}-\d{2})/
+    const match = entryId.match(datePattern)
+    
+    if (!match) {
+      setError('Invalid entry ID format - no date found')
       setLoading(false)
       return
     }
     
-    const book = parts[0]
-    const date = parts[1]
-    const slug = parts.slice(2).join('-') // Handle slugs with multiple hyphens
+    const dateIndex = entryId.indexOf(match[1])
+    const book = entryId.substring(0, dateIndex - 1) // Everything before the date (minus the hyphen)
+    const date = match[1] // The matched date
+    const slug = entryId.substring(dateIndex + date.length + 1) // Everything after the date (minus the hyphen)
 
     fetch(`/api/stories/${book}/${date}/${slug}`)
       .then(async (res) => {
@@ -244,11 +248,15 @@ function EditorContent_Inner() {
     let finalBook = book
     
     if (isEditing && entryId) {
-      const parts = entryId.split('-')
-      if (parts.length >= 3) {
-        finalBook = parts[0]
-        finalDate = parts[1]
-        finalSlug = parts.slice(2).join('-')
+      // Parse the entryId format: "book-YYYY-MM-DD-slug"
+      const datePattern = /(\d{4}-\d{2}-\d{2})/
+      const match = entryId.match(datePattern)
+      
+      if (match) {
+        const dateIndex = entryId.indexOf(match[1])
+        finalBook = entryId.substring(0, dateIndex - 1) // Everything before the date (minus the hyphen)
+        finalDate = match[1] // The matched date
+        finalSlug = entryId.substring(dateIndex + finalDate.length + 1) // Everything after the date (minus the hyphen)
       }
     }
     
