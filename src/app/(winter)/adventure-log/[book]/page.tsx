@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
@@ -190,6 +190,7 @@ export default function AdventureBookPage() {
   const [loading, setLoading] = useState(true);
   const [selectedEntry, setSelectedEntry] = useState<AdventureEntry | null>(null);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   // Scroll to top on route change or entry change
   useEffect(() => {
@@ -285,6 +286,50 @@ export default function AdventureBookPage() {
 
   const closeEntry = () => setSelectedEntry(null);
 
+  const deleteEntry = async (entry: AdventureEntry) => {
+    if (!confirm(`Are you sure you want to delete "${entry.title}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    setDeleting(true);
+
+    try {
+      // Parse the entry ID to get book, date, and slug
+      const parts = entry.id.split('-');
+      const book = parts[0];
+      const date = parts[1];
+      const slug = parts.slice(2).join('-'); // Handle slugs with hyphens
+
+      const response = await fetch(`/api/stories/${book}/${date}/${slug}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remove from local state
+        const updatedEntries = entries.filter(e => e.id !== entry.id);
+        setEntries(updatedEntries);
+        
+        // If this was the selected entry, close it
+        if (selectedEntry?.id === entry.id) {
+          setSelectedEntry(null);
+        }
+        
+        // Adjust current index if needed
+        if (currentEntryIndex >= updatedEntries.length && updatedEntries.length > 0) {
+          setCurrentEntryIndex(updatedEntries.length - 1);
+        }
+      } else {
+        const error = await response.json();
+        alert(`Delete failed: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert('Failed to delete entry');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const navigateEntry = (direction: 'next' | 'prev') => {
     const newIndex =
       direction === 'next'
@@ -317,13 +362,28 @@ export default function AdventureBookPage() {
               </div>
               
               {userId && (
-                <Link
-                  href={`/editor?id=${selectedEntry.id}`}
-                  className="flex items-center px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-sm rounded-lg transition-colors"
-                >
-                  <Edit size={14} className="mr-1" />
-                  Edit
-                </Link>
+                <div className="flex items-center space-x-2">
+                  <Link
+                    href={`/editor?id=${selectedEntry.id}`}
+                    className="flex items-center px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-sm rounded-lg transition-colors"
+                  >
+                    <Edit size={14} className="mr-1" />
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => deleteEntry(selectedEntry)}
+                    disabled={deleting}
+                    className="flex items-center px-3 py-1 bg-red-600 hover:bg-red-500 disabled:bg-red-400 text-white text-sm rounded-lg transition-colors"
+                    title="Delete this entry"
+                  >
+                    {deleting ? (
+                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                    ) : (
+                      <Trash2 size={14} className="mr-1" />
+                    )}
+                    Delete
+                  </button>
+                </div>
               )}
             </div>
 
