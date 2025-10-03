@@ -36,16 +36,15 @@ export default function VaultClient() {
     setBusy(true);
     setError(null);
 
-    const form = e.currentTarget;
-    const fileInput = form.elements.namedItem("file") as HTMLInputElement;
-    const file = fileInput?.files?.[0];
-    if (!file) {
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const file = formData.get("file") as File;
+    
+    if (!file || file.size === 0) {
+      setError("Please select a file to upload.");
       setBusy(false);
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file", file);
 
     const res = await fetch("/api/vault/upload", {
       method: "POST",
@@ -60,28 +59,45 @@ export default function VaultClient() {
       return;
     }
 
-    fileInput.value = "";
+    // Success - clear form and refresh
+    form.reset();
     await refresh();
   }
 
   return (
     <section className="space-y-6">
-      <form onSubmit={onUpload} className="flex items-center gap-3">
-        <input
-          type="file"
-          name="file"
-          accept=".jpg,.jpeg,.png,.gif,.webp,.pdf"
-          className="block w-full text-sm"
-          disabled={busy}
-        />
-        <button
-          type="submit"
-          disabled={busy}
-          className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white disabled:opacity-50"
-        >
-          {busy ? "Uploading..." : "Upload"}
-        </button>
-      </form>
+      <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-600/30">
+        <h3 className="text-lg font-semibold text-blue-200 mb-4">Upload Files</h3>
+        <form onSubmit={onUpload} className="space-y-4">
+          <div>
+            <label htmlFor="file-upload" className="block text-sm font-medium text-slate-300 mb-2">
+              Select a file to upload (.pdf, .jpg, .png, .gif, .webp)
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              name="file"
+              accept=".jpg,.jpeg,.png,.gif,.webp,.pdf"
+              className="block w-full text-sm text-slate-300
+                         file:mr-4 file:py-2 file:px-4
+                         file:rounded-lg file:border-0
+                         file:text-sm file:font-medium
+                         file:bg-blue-600 file:text-white
+                         hover:file:bg-blue-700
+                         file:cursor-pointer cursor-pointer
+                         bg-slate-700/50 border border-slate-600/50 rounded-lg p-2"
+              disabled={busy}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={busy}
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white disabled:opacity-50 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium"
+          >
+            {busy ? "Uploading..." : "Upload File"}
+          </button>
+        </form>
+      </div>
 
       {error && <p className="text-rose-300">{error}</p>}
 
@@ -95,16 +111,28 @@ export default function VaultClient() {
             <p className="text-xs text-slate-500">
               {new Date(f.uploadedAt).toLocaleString()}
             </p>
-            {f.fileUrl && (
+            <div className="mt-2 space-x-3">
+              {/* Public link (works if bucket is public) */}
+              {f.fileUrl && (
+                <a
+                  className="text-cyan-400 text-sm underline inline-block"
+                  href={f.fileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View →
+                </a>
+              )}
+              
+              {/* Download via proxy */}
               <a
-                className="text-cyan-400 text-sm underline mt-2 inline-block"
-                href={f.fileUrl}
-                target="_blank"
-                rel="noreferrer"
+                className="text-cyan-300 text-sm underline inline-block"
+                href={`/api/vault/proxy?file=${encodeURIComponent(f.fileName)}`}
+                download={f.fileName}
               >
-                View / Download →
+                Download →
               </a>
-            )}
+            </div>
           </div>
         ))}
       </div>

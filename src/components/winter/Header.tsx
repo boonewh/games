@@ -79,10 +79,10 @@ const Header = () => {
             <div className="hidden lg:block">
               <div className="flex items-center space-x-1 bg-slate-800/50 backdrop-blur-sm rounded-full px-2 py-1">
                 <Link 
-                  href="/" 
+                  href="/about" 
                   className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
-                  Home
+                  About
                 </Link>
                 
                 <Link 

@@ -83,28 +83,28 @@ const PathSixHomepage = () => {
       name: "Aelira Kaldren",
       class: "Human Witch/Kineticist",
       image: "/images/winter/aelira.jpg",
-      sheet: "/images/winter/aelira.pdf",
+      sheet: "/api/vault/proxy?file=aelira.pdf",
       description: "Master of elemental forces and ancient magics"
     },
     {
       name: "Alaric Aethelred", 
       class: "Human Gunslinger/Inquisitor",
       image: "/images/winter/alaric.jpg",
-      sheet: "/images/winter/alaric.pdf",
+      sheet: "/api/vault/proxy?file=alaric.pdf",
       description: "Divine justice delivered through powder and steel"
     },
     {
       name: "Joshua the Red",
       class: "Human Druid/Monk",
       image: "/images/winter/joshua.jpg", 
-      sheet: "/images/winter/joshua.pdf",
+      sheet: "/api/vault/proxy?file=joshua.pdf",
       description: "Guardian of nature's balance and inner harmony"
     },
     {
       name: "Ivan",
       class: "Half-Elf Inquisitor/Wizard",
       image: "/images/winter/ivan.jpg",
-      sheet: "/images/winter/ivan.pdf",
+      sheet: "/api/vault/proxy?file=ivan.pdf",
       description: "Scholar-warrior wielding faith and arcane knowledge"
     }
   ];
@@ -143,6 +143,7 @@ const PathSixHomepage = () => {
             fill
             className="object-cover opacity-40"
             priority
+            sizes="100vw"
           />
           <div className="absolute inset-0"></div>
         </div>
@@ -232,6 +233,7 @@ const PathSixHomepage = () => {
                 alt="Map of Irrisen, our current realm of adventure"
                 fill
                 className="object-contain rounded-lg shadow-2xl"
+                sizes="900px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg pointer-events-none"></div>
             </div>
@@ -348,6 +350,7 @@ const PathSixHomepage = () => {
                       className={`object-cover transition-all duration-700 ${
                         hoveredCharacter === index ? 'scale-110' : 'scale-100'
                       }`}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     
                     {/* Magical overlay effect on hover */}
@@ -391,16 +394,17 @@ const PathSixHomepage = () => {
                     <div className={`mt-4 transition-all duration-500 ${
                       hoveredCharacter === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}>
-                      <Link 
+                      <a
                         href={character.sheet}
                         target="_blank"
+                        rel="noreferrer"
                         className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium"
                       >
                         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                         Character Sheet
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -505,6 +509,7 @@ const PathSixHomepage = () => {
                       alt={`Scene from ${getStoryTitle(latestStory)}`}
                       fill
                       className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 1024px) 100vw, 320px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
                     

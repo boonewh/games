@@ -6,9 +6,14 @@ const appKey = process.env.B2_APPLICATION_KEY!;
 const bucketId = process.env.B2_BUCKET_ID!;
 const bucketName = process.env.B2_BUCKET_NAME!;
 
-// Basic public URL pattern (if bucket is public)
-export const b2PublicBase =
-  bucketName ? `https://f001.backblazeb2.com/file/${bucketName}` : undefined;
+// We'll determine the correct download host from the B2 authorize response
+// (it contains a downloadUrl like https://f001.backblazeb2.com). This avoids
+// hard-coding a specific f00x host which can vary between accounts/regions.
+let b2DownloadHost: string | undefined;
+
+function getPublicBase() {
+  return bucketName && b2DownloadHost ? `${b2DownloadHost}/file/${bucketName}` : undefined;
+}
 
 // Singleton B2 client + lazy auth
 const b2 = new BackblazeB2({
@@ -19,7 +24,16 @@ const b2 = new BackblazeB2({
 let authorized = false;
 async function ensureAuth() {
   if (!authorized) {
-    await b2.authorize();
+    // capture the authorize response so we can use the downloadUrl host
+    const authRes = await b2.authorize();
+    // prefer the downloadUrl provided by B2 (e.g. https://f001.backblazeb2.com)
+    // authRes may not have a strict type here; safely inspect for downloadUrl
+    const maybe = authRes as unknown as { data?: { downloadUrl?: string } };
+    if (maybe && maybe.data && typeof maybe.data.downloadUrl === 'string') {
+      b2DownloadHost = maybe.data.downloadUrl;
+    } else {
+      b2DownloadHost = undefined;
+    }
     authorized = true;
   }
 }
@@ -38,7 +52,10 @@ export async function listFiles(): Promise<Array<{ fileName: string; contentLeng
     const contentType = String(f['contentType'] || '');
     const uploadTimestamp = Number(f['uploadTimestamp'] || 0);
     const uploadedAt = new Date(uploadTimestamp).toISOString();
-    const fileUrl = fileName && b2PublicBase ? `${b2PublicBase}/${encodeURIComponent(fileName)}` : undefined;
+    // Use encodeURI here so path separators (/) in fileName are preserved in the URL
+    // encodeURIComponent would percent-encode slashes which breaks B2 file paths
+    const publicBase = getPublicBase();
+    const fileUrl = fileName && publicBase ? `${publicBase}/${encodeURI(fileName)}` : undefined;
     return { fileName, contentLength, contentType, uploadedAt, fileUrl };
   });
   return files;
@@ -61,7 +78,11 @@ export async function uploadFile(buffer: Buffer, fileName: string, contentType: 
 
   const uploadRes = (res as unknown) as { data?: { fileName?: unknown } };
   const storedName = String(uploadRes.data?.fileName ?? fileName);
-  const url = storedName && b2PublicBase ? `${b2PublicBase}/${encodeURIComponent(storedName)}` : undefined;
+  // Keep slashes in storedName so folder-like names remain valid paths on Backblaze
+  const publicBase = getPublicBase();
+  const url = storedName && publicBase ? `${publicBase}/${encodeURI(storedName)}` : undefined;
 
   return { fileName: storedName, url };
 }
+
+
