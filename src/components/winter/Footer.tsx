@@ -2,10 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth, useClerk } from '@clerk/nextjs';
 
 const Footer = () => {
+  const { userId, isLoaded } = useAuth();
+  const { signOut } = useClerk();
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSignOut = () => {
+    signOut();
   };
 
   return (
@@ -86,6 +94,23 @@ const Footer = () => {
 
               {/* Quick navigation */}
               <div className="flex items-center space-x-6 text-xs">
+                {isLoaded && (
+                  userId ? (
+                    <button 
+                      onClick={handleSignOut}
+                      className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
+                    >
+                      Sign Out
+                    </button>
+                  ) : (
+                    <Link 
+                      href="/sign-in" 
+                      className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
+                    >
+                      Sign In
+                    </Link>
+                  )
+                )}
                 <Link 
                   href="/vault" 
                   className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"

@@ -77,24 +77,24 @@ const Header = () => {
 
             {/* Desktop Navigation - Centered */}
             <div className="hidden lg:block">
-              <div className="flex items-center space-x-1 bg-slate-800/50 backdrop-blur-sm rounded-full px-2 py-1 border border-slate-600/30">
+              <div className="flex items-center space-x-1 bg-slate-800/50 backdrop-blur-sm rounded-full px-2 py-1">
                 <Link 
                   href="/" 
-                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm"
+                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Home
                 </Link>
                 
                 <Link 
                   href="/adventure-log" 
-                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm"
+                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Adventure Log
                 </Link>
                 
                 <Link 
                   href="/dice" 
-                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm"
+                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Dice Roller
                 </Link>
@@ -103,7 +103,7 @@ const Header = () => {
                 <div className="relative">
                   <button
                     onClick={togglePastAdventures}
-                    className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm flex items-center space-x-1"
+                    className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg flex items-center space-x-1"
                   >
                     <span>Past Adventures</span>
                     <svg 
@@ -140,7 +140,7 @@ const Header = () => {
                 
                 <Link 
                   href="/rules" 
-                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-sm"
+                  className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Rules
                 </Link>
@@ -149,13 +149,6 @@ const Header = () => {
 
             {/* Right side - Call to action button and mobile menu */}
             <div className="flex items-center space-x-3">
-              {/* Call to action button */}
-              <Link
-                href="/adventure-log"
-                className="hidden sm:block px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium text-sm shadow-lg hover:shadow-xl"
-              >
-                Latest Adventure
-              </Link>
 
               {/* Mobile menu button */}
               <button

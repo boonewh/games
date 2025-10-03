@@ -1,13 +1,82 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import SnowWithAccumulation from "@/components/ui/SnowWithAccumulation";
+import MiniatureGallery from "@/components/winter/MiniatureGallery";
+import { StoryEntry } from '@/types/story';
 
 
 const PathSixHomepage = () => {
   const [hoveredCharacter, setHoveredCharacter] = useState<number | null>(null);
+  const [latestStory, setLatestStory] = useState<StoryEntry | null>(null);
+  const [loadingStory, setLoadingStory] = useState(true);
+
+  // Helper functions for story processing
+  const getStoryTitle = (story: StoryEntry): string => {
+    // Try to find a heading block first
+    const heading = story.story.find(block => block.type === 'heading');
+    if (heading && 'content' in heading && typeof heading.content === 'string') {
+      return heading.content;
+    }
+    
+    // Fall back to formatted slug
+    return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  const getStoryExcerpt = (story: StoryEntry, limit = 350): string => {
+    // Find the first substantial paragraph (skip very short ones)
+    const paragraphs = story.story.filter(block => 
+      block.type === 'paragraph' && 
+      'content' in block && 
+      typeof block.content === 'string' &&
+      block.content.trim().length > 50
+    );
+    
+    if (paragraphs.length > 0) {
+      const firstParagraph = paragraphs[0];
+      if ('content' in firstParagraph && typeof firstParagraph.content === 'string') {
+        const content = firstParagraph.content.trim();
+        return content.length > limit ? content.substring(0, limit) + '...' : content;
+      }
+    }
+    
+    return 'Step into our latest winter adventure...';
+  };
+
+  const getBookTitle = (bookSlug: string): string => {
+    const bookMap: Record<string, string> = {
+      'the-snows-of-summer': 'The Snows of Summer',
+      'the-shackled-hut': 'The Shackled Hut', 
+      'maiden-mother-crone': 'Maiden, Mother, Crone',
+      'the-frozen-stars': 'The Frozen Stars',
+      'rasputin-must-die': 'Rasputin Must Die!',
+      'the-witch-queen-revenge': 'The Witch Queen\'s Revenge'
+    };
+    return bookMap[bookSlug] || bookSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  // Fetch the latest story
+  useEffect(() => {
+    const fetchLatestStory = async () => {
+      try {
+        const response = await fetch('/api/stories?limit=1');
+        if (response.ok) {
+          const stories = await response.json();
+          if (stories && stories.length > 0) {
+            setLatestStory(stories[0]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch latest story:', error);
+      } finally {
+        setLoadingStory(false);
+      }
+    };
+
+    fetchLatestStory();
+  }, []);
 
   const characters = [
     {
@@ -349,92 +418,171 @@ const PathSixHomepage = () => {
               From Our Latest Chapter
             </h2>
             <p className="text-lg text-slate-400">
-              A glimpse into our most recent adventure...
+              {loadingStory ? 'Loading our most recent adventure...' : 'A glimpse into our most recent adventure...'}
             </p>
           </div>
 
           <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-600/30 p-8 lg:p-12 shadow-2xl">
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
-              
-              {/* Adventure excerpt text */}
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-blue-200 mb-3">
-                  The Frozen Trail Beckons
-                </h3>
-                <p className="text-slate-400 text-sm mb-4">
-                  Posted on December 15th, 2024
-                </p>
+            {loadingStory ? (
+              // Loading state
+              <div className="flex items-center justify-center py-12">
+                <div className="flex items-center space-x-3">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                  <span className="text-slate-400">Conjuring our latest tale...</span>
+                </div>
+              </div>
+            ) : latestStory ? (
+              // Latest story display
+              <div className="flex flex-col lg:flex-row gap-8 items-start">
                 
-                <div className="prose prose-invert prose-lg max-w-none">
-                  <p className="text-slate-300 leading-relaxed mb-6">
-                    The icy wind howled through the ancient pines as our heroes pressed deeper into the cursed lands of Irrisen. What began as whispers of unnatural winter had become a bitter reality—snow fell where flowers should bloom, and the very air crackled with malevolent magic. Aelira&apos;s breath misted in the frigid air as she traced arcane symbols, seeking answers in the elemental forces that seemed to rebel against nature itself...
-                  </p>
+                {/* Adventure excerpt text */}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-blue-200 mb-2">
+                        {getStoryTitle(latestStory)}
+                      </h3>
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-slate-400">
+                          {new Date(latestStory.date).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                          })}
+                        </span>
+                        <span className="text-cyan-400 font-medium">
+                          {getBookTitle(latestStory.book)}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* "New" badge for recent stories (within 30 days) */}
+                    {new Date().getTime() - new Date(latestStory.date).getTime() < 30 * 24 * 60 * 60 * 1000 && (
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg animate-pulse">
+                          ✨ Fresh Tale
+                        </span>
+                      </div>
+                    )}
+                  </div>
                   
-                  <blockquote className="border-l-4 border-blue-400 pl-6 py-2 bg-slate-700/30 rounded-r-lg my-6">
-                    <p className="text-blue-200 italic text-lg">
-                      &ldquo;The very stones here remember winter&rsquo;s eternal embrace. We tread where mortals were never meant to walk.&rdquo;
+                  <div className="prose prose-invert prose-lg max-w-none">
+                    <p className="text-slate-300 leading-relaxed mb-6 text-lg">
+                      {getStoryExcerpt(latestStory)}
                     </p>
-                    <footer className="text-slate-400 text-sm mt-2">
-                      — Aelira Kaldren, upon sensing the ancient magics
-                    </footer>
-                  </blockquote>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                    <Link href={`/adventure-log/${latestStory.book}?highlight=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
+                      <button className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-blue-500/25 hover:scale-105">
+                        <span className="flex items-center">
+                          Read This Adventure
+                          <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </span>
+                      </button>
+                    </Link>
+                    
+                    <Link href="/adventure-log">
+                      <button className="group px-6 py-3 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium">
+                        <span className="flex items-center">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                          Browse All Adventures
+                        </span>
+                      </button>
+                    </Link>
+                  </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Link href="/adventure-log">
-                    <button className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
-                      <span className="flex items-center">
-                        Read the Full Adventure
-                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </span>
-                    </button>
-                  </Link>
+                {/* Adventure image */}
+                <div className="flex-shrink-0">
+                  <div className="relative w-full lg:w-80 aspect-[4/5] group">
+                    <Image
+                      src={latestStory.coverUrl || "/images/winter/baba_yaga_hero.jpg"}
+                      alt={`Scene from ${getStoryTitle(latestStory)}`}
+                      fill
+                      className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
+                    
+                    {/* Magical sparkle overlay */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+                      <div className="absolute bottom-8 left-6 w-1 h-1 bg-purple-400 rounded-full animate-pulse"></div>
+                      <div className="absolute top-1/3 left-4 w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Adventure image */}
-              <div className="flex-shrink-0">
-                <div className="relative w-full lg:w-80 aspect-[4/5] group">
-                  <Image
-                    src="/images/winter/baba_yaga_hero.jpg"
-                    alt="Scene from our latest adventure"
-                    fill
-                    className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-slate-900/20 rounded-lg"></div>
+            ) : (
+              // No story found state
+              <div className="text-center py-12">
+                <div className="text-slate-400 mb-4">
+                  <svg className="w-16 h-16 mx-auto mb-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
                 </div>
+                <h3 className="text-xl font-bold text-slate-300 mb-2">The Chronicles Await</h3>
+                <p className="text-slate-400 mb-6">Our latest adventures are being penned... Check back soon for fresh tales from the frozen realms!</p>
+                <Link href="/adventure-log">
+                  <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
+                    Explore Past Adventures
+                  </button>
+                </Link>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Call to Action Section */}
+      {/* Call to Action & Miniature Gallery Section */}
       <section className="relative py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl border border-blue-400/30 p-8 lg:p-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-200 mb-6">
-              Join Our Winter&apos;s Tale
-            </h2>
-            <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-              Step into our world of adventure, friendship, and epic storytelling. Three decades of memories await your discovery.
-            </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/adventure-log">
-                <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
-                  Start Reading
-                </button>
-              </Link>
-              
-              <Link href="/rules">
-                <button className="px-8 py-4 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium text-lg">
-                  Learn Our Rules
-                </button>
-              </Link>
+            {/* Call to Action */}
+            <div className="text-center lg:text-left">
+              <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl border border-blue-400/30 p-8 lg:p-10">
+                <h2 className="text-3xl sm:text-4xl font-bold text-blue-200 mb-6">
+                  Join Our Winter&apos;s Tale
+                </h2>
+                <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                  Step into our world of adventure, friendship, and epic storytelling. Three decades of memories await your discovery.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+                  <Link href="/adventure-log">
+                    <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
+                      Start Reading
+                    </button>
+                  </Link>
+                  
+                  <Link href="/rules">
+                    <button className="px-8 py-4 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium text-lg">
+                      Learn Our Rules
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
+
+            {/* Miniature Gallery */}
+            <div>
+              <div className="text-center mb-6">
+                <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-3">
+                  Tabletop Chronicles
+                </h3>
+                <p className="text-slate-400">
+                  Witness our adventures come to life through painted miniatures and epic battle scenes
+                </p>
+              </div>
+              
+              <MiniatureGallery />
+            </div>
+            
           </div>
         </div>
       </section>
