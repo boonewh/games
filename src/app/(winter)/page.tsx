@@ -136,7 +136,8 @@ const PathSixHomepage = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-start">
-        <div className="absolute inset-0 z-0">
+        {/* Desktop hero image */}
+        <div className="absolute inset-0 z-0 hidden sm:block">
           <Image
             src="/images/winter/baba_yaga_hero.jpg"
             alt="Baba Yaga's mystical realm"
@@ -145,7 +146,20 @@ const PathSixHomepage = () => {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0"></div>
+        </div>
+
+        {/* Mobile hero image */}
+        <div className="absolute inset-0 z-0 sm:hidden">
+          <Image
+            src="/images/winter/baba_yaga_hero_mobile.jpg"
+            alt="Baba Yaga's mystical realm"
+            fill
+            className="object-cover opacity-40"
+            priority
+            sizes="100vw"
+          />
+          {/* Mobile-only stronger overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/40"></div>
         </div>
 
         <div className="relative z-20 px-4 sm:px-6 lg:px-8">
@@ -225,7 +239,7 @@ const PathSixHomepage = () => {
               </div>
             </div>
             
-          <div className="mx-auto relative group w-full lg:w-[900px] h-[400px] lg:h-[700px] overflow-hidden rounded-lg">
+          <div className="mx-auto relative group w-full lg:w-[900px] h-[700px] overflow-hidden rounded-lg">
             {/* This is the element that scales */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
@@ -251,62 +265,64 @@ const PathSixHomepage = () => {
         </div>
       </section>
 
-      <aside className="flex items-center justify-between shadow-inner p-5 gap-4 border-t border-slate-600/30">
-        <a
-          href="https://www.d20srd.org/srd/variant/classes/gestaltCharacters.htm"
-          className="flex-1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/winter/gestalt-link.jpg"
-            alt="Link to Gestalt characters rules"
-            width={400}
-            height={250}
-            className="w-full rounded-lg h-auto"
-          />
-        </a>
+<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner p-5 gap-4 border-t border-slate-600/30">
+  <a
+    href="https://www.d20srd.org/srd/variant/classes/gestaltCharacters.htm"
+    className="w-full sm:flex-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/images/winter/gestalt-link.jpg"
+      alt="Link to Gestalt characters rules"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
 
-        <a
-          href="/shackles"
-          className="flex-1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/winter/shackles-link.jpg"
-            alt="Ship Combat rules"
-            width={400}
-            height={250}
-            className="w-full rounded-lg h-auto"
-          />
-        </a>
+  <a
+    href="/shackles"
+    className="w-full sm:flex-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/images/winter/shackles-link.jpg"
+      alt="Ship Combat rules"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
 
-        <a href="/regent" className="flex-1">
-          <Image
-            src="/images/winter/jade-regent-link.jpg"
-            alt="Our last adventure"
-            width={400}
-            height={250}
-            className="w-full rounded-lg h-auto"
-          />
-        </a>
-
-        <a
-          href="https://www.sortekanin.com/collection/items/"
-          className="flex-1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/winter/SorteKanin_link.jpg"
-            alt="SorteKanin Treasure Database"
-            width={400}
-            height={250}
-            className="w-full rounded-lg h-auto"
-          />
-        </a>
-      </aside>
+  <a 
+    href="/regent" 
+    className="w-full sm:flex-1"
+  >
+  <Image
+      src="/images/winter/jade-regent-link.jpg"
+      alt="Our last adventure"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
+  <a
+    href="https://www.sortekanin.com/collection/items/"
+    className="w-full sm:flex-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/images/winter/SorteKanin_link.jpg"
+      alt="SorteKanin Treasure Database"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
+</aside>
 
       {/* The Party Section */}
       <section className="relative py-20">
