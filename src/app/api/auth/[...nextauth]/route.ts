@@ -3,11 +3,63 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import { kv } from '@vercel/kv'
+import { headers } from 'next/headers'
 
 // Simple user store in KV - you can manage this via API or directly in KV dashboard
 // Structure: users:<username> = { password: "hashed", id: "unique" }  
 // Structure: settings:allowSignups = true/false
 // Structure: google_users:<email> = { id: "unique", name: "Display Name", email: "email@domain.com" }
+// Structure: rate_limit:<ip>:<date> = { attempts: number, blocked: boolean }
+
+// Rate limiting function - 20 attempts per day per IP
+async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining: number }> {
+  const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+  const key = `rate_limit:${ip}:${today}`
+  
+  const rateLimitData = await kv.get(key) as { attempts: number; blocked: boolean } | null
+  
+  if (!rateLimitData) {
+    // First attempt today - create new record
+    await kv.set(key, { attempts: 1, blocked: false }, { ex: 86400 }) // Expire in 24 hours
+    return { allowed: true, remaining: 19 }
+  }
+  
+  if (rateLimitData.blocked || rateLimitData.attempts >= 20) {
+    return { allowed: false, remaining: 0 }
+  }
+  
+  // Increment attempt count
+  const newAttempts = rateLimitData.attempts + 1
+  const blocked = newAttempts >= 20
+  
+  await kv.set(key, { attempts: newAttempts, blocked }, { ex: 86400 })
+  
+  return { 
+    allowed: !blocked, 
+    remaining: Math.max(0, 20 - newAttempts) 
+  }
+}
+
+// Reset rate limit on successful login (optional - you can remove this if you want failed attempts to persist)
+async function resetRateLimit(ip: string): Promise<void> {
+  const today = new Date().toISOString().split('T')[0]
+  const key = `rate_limit:${ip}:${today}`
+  await kv.del(key)
+}
+
+// Get client IP address
+async function getClientIP(): Promise<string> {
+  const headersList = await headers()
+  const forwarded = headersList.get('x-forwarded-for')
+  const realIP = headersList.get('x-real-ip')
+  const remoteAddr = headersList.get('x-vercel-forwarded-for') || 
+                     headersList.get('cf-connecting-ip') || 
+                     forwarded?.split(',')[0] || 
+                     realIP || 
+                     '127.0.0.1'
+  
+  return remoteAddr.trim()
+}
 
 const authOptions = {
   providers: [
@@ -25,6 +77,14 @@ const authOptions = {
       async authorize(credentials: any) {
         if (!credentials?.username || !credentials?.password) {
           return null
+        }
+
+        // 🛡️ RATE LIMITING: Check daily login attempts (20 per day per IP)
+        const clientIP = await getClientIP()
+        const rateLimit = await checkRateLimit(clientIP)
+        
+        if (!rateLimit.allowed) {
+          throw new Error(`Too many login attempts. You have been blocked for today. Try again tomorrow.`)
         }
 
         const action = credentials.action || 'signin'
@@ -72,6 +132,9 @@ const authOptions = {
         if (!user || user.password !== credentials.password) {
           return null
         }
+
+        // 🎉 SUCCESSFUL LOGIN: Reset rate limit for this IP (optional)
+        await resetRateLimit(clientIP)
 
         return {
           id: user.id,

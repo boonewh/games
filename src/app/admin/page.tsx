@@ -9,6 +9,13 @@ interface AdminData {
   allowedEmails: string[]
 }
 
+interface RateLimit {
+  ip: string
+  attempts: number
+  blocked: boolean
+  remaining: number
+}
+
 export default function AdminPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -16,6 +23,8 @@ export default function AdminPage() {
   const [newEmail, setNewEmail] = useState('')
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState(false)
+  const [rateLimits, setRateLimits] = useState<RateLimit[]>([])
+  const [rateLimitLoading, setRateLimitLoading] = useState(false)
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -120,6 +129,56 @@ export default function AdminPage() {
       console.error('Failed to remove email:', error)
     } finally {
       setUpdating(false)
+    }
+  }
+
+  // Rate limiting functions
+  const loadRateLimits = async () => {
+    setRateLimitLoading(true)
+    try {
+      const response = await fetch('/api/admin/rate-limits')
+      if (response.ok) {
+        const data = await response.json()
+        setRateLimits(data.rateLimits || [])
+      }
+    } catch (error) {
+      console.error('Failed to load rate limits:', error)
+    } finally {
+      setRateLimitLoading(false)
+    }
+  }
+
+  const clearRateLimit = async (ip: string) => {
+    setRateLimitLoading(true)
+    try {
+      const response = await fetch(`/api/admin/rate-limits?ip=${encodeURIComponent(ip)}`, {
+        method: 'DELETE'
+      })
+      if (response.ok) {
+        await loadRateLimits() // Refresh the list
+      }
+    } catch (error) {
+      console.error('Failed to clear rate limit:', error)
+    } finally {
+      setRateLimitLoading(false)
+    }
+  }
+
+  const clearAllRateLimits = async () => {
+    if (!confirm('Are you sure you want to clear all rate limits for today?')) return
+    
+    setRateLimitLoading(true)
+    try {
+      const response = await fetch('/api/admin/rate-limits?action=clear-all', {
+        method: 'DELETE'
+      })
+      if (response.ok) {
+        await loadRateLimits() // Refresh the list
+      }
+    } catch (error) {
+      console.error('Failed to clear all rate limits:', error)
+    } finally {
+      setRateLimitLoading(false)
     }
   }
 
@@ -233,6 +292,73 @@ export default function AdminPage() {
                         className="px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200 disabled:opacity-50"
                       >
                         Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Rate Limits */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">🛡️ Login Rate Limits</h2>
+              <div className="space-x-2">
+                <button
+                  onClick={loadRateLimits}
+                  disabled={rateLimitLoading}
+                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {rateLimitLoading ? 'Loading...' : 'Refresh'}
+                </button>
+                <button
+                  onClick={clearAllRateLimits}
+                  disabled={rateLimitLoading}
+                  className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+                >
+                  Clear All
+                </button>
+              </div>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Rate limiting:</strong> 20 login attempts per day per IP address
+              </p>
+              <p className="text-sm text-gray-600">
+                Users are blocked for the rest of the day after 20 failed attempts. Successful logins reset the counter.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              {rateLimits.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <p className="text-lg mb-2">✅ No rate limits active</p>
+                  <p className="text-sm">No IPs are currently being rate limited</p>
+                </div>
+              ) : (
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">
+                    Active rate limits ({rateLimits.length}):
+                  </h3>
+                  {rateLimits.map((limit, index) => (
+                    <div key={index} className={`flex items-center justify-between p-3 border rounded-md ${
+                      limit.blocked ? 'bg-red-50 border-red-200' : 'bg-yellow-50 border-yellow-200'
+                    }`}>
+                      <div>
+                        <div className="font-mono text-sm">{limit.ip}</div>
+                        <div className="text-xs text-gray-600">
+                          {limit.attempts}/20 attempts • {limit.remaining} remaining
+                          {limit.blocked && <span className="text-red-600 font-medium"> • BLOCKED</span>}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => clearRateLimit(limit.ip)}
+                        disabled={rateLimitLoading}
+                        className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200 disabled:opacity-50"
+                      >
+                        Clear
                       </button>
                     </div>
                   ))}
