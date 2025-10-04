@@ -11,14 +11,16 @@ export async function POST() {
     }
     
     await kv.set('users:admin', defaultUser)
-    await kv.set('settings:allowSignups', false) // Disable signups by default
     
-    // Set up empty Google whitelist (you'll need to add emails manually)
-    await kv.set('settings:allowedGoogleUsers', [])
+    // ============================================================
+    // 🚪 ENABLE SIGNUPS BY DEFAULT FOR INITIAL SETUP
+    // ============================================================ 
+    await kv.set('settings:allowSignups', true) // Enable signups so you can test
+    await kv.set('settings:allowedEmails', []) // Empty whitelist = allow all emails
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Setup complete! Admin user created (admin/password123). Google OAuth ready - add emails to whitelist via /api/admin/google-users' 
+      message: 'Setup complete! Admin user: admin/password123. Signups ENABLED with no email restrictions. Visit /admin to manage.' 
     })
   } catch {
     return NextResponse.json({ error: 'Setup failed' }, { status: 500 })

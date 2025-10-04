@@ -37,6 +37,13 @@ const authOptions = {
             throw new Error('Signups are currently disabled')
           }
 
+          // Check email whitelist for credentials signup
+          const allowedEmails = await kv.get('settings:allowedEmails') as string[] || []
+          const userEmail = `${username}@local` // Credentials users get @local email
+          if (allowedEmails.length > 0 && !allowedEmails.includes(userEmail)) {
+            throw new Error('Your email is not authorized for signup')
+          }
+
           // Check if user already exists
           const existingUser = await kv.get(`users:${username}`)
           if (existingUser) {
@@ -61,6 +68,24 @@ const authOptions = {
 
         // Sign in flow
         const user = await kv.get(`users:${username}`) as { id: string; username: string; password: string } | null
+        
+        // 🚨 BOOTSTRAP: Allow initial admin access (REMOVE AFTER FIRST LOGIN)
+        if (username === 'admin' && credentials.password === 'password123' && !user) {
+          // Create the admin user in KV for future use
+          const adminUser = {
+            id: 'admin_bootstrap',
+            username: 'admin',
+            password: 'password123'
+          }
+          await kv.set('users:admin', adminUser)
+          
+          return {
+            id: adminUser.id,
+            name: adminUser.username,
+            email: 'admin@local'
+          }
+        }
+        
         if (!user || user.password !== credentials.password) {
           return null
         }
@@ -81,21 +106,40 @@ const authOptions = {
   },
   callbacks: {
     async signIn({ user, account }: any) {
-      // For Google OAuth, check if user is in whitelist
+      // =======================================================================================================
+      // 🚪 MASTER SIGNUP CONTROL - TURN ON/OFF ALL NEW SIGNUPS HERE
+      // =======================================================================================================
+      
+      const allowSignups = await kv.get('settings:allowSignups')
+      const allowedEmails = await kv.get('settings:allowedEmails') as string[] || []
+      
       if (account?.provider === 'google') {
-        const allowedUsers = await kv.get('settings:allowedGoogleUsers') as string[] || []
-        if (allowedUsers.length > 0 && !allowedUsers.includes(user.email)) {
-          return false // Reject sign-in if not in whitelist
+        const existingGoogleUser = await kv.get(`google_users:${user.email}`)
+        
+        // If signups are disabled, only allow existing users
+        if (!allowSignups && !existingGoogleUser) {
+          return false
         }
         
-        // Store Google user info in KV for later reference
+        // If signups are enabled, check email whitelist
+        if (allowSignups && !existingGoogleUser) {
+          // If whitelist exists and has emails, user must be on the list
+          if (allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) {
+            return false
+          }
+        }
+        
+        // Store Google user info in KV
         await kv.set(`google_users:${user.email}`, {
           id: user.id,
           name: user.name,
           email: user.email,
           image: user.image
         })
+      } else {
+        // For credentials, the authorize function handles signup logic
       }
+      
       return true
     },
     async jwt({ token, user }: any) {
