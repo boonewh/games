@@ -69,23 +69,6 @@ const authOptions = {
         // Sign in flow
         const user = await kv.get(`users:${username}`) as { id: string; username: string; password: string } | null
         
-        // 🚨 BOOTSTRAP: Allow initial admin access (REMOVE AFTER FIRST LOGIN)
-        if (username === 'admin' && credentials.password === 'password123' && !user) {
-          // Create the admin user in KV for future use
-          const adminUser = {
-            id: 'admin_bootstrap',
-            username: 'admin',
-            password: 'password123'
-          }
-          await kv.set('users:admin', adminUser)
-          
-          return {
-            id: adminUser.id,
-            name: adminUser.username,
-            email: 'admin@local'
-          }
-        }
-        
         if (!user || user.password !== credentials.password) {
           return null
         }

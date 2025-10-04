@@ -108,6 +108,15 @@ export default function SignInPage() {
 							{loading ? 'Signing in...' : 'Sign In'}
 						</button>
 					</form>
+
+					<div className="mt-6 text-center">
+						<button 
+							onClick={() => router.push('/sign-up')}
+							className="text-indigo-600 hover:text-indigo-500 text-sm"
+						>
+							Don&apos;t have an account? Sign up
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
