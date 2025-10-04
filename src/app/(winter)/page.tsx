@@ -223,13 +223,19 @@ const PathSixHomepage = () => {
               </h2>
               <div className="space-y-4 text-lg text-slate-300">
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>The Frozen Stars</i>
+                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>The Frozen Stars</i> (Part 4 of 6)
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Location:</span> The frozen lands of Triaxus
+                  <span className="text-blue-200 font-semibold">Location:</span> The planet Triaxus, seventh world in Golarion&apos;s solar system, locked in its decades-long winter
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Campaign Status:</span> The immortal witch Baba Yaga has vanished, and unnatural winter spreads across the realm...
+                  <span className="text-blue-200 font-semibold">Current Quest:</span> Traveling via the Dancing Hut in search of the vanished witch Baba Yaga
+                </p>
+                <p>
+                  <span className="text-blue-200 font-semibold">The Conflict:</span> Embroiled in war between the noble dragonriders of the Skyfire Mandate and the barbarian armies of a white dragon warlord seeking to conquer humanoid lands
+                </p>
+                <p className="text-purple-200 italic pt-2">
+                  The heroes must navigate alien politics and choose their allies carefully—will they side with one faction to gain the information they need, or forge their own path on this distant, frozen world?
                 </p>
                 <div className="pt-4">
                   <Link href="/rules" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300 underline decoration-cyan-400/50 hover:decoration-cyan-300">
@@ -267,20 +273,33 @@ const PathSixHomepage = () => {
 
 <aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner p-5 gap-4 border-t border-slate-600/30">
   <a
-    href="https://www.d20srd.org/srd/variant/classes/gestaltCharacters.htm"
+    href="https://www.aonprd.com/"
     className="w-full sm:flex-1"
     target="_blank"
     rel="noopener noreferrer"
   >
     <Image
-      src="/images/winter/gestalt-link.jpg"
+      src="/images/winter/official-rules-link.jpg"
       alt="Link to Gestalt characters rules"
       width={400}
       height={250}
       className="w-full rounded-lg h-auto"
     />
   </a>
-
+  <a
+    href="https://www.sortekanin.com/collection/items/"
+    className="w-full sm:flex-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/images/winter/SorteKanin_link.jpg"
+      alt="SorteKanin Treasure Database"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
   <a
     href="/shackles"
     className="w-full sm:flex-1"
@@ -295,7 +314,6 @@ const PathSixHomepage = () => {
       className="w-full rounded-lg h-auto"
     />
   </a>
-
   <a 
     href="/regent" 
     className="w-full sm:flex-1"
