@@ -14,6 +14,18 @@ export async function GET(req: Request) {
   const { userId } = await auth();
   if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
+  // Quick runtime check for required Backblaze env vars so misconfiguration
+  // (for example on Vercel) surfaces with a clear message instead of a
+  // generic upstream B2 error like 'Invalid accountId or applicationKeyId'.
+  if (!keyId || !appKey || !bucketName) {
+    console.error('Missing Backblaze configuration:', {
+      hasKeyId: Boolean(keyId),
+      hasAppKey: Boolean(appKey),
+      hasBucketName: Boolean(bucketName),
+    });
+    return new NextResponse('Server misconfiguration: missing Backblaze environment variables (B2_APPLICATION_KEY_ID, B2_APPLICATION_KEY, B2_BUCKET_NAME). Please set these in your deployment.', { status: 500 });
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const fileName = searchParams.get('file');

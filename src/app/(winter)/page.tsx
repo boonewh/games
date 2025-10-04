@@ -201,7 +201,7 @@ const PathSixHomepage = () => {
 
       {/* Current Chapter Status */}
       <section className="relative py-16 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-y border-slate-600/30">
-        <div className="mx-20 px-4">
+        <div className="mx-4 sm:mx-8 lg:mx-20 px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
@@ -225,7 +225,7 @@ const PathSixHomepage = () => {
               </div>
             </div>
             
-          <div className="mx-auto relative group w-[900px] h-[700px] overflow-hidden rounded-lg">
+          <div className="mx-auto relative group w-full lg:w-[900px] h-[400px] lg:h-[700px] overflow-hidden rounded-lg">
             {/* This is the element that scales */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
@@ -233,7 +233,6 @@ const PathSixHomepage = () => {
                 alt="Map of Irrisen, our current realm of adventure"
                 fill
                 className="object-contain rounded-lg shadow-2xl"
-                sizes="900px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg pointer-events-none"></div>
             </div>
@@ -350,7 +349,6 @@ const PathSixHomepage = () => {
                       className={`object-cover transition-all duration-700 ${
                         hoveredCharacter === index ? 'scale-110' : 'scale-100'
                       }`}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     
                     {/* Magical overlay effect on hover */}
@@ -394,17 +392,16 @@ const PathSixHomepage = () => {
                     <div className={`mt-4 transition-all duration-500 ${
                       hoveredCharacter === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}>
-                      <a
+                      <Link 
                         href={character.sheet}
                         target="_blank"
-                        rel="noreferrer"
                         className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium"
                       >
                         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                         Character Sheet
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -509,7 +506,6 @@ const PathSixHomepage = () => {
                       alt={`Scene from ${getStoryTitle(latestStory)}`}
                       fill
                       className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 1024px) 100vw, 320px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
                     
