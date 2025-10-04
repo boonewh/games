@@ -8,7 +8,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Typography } from '@tiptap/extension-typography'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuth } from '@clerk/nextjs'
+import { useSession } from 'next-auth/react'
 
 
 type JSONNode = {
@@ -47,7 +47,10 @@ const adventureBooks = [
 ]
 
 function EditorContent_Inner() {
-  const { userId, isLoaded } = useAuth() // Check if user is authenticated
+  const { data: session, status } = useSession()
+  // @ts-expect-error - Custom NextAuth user.id property
+  const userId = session?.user?.id || null
+  const isLoaded = status !== 'loading'
   const router = useRouter()
   const searchParams = useSearchParams()
   const entryId = searchParams.get('id')

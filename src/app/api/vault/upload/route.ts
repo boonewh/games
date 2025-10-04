@@ -1,13 +1,17 @@
 // app/api/vault/upload/route.ts
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { uploadFile } from "@/lib/b2";
 
 export const runtime = "nodejs"; // ensure Node runtime for Buffer
 
 export async function POST(request: Request) {
-  const { userId } = await auth();
-  if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+  // Simple auth check - look for NextAuth session token in cookies
+  const cookies = request.headers.get('cookie') || ''
+  const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
+  
+  if (!hasSessionToken) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   try {
     const form = await request.formData();

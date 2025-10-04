@@ -2,18 +2,20 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth, useClerk } from '@clerk/nextjs';
+import { useSession, signOut } from 'next-auth/react';
 
 const Footer = () => {
-  const { userId, isLoaded } = useAuth();
-  const { signOut } = useClerk();
+  const { data: session, status } = useSession()
+  // @ts-expect-error - Custom NextAuth user.id property
+  const userId = session?.user?.id || null
+  const isLoaded = status !== 'loading'
   
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSignOut = () => {
-    signOut();
+    signOut({ callbackUrl: '/' })
   };
 
   return (

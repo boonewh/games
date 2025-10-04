@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import BackblazeB2 from "backblaze-b2";
 
@@ -11,8 +10,10 @@ const b2 = new BackblazeB2({ applicationKeyId: keyId, applicationKey: appKey });
 export const runtime = 'nodejs';
 
 export async function GET(req: Request) {
-  const { userId } = await auth();
-  if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+  // Simple auth check - look for NextAuth session token in cookies
+  const cookies = req.headers.get('cookie') || ''
+  const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
+  if (!hasSessionToken) return new NextResponse("Unauthorized", { status: 401 })
 
   // Quick runtime check for required Backblaze env vars so misconfiguration
   // (for example on Vercel) surfaces with a clear message instead of a

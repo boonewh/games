@@ -1,11 +1,15 @@
 // app/api/vault/list/route.ts
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { listFiles } from "@/lib/b2";
 
-export async function GET() {
-  const { userId } = await auth();
-  if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+export async function GET(request: Request) {
+  // Simple auth check - look for NextAuth session token in cookies
+  const cookies = request.headers.get('cookie') || ''
+  const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
+  
+  if (!hasSessionToken) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   try {
     const files = await listFiles();

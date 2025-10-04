@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useAuth } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
 import { ChevronLeft, ChevronRight, Upload, X, Trash2 } from 'lucide-react';
 
 interface MiniatureBlob {
@@ -13,7 +13,10 @@ interface MiniatureBlob {
 }
 
 const MiniatureGallery = () => {
-  const { userId, isLoaded } = useAuth();
+  const { data: session, status } = useSession()
+  // @ts-expect-error - Custom NextAuth user.id property
+  const userId = session?.user?.id || null
+  const isLoaded = status !== 'loading'
   const [miniatures, setMiniatures] = useState<MiniatureBlob[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);

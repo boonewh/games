@@ -1,7 +1,8 @@
 // app/(winter)/adventure-log/page.tsx
 import { listStories, listAllKey, listKey } from '@/lib/storage'
 import { StoryEntry } from '@/types/story'
-import { auth } from '@clerk/nextjs/server'
+// TODO: Replace with NextAuth
+// import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
@@ -96,7 +97,8 @@ const adventureBooks = [
 ];
 
 export default async function AdventureLogPage() {
-  const { userId } = await auth() // Check if user is authenticated
+  // TODO: Replace with NextAuth authentication
+  // const { userId } = await auth() // Check if user is authenticated
   let storyData = await listStories(listAllKey(), 100) // Get all winter stories
   
   // If no stories in global list, try to get from individual book lists
@@ -161,7 +163,8 @@ export default async function AdventureLogPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              {userId && (
+              {/* TODO: Re-enable with NextAuth authentication */}
+              {false && (
                 <Link
                   href="/editor"
                   className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:bg-blue-500"

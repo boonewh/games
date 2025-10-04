@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Alkatra } from 'next/font/google'
 import './globals.css'
-import ClerkClientProvider from '@/components/ClerkClientProvider'
+import AuthProvider from '@/components/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const alkatra = Alkatra({
@@ -23,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${alkatra.variable}`} style={{ backgroundColor: '#30393e' }}>
-        <ClerkClientProvider>
+        <AuthProvider>
           {children}
-        </ClerkClientProvider>
+        </AuthProvider>
       </body>
     </html>
   )

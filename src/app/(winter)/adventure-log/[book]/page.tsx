@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit,
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
-import { useAuth } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react'
 import { StoryEntry, StoryBlock } from '@/types/story';
 
 export const dynamic = 'force-dynamic' // reflect new files during dev
@@ -181,7 +181,9 @@ function renderTiptapContent(node: TiptapNode | TiptapNode[] | null): React.Reac
 }
 
 export default function AdventureBookPage() {
-  const { userId } = useAuth(); // Check if user is authenticated
+  const { data: session } = useSession()
+  // @ts-expect-error - Custom NextAuth user.id property
+  const userId = session?.user?.id || null
   const { book: rawBook } = useParams<{ book: string | string[] }>();
   const bookSlug = Array.isArray(rawBook) ? rawBook[0] : rawBook;
   const pathname = usePathname();
