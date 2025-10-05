@@ -82,7 +82,7 @@ const adventureBooks: AdventureBook[] = [
   {
     slug: 'the-frozen-stars',
     title: 'The Frozen Stars',
-    description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face the dragon Logrivich while seeking one of Baba Yaga\'s riders in this alien frozen world.',
+    description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face a dragonkin warlord while seeking clues to Baba Yaga\'s whereabouts in this alien frozen world.',
     bookNumber: 4,
     status: 'current',
     theme: 'from-indigo-900 to-slate-800'
