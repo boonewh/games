@@ -1,15 +1,14 @@
-// app/(winter)/adventure-log/page.tsx
-import { listStories, listAllKey, listKey } from '@/lib/storage'
+// app/(import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
+
+// Helper function to get a readable title or excerpt from a storyr)/adventure-log/page.tsx
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import { StoryEntry } from '@/types/story'
-// TODO: Replace with NextAuth
-// import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
-
-export const dynamic = 'force-dynamic' // reflect new files during dev
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
 
 // Helper function to get a readable title or excerpt from a story
 function getStoryTitle(story: StoryEntry): string {
@@ -96,28 +95,56 @@ const adventureBooks = [
   }
 ];
 
-export default async function AdventureLogPage() {
-  // TODO: Replace with NextAuth authentication
-  // const { userId } = await auth() // Check if user is authenticated
-  let storyData = await listStories(listAllKey(), 100) // Get all winter stories
+export default function AdventureLogPage() {
+  const { data: session } = useSession()
+  // @ts-expect-error - Custom NextAuth user.id property
+  const userId = session?.user?.id || null
   
-  // If no stories in global list, try to get from individual book lists
-  if (storyData.length === 0) {
-    const allBookStories = await Promise.all(
-      adventureBooks.map(book => listStories(listKey(book.slug), 100))
-    )
-    storyData = allBookStories.flat()
-  }
-  
-  const stories = (storyData
-    .map(item => item.value)
-    .filter(Boolean) as StoryEntry[]) // Extract story objects and filter out null/undefined
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by date, newest first
-  
+  const [stories, setStories] = useState<StoryEntry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [booksWithCounts, setBooksWithCounts] = useState<(typeof adventureBooks[0] & { storyCount: number; latestStory?: StoryEntry; earliestStory?: StoryEntry })[]>([])
+
+  useEffect(() => {
+    const loadStories = async () => {
+      try {
+        // Fetch all stories from API
+        const response = await fetch('/api/stories')
+        const data = await response.json()
+        
+        if (data.stories) {
+          const sortedStories = data.stories
+            .filter(Boolean)
+            .sort((a: StoryEntry, b: StoryEntry) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          setStories(sortedStories)
+          
+          // Count stories per book
+          const counts = adventureBooks.map(book => {
+            const bookStories = data.stories.filter((story: StoryEntry) => story.book === book.slug)
+            return {
+              ...book,
+              storyCount: bookStories.length,
+              latestStory: bookStories[0], // Already sorted by date
+              earliestStory: bookStories[bookStories.length - 1]
+            }
+          })
+          setBooksWithCounts(counts)
+        }
+      } catch (error) {
+        console.error('Failed to load stories:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadStories()
+  }, [])
+
+  // Calculate stats from loaded stories
   const totalEntries = stories.length
   const latestEntry = stories[0] // Most recent after sorting
   const earliestEntry = stories[stories.length - 1] // Oldest after sorting
 
+  const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
   const journeyRange = latestEntry && earliestEntry && stories.length > 1
     ? `${dateFormatter.format(new Date(earliestEntry.date))} — ${dateFormatter.format(new Date(latestEntry.date))}`
     : latestEntry
@@ -128,7 +155,7 @@ export default async function AdventureLogPage() {
   const totalSessions = stories.length // number of logged sessions/entries
   
   // Calculate stories per book for the hardcoded book display
-  const storiesPerBook = adventureBooks.map(book => {
+  const storiesPerBook = booksWithCounts.length > 0 ? booksWithCounts : adventureBooks.map(book => {
     const bookStories = stories.filter(story => story.book === book.slug)
     return {
       ...book,
@@ -137,6 +164,17 @@ export default async function AdventureLogPage() {
       earliestStory: bookStories[bookStories.length - 1]
     }
   })
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mx-auto mb-4"></div>
+          <p className="text-lg text-slate-300">Loading adventure chronicles...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -163,8 +201,8 @@ export default async function AdventureLogPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              {/* TODO: Re-enable with NextAuth authentication */}
-              {false && (
+              {/* NextAuth authentication - show button when user is logged in */}
+              {userId && (
                 <Link
                   href="/editor"
                   className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:bg-blue-500"
