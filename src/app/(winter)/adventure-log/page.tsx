@@ -108,18 +108,49 @@ export default function AdventureLogPage() {
     const loadStories = async () => {
       try {
         // Fetch all stories from API
-        const response = await fetch('/api/stories')
-        const data = await response.json()
+        let stories: StoryEntry[] = []
         
-        if (data.stories) {
-          const sortedStories = data.stories
-            .filter(Boolean)
+        try {
+          // First try to get all stories from global list
+          const response = await fetch('/api/stories?limit=100')
+          if (response.ok) {
+            const globalStories = await response.json()
+            if (Array.isArray(globalStories) && globalStories.length > 0) {
+              stories = globalStories
+            }
+          }
+        } catch (error) {
+          console.error('Failed to fetch global stories:', error)
+        }
+        
+        // If no stories in global list, try to get from individual book lists
+        if (stories.length === 0) {
+          const allBookPromises = adventureBooks.map(async book => {
+            try {
+              const response = await fetch(`/api/stories?book=${book.slug}&limit=100`)
+              if (response.ok) {
+                const bookStories = await response.json()
+                return Array.isArray(bookStories) ? bookStories : []
+              }
+            } catch (error) {
+              console.error(`Failed to fetch stories for book ${book.slug}:`, error)
+            }
+            return []
+          })
+          
+          const allBookStories = await Promise.all(allBookPromises)
+          stories = allBookStories.flat()
+        }
+        
+        if (stories.length > 0) {
+          const sortedStories = stories
+            .filter((story): story is StoryEntry => Boolean(story) && typeof story === 'object' && story !== null && 'book' in story && 'date' in story)
             .sort((a: StoryEntry, b: StoryEntry) => new Date(b.date).getTime() - new Date(a.date).getTime())
           setStories(sortedStories)
           
           // Count stories per book
           const counts = adventureBooks.map(book => {
-            const bookStories = data.stories.filter((story: StoryEntry) => story.book === book.slug)
+            const bookStories = sortedStories.filter((story: StoryEntry) => story && story.book === book.slug)
             return {
               ...book,
               storyCount: bookStories.length,
@@ -128,6 +159,15 @@ export default function AdventureLogPage() {
             }
           })
           setBooksWithCounts(counts)
+        } else {
+          // No stories found anywhere
+          setStories([])
+          setBooksWithCounts(adventureBooks.map(book => ({
+            ...book,
+            storyCount: 0,
+            latestStory: undefined,
+            earliestStory: undefined
+          })))
         }
       } catch (error) {
         console.error('Failed to load stories:', error)
