@@ -233,8 +233,8 @@ const PathSixHomepage = () => {
             {/* This is the element that scales */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
-                src="/images/winter/irrisen.jpg"
-                alt="Map of Irrisen, our current realm of adventure"
+                src="/images/winter/Traxus.jpg"
+                alt="Map of Traxus, our current realm of adventure"
                 fill
                 className="object-contain rounded-lg shadow-2xl"
               />
@@ -242,12 +242,12 @@ const PathSixHomepage = () => {
             </div>
 
             {/* Caption stays fixed on top */}
-            <div className="absolute bottom-4 left-4 right-4 z-10">
+            <div className="absolute bottom-0 left-4 right-4 z-10">
               <p className="text-white font-semibold text-lg drop-shadow-lg">
-                The Frozen Realm of Irrisen
+                The Frozen Realm of Traxus
               </p>
               <p className="text-blue-200 text-sm drop-shadow-lg">
-                Where our heroes face the spreading winter curse
+                Where our heroes face a winter of centuries.
               </p>
             </div>
           </div>
@@ -255,77 +255,78 @@ const PathSixHomepage = () => {
         </div>
       </section>
 
-<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner px-30 py-10 gap-20 border-t border-slate-600/30">
-  <a
-    href="https://www.aonprd.com/"
-    className="w-full sm:flex-1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src="/images/winter/official-rules-link.jpg"
-      alt="Link to Gestalt characters rules"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-  <a
-    href="https://www.d20pfsrd.com/extras/community-creations/fgf-houserules/vcg-gestalt-multiclassing/"
-    className="w-full sm:flex-1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src="/images/winter/gestalt-link.jpg"
-      alt="Gestalt Multiclassing rules"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-    <a
-    href="https://www.sortekanin.com/collection/items/"
-    className="w-full sm:flex-1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src="/images/winter/SorteKanin_link.jpg"
-      alt="SorteKanin Treasure Database"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-  <a 
-    href="/regent" 
-    className="w-full sm:flex-1"
-  >
-  <Image
-      src="/images/winter/jade-regent-link.jpg"
-      alt="Our last adventure"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-    <a
-    href="/shackles"
-    className="w-full sm:flex-1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src="/images/winter/shackles-link.jpg"
-      alt="Ship Combat rules"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
+      <aside className="flex flex-wrap justify-center items-center gap-20 px-40 py-6 border-t border-slate-600/30 shadow-inner">
+        <a
+          href="https://www.aonprd.com/"
+          className="flex-1 min-w-[250px] max-w-[400px]"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/official-rules-link.jpg"
+            alt="Link to Gestalt characters rules"
+            width={400}
+            height={250}
+            className="w-full h-auto rounded-lg"
+          />
+        </a>
 
-</aside>
+        <a
+          href="https://www.d20pfsrd.com/extras/community-creations/fgf-houserules/vcg-gestalt-multiclassing/"
+          className="flex-1 min-w-[250px] max-w-[400px]"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/gestalt-link.jpg"
+            alt="Gestalt Multiclassing rules"
+            width={400}
+            height={250}
+            className="w-full h-auto rounded-lg"
+          />
+        </a>
+
+        <a
+          href="https://www.sortekanin.com/collection/items/"
+          className="flex-1 min-w-[250px] max-w-[400px]"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/SorteKanin_link.jpg"
+            alt="SorteKanin Treasure Database"
+            width={400}
+            height={250}
+            className="w-full h-auto rounded-lg"
+          />
+        </a>
+
+        <a href="/regent" className="flex-1 min-w-[250px] max-w-[400px]">
+          <Image
+            src="/images/winter/jade-regent-link.jpg"
+            alt="Our last adventure"
+            width={400}
+            height={250}
+            className="w-full h-auto rounded-lg"
+          />
+        </a>
+
+        <a
+          href="/shackles"
+          className="flex-1 min-w-[250px] max-w-[400px]"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/winter/shackles-link.jpg"
+            alt="Ship Combat rules"
+            width={400}
+            height={250}
+            className="w-full h-auto rounded-lg"
+          />
+        </a>
+      </aside>
+
 
       {/* The Party Section */}
       <section className="relative py-20">
