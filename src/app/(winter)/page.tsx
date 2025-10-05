@@ -287,28 +287,14 @@ const PathSixHomepage = () => {
     />
   </a>
   <a
-    href="https://www.sortekanin.com/collection/items/"
+    href="https://www.d20pfsrd.com/extras/community-creations/fgf-houserules/vcg-gestalt-multiclassing/"
     className="w-full sm:flex-1"
     target="_blank"
     rel="noopener noreferrer"
   >
     <Image
-      src="/images/winter/SorteKanin_link.jpg"
-      alt="SorteKanin Treasure Database"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-  <a
-    href="/shackles"
-    className="w-full sm:flex-1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src="/images/winter/shackles-link.jpg"
-      alt="Ship Combat rules"
+      src="/images/winter/gestalt-link.jpg"
+      alt="Gestalt Multiclassing rules"
       width={400}
       height={250}
       className="w-full rounded-lg h-auto"
@@ -335,6 +321,20 @@ const PathSixHomepage = () => {
   <Image
       src="/images/winter/jade-regent-link.jpg"
       alt="Our last adventure"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
+    <a
+    href="/shackles"
+    className="w-full sm:flex-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/images/winter/shackles-link.jpg"
+      alt="Ship Combat rules"
       width={400}
       height={250}
       className="w-full rounded-lg h-auto"
