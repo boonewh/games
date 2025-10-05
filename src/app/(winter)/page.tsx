@@ -162,7 +162,7 @@ const PathSixHomepage = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/40"></div>
         </div>
 
-        <div className="relative z-20 px-4 sm:px-6 lg:px-8">
+        <div className="relative z-20 px-4 sm:px-6 lg:px-15">
           <div className="ml-8 sm:ml-12 lg:ml-16 max-w-3xl text-left mb-8">
             <h1 className="font-alkatra text-5xl sm:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-6">
               Welcome, Brave Souls
@@ -198,23 +198,12 @@ const PathSixHomepage = () => {
                 </span>
               </button>
             </Link>
-
-            <Link href="/dice">
-              <button className="group px-8 py-4 bg-slate-700/80 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/80 hover:border-blue-400/50 transition-all duration-300 font-medium text-lg">
-                <span className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-                  </svg>
-                  Roll the Dice
-                </span>
-              </button>
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Current Chapter Status */}
-      <section className="relative py-16 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-y border-slate-600/30">
+      <section className="relative py-16 px-10 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-y border-slate-600/30">
         <div className="mx-4 sm:mx-8 lg:mx-20 px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -234,14 +223,9 @@ const PathSixHomepage = () => {
                 <p>
                   <span className="text-blue-200 font-semibold">The Conflict:</span> Embroiled in war between the noble dragonriders of the Skyfire Mandate and the barbarian armies of a white dragon warlord seeking to conquer humanoid lands
                 </p>
-                <p className="text-purple-200 italic pt-2">
+                <p className="italic pt-2">
                   The heroes must navigate alien politics and choose their allies carefully—will they side with one faction to gain the information they need, or forge their own path on this distant, frozen world?
                 </p>
-                <div className="pt-4">
-                  <Link href="/rules" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300 underline decoration-cyan-400/50 hover:decoration-cyan-300">
-                    View our House Rules →
-                  </Link>
-                </div>
               </div>
             </div>
             
@@ -271,7 +255,7 @@ const PathSixHomepage = () => {
         </div>
       </section>
 
-<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner p-20 gap-20 border-t border-slate-600/30">
+<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner px-30 py-10 gap-20 border-t border-slate-600/30">
   <a
     href="https://www.aonprd.com/"
     className="w-full sm:flex-1"

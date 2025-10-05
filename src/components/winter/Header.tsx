@@ -46,12 +46,6 @@ const Header = () => {
               <div className="absolute top-1/2 left-0 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{animationDelay: '0.7s'}}></div>
               <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-pink-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
             </div>
-            
-            {/* Tooltip on hover */}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 bg-slate-800/90 backdrop-blur-sm text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-slate-600/30">
-              PathSix Games
-              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45 border-l border-t border-slate-600/30"></div>
-            </div>
           </div>
         </Link>
       </div>
@@ -66,10 +60,9 @@ const Header = () => {
             
             {/* Site Title - Left side, but with padding to avoid logo */}
             <div className="hidden md:block pl-20 sm:pl-24 lg:pl-28">
-              <h1 className="font-alkatra text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400">
+              <h1 className="font-alkatra text-xl lg:text-4xl font-bold text-slate-300 tracking-wide select-none">
                 PathSix Games
               </h1>
-              <p className="text-sm text-slate-400 mt-1">Reign of Winter</p>
             </div>
 
             {/* Mobile spacer to avoid logo overlap */}
