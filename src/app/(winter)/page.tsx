@@ -271,7 +271,7 @@ const PathSixHomepage = () => {
         </div>
       </section>
 
-<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner p-5 gap-4 border-t border-slate-600/30">
+<aside className="flex flex-col sm:flex-row items-center justify-between shadow-inner p-20 gap-20 border-t border-slate-600/30">
   <a
     href="https://www.aonprd.com/"
     className="w-full sm:flex-1"
@@ -314,19 +314,7 @@ const PathSixHomepage = () => {
       className="w-full rounded-lg h-auto"
     />
   </a>
-  <a 
-    href="/regent" 
-    className="w-full sm:flex-1"
-  >
-  <Image
-      src="/images/winter/jade-regent-link.jpg"
-      alt="Our last adventure"
-      width={400}
-      height={250}
-      className="w-full rounded-lg h-auto"
-    />
-  </a>
-  <a
+    <a
     href="https://www.sortekanin.com/collection/items/"
     className="w-full sm:flex-1"
     target="_blank"
@@ -340,6 +328,19 @@ const PathSixHomepage = () => {
       className="w-full rounded-lg h-auto"
     />
   </a>
+  <a 
+    href="/regent" 
+    className="w-full sm:flex-1"
+  >
+  <Image
+      src="/images/winter/jade-regent-link.jpg"
+      alt="Our last adventure"
+      width={400}
+      height={250}
+      className="w-full rounded-lg h-auto"
+    />
+  </a>
+
 </aside>
 
       {/* The Party Section */}

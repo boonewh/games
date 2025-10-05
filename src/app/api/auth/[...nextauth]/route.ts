@@ -70,12 +70,12 @@ const authOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        username: { label: 'Username', type: 'text' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
         action: { label: 'Action', type: 'hidden' } // 'signin' or 'signup'
       },
       async authorize(credentials: any) {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           return null
         }
 
@@ -88,7 +88,7 @@ const authOptions = {
         }
 
         const action = credentials.action || 'signin'
-        const username = credentials.username.toLowerCase()
+        const email = credentials.email.toLowerCase().trim()
 
         if (action === 'signup') {
           // Check if signups are allowed
@@ -99,13 +99,12 @@ const authOptions = {
 
           // Check email whitelist for credentials signup
           const allowedEmails = await kv.get('settings:allowedEmails') as string[] || []
-          const userEmail = `${username}@local` // Credentials users get @local email
-          if (allowedEmails.length > 0 && !allowedEmails.includes(userEmail)) {
+          if (allowedEmails.length > 0 && !allowedEmails.includes(email)) {
             throw new Error('Your email is not authorized for signup')
           }
 
           // Check if user already exists
-          const existingUser = await kv.get(`users:${username}`)
+          const existingUser = await kv.get(`users:${email}`)
           if (existingUser) {
             throw new Error('User already exists')
           }
@@ -113,21 +112,21 @@ const authOptions = {
           // Create new user (in production, hash the password!)
           const newUser = {
             id: `user_${Date.now()}`,
-            username,
+            email,
             password: credentials.password // TODO: Hash this in production!
           }
 
-          await kv.set(`users:${username}`, newUser)
+          await kv.set(`users:${email}`, newUser)
           
           return {
             id: newUser.id,
-            name: username,
-            email: `${username}@local`
+            name: email,
+            email: email
           }
         }
 
         // Sign in flow
-        const user = await kv.get(`users:${username}`) as { id: string; username: string; password: string } | null
+        const user = await kv.get(`users:${email}`) as { id: string; email: string; password: string } | null
         
         if (!user || user.password !== credentials.password) {
           return null
@@ -138,8 +137,8 @@ const authOptions = {
 
         return {
           id: user.id,
-          name: user.username,
-          email: `${user.username}@local`
+          name: user.email,
+          email: user.email
         }
       }
     })
