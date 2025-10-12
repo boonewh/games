@@ -59,11 +59,13 @@ const Header = () => {
           <div className="flex items-center justify-between h-16 lg:h-20">
             
             {/* Site Title - Left side, but with padding to avoid logo */}
-            <div className="hidden md:block pl-20 sm:pl-24 lg:pl-28">
-              <h1 className="font-alkatra text-xl lg:text-4xl font-bold text-slate-300 tracking-wide select-none">
-                PathSix Games
-              </h1>
-            </div>
+            <Link href="/" className="flex items-center">
+              <div className="hidden md:block pl-20 sm:pl-24 lg:pl-28">
+                <h1 className="font-alkatra text-xl lg:text-4xl font-bold text-slate-300 tracking-wide select-none">
+                  PathSix Games
+                </h1>
+              </div>
+            </Link>
 
             {/* Mobile spacer to avoid logo overlap */}
             <div className="md:hidden w-20 sm:w-24"></div>

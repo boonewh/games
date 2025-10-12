@@ -10,10 +10,20 @@ const b2 = new BackblazeB2({ applicationKeyId: keyId, applicationKey: appKey });
 export const runtime = 'nodejs';
 
 export async function GET(req: Request) {
-  // Simple auth check - look for NextAuth session token in cookies
+  const { searchParams } = new URL(req.url);
+  const fileName = searchParams.get('file');
+  
+  // List of publicly accessible character sheet files
+  const publicCharacterSheets = ['aelira.pdf', 'alaric.pdf', 'joshua.pdf', 'ivan.pdf'];
+  
+  // Check if this is a public character sheet or if user is authenticated
+  const isPublicFile = fileName && publicCharacterSheets.includes(fileName);
   const cookies = req.headers.get('cookie') || ''
   const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
-  if (!hasSessionToken) return new NextResponse("Unauthorized", { status: 401 })
+  
+  if (!isPublicFile && !hasSessionToken) {
+    return new NextResponse("Unauthorized", { status: 401 })
+  }
 
   // Quick runtime check for required Backblaze env vars so misconfiguration
   // (for example on Vercel) surfaces with a clear message instead of a
@@ -28,8 +38,6 @@ export async function GET(req: Request) {
   }
 
   try {
-    const { searchParams } = new URL(req.url);
-    const fileName = searchParams.get('file');
     if (!fileName) return new NextResponse('Missing file', { status: 400 });
 
     console.log('Proxy download request for file:', fileName);
