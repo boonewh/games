@@ -72,7 +72,7 @@ const adventureBooks = [
     description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face the dragon Logrivich while seeking one of Baba Yaga\'s riders in this alien frozen world.',
     bookNumber: 4,
     coverImage: '/images/winter/svet2.jpg',
-    status: 'current',
+    status: 'completed',
     theme: 'from-indigo-900 to-slate-800'
   },
   {
@@ -81,7 +81,7 @@ const adventureBooks = [
     description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
     bookNumber: 5,
     coverImage: '/images/winter/baba_yaga_hero.jpg',
-    status: 'not-started',
+    status: 'current',
     theme: 'from-red-900 to-slate-800'
   },
   {
