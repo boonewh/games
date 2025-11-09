@@ -80,7 +80,7 @@ const adventureBooks = [
     title: 'Rasputin Must Die!',
     description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
     bookNumber: 5,
-    coverImage: '/images/winter/baba_yaga_hero.jpg',
+    coverImage: '/images/winter/coffin-man2.jpg',
     status: 'current',
     theme: 'from-red-900 to-slate-800'
   },
