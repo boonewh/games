@@ -84,7 +84,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'The Frozen Stars',
     description: 'Using Baba Yaga\'s restored hut, the party travels to the planet Triaxus during its centuries-long winter. They must ally with the native dragonkin and face a dragonkin warlord while seeking clues to Baba Yaga\'s whereabouts in this alien frozen world.',
     bookNumber: 4,
-    status: 'current',
+    status: 'completed',
     theme: 'from-indigo-900 to-slate-800'
   },
   {
@@ -92,7 +92,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'Rasputin Must Die!',
     description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
     bookNumber: 5,
-    status: 'not-started',
+    status: 'current',
     theme: 'from-red-900 to-slate-800'
   },
   {
