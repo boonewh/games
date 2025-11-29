@@ -41,6 +41,14 @@ interface Particle {
   moves: number;
 }
 
+interface Bunker {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  pixels: boolean[][];
+}
+
 export default function AlienInvasion() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameStartedRef = useRef(false);
@@ -116,6 +124,9 @@ export default function AlienInvasion() {
   // Particles
   const particlesRef = useRef<Particle[]>([]);
 
+  // Bunkers
+  const bunkersRef = useRef<Bunker[]>([]);
+
   // Utility functions
   const clamp = (num: number, min: number, max: number) => {
     return Math.min(Math.max(num, min), max);
@@ -143,6 +154,47 @@ export default function AlienInvasion() {
     const img = new Image();
     img.src = canvas.toDataURL();
     return img;
+  };
+
+  // Create bunker shape (classic Space Invaders design)
+  const createBunkerPixels = () => {
+    const width = 60;
+    const height = 48;
+    const pixels: boolean[][] = [];
+
+    for (let y = 0; y < height; y++) {
+      pixels[y] = [];
+      for (let x = 0; x < width; x++) {
+        // Classic bunker shape with a bite taken out of the bottom
+        const isTopPart = y < height * 0.6;
+        const isLeftEdge = x < width * 0.15 || x > width * 0.85;
+        const isBottomNotch = y > height * 0.7 && x > width * 0.35 && x < width * 0.65;
+        
+        pixels[y][x] = !isBottomNotch && (isTopPart || !isLeftEdge);
+      }
+    }
+    return pixels;
+  };
+
+  // Setup bunkers
+  const setupBunkers = () => {
+    const bunkers: Bunker[] = [];
+    const bunkerY = CANVAS_HEIGHT - 180;
+    const bunkerSpacing = CANVAS_WIDTH / 5;
+    const bunkerWidth = 60;
+    const bunkerHeight = 48;
+
+    for (let i = 0; i < 4; i++) {
+      bunkers.push({
+        x: bunkerSpacing * (i + 1) - bunkerWidth / 2,
+        y: bunkerY,
+        width: bunkerWidth,
+        height: bunkerHeight,
+        pixels: createBunkerPixels(),
+      });
+    }
+
+    bunkersRef.current = bunkers;
   };
 
   // Setup alien formation
@@ -209,6 +261,7 @@ export default function AlienInvasion() {
     waveRef.current = 1;
     particlesRef.current = [];
 
+    setupBunkers();
     setupAlienFormation();
   };
 
@@ -360,9 +413,58 @@ export default function AlienInvasion() {
     }
   };
 
+  // Damage bunker at pixel level
+  const damageBunker = (bunker: Bunker, bulletX: number, bulletY: number, bulletW: number, bulletH: number) => {
+    const relX = Math.floor(bulletX - bunker.x);
+    const relY = Math.floor(bulletY - bunker.y);
+    const damageRadius = 4;
+
+    for (let dy = -damageRadius; dy <= damageRadius; dy++) {
+      for (let dx = -damageRadius; dx <= damageRadius; dx++) {
+        const px = relX + dx;
+        const py = relY + dy;
+        
+        if (py >= 0 && py < bunker.height && px >= 0 && px < bunker.width) {
+          if (dx * dx + dy * dy <= damageRadius * damageRadius) {
+            bunker.pixels[py][px] = false;
+          }
+        }
+      }
+    }
+  };
+
+  // Check if bullet hits bunker
+  const checkBunkerCollision = (bullet: Bullet) => {
+    for (const bunker of bunkersRef.current) {
+      if (bullet.x >= bunker.x && bullet.x <= bunker.x + bunker.width &&
+          bullet.y >= bunker.y && bullet.y <= bunker.y + bunker.height) {
+        
+        const relX = Math.floor(bullet.x - bunker.x);
+        const relY = Math.floor(bullet.y - bunker.y);
+        
+        if (relY >= 0 && relY < bunker.height && relX >= 0 && relX < bunker.width) {
+          if (bunker.pixels[relY][relX]) {
+            damageBunker(bunker, bullet.x, bullet.y, bullet.w, bullet.h);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
   // Resolve collisions
   const resolveCollisions = () => {
     const player = playerRef.current;
+
+    // Player bullets vs bunkers
+    for (let i = player.bullets.length - 1; i >= 0; i--) {
+      const bullet = player.bullets[i];
+      if (checkBunkerCollision(bullet)) {
+        player.bullets.splice(i, 1);
+        continue;
+      }
+    }
 
     // Player bullets vs aliens
     for (let i = player.bullets.length - 1; i >= 0; i--) {
@@ -378,6 +480,16 @@ export default function AlienInvasion() {
           player.score += 25;
           createExplosion(alien.x, alien.y, 'white', 70, 5, 5, 3, 0.15, 50);
           break;
+        }
+      }
+    }
+
+    // Alien bullets vs bunkers
+    for (const alien of aliensRef.current) {
+      if (alien.bullet && alien.bullet.alive) {
+        if (checkBunkerCollision(alien.bullet)) {
+          alien.bullet.alive = false;
+          alien.bullet = null;
         }
       }
     }
@@ -436,6 +548,18 @@ export default function AlienInvasion() {
 
     // Draw player
     drawSprite(ctx, spriteSheet, PLAYER_CLIP_RECT, player.x, player.y, 0.85);
+
+    // Draw bunkers
+    ctx.fillStyle = '#00ff00';
+    bunkersRef.current.forEach(bunker => {
+      for (let y = 0; y < bunker.height; y++) {
+        for (let x = 0; x < bunker.width; x++) {
+          if (bunker.pixels[y][x]) {
+            ctx.fillRect(bunker.x + x, bunker.y + y, 1, 1);
+          }
+        }
+      }
+    });
 
     // Draw player bullets
     ctx.fillStyle = 'white';
