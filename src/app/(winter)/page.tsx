@@ -234,7 +234,7 @@ const PathSixHomepage = () => {
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
                 src="/images/winter/Traxus.jpg"
-                alt="Map of Traxus, our current realm of adventure"
+                alt="Map of Traxus, our current realm of adventure."
                 fill
                 className="object-contain rounded-lg shadow-2xl"
               />
