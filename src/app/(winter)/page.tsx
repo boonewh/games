@@ -233,8 +233,8 @@ const PathSixHomepage = () => {
             {/* This is the element that scales */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
-                src="/images/winter/Traxus.jpg"
-                alt="Map of Traxus, our current realm of adventure."
+                src="/images/winter/askuvskaya.jpg"
+                alt="Map of the Askuvskaya Prison Camp."
                 fill
                 className="object-contain rounded-lg shadow-2xl"
               />
@@ -244,7 +244,7 @@ const PathSixHomepage = () => {
             {/* Caption stays fixed on top */}
             <div className="absolute bottom-0 left-4 right-4 z-10">
               <p className="text-white font-semibold text-lg drop-shadow-lg">
-                The Frozen Realm of Traxus
+                Akuvskaya Prison Camp
               </p>
               <p className="text-blue-200 text-sm drop-shadow-lg">
                 Where our heroes face a winter of centuries.
@@ -519,7 +519,7 @@ const PathSixHomepage = () => {
                 </div>
 
                 {/* Adventure image */}
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 ml-auto">
                   <div className="relative w-full lg:w-80 aspect-[4/5] group">
                     <Image
                       src={latestStory.coverUrl || "/images/winter/baba_yaga_hero.jpg"}
@@ -527,8 +527,7 @@ const PathSixHomepage = () => {
                       fill
                       className="object-cover rounded-lg shadow-xl group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>
-                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20 rounded-lg"></div>                    
                     {/* Magical sparkle overlay */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
