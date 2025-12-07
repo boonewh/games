@@ -414,7 +414,7 @@ export default function AlienInvasion() {
   };
 
   // Damage bunker at pixel level
-  const damageBunker = (bunker: Bunker, bulletX: number, bulletY: number, bulletW: number, bulletH: number) => {
+  const damageBunker = (bunker: Bunker, bulletX: number, bulletY: number) => {
     const relX = Math.floor(bulletX - bunker.x);
     const relY = Math.floor(bulletY - bunker.y);
     const damageRadius = 4;
@@ -444,7 +444,7 @@ export default function AlienInvasion() {
         
         if (relY >= 0 && relY < bunker.height && relX >= 0 && relX < bunker.width) {
           if (bunker.pixels[relY][relX]) {
-            damageBunker(bunker, bullet.x, bullet.y, bullet.w, bullet.h);
+            damageBunker(bunker, bullet.x, bullet.y);
             return true;
           }
         }

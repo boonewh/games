@@ -212,19 +212,19 @@ const PathSixHomepage = () => {
               </h2>
               <div className="space-y-4 text-lg text-slate-300">
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>The Frozen Stars</i> (Part 4 of 6)
+                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>Rasputin Must Die!</i> (Part 5 of 6)
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Location:</span> The planet Triaxus, seventh world in Golarion&apos;s solar system, locked in its decades-long winter
+                  <span className="text-blue-200 font-semibold">Location:</span> A desolate World War I–era Russian military base on Earth, twisted by occult energy and anchored to Baba Yaga’s magic
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Quest:</span> Traveling via the Dancing Hut in search of the vanished witch Baba Yaga
+                  <span className="text-blue-200 font-semibold">Current Quest:</span> Breach the fortified compound, uncover Baba Yaga’s fate, and confront the mad monk Rasputin before he severs her immortality
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">The Conflict:</span> Embroiled in war between the noble dragonriders of the Skyfire Mandate and the barbarian armies of a white dragon warlord seeking to conquer humanoid lands
+                  <span className="text-blue-200 font-semibold">The Conflict:</span> The heroes face soldiers, spirits, and horrors pulled from myth and war—an army empowered by Rasputin’s ritual to claim Baba Yaga’s throne
                 </p>
                 <p className="italic pt-2">
-                  The heroes must navigate alien politics and choose their allies carefully—will they side with one faction to gain the information they need, or forge their own path on this distant, frozen world?
+                  The veil between worlds is thin here. Every step deeper into the base brings stranger powers and darker truths—if Rasputin completes his ritual, the Witch Queen’s reign ends, and a new tyrant rises in her place.
                 </p>
               </div>
             </div>
