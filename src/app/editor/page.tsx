@@ -140,6 +140,15 @@ function EditorContent_Inner() {
       .then((story) => {
         if (cancelled) return
         
+        console.log('Loaded story:', story)
+        console.log('Story blocks:', story.story)
+        
+        // Validate that we have story content
+        if (!story.story || !Array.isArray(story.story) || story.story.length === 0) {
+          console.warn('Story has no content blocks')
+          setError('Story loaded but has no content')
+        }
+        
         // Convert story back to editor format
         // Try to get title from first heading block, fallback to slug-derived title
         const headingBlock = story.story.find((block: unknown) => {
@@ -153,35 +162,51 @@ function EditorContent_Inner() {
         setImage(story.coverUrl ?? '')
         
         // Convert story blocks back to TipTap content
-        const tiptapContent = {
-          type: 'doc',
-          content: story.story.map((block: unknown) => {
+        const contentBlocks = story.story
+          .map((block: unknown) => {
             if (typeof block === 'object' && block !== null && 'type' in block) {
               const typedBlock = block as { type: string; content?: string; level?: number }
               
               if (typedBlock.type === 'paragraph') {
+                // TipTap doesn't allow empty text nodes, so only create text node if content is non-empty
                 return {
                   type: 'paragraph',
-                  content: [{ type: 'text', text: typedBlock.content || '' }]
+                  content: typedBlock.content && typedBlock.content.trim() !== '' 
+                    ? [{ type: 'text', text: typedBlock.content }] 
+                    : []
                 }
               } else if (typedBlock.type === 'heading') {
+                // Same for headings - no empty text nodes
                 return {
                   type: 'heading',
                   attrs: { level: typedBlock.level || 1 },
-                  content: [{ type: 'text', text: typedBlock.content || '' }]
+                  content: typedBlock.content && typedBlock.content.trim() !== '' 
+                    ? [{ type: 'text', text: typedBlock.content }] 
+                    : []
                 }
               }
             }
-            return {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Unsupported content' }]
-            }
+            console.warn('Unsupported block type:', block)
+            return null
           })
+          .filter(block => block !== null) // Remove any null entries
+        
+        const tiptapContent = {
+          type: 'doc',
+          content: contentBlocks.length > 0 ? contentBlocks : [
+            { type: 'paragraph', content: [] } // Ensure at least one empty paragraph
+          ]
         }
+        
+        console.log('Converted to TipTap format:', tiptapContent)
         
         setBook(story.book)
         setSessionDate(story.date)
-        editor.commands.setContent(tiptapContent)
+        
+        // Set editor content and log the result
+        const result = editor.commands.setContent(tiptapContent)
+        console.log('Editor setContent result:', result)
+        console.log('Editor JSON after set:', editor.getJSON())
       })
       .catch((err: unknown) => {
         if (cancelled) return
