@@ -189,7 +189,7 @@ function EditorContent_Inner() {
             console.warn('Unsupported block type:', block)
             return null
           })
-          .filter((block): block is { type: string; content?: unknown[]; attrs?: { level?: number } } => block !== null) // Remove any null entries
+          .filter((block: { type: string; content?: unknown[]; attrs?: { level?: number } } | null): block is { type: string; content?: unknown[]; attrs?: { level?: number } } => block !== null) // Remove any null entries
         
         const tiptapContent = {
           type: 'doc',
