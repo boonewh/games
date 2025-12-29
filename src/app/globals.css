@@ -16,6 +16,16 @@ body {
 @theme {
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-alkatra: var(--font-alkatra), cursive; /* this creates the .font-alkatra utility */
+  --font-cinzel: Cinzel, serif;
+  --font-spectral: Spectral, serif;
+
+  /* Wrath of the Righteous theme colors */
+  --color-wotr-gold: #c5b358;
+  --color-wardstone-blue: #00d4ff;
+  --color-abyssal-red: #8b0000;
+  --color-stone-dark: #0f0f10;
+  --color-stone-light: #1e1e1f;
+  --color-parchment: #e0d9c5;
 }
 
 @layer components {

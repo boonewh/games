@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathSix Games | Wrath of the Righteous</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wotr-gold': '#c5b358',
+                        'wardstone-blue': '#00d4ff',
+                        'abyssal-red': '#8b0000',
+                        'stone-dark': '#0f0f10',
+                        'stone-light': '#1e1e1f',
+                        'parchment': '#e0d9c5',
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        spectral: ['Spectral', 'serif'],
+                    },
+                    boxShadow: {
+                        'mythic': '0 0 20px rgba(0, 212, 255, 0.3)',
+                        'holy': '0 0 30px rgba(197, 179, 88, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(15, 15, 16, 0) 60%, rgba(15, 15, 16, 1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-stone-dark text-parchment font-spectral antialiased">
+
+    <!-- HERO SECTION -->
+    <header class="relative h-[85vh] w-full flex items-center justify-center overflow-hidden border-b-2 border-wotr-gold">
+        <!-- Main Crusader/Wardstone Image -->
+        <img src="images/wrath-hero.png" alt="The Fifth Crusade" class="absolute inset-0 w-full h-full object-cover opacity-60">
+        <div class="absolute inset-0 hero-gradient"></div>
+        
+        <div class="relative z-10 text-center px-4">
+            <h1 class="font-cinzel text-5xl md:text-8xl text-wotr-gold drop-shadow-[0_0_15px_rgba(0,0,0,1)] tracking-tighter">
+                WRATH <span class="text-white">OF THE</span> RIGHTEOUS
+            </h1>
+            <!-- The Glowing Wardstone Divider -->
+            <div class="h-0.5 w-64 bg-wardstone-blue mx-auto my-6 shadow-[0_0_15px_#00d4ff]"></div>
+            <p class="font-cinzel text-xl md:text-2xl tracking-[0.3em] uppercase text-parchment/80">
+                The Fifth Crusade
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-16">
+        
+        <!-- INTRO NARRATIVE -->
+        <section class="max-w-3xl mx-auto text-center mb-24">
+            <h2 class="font-cinzel text-3xl text-wotr-gold mb-6 uppercase tracking-widest">The Worldwound Incursion</h2>
+            <p class="text-lg leading-relaxed italic opacity-90">
+                For over a century, the demon-haunted wasteland of the Worldwound has bled into the world of mortals. 
+                As the magical Wardstones that hold back the tide begin to flicker and fail, a new generation of 
+                crusaders must take up the sword. But this war requires more than steel; it requires the power of Myths.
+            </p>
+        </section>
+
+        <!-- THE VANGUARD (CHARACTER PLACEHOLDERS) -->
+        <section class="mb-32">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
+                <h2 class="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
+                <span class="text-xs uppercase tracking-widest text-zinc-500">Level 1 Gestalt • Mythic Tier 0</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Character Card Template -->
+                <div class="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
+                    <div class="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
+                        <img src="images/world-wound.jpg" alt="Placeholder" class="w-full h-full object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="font-cinzel text-6xl text-zinc-800 group-hover:text-wardstone-blue transition-colors">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-cinzel text-lg text-zinc-500 group-hover:text-parchment transition-colors uppercase tracking-widest">Awaiting Hero</h3>
+                        <p class="text-sm text-zinc-600 italic">Unknown Path</p>
+                    </div>
+                </div>
+
+                <!-- Repeat Card 2 -->
+                <div class="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
+                    <div class="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
+                        <img src="images/world-wound.jpg" alt="Placeholder" class="w-full h-full object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="font-cinzel text-6xl text-zinc-800 group-hover:text-wardstone-blue transition-colors">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-cinzel text-lg text-zinc-500 group-hover:text-parchment transition-colors uppercase tracking-widest">Awaiting Hero</h3>
+                        <p class="text-sm text-zinc-600 italic">Unknown Path</p>
+                    </div>
+                </div>
+
+                <!-- Repeat Card 3 -->
+                <div class="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
+                    <div class="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
+                        <img src="images/world-wound.jpg" alt="Placeholder" class="w-full h-full object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="font-cinzel text-6xl text-zinc-800 group-hover:text-wardstone-blue transition-colors">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-cinzel text-lg text-zinc-500 group-hover:text-parchment transition-colors uppercase tracking-widest">Awaiting Hero</h3>
+                        <p class="text-sm text-zinc-600 italic">Unknown Path</p>
+                    </div>
+                </div>
+
+                <!-- Repeat Card 4 -->
+                <div class="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
+                    <div class="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
+                        <img src="images/world-wound.jpg" alt="Placeholder" class="w-full h-full object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="font-cinzel text-6xl text-zinc-800 group-hover:text-wardstone-blue transition-colors">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-cinzel text-lg text-zinc-500 group-hover:text-parchment transition-colors uppercase tracking-widest">Awaiting Hero</h3>
+                        <p class="text-sm text-zinc-600 italic">Unknown Path</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THREAT SECTION (VILLAIN CARD) -->
+        <section class="mb-32">
+            <div class="grid grid-cols-1 lg:grid-cols-2 bg-black border border-abyssal-red shadow-[0_0_20px_rgba(139,0,0,0.2)]">
+                <div class="h-96 lg:h-auto overflow-hidden">
+                    <img src="images/wrath3.png" alt="The Shadow of the Abyss" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <div class="p-10 lg:p-16 flex flex-col justify-center border-l border-abyssal-red">
+                    <h2 class="font-cinzel text-3xl text-red-600 mb-6 tracking-tighter">The Shadow of the Abyss</h2>
+                    <p class="text-zinc-400 mb-8 leading-relaxed">
+                        The storm of locusts approaches. As the sky turns to ash, the heroes must confront the ultimate source of the corruption. 
+                        Deskari, Lord of the Locust Host, looks upon Kenabres with hunger.
+                    </p>
+                    <div class="text-xs uppercase tracking-[.3em] text-abyssal-red font-bold">
+                        Warning: Mythic Threat Level
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SESSION LOGS -->
+        <section class="max-w-4xl mx-auto">
+            <h2 class="font-cinzel text-2xl text-wotr-gold border
