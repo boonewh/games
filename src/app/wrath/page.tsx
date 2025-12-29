@@ -56,7 +56,7 @@ export default function WrathPage() {
               <div key={index} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
                   <Image
-                    src="/images/wrath/world-wound.jpg"
+                    src="/images/wrath/worldwound-rift.jpg"
                     alt="Placeholder"
                     fill
                     className="object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity"
