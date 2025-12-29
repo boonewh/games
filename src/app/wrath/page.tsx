@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Header from "@/components/wrath/Header";
 import Footer from "@/components/wrath/Footer";
@@ -102,21 +104,126 @@ export default function WrathPage() {
         </div>
       </section>
 
-      {/* TRANSITION: Worldwound to Abyss - Purple Rift Gradient */}
-      <div className="w-full h-32 bg-gradient-to-b from-purple-900/40 via-purple-950/60 to-black relative overflow-hidden">
-        {/* Ethereal purple glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
-        {/* Dramatic energy streaks */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-[10%] w-2 h-full bg-gradient-to-b from-purple-400 via-purple-500/60 to-transparent blur-md"></div>
-          <div className="absolute top-0 left-[25%] w-1 h-full bg-gradient-to-b from-purple-300 via-purple-400/70 to-transparent blur-sm"></div>
-          <div className="absolute top-0 left-[40%] w-3 h-full bg-gradient-to-b from-purple-500 via-purple-600/50 to-transparent blur-lg"></div>
-          <div className="absolute top-0 left-1/2 w-2 h-full bg-gradient-to-b from-purple-400 via-purple-500/80 to-transparent blur-md"></div>
-          <div className="absolute top-0 left-[60%] w-1 h-full bg-gradient-to-b from-purple-300 via-purple-400/60 to-transparent blur-sm"></div>
-          <div className="absolute top-0 left-[75%] w-2 h-full bg-gradient-to-b from-purple-500 via-purple-500/70 to-transparent blur-md"></div>
-          <div className="absolute top-0 left-[90%] w-1 h-full bg-gradient-to-b from-purple-400 via-purple-400/50 to-transparent blur-sm"></div>
+      {/* TRANSITION: Worldwound to Abyss - The Void Fracture */}
+      <section className="relative w-full h-96 overflow-hidden">
+
+        {/* 1. THE VOID GRADIENT (Purple -> Black -> Red) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-950 via-black to-red-950"></div>
+
+        {/* 2. ATMOSPHERIC SHADOWS (Deepens the "Black Middle" effect) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,rgba(0,0,0,1)_80%)]"></div>
+
+        {/* 3. UNSTABLE ENERGY SEAMS (Thinner, Slower, Vanishing) */}
+        <div className="absolute inset-0 flex justify-around items-center opacity-40">
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className="energy-seam"
+              style={{
+                left: `${(i * 10) + (Math.random() * 5)}%`,
+                // Randomized slower durations between 8s and 15s
+                animationDuration: `${8 + Math.random() * 7}s`,
+                animationDelay: `${i * -1.5}s`,
+                // Varying thinness
+                width: i % 3 === 0 ? '1px' : '2px',
+                background: i % 2 === 0
+                  ? 'linear-gradient(to bottom, transparent, #a855f7, transparent)'
+                  : 'linear-gradient(to bottom, transparent, #ef4444, transparent)'
+              }}
+            ></div>
+          ))}
         </div>
-      </div>
+
+        {/* 4. THE CENTER TEAR (Text Overlay with Heavy Glow) */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <div className="text-center px-4">
+            <h3 className="font-cinzel text-xl md:text-3xl tracking-[0.8em] uppercase text-white abyssal-glow">
+              Reality is <span className="text-red-600">Bleeding</span>
+            </h3>
+            {/* Secondary subtle light beam behind text */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-24 bg-red-600/10 blur-[80px] rounded-full"></div>
+          </div>
+        </div>
+
+        {/* 5. FLOATING VOID MOTES (Small floating particles) */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 rounded-full opacity-30 blur-[0.5px]"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                backgroundColor: i % 2 === 0 ? '#a855f7' : '#ef4444',
+                animation: `voidMoteFloat ${6 + Math.random() * 6}s infinite linear`,
+                animationDelay: `${Math.random() * 6}s`
+              }}
+            ></div>
+          ))}
+        </div>
+
+        <style jsx>{`
+          /* The "Abyssal Glow" - Multiple layers for a heavy, supernatural radiance */
+          .abyssal-glow {
+            text-shadow:
+              0 0 10px rgba(255, 255, 255, 0.4),
+              0 0 20px rgba(168, 85, 247, 0.6),
+              0 0 40px rgba(239, 68, 68, 0.4),
+              0 0 70px rgba(239, 68, 68, 0.2);
+            animation: textPulse 6s infinite ease-in-out;
+          }
+
+          /* The Seams: Moves back and forth, scales up/down, and fades to 0 */
+          .energy-seam {
+            position: absolute;
+            height: 100%;
+            filter: blur(2px);
+            opacity: 0;
+            mix-blend-mode: screen;
+            animation: seamGhost 12s infinite ease-in-out;
+          }
+
+          @keyframes seamGhost {
+            0%, 100% {
+              transform: translateX(0) scaleY(0.5);
+              opacity: 0;
+            }
+            10%, 90% {
+              opacity: 0;
+            }
+            30% {
+              transform: translateX(-15px) scaleY(1.1);
+              opacity: 0.5;
+            }
+            50% {
+              transform: translateX(10px) scaleY(0.8);
+              opacity: 0.2;
+            }
+            70% {
+              transform: translateX(-5px) scaleY(1.3);
+              opacity: 0.6;
+            }
+          }
+
+          @keyframes textPulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+          }
+
+          @keyframes voidMoteFloat {
+            0% {
+              transform: translateY(0) translateX(0) rotate(0deg);
+              opacity: 0;
+            }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.3; }
+            100% {
+              transform: translateY(-120px) translateX(30px) rotate(180deg);
+              opacity: 0;
+            }
+          }
+        `}</style>
+      </section>
 
       {/* THREAT SECTION (VILLAIN CARD) - Full Width */}
       <section className="w-full bg-black mb-32 border-t border-b border-abyssal-red">
