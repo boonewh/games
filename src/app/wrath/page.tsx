@@ -147,19 +147,22 @@ export default function WrathPage() {
 
         {/* 5. FLOATING VOID MOTES (Small floating particles) */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full opacity-30 blur-[0.5px]"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                backgroundColor: i % 2 === 0 ? '#a855f7' : '#ef4444',
-                animation: `voidMoteFloat ${6 + Math.random() * 6}s infinite linear`,
-                animationDelay: `${Math.random() * 6}s`
-              }}
-            ></div>
-          ))}
+          {[...Array(15)].map((_, i) => {
+            const moveRight = Math.random() > 0.5;
+            return (
+              <div
+                key={i}
+                className="absolute w-1 h-1 rounded-full opacity-30 blur-[0.5px]"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  backgroundColor: i % 2 === 0 ? '#a855f7' : '#ef4444',
+                  animation: `voidMoteFloat${moveRight ? 'Right' : 'Left'} ${6 + Math.random() * 6}s infinite linear`,
+                  animationDelay: `${Math.random() * 6}s`
+                }}
+              ></div>
+            );
+          })}
         </div>
 
         <style jsx>{`
@@ -210,7 +213,7 @@ export default function WrathPage() {
             50% { opacity: 1; transform: scale(1.02); }
           }
 
-          @keyframes voidMoteFloat {
+          @keyframes voidMoteFloatRight {
             0% {
               transform: translateY(0) translateX(0) rotate(0deg);
               opacity: 0;
@@ -219,6 +222,19 @@ export default function WrathPage() {
             80% { opacity: 0.3; }
             100% {
               transform: translateY(-120px) translateX(30px) rotate(180deg);
+              opacity: 0;
+            }
+          }
+
+          @keyframes voidMoteFloatLeft {
+            0% {
+              transform: translateY(0) translateX(0) rotate(0deg);
+              opacity: 0;
+            }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.3; }
+            100% {
+              transform: translateY(-120px) translateX(-30px) rotate(-180deg);
               opacity: 0;
             }
           }
@@ -251,26 +267,53 @@ export default function WrathPage() {
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-6 py-16">
+      {/* CHRONICLE OF THE CRUSADE */}
+      <section className="w-full bg-black py-24 px-6 border-t border-zinc-900">
+        <div className="max-w-4xl mx-auto">
 
-        {/* SESSION LOGS */}
-        <section className="max-w-4xl mx-auto">
-          <h2 className="font-cinzel text-2xl text-wotr-gold border-b border-zinc-800 pb-3 mb-8 uppercase tracking-widest">
-            Chronicle of the Crusade
-          </h2>
-          <div className="space-y-6">
-            <div className="bg-stone-light/30 border border-zinc-800 p-6 hover:border-wotr-gold/50 transition-colors">
-              <div className="flex items-baseline justify-between mb-3">
-                <h3 className="font-cinzel text-lg text-parchment">Session 1: The Fall of Kenabres</h3>
-                <span className="text-xs text-zinc-500 uppercase tracking-wider">Awaiting Entry</span>
-              </div>
-              <p className="text-sm text-zinc-400 italic">
-                The adventure begins...
-              </p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="font-cinzel text-3xl text-zinc-500 uppercase tracking-[0.4em] mb-4">
+              Chronicle of the Crusade
+            </h2>
+            <div className="h-px w-24 bg-zinc-800 mx-auto"></div>
           </div>
-        </section>
 
+          <div className="space-y-0">
+
+            {/* Session 1: The Fall of Kenabres */}
+            <div className="group relative py-10 border-b border-zinc-900 transition-all duration-700 hover:bg-zinc-950/30 px-4">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 bg-gradient-to-r from-purple-900 via-transparent to-red-900"></div>
+
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="space-y-2">
+                  <h3 className="font-cinzel text-2xl text-zinc-600 group-hover:text-zinc-100 transition-all duration-500 tracking-tighter">
+                    Session 1: The Fall of Kenabres
+                  </h3>
+                  <p className="text-zinc-500 group-hover:text-zinc-400 transition-colors max-w-xl text-sm font-light tracking-wide">
+                    The adventure begins...
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-zinc-700 uppercase tracking-[0.5em] group-hover:text-zinc-500 transition-colors">
+                    Status
+                  </div>
+                  <div className="text-xs text-zinc-800 group-hover:text-red-900 transition-colors font-bold mt-1">
+                    Awaiting Entry
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Footer Link placeholder */}
+          <div className="mt-32 text-center opacity-20 hover:opacity-100 transition-opacity">
+              <p className="font-cinzel text-[10px] tracking-[1em] uppercase text-zinc-500">End of Record</p>
+          </div>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-6 py-16">
       </main>
 
       <Footer />
