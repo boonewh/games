@@ -438,10 +438,10 @@ export default function WrathPage() {
               {/* Final Page Sign-off before Footer */}
               <div className="mt-40 text-center">
                 <div className="inline-block relative">
-                  <h3 className="font-cinzel text-4xl md:text-6xl text-zinc-900 tracking-tighter transition-colors hover:text-zinc-800 cursor-default">
-                      NOT ALL WHO FALL <span className="text-zinc-950">ARE LOST</span>
+                  <h3 className="font-cinzel text-4xl md:text-6xl text-zinc-600 tracking-tighter transition-colors hover:text-zinc-400 cursor-default">
+                      NOT ALL WHO FALL <span className="text-zinc-700">ARE LOST</span>
                   </h3>
-                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-zinc-500 to-transparent"></div>
                 </div>
               </div>
 
@@ -449,8 +449,8 @@ export default function WrathPage() {
           </section>
 
           {/* Footer Link placeholder */}
-          <div className="mt-32 text-center opacity-20 hover:opacity-100 transition-opacity">
-              <p className="font-cinzel text-[10px] tracking-[1em] uppercase text-zinc-500">End of Record</p>
+          <div className="mt-32 text-center opacity-60 hover:opacity-100 transition-opacity">
+              <p className="font-cinzel text-[10px] tracking-[1em] uppercase text-zinc-400">End of Record</p>
           </div>
         </div>
       </section>
