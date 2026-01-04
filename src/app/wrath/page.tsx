@@ -352,32 +352,32 @@ export default function WrathPage() {
         <div className="max-w-4xl mx-auto">
 
           <div className="text-center mb-16">
-            <h2 className="font-cinzel text-3xl text-zinc-500 uppercase tracking-[0.4em] mb-4">
+            <h2 className="font-cinzel text-3xl text-zinc-300 uppercase tracking-[0.4em] mb-4">
               Chronicle of the Crusade
             </h2>
-            <div className="h-px w-24 bg-zinc-800 mx-auto"></div>
+            <div className="h-px w-24 bg-zinc-600 mx-auto"></div>
           </div>
 
           <div className="space-y-0">
 
             {/* Session 1: The Fall of Kenabres */}
-            <div className="group relative py-10 border-b border-zinc-900 transition-all duration-700 hover:bg-zinc-950/30 px-4">
+            <div className="group relative py-10 border-b border-zinc-700 transition-all duration-700 hover:bg-zinc-950/30 px-4">
               <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 bg-gradient-to-r from-purple-900 via-transparent to-red-900"></div>
 
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-2">
-                  <h3 className="font-cinzel text-2xl text-zinc-600 group-hover:text-zinc-100 transition-all duration-500 tracking-tighter">
+                  <h3 className="font-cinzel text-2xl text-zinc-400 group-hover:text-zinc-100 transition-all duration-500 tracking-tighter">
                     Session 1: The Fall of Kenabres
                   </h3>
-                  <p className="text-zinc-500 group-hover:text-zinc-400 transition-colors max-w-xl text-sm font-light tracking-wide">
+                  <p className="text-zinc-300 group-hover:text-zinc-200 transition-colors max-w-xl text-sm font-light tracking-wide">
                     The adventure begins...
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-zinc-700 uppercase tracking-[0.5em] group-hover:text-zinc-500 transition-colors">
+                  <div className="text-[10px] text-zinc-500 uppercase tracking-[0.5em] group-hover:text-zinc-300 transition-colors">
                     Status
                   </div>
-                  <div className="text-xs text-zinc-800 group-hover:text-red-900 transition-colors font-bold mt-1">
+                  <div className="text-xs text-zinc-600 group-hover:text-red-900 transition-colors font-bold mt-1">
                     Awaiting Entry
                   </div>
                 </div>
@@ -385,6 +385,68 @@ export default function WrathPage() {
             </div>
 
           </div>
+
+          {/* IMAGE GALLERY SECTION - The Mythic Tapestry */}
+          <section className="w-full bg-black pt-20 pb-32 overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6">
+              
+              {/* Section Header */}
+              <div className="mb-12 text-center">
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <div className="h-px w-12 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
+                  <h2 className="font-cinzel text-2xl text-wotr-gold tracking-[0.4em] uppercase">
+                    Visions of the Crusade
+                  </h2>
+                  <div className="h-px w-12 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
+                </div>
+                <p className="text-zinc-500 text-xs uppercase tracking-widest font-light">
+                  A visual record of the Worldwound and the souls caught in its wake
+                </p>
+              </div>
+
+              {/* The Slider Container */}
+              <div className="relative group">
+                
+                {/* Decorative Corner Accents (Pathfinder/Mythic Aesthetic) */}
+                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-wotr-gold/30 z-10 group-hover:border-wotr-gold/60 transition-colors"></div>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-wotr-gold/30 z-10 group-hover:border-wotr-gold/60 transition-colors"></div>
+
+                {/* Main Slider Frame */}
+                <div className="relative aspect-video md:aspect-[21/9] w-full bg-zinc-950 border border-zinc-800 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+                  
+                  {/* Placeholder for your existing Slider component */}
+                  <div className="absolute inset-0 flex items-center justify-center text-zinc-800 font-cinzel tracking-widest text-sm uppercase">
+                      {/* YOUR_AUTO_SLIDER_COMPONENT_HERE */}
+                      [ Auto-Slider Component Active ]
+                  </div>
+
+                  {/* Cinematic Vignette Overlay (Sits over the slider to make it feel integrated) */}
+                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.6)]"></div>
+                  
+                  {/* Subtle Scanline Overlay (Optional, for that "Old World" feel) */}
+                  <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px]"></div>
+                </div>
+
+                {/* Decorative Bottom Bar */}
+                <div className="mt-6 flex justify-between items-center px-2">
+                  <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Galleria V: The Worldwound</span>
+                  <div className="h-px flex-1 mx-8 bg-zinc-900"></div>
+                  <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Artifacts of War</span>
+                </div>
+              </div>
+
+              {/* Final Page Sign-off before Footer */}
+              <div className="mt-40 text-center">
+                <div className="inline-block relative">
+                  <h3 className="font-cinzel text-4xl md:text-6xl text-zinc-900 tracking-tighter transition-colors hover:text-zinc-800 cursor-default">
+                      NOT ALL WHO FALL <span className="text-zinc-950">ARE LOST</span>
+                  </h3>
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+                </div>
+              </div>
+
+            </div>
+          </section>
 
           {/* Footer Link placeholder */}
           <div className="mt-32 text-center opacity-20 hover:opacity-100 transition-opacity">
