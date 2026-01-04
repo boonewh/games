@@ -78,6 +78,100 @@ export default function WrathPage() {
 
       </main>
 
+      {/* STRATEGIC MAP SECTION */}
+      <section className="relative max-w-7xl mx-auto px-6 mb-32">
+        
+        {/* Header with 'Intelligence' vibe */}
+        <div className="flex flex-col md:flex-row items-baseline justify-between border-b border-zinc-800 pb-4 mb-8">
+          <div>
+            <h2 className="font-cinzel text-3xl text-wotr-gold uppercase tracking-widest">Theater of War</h2>
+            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: Fifth Crusade Geographic Survey</p>
+          </div>
+          <div className="flex gap-4 mt-4 md:mt-0 text-[10px] font-bold uppercase tracking-widest">
+            <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> Safe Zone</span>
+            <span className="flex items-center gap-2 text-red-600"><span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> Abyssal Encroachment</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          
+          {/* 1. THE MAP - With "Corruption" Hover Effect */}
+          <div className="lg:col-span-3 relative group cursor-crosshair">
+            {/* Decorative Border/Frame */}
+            <div className="absolute -inset-1 bg-gradient-to-tr from-wotr-gold/20 via-transparent to-wardstone-blue/20 rounded-sm blur-sm"></div>
+            
+            <div className="relative bg-black border border-zinc-800 overflow-hidden shadow-2xl aspect-[16/10]">
+              {/* The Base Map (Image 1) */}
+              <Image
+                src="/images/wrath/mendev-map.jpg"
+                alt="Map of Mendev"
+                fill
+                className="object-cover opacity-80 group-hover:opacity-40 transition-opacity duration-700"
+              />
+
+              {/* The Corrupted Overlay (Image 2 - Optional) */}
+              {/* If you have a second map, uncomment this and it will "fade in" over the first one */}
+              {/*
+              <Image
+                src="/images/wrath/map-corrupted.jpg"
+                alt="Map of Corruption"
+                fill
+                className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-1000 mix-blend-color-dodge"
+              />
+              */}
+
+              {/* SCANLINE EFFECT */}
+              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+              
+              {/* FLOATING HOTSPOTS (Example: Kenabres) */}
+              <div className="absolute top-[45%] left-[46%] group/pin">
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                {/* Label that appears on hover */}
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-sm">Kenabres</h4>
+                  <p className="text-[10px] text-zinc-400 italic">The Shield of Mendev. Current location of the Wardstone.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (Example: The Worldwound) */}
+              <div className="absolute top-[40%] left-[25%] group/pin">
+                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-red-600 text-sm">Threshold</h4>
+                  <p className="text-[10px] text-zinc-400 italic">The epicenter of the rift. Entry forbidden to all mortal souls.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. SIDEBAR - "Intelligence Briefing" */}
+          <div className="lg:col-span-1 flex flex-col justify-center space-y-8">
+            <div>
+              <h4 className="font-cinzel text-wotr-gold text-sm tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Mendevian Borders</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Stretching from the Lake of Mists and Veils to the Sarkoris Scar, Mendev stands as the final bulwark against the Abyss.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-cinzel text-zinc-300 text-sm tracking-widest mb-2 border-b border-zinc-800 pb-1">The Sellen River</h4>
+              <p className="text-xs text-zinc-500 leading-relaxed italic">
+                A vital supply vein now choked by the filth of the Worldwound. 
+              </p>
+            </div>
+
+            <div className="p-4 bg-red-950/10 border border-red-900/30">
+              <h4 className="font-cinzel text-red-500 text-[10px] tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
+              <p className="text-[11px] text-red-200/60 leading-tight">
+                &quot;The geography changes as the rift exhales. Do not trust the old maps. The land itself is a lie.&quot;
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WORLDWOUND DIVIDER - Full Width Dramatic Break */}
       <section className="relative w-full border-t-2 border-b-2 border-wardstone-blue bg-black">
         <div className="relative w-full aspect-[21/9]">
@@ -242,7 +336,7 @@ export default function WrathPage() {
       </section>
 
       {/* THREAT SECTION (VILLAIN CARD) - Full Width */}
-      <section className="w-full bg-black mb-32 border-t border-b border-abyssal-red">
+      <section className="w-full bg-black border-t border-b border-abyssal-red">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="h-96 lg:h-auto overflow-hidden relative border border-abyssal-red">
@@ -268,7 +362,7 @@ export default function WrathPage() {
       </section>
 
       {/* CHRONICLE OF THE CRUSADE */}
-      <section className="w-full bg-black py-24 px-6 border-t border-zinc-900">
+      <section className="w-full bg-black pt-32 py-24 px-6 pb-32 border-t border-zinc-900">
         <div className="max-w-4xl mx-auto">
 
           <div className="text-center mb-16">
@@ -312,9 +406,6 @@ export default function WrathPage() {
           </div>
         </div>
       </section>
-
-      <main className="max-w-7xl mx-auto px-6 py-16">
-      </main>
 
       <Footer />
     </>
