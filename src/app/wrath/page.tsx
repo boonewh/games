@@ -110,7 +110,7 @@ export default function WrathPage() {
               />
 
               {/* FLOATING HOTSPOTS (Example: Kenabres) */}
-              <div className="absolute top-[45%] left-[46%] group/pin">
+              <div className="absolute top-[47%] left-[51%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 {/* Label that appears on hover */}
@@ -121,7 +121,7 @@ export default function WrathPage() {
               </div>
 
               {/* FLOATING HOTSPOT (Example: The Worldwound) */}
-              <div className="absolute top-[40%] left-[25%] group/pin">
+              <div className="absolute top-[49%] left-[21%] group/pin">
                 <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">

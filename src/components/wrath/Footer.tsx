@@ -49,20 +49,15 @@ const Footer = () => {
               </button>
             </div>
 
-            {/* Central Wardstone Image or Icon */}
+            {/* Central Wardstone Image */}
             <div className="flex-shrink-0 group">
-              <div className="relative w-24 h-16 lg:w-32 lg:h-48 flex items-center justify-center">
-                {/* Wardstone Crystal Icon */}
-                <div className="relative">
-                  <div className="w-16 h-24 lg:w-20 lg:h-32 bg-gradient-to-br from-wardstone-blue/20 to-wotr-gold/20 rounded-sm border-2 border-wardstone-blue/50 shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] transition-all duration-500 relative overflow-hidden">
-                    {/* Inner glow */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-wardstone-blue/10 to-transparent animate-pulse"></div>
-                    {/* Rune-like decoration */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-wardstone-blue/50 text-4xl font-cinzel group-hover:text-wardstone-blue/80 transition-colors">⬡</div>
-                    </div>
-                  </div>
-                </div>
+              <div className="relative w-24 h-32 lg:w-32 lg:h-44">
+                <Image
+                  src="/images/wrath/wardstone.png"
+                  alt="Wardstone"
+                  fill
+                  className="object-contain drop-shadow-[0_0_15px_rgba(0,212,255,0.4)] group-hover:drop-shadow-[0_0_25px_rgba(0,212,255,0.6)] transition-all duration-500"
+                />
               </div>
             </div>
 

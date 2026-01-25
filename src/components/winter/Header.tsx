@@ -133,11 +133,18 @@ const Header = () => {
                   )}
                 </div>
                 
-                <Link 
-                  href="/rules" 
+                <Link
+                  href="/rules"
                   className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Rules
+                </Link>
+
+                <Link
+                  href="/wrath"
+                  className="px-4 py-2 rounded-full text-slate-200 hover:text-amber-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
+                >
+                  Next Adventure
                 </Link>
               </div>
             </div>
@@ -225,12 +232,20 @@ const Header = () => {
                   </Link>
                 </div>
                 
-                <Link 
-                  href="/rules" 
+                <Link
+                  href="/rules"
                   className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Rules Page
+                </Link>
+
+                <Link
+                  href="/wrath"
+                  className="block px-4 py-3 rounded-lg text-slate-200 hover:text-amber-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Next Adventure
                 </Link>
 
                 {/* Mobile call to action */}
