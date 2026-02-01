@@ -212,19 +212,19 @@ const PathSixHomepage = () => {
               </h2>
               <div className="space-y-4 text-lg text-slate-300">
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>Rasputin Must Die!</i> (Part 5 of 6)
+                  <span className="text-blue-200 font-semibold">Current Chapter:</span> <i>The Witch Queen&apos;s Revenge</i> (Part 6 of 6)
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Location:</span> A desolate World War I–era Russian military base on Earth, twisted by occult energy and anchored to Baba Yaga’s magic
+                  <span className="text-blue-200 font-semibold">Location:</span> Deep within the Dancing Hut of Baba Yaga, exploring hidden chambers and approaching the hut&apos;s innermost sanctum
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">Current Quest:</span> Breach the fortified compound, uncover Baba Yaga’s fate, and confront the mad monk Rasputin before he severs her immortality
+                  <span className="text-blue-200 font-semibold">Current Quest:</span> Open the magical matryoshka dolls imprisoning Baba Yaga and confront Queen Elvanna in the final battle for control of Irrisen
                 </p>
                 <p>
-                  <span className="text-blue-200 font-semibold">The Conflict:</span> The heroes face soldiers, spirits, and horrors pulled from myth and war—an army empowered by Rasputin’s ritual to claim Baba Yaga’s throne
+                  <span className="text-blue-200 font-semibold">The Conflict:</span> The heroes face the hut&apos;s most dedicated guardians—including former queens of Irrisen—before the climactic confrontation with Elvanna herself
                 </p>
                 <p className="italic pt-2">
-                  The veil between worlds is thin here. Every step deeper into the base brings stranger powers and darker truths—if Rasputin completes his ritual, the Witch Queen’s reign ends, and a new tyrant rises in her place.
+                  Baba Yaga has been rescued from Rasputin, but she remains trapped within the nesting dolls. The fate of Golarion hangs in the balance—if Elvanna is not stopped, eternal winter will consume the world.
                 </p>
               </div>
             </div>
