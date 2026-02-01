@@ -92,7 +92,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'Rasputin Must Die!',
     description: 'The dancing hut transports the heroes to World War I-era Earth, where they must navigate the political intrigue of Imperial Russia. They discover that the infamous Rasputin has become one of Baba Yaga\'s riders and must stop his plans in the court of the Romanovs.',
     bookNumber: 5,
-    status: 'current',
+    status: 'completed',
     theme: 'from-red-900 to-slate-800'
   },
   {
@@ -100,7 +100,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'The Witch Queen\'s Revenge',
     description: 'In the epic finale, the heroes must rescue Baba Yaga herself and face Queen Elvanna in a climactic battle that will determine the fate of not just Golarion, but multiple worlds. The eternal winter\'s grip must be broken once and for all.',
     bookNumber: 6,
-    status: 'not-started',
+    status: 'current',
     theme: 'from-purple-900 to-blue-800'
   }
 ];
