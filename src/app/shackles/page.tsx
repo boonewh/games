@@ -42,7 +42,7 @@ export default function Page() {
               Warning! Spoilers for the &quot;Skull &amp; Shackles&quot; Adventure Path.
             </p>
             <button
-              onClick={() => window.location.href = '/shackles/book1'}
+              onClick={() => window.location.href = '/shackles/adventure-log'}
               className="mx-6 my-8 w-[250px] h-10 transition-transform duration-300 ease-in-out rounded-[10px] font-['Alkatra',Georgia,'Times_New_Roman',Times,serif] text-lg text-[#c6c4ba] bg-[#30393e] border border-[#c6c4ba] cursor-pointer hover:transform hover:scale-105"
             >
               Adventure Log
@@ -255,7 +255,7 @@ export default function Page() {
           </div>
           
           <div className="w-full p-[10px] my-5">
-            <p>You can find our entire story in the <Link href="/shackles/book1" className="text-[#c6c4ba] underline">Adventure Log</Link></p>
+            <p>You can find our entire story in the <Link href="/shackles/adventure-log" className="text-[#c6c4ba] underline">Adventure Log</Link></p>
           </div>
 
             <div className="w-full max-w-4xl mx-auto p-4 lg:p-8 my-5 flex flex-col lg:flex-row justify-center gap-6 lg:gap-8">
