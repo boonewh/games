@@ -89,7 +89,7 @@ const adventureBooks = [
     title: 'The Witch Queen\'s Revenge',
     description: 'In the epic finale, the heroes must rescue Baba Yaga herself and face Queen Elvanna in a climactic battle that will determine the fate of not just Golarion, but multiple worlds. The eternal winter\'s grip must be broken once and for all.',
     bookNumber: 6,
-    coverImage: '/images/winter/baba_yaga_hero.jpg',
+    coverImage: '/images/winter/baba-yaga-doll.jpg',
     status: 'current',
     theme: 'from-purple-900 to-blue-800'
   }
