@@ -53,23 +53,24 @@ export default function WrathPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Character Card Template */}
-            {[1, 2, 3, 4].map((index) => (
-              <div key={index} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
+            {[
+              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/Caleth.jpg' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru.jpg' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg' },
+            ].map((character) => (
+              <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
                   <Image
-                    src="/images/wrath/worldwound-rift.jpg"
-                    alt="Placeholder"
+                    src={character.src}
+                    alt={character.name}
                     fill
-                    className="object-cover opacity-20 grayscale group-hover:opacity-40 transition-opacity"
+                    className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="font-cinzel text-6xl text-zinc-800 group-hover:text-wardstone-blue transition-colors">?</span>
-                  </div>
                 </div>
                 <div className="text-center">
-                  <h3 className="font-cinzel text-lg text-zinc-500 group-hover:text-parchment transition-colors uppercase tracking-widest">Awaiting Hero</h3>
-                  <p className="text-sm text-zinc-600 italic">Unknown Path</p>
+                  <h3 className="font-cinzel text-lg text-parchment uppercase tracking-widest">{character.name}</h3>
+                  <p className="text-xs text-zinc-500 font-spectral italic mt-1">{character.classes}</p>
                 </div>
               </div>
             ))}
