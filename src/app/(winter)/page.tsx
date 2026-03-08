@@ -233,8 +233,8 @@ const PathSixHomepage = () => {
             {/* This is the element that scales */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform">
               <Image
-                src="/images/winter/askuvskaya2.jpg"
-                alt="Map of the Askuvskaya Prison Camp."
+                src="/images/winter/irrisen.jpg"
+                alt="The lands of Irrisen"
                 fill
                 className="object-contain rounded-lg shadow-2xl"
               />
@@ -244,7 +244,7 @@ const PathSixHomepage = () => {
             {/* Caption stays fixed on top */}
             <div className="absolute bottom-0 left-4 right-4 z-10">
               <p className="text-white font-semibold text-lg drop-shadow-lg">
-                Akuvskaya Prison Camp
+                The lands of Irrisen
               </p>
               <p className="text-blue-200 text-sm drop-shadow-lg">
                 Where our heroes face a winter of centuries.
