@@ -494,7 +494,7 @@ const PathSixHomepage = () => {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                    <Link href={`/adventure-log/${latestStory.book}?highlight=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
+                    <Link href={`/adventure-log/${latestStory.book}?entry=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
                       <button className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-blue-500/25 hover:scale-105">
                         <span className="flex items-center">
                           Read This Adventure

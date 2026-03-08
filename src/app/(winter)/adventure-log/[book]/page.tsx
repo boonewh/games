@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, MapPin, BookOpen, ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react'
 import { StoryEntry, StoryBlock } from '@/types/story';
 
@@ -187,6 +187,7 @@ export default function AdventureBookPage() {
   const { book: rawBook } = useParams<{ book: string | string[] }>();
   const bookSlug = Array.isArray(rawBook) ? rawBook[0] : rawBook;
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const [entries, setEntries] = useState<AdventureEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -256,6 +257,18 @@ export default function AdventureBookPage() {
 
     loadEntries();
   }, [bookSlug]);
+
+  // Auto-open a specific entry if ?entry= is in the URL
+  useEffect(() => {
+    if (!entries.length) return;
+    const entryId = searchParams.get('entry');
+    if (!entryId) return;
+    const match = entries.find(e => e.id === entryId);
+    if (match) {
+      setSelectedEntry(match);
+      setCurrentEntryIndex(entries.indexOf(match));
+    }
+  }, [entries, searchParams]);
 
   if (!bookSlug) {
     return null; // Still resolving on client
