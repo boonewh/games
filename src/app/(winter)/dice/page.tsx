@@ -55,7 +55,10 @@ const DiceRollerPage = () => {
       let total = 0;
 
       for (let i = 0; i < actualDiceCount; i++) {
-        const roll = Math.floor(Math.random() * actualDiceType) + 1;
+        const buf = new Uint32Array(1);
+        const limit = 2 ** 32 - (2 ** 32 % actualDiceType);
+        do { crypto.getRandomValues(buf); } while (buf[0] >= limit);
+        const roll = (buf[0] % actualDiceType) + 1;
         rolls.push(roll);
         total += roll;
       }
