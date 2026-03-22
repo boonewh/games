@@ -95,7 +95,7 @@ const Footer = () => {
               </div>
 
               {/* Quick navigation */}
-              <div className="flex items-center space-x-6 text-xs">
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
                 {isLoaded && (
                   userId ? (
                     <button 
