@@ -128,6 +128,13 @@ const Header = () => {
                         >
                           Jade Regent
                         </Link>
+                        <Link
+                          href="/"
+                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                          onClick={() => setIsPastAdventuresOpen(false)}
+                        >
+                          Reign of Winter
+                        </Link>
                       </div>
                     </div>
                   )}

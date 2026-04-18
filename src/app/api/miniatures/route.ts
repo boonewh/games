@@ -4,19 +4,22 @@ import sharp from 'sharp';
 
 export const runtime = 'nodejs';
 
-// GET - List all miniature images
-export async function GET() {
+// GET - List miniature images (optionally filtered by campaign)
+export async function GET(req: Request) {
   try {
-    const { blobs } = await list({
-      prefix: 'miniatures/',
-      limit: 100
-    });
-    
-    // Sort by upload time, newest first
-    const sortedBlobs = blobs.sort((a, b) => 
+    const { searchParams } = new URL(req.url);
+    const campaign = searchParams.get('campaign');
+
+    const { blobs } = await list({ prefix: 'miniatures/', limit: 100 });
+
+    const filtered = campaign
+      ? blobs.filter(b => b.pathname.startsWith(`miniatures/${campaign}/`))
+      : blobs.filter(b => b.pathname.split('/').length === 2); // root-level only (winter)
+
+    const sortedBlobs = filtered.sort((a, b) =>
       new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
     );
-    
+
     return NextResponse.json(sortedBlobs);
   } catch (error) {
     console.error('Failed to fetch miniatures:', error);
@@ -24,9 +27,11 @@ export async function GET() {
   }
 }
 
-// POST - Upload new miniature image
+// POST - Upload new miniature image (optionally campaign-prefixed)
 export async function POST(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const campaign = searchParams.get('campaign');
     const formData = await req.formData();
     const file = formData.get('image') as File;
     
@@ -63,7 +68,8 @@ export async function POST(req: Request) {
     // Generate filename with timestamp
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const originalName = file.name.replace(/\.[^/.]+$/, ''); // Remove extension
-    const filename = `miniatures/${timestamp}-${originalName}.jpg`;
+    const folder = campaign ? `miniatures/${campaign}` : 'miniatures';
+    const filename = `${folder}/${timestamp}-${originalName}.jpg`;
 
     // Upload to Vercel Blob
     const blob = await put(filename, compressedBuffer, {

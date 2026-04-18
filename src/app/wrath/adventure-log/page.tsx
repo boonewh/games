@@ -236,7 +236,7 @@ export default function WrathAdventureLogPage() {
               <div className="mt-8 flex flex-wrap gap-4">
                 {userId && (
                   <Link
-                    href="/editor"
+                    href="/editor?campaign=wrath"
                     className="inline-flex items-center gap-2 rounded-sm bg-wotr-gold px-5 py-2.5 text-sm font-semibold text-stone-dark shadow-lg shadow-wotr-gold/20 transition hover:bg-wotr-gold/90 font-cinzel uppercase tracking-wider"
                   >
                     <PenLine size={18} />

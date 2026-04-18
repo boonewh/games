@@ -1,10 +1,78 @@
 'use client'
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Header from "@/components/wrath/Header";
 import Footer from "@/components/wrath/Footer";
+import WrathMiniatureGallery from "@/components/wrath/MiniatureGallery";
+import { StoryEntry } from "@/types/story";
+
+const WRATH_BOOKS: Record<string, string> = {
+  'the-worldwound-incursion': 'The Worldwound Incursion',
+  'sword-of-valor': 'Sword of Valor',
+  'demon-s-heresy': "Demon's Heresy",
+  'the-midnight-isles': 'The Midnight Isles',
+  'herald-of-the-ivory-labyrinth': 'Herald of the Ivory Labyrinth',
+  'city-of-locusts': 'City of Locusts',
+};
+
+function getStoryTitle(story: StoryEntry): string {
+  const heading = story.story.find(b => b.type === 'heading');
+  if (heading && 'content' in heading && typeof heading.content === 'string') return heading.content;
+  return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+
+function getStoryExcerpt(story: StoryEntry, limit = 350): string {
+  const para = story.story.find(b =>
+    b.type === 'paragraph' && 'content' in b && typeof b.content === 'string' && b.content.trim().length > 50
+  );
+  if (para && 'content' in para && typeof para.content === 'string') {
+    const text = para.content.trim();
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  }
+  return 'The chronicle of the Fifth Crusade awaits its first entry...';
+}
 
 export default function WrathPage() {
+  const [latestStory, setLatestStory] = useState<StoryEntry | null>(null);
+  const [loadingStory, setLoadingStory] = useState(true);
+
+  type SeamData = { left: string; duration: string; delay: string; width: string; background: string };
+  type MoteData = { top: string; left: string; color: string; animation: string; delay: string };
+  const [seams, setSeams] = useState<SeamData[] | null>(null);
+  const [motes, setMotes] = useState<MoteData[] | null>(null);
+
+  useEffect(() => {
+    setSeams([...Array(10)].map((_, i) => ({
+      left: `${(i * 10) + (Math.random() * 5)}%`,
+      duration: `${8 + Math.random() * 7}s`,
+      delay: `${i * -1.5}s`,
+      width: i % 3 === 0 ? '1px' : '2px',
+      background: i % 2 === 0
+        ? 'linear-gradient(to bottom, transparent, #a855f7, transparent)'
+        : 'linear-gradient(to bottom, transparent, #ef4444, transparent)',
+    })));
+    setMotes([...Array(15)].map((_, i) => {
+      const moveRight = Math.random() > 0.5;
+      return {
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        color: i % 2 === 0 ? '#a855f7' : '#ef4444',
+        animation: `voidMoteFloat${moveRight ? 'Right' : 'Left'} ${6 + Math.random() * 6}s infinite linear`,
+        delay: `${Math.random() * 6}s`,
+      };
+    }));
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/stories?campaign=wrath&limit=1')
+      .then(r => r.ok ? r.json() : [])
+      .then(stories => { if (stories?.length) setLatestStory(stories[0]); })
+      .catch(() => {})
+      .finally(() => setLoadingStory(false));
+  }, []);
+
   return (
     <>
       <Header />
@@ -196,20 +264,16 @@ export default function WrathPage() {
 
         {/* 3. UNSTABLE ENERGY SEAMS (Thinner, Slower, Vanishing) */}
         <div className="absolute inset-0 flex justify-around items-center opacity-40">
-          {[...Array(10)].map((_, i) => (
+          {seams?.map((s, i) => (
             <div
               key={i}
               className="energy-seam"
               style={{
-                left: `${(i * 10) + (Math.random() * 5)}%`,
-                // Randomized slower durations between 8s and 15s
-                animationDuration: `${8 + Math.random() * 7}s`,
-                animationDelay: `${i * -1.5}s`,
-                // Varying thinness
-                width: i % 3 === 0 ? '1px' : '2px',
-                background: i % 2 === 0
-                  ? 'linear-gradient(to bottom, transparent, #a855f7, transparent)'
-                  : 'linear-gradient(to bottom, transparent, #ef4444, transparent)'
+                left: s.left,
+                animationDuration: s.duration,
+                animationDelay: s.delay,
+                width: s.width,
+                background: s.background,
               }}
             ></div>
           ))}
@@ -228,22 +292,19 @@ export default function WrathPage() {
 
         {/* 5. FLOATING VOID MOTES (Small floating particles) */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(15)].map((_, i) => {
-            const moveRight = Math.random() > 0.5;
-            return (
-              <div
-                key={i}
-                className="absolute w-1 h-1 rounded-full opacity-30 blur-[0.5px]"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  backgroundColor: i % 2 === 0 ? '#a855f7' : '#ef4444',
-                  animation: `voidMoteFloat${moveRight ? 'Right' : 'Left'} ${6 + Math.random() * 6}s infinite linear`,
-                  animationDelay: `${Math.random() * 6}s`
-                }}
-              ></div>
-            );
-          })}
+          {motes?.map((m, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 rounded-full opacity-30 blur-[0.5px]"
+              style={{
+                top: m.top,
+                left: m.left,
+                backgroundColor: m.color,
+                animation: m.animation,
+                animationDelay: m.delay,
+              }}
+            ></div>
+          ))}
         </div>
 
         <style jsx>{`
@@ -348,47 +409,105 @@ export default function WrathPage() {
         </div>
       </section>
 
-      {/* CHRONICLE OF THE CRUSADE */}
-      <section className="w-full bg-black pt-32 py-24 px-6 pb-32 border-t border-zinc-900">
-        <div className="max-w-4xl mx-auto">
-
-          <div className="text-center mb-16">
-            <h2 className="font-cinzel text-3xl text-zinc-300 uppercase tracking-[0.4em] mb-4">
-              Chronicle of the Crusade
-            </h2>
-            <div className="h-px w-24 bg-zinc-600 mx-auto"></div>
+      {/* FROM THE WAR CHRONICLE */}
+      <section className="w-full bg-black border-t border-zinc-900 py-32 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-4 mb-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
+              <h2 className="font-cinzel text-2xl text-wotr-gold tracking-[0.4em] uppercase">From the War Chronicle</h2>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
+            </div>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest font-light font-spectral">
+              {loadingStory ? 'Retrieving field report...' : 'The most recent dispatch from the front'}
+            </p>
           </div>
 
-          <div className="space-y-0">
-
-            {/* Session 1: The Fall of Kenabres */}
-            <div className="group relative py-10 border-b border-zinc-700 transition-all duration-700 hover:bg-zinc-950/30 px-4">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 bg-gradient-to-r from-purple-900 via-transparent to-red-900"></div>
-
-              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="space-y-2">
-                  <h3 className="font-cinzel text-2xl text-zinc-400 group-hover:text-zinc-100 transition-all duration-500 tracking-tighter">
-                    Session 1: The Fall of Kenabres
-                  </h3>
-                  <p className="text-zinc-300 group-hover:text-zinc-200 transition-colors max-w-xl text-sm font-light tracking-wide">
-                    The adventure begins...
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="text-[10px] text-zinc-500 uppercase tracking-[0.5em] group-hover:text-zinc-300 transition-colors">
-                    Status
+          <div className="border border-zinc-800 bg-zinc-950/60 p-8 lg:p-12">
+            {loadingStory ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-wotr-gold mr-3"></div>
+                <span className="text-zinc-500 font-spectral">Summoning the chronicles...</span>
+              </div>
+            ) : latestStory ? (
+              <div className="flex flex-col lg:flex-row gap-10 items-start">
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="font-cinzel text-xl text-parchment tracking-tight mb-2">{getStoryTitle(latestStory)}</h3>
+                      <div className="flex items-center gap-4 text-xs uppercase tracking-widest">
+                        <span className="text-zinc-500 font-spectral">
+                          {new Date(latestStory.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </span>
+                        <span className="text-wotr-gold font-cinzel">
+                          {WRATH_BOOKS[latestStory.book] ?? latestStory.book}
+                        </span>
+                      </div>
+                    </div>
+                    {new Date().getTime() - new Date(latestStory.date).getTime() < 30 * 24 * 60 * 60 * 1000 && (
+                      <span className="flex-shrink-0 text-[10px] font-cinzel uppercase tracking-widest px-3 py-1 border border-wardstone-blue text-wardstone-blue">
+                        New Dispatch
+                      </span>
+                    )}
                   </div>
-                  <div className="text-xs text-zinc-600 group-hover:text-red-900 transition-colors font-bold mt-1">
-                    Awaiting Entry
+
+                  <p className="text-zinc-300 font-spectral leading-relaxed text-base mb-8 italic border-l-2 border-wotr-gold/30 pl-4">
+                    {getStoryExcerpt(latestStory)}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link href={`/wrath/adventure-log/${latestStory.book}?entry=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
+                      <button className="group inline-flex items-center gap-2 px-6 py-2.5 bg-wotr-gold text-stone-dark font-cinzel text-sm uppercase tracking-widest hover:bg-wotr-gold/90 transition-colors duration-300">
+                        Read Full Entry
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </button>
+                    </Link>
+                    <Link href="/wrath/adventure-log">
+                      <button className="inline-flex items-center gap-2 px-6 py-2.5 border border-zinc-700 hover:border-wotr-gold/50 text-zinc-400 hover:text-parchment font-cinzel text-sm uppercase tracking-widest transition-all duration-300">
+                        Browse All Chronicles
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="flex-shrink-0 lg:w-72">
+                  <div className="relative aspect-[4/5] border border-zinc-800 overflow-hidden group">
+                    <Image
+                      src={latestStory.coverUrl || "/images/wrath/wrath-hero.jpg"}
+                      alt={`Scene from ${getStoryTitle(latestStory)}`}
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                   </div>
                 </div>
               </div>
-            </div>
-
+            ) : (
+              <div className="text-center py-12">
+                <svg className="w-14 h-14 mx-auto mb-4 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <h3 className="font-cinzel text-lg text-zinc-500 uppercase tracking-widest mb-2">The Chronicle Awaits Its First Entry</h3>
+                <p className="text-zinc-600 font-spectral mb-6">The Fifth Crusade has begun — its stories will be written here.</p>
+                <Link href="/wrath/adventure-log">
+                  <button className="px-6 py-2.5 border border-wotr-gold/40 text-wotr-gold font-cinzel text-sm uppercase tracking-widest hover:bg-wotr-gold/10 transition-colors">
+                    Open the Chronicle
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
+        </div>
+      </section>
+
+      {/* IMAGE GALLERY SECTION - The Mythic Tapestry */}
+      <section className="w-full bg-black pt-12 pb-32 px-6 border-t border-zinc-900">
+        <div className="max-w-4xl mx-auto">
 
           {/* IMAGE GALLERY SECTION - The Mythic Tapestry */}
-          <section className="w-full bg-black pt-20 pb-32 overflow-hidden">
+          <section className="w-full bg-black overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
               
               {/* Section Header */}
@@ -405,35 +524,12 @@ export default function WrathPage() {
                 </p>
               </div>
 
-              {/* The Slider Container */}
-              <div className="relative group">
-                
-                {/* Decorative Corner Accents (Pathfinder/Mythic Aesthetic) */}
-                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-wotr-gold/30 z-10 group-hover:border-wotr-gold/60 transition-colors"></div>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-wotr-gold/30 z-10 group-hover:border-wotr-gold/60 transition-colors"></div>
+              <WrathMiniatureGallery />
 
-                {/* Main Slider Frame */}
-                <div className="relative aspect-video md:aspect-[21/9] w-full bg-zinc-950 border border-zinc-800 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
-                  
-                  {/* Placeholder for your existing Slider component */}
-                  <div className="absolute inset-0 flex items-center justify-center text-zinc-800 font-cinzel tracking-widest text-sm uppercase">
-                      {/* YOUR_AUTO_SLIDER_COMPONENT_HERE */}
-                      [ Auto-Slider Component Active ]
-                  </div>
-
-                  {/* Cinematic Vignette Overlay (Sits over the slider to make it feel integrated) */}
-                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.6)]"></div>
-                  
-                  {/* Subtle Scanline Overlay (Optional, for that "Old World" feel) */}
-                  <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-                </div>
-
-                {/* Decorative Bottom Bar */}
-                <div className="mt-6 flex justify-between items-center px-2">
-                  <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Galleria V: The Worldwound</span>
-                  <div className="h-px flex-1 mx-8 bg-zinc-900"></div>
-                  <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Artifacts of War</span>
-                </div>
+              <div className="mt-6 flex justify-between items-center px-2">
+                <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Galleria V: The Worldwound</span>
+                <div className="h-px flex-1 mx-8 bg-zinc-900"></div>
+                <span className="text-[10px] text-zinc-600 font-cinzel uppercase tracking-[0.2em]">Artifacts of War</span>
               </div>
 
               {/* Final Page Sign-off before Footer */}

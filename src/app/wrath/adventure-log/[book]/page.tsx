@@ -372,7 +372,7 @@ export default function WrathAdventureBookPage() {
                 {userId && (
                   <div className="flex items-center space-x-2">
                     <Link
-                      href={`/editor?id=${selectedEntry.id}`}
+                      href={`/editor?id=${selectedEntry.id}&campaign=wrath`}
                       className="flex items-center px-3 py-1 bg-wotr-gold hover:bg-wotr-gold/90 text-stone-dark text-sm rounded-sm transition-colors font-cinzel"
                     >
                       <Edit size={14} className="mr-1" />
@@ -513,7 +513,7 @@ export default function WrathAdventureBookPage() {
               </p>
               {userId && (
                 <Link
-                  href="/editor"
+                  href="/editor?campaign=wrath"
                   className="inline-flex items-center px-6 py-3 mt-6 bg-wotr-gold hover:bg-wotr-gold/90 text-stone-dark font-bold rounded-sm transition-colors duration-300 font-cinzel uppercase tracking-wider"
                 >
                   Chronicle the First Battle
@@ -551,7 +551,7 @@ export default function WrathAdventureBookPage() {
 
                         {userId && (
                           <Link
-                            href={`/editor?id=${entry.id}`}
+                            href={`/editor?id=${entry.id}&campaign=wrath`}
                             className="flex items-center px-2 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-parchment text-xs rounded-sm transition-colors font-cinzel"
                             onClick={(e) => e.stopPropagation()}
                           >

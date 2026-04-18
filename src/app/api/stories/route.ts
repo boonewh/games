@@ -7,6 +7,17 @@ export const runtime = 'nodejs';
 
 type StoryRequestBody = Partial<StoryEntry> & { includeAll?: boolean };
 
+const CAMPAIGN_BOOKS: Record<string, string[]> = {
+  wrath: [
+    'the-worldwound-incursion',
+    'sword-of-valor',
+    'demon-s-heresy',
+    'the-midnight-isles',
+    'herald-of-the-ivory-labyrinth',
+    'city-of-locusts',
+  ],
+};
+
 function valid(e: unknown): e is StoryEntry {
   return !!(e && typeof e === 'object' && e !== null &&
     'date' in e && typeof e.date === 'string' &&
@@ -19,15 +30,22 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const book = searchParams.get('book');
+    const campaign = searchParams.get('campaign');
     const limit = parseInt(searchParams.get('limit') || '10');
 
-    if (book) {
-      // Get stories for a specific book
+    if (campaign && CAMPAIGN_BOOKS[campaign]) {
+      const allResults = await Promise.all(
+        CAMPAIGN_BOOKS[campaign].map(slug => listStories(listKey(slug), limit))
+      );
+      const stories = (allResults.flat().map(item => item.value).filter(Boolean) as StoryEntry[])
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, limit);
+      return NextResponse.json(stories);
+    } else if (book) {
       const storiesData = await listStories(listKey(book), limit);
       const stories = storiesData.map(item => item.value);
       return NextResponse.json(stories);
     } else {
-      // Get all stories across books
       const storiesData = await listStories(listAllKey(), limit);
       const stories = storiesData.map(item => item.value);
       return NextResponse.json(stories);

@@ -94,7 +94,7 @@ export default function WrathAboutPage() {
               <div className="bg-stone-light/40 border border-zinc-800 rounded-sm shadow-lg p-6 sticky top-8">
                 <div className="relative w-full h-64 mb-4 rounded-sm overflow-hidden">
                   <Image
-                    src="/images/wrath/placeholder-shadow.jpg"
+                    src="/images/wrath/shadowcat.jpg"
                     alt="Shadow, our beloved companion"
                     fill
                     className="object-cover"

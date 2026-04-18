@@ -36,15 +36,29 @@ function getExcerptFromContent(json: unknown, limit = 220): string {
   return ''
 }
 
-// Reign of Winter adventure books
-const adventureBooks = [
-  { slug: 'the-snows-of-summer', title: 'The Snows of Summer', bookNumber: 1 },
-  { slug: 'the-shackled-hut', title: 'The Shackled Hut', bookNumber: 2 },
-  { slug: 'maiden-mother-crone', title: 'Maiden, Mother, Crone', bookNumber: 3 },
-  { slug: 'the-frozen-stars', title: 'The Frozen Stars', bookNumber: 4 },
-  { slug: 'rasputin-must-die', title: 'Rasputin Must Die!', bookNumber: 5 },
-  { slug: 'the-witch-queen-revenge', title: 'The Witch Queen\'s Revenge', bookNumber: 6 }
-]
+const booksByCampaign: Record<string, { slug: string; title: string; bookNumber: number }[]> = {
+  winter: [
+    { slug: 'the-snows-of-summer', title: 'The Snows of Summer', bookNumber: 1 },
+    { slug: 'the-shackled-hut', title: 'The Shackled Hut', bookNumber: 2 },
+    { slug: 'maiden-mother-crone', title: 'Maiden, Mother, Crone', bookNumber: 3 },
+    { slug: 'the-frozen-stars', title: 'The Frozen Stars', bookNumber: 4 },
+    { slug: 'rasputin-must-die', title: 'Rasputin Must Die!', bookNumber: 5 },
+    { slug: 'the-witch-queen-revenge', title: "The Witch Queen's Revenge", bookNumber: 6 },
+  ],
+  wrath: [
+    { slug: 'the-worldwound-incursion', title: 'The Worldwound Incursion', bookNumber: 1 },
+    { slug: 'sword-of-valor', title: 'Sword of Valor', bookNumber: 2 },
+    { slug: 'demon-s-heresy', title: "Demon's Heresy", bookNumber: 3 },
+    { slug: 'the-midnight-isles', title: 'The Midnight Isles', bookNumber: 4 },
+    { slug: 'herald-of-the-ivory-labyrinth', title: 'Herald of the Ivory Labyrinth', bookNumber: 5 },
+    { slug: 'city-of-locusts', title: 'City of Locusts', bookNumber: 6 },
+  ],
+}
+
+const adventureLogBase: Record<string, string> = {
+  winter: '/adventure-log',
+  wrath: '/wrath/adventure-log',
+}
 
 function EditorContent_Inner() {
   const { data: session, status } = useSession()
@@ -55,11 +69,14 @@ function EditorContent_Inner() {
   const searchParams = useSearchParams()
   const entryId = searchParams.get('id')
   const isEditing = Boolean(entryId)
+  const campaign = searchParams.get('campaign') ?? 'winter'
+  const adventureBooks = booksByCampaign[campaign] ?? booksByCampaign.winter
+  const logBase = adventureLogBase[campaign] ?? adventureLogBase.winter
 
   const [title, setTitle] = useState('')
   const [image, setImage] = useState('')
   const [excerpt, setExcerpt] = useState('')
-  const [book, setBook] = useState(adventureBooks[0].slug) // Default to first book
+  const [book, setBook] = useState(adventureBooks[0].slug)
   const [sessionDate, setSessionDate] = useState('') // No default date
   const [uploading, setUploading] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -366,7 +383,7 @@ function EditorContent_Inner() {
       }
       await res.json() // Parse response but don't need to use it
       // Navigate to the book's adventure log
-      router.push(`/adventure-log/${book}?t=${Date.now()}`)
+      router.push(`${logBase}/${finalBook}?t=${Date.now()}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed')
     } finally {
@@ -380,11 +397,11 @@ function EditorContent_Inner() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="max-w-4xl mx-auto p-6 space-y-6">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-blue-100 font-['Alkatra'] mb-2">
+          <h1 className="text-4xl font-bold text-slate-100 font-['Alkatra'] mb-2">
             {isEditing ? 'Edit Chronicle Entry' : 'Chronicle a New Adventure'}
           </h1>
           <p className="text-slate-400">
-            Record the tales of your journey through the endless winter
+            Record the tales of your party&apos;s journey for the ages
           </p>
         </div>
 
@@ -405,13 +422,13 @@ function EditorContent_Inner() {
         {/* Book Selection and Date */}
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-blue-200 mb-2">
+            <label className="block text-sm font-semibold text-violet-300 mb-2">
               Adventure Book
             </label>
             <select
               value={book}
               onChange={(e) => setBook(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-violet-500 focus:outline-none"
             >
               {adventureBooks.map((book) => (
                 <option key={book.slug} value={book.slug}>
@@ -427,14 +444,14 @@ function EditorContent_Inner() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-blue-200 mb-2">
+            <label className="block text-sm font-semibold text-violet-300 mb-2">
               Session Date
             </label>
             <input
               type="date"
               value={sessionDate}
               onChange={(e) => setSessionDate(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-violet-500 focus:outline-none"
               required
             />
             <p className="text-xs text-slate-400 mt-1">
@@ -445,20 +462,20 @@ function EditorContent_Inner() {
 
         {/* Title */}
         <div>
-          <label className="block text-sm font-semibold text-blue-200 mb-2">
+          <label className="block text-sm font-semibold text-violet-300 mb-2">
             Entry Title
           </label>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="The Frozen Wastes of Irrisen..."
-            className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-cyan-500 focus:outline-none text-lg"
+            placeholder="Name this session's adventure..."
+            className="w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 focus:border-violet-500 focus:outline-none text-lg"
           />
         </div>
 
         {/* Image Upload */}
         <div>
-          <label className="block text-sm font-semibold text-blue-200 mb-2">
+          <label className="block text-sm font-semibold text-violet-300 mb-2">
             Chronicle Image <span className="text-slate-400 font-normal">(optional)</span>
           </label>
           <div className="space-y-3">
@@ -510,7 +527,7 @@ function EditorContent_Inner() {
 
         {/* Editor */}
         <div>
-          <label className="block text-sm font-semibold text-blue-200 mb-2">
+          <label className="block text-sm font-semibold text-violet-300 mb-2">
             Chronicle Content
           </label>
           {editor && <EditorContent editor={editor} />}
@@ -534,7 +551,7 @@ function EditorContent_Inner() {
               <button
                 onClick={handleSave}
                 disabled={!editor || saving || loading || !sessionDate}
-                className="rounded-xl bg-cyan-600 hover:bg-cyan-500 px-6 py-3 text-white font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 shadow-lg"
+                className="rounded-xl bg-violet-600 hover:bg-violet-500 px-6 py-3 text-white font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 shadow-lg"
               >
                 {saving ? 'Saving Chronicle…' : isEditing ? 'Update Entry' : 'Save Chronicle'}
               </button>
