@@ -70,12 +70,12 @@ const Footer = () => {
                 All Rights Reserved
               </p>
               <Link 
-                href="https://www.pathsixdesigns.com" 
+                href="https://www.pathsixsolutions.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-300 hover:text-blue-200 text-sm font-medium tracking-wide transition-colors duration-300 underline decoration-slate-500 hover:decoration-blue-200 underline-offset-4"
               >
-                PathSix Web Design
+                PathSix Solutions
               </Link>
             </div>
           </div>

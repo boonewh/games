@@ -27,10 +27,10 @@ export default function SkullShacklesFooter() {
       
       <div className="flex bg-[#9d9b9c] text-[#30393e] justify-center font-['Alkatra',Arial,Helvetica,sans-serif]">
         <Link 
-          href="https://www.pathsixdesigns.com" 
+          href="https://www.pathsixsolutions.com"
           className="text-[#30393e] text-[1.3em] leading-[1.6em] no-underline"
         >
-          PathSix Web Design
+          PathSix Solutions
         </Link>
       </div>
     </footer>
