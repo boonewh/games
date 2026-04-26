@@ -157,7 +157,7 @@ export default function WrathPage() {
             <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: Fifth Crusade Geographic Survey</p>
           </div>
           <div className="flex gap-4 mt-4 md:mt-0 text-[10px] font-bold uppercase tracking-widest">
-            <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> Safe Zone</span>
+            <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> The Front Lines</span>
             <span className="flex items-center gap-2 text-red-600"><span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> Abyssal Encroachment</span>
           </div>
         </div>
