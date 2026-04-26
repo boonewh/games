@@ -126,13 +126,13 @@ const Footer = () => {
                   Latest Adventure
                 </Link>
                 <Link 
-                  href="/dice" 
+                  href="/winter/dice"
                   className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
                 >
                   Roll Dice
                 </Link>
-                <Link 
-                  href="/rules" 
+                <Link
+                  href="/winter/rules"
                   className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
                 >
                   House Rules
