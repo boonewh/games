@@ -20,7 +20,7 @@ const Header = () => {
     <>
       {/* Floating Logo - Fixed position, completely independent */}
       <div className="fixed top-4 left-4 z-50 group cursor-pointer">
-        <Link href="/">
+        <Link href="/winter">
           <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24">
             {/* Magical glow background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-purple-500/30 to-cyan-500/30 rounded-full blur-lg group-hover:blur-xl transition-all duration-500 opacity-70 group-hover:opacity-100"></div>
@@ -59,7 +59,7 @@ const Header = () => {
           <div className="flex items-center justify-between h-16 lg:h-20">
             
             {/* Site Title - Left side, but with padding to avoid logo */}
-            <Link href="/" className="flex items-center">
+            <Link href="/winter" className="flex items-center">
               <div className="hidden md:block pl-20 sm:pl-24 lg:pl-28">
                 <h1 className="font-alkatra text-xl lg:text-4xl font-bold text-slate-300 tracking-wide select-none">
                   PathSix Games
@@ -81,7 +81,7 @@ const Header = () => {
                 </Link>
                 
                 <Link 
-                  href="/adventure-log" 
+                  href="/winter/adventure-log" 
                   className="px-4 py-2 rounded-full text-slate-200 hover:text-blue-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Adventure Log
@@ -141,7 +141,7 @@ const Header = () => {
                 </Link>
 
                 <Link
-                  href="/wrath"
+                  href="/"
                   className="px-4 py-2 rounded-full text-slate-200 hover:text-amber-200 hover:bg-slate-700/70 transition-all duration-300 font-medium text-lg"
                 >
                   Next Adventure
@@ -190,7 +190,7 @@ const Header = () => {
             <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-600/30 shadow-2xl overflow-hidden">
               <div className="p-4 space-y-2">
                 <Link 
-                  href="/" 
+                  href="/winter"
                   className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -198,7 +198,7 @@ const Header = () => {
                 </Link>
                 
                 <Link 
-                  href="/adventure-log" 
+                  href="/winter/adventure-log" 
                   className="block px-4 py-3 rounded-lg text-slate-200 hover:text-blue-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -241,7 +241,7 @@ const Header = () => {
                 </Link>
 
                 <Link
-                  href="/wrath"
+                  href="/"
                   className="block px-4 py-3 rounded-lg text-slate-200 hover:text-amber-200 hover:bg-slate-700/50 transition-all duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -251,7 +251,7 @@ const Header = () => {
                 {/* Mobile call to action */}
                 <div className="pt-4 border-t border-slate-600/30 mt-4">
                   <Link 
-                    href="/adventure-log" 
+                    href="/winter/adventure-log" 
                     className="block w-full text-center px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >

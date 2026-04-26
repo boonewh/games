@@ -145,7 +145,7 @@ export default function WrathAboutPage() {
               Explore our chronicles and witness the legends we&apos;ve forged together over nearly four decades.
             </p>
             <Link
-              href="/wrath/adventure-log"
+              href="/adventure-log"
               className="inline-flex items-center px-8 py-3 bg-wotr-gold hover:bg-wotr-gold/90 text-stone-dark font-bold rounded-sm transition-colors duration-300 shadow-lg font-cinzel uppercase tracking-wider"
             >
               Explore Our Adventures

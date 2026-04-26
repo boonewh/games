@@ -120,7 +120,7 @@ const Footer = () => {
                   Character Vault
                 </Link>
                 <Link 
-                  href="/adventure-log" 
+                  href="/winter/adventure-log"
                   className="text-slate-400 hover:text-blue-200 transition-colors duration-300 tracking-wide"
                 >
                   Latest Adventure

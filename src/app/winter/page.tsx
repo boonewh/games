@@ -188,7 +188,7 @@ const PathSixHomepage = () => {
           </div>
 
           <div className="ml-8 sm:ml-12 lg:ml-16 flex flex-col sm:flex-row items-start gap-6">
-            <Link href="/adventure-log">
+            <Link href="/winter/adventure-log">
               <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                 <span className="flex items-center">
                   Begin the Adventure
@@ -505,7 +505,7 @@ const PathSixHomepage = () => {
                       </button>
                     </Link>
                     
-                    <Link href="/adventure-log">
+                    <Link href="/winter/adventure-log">
                       <button className="group px-6 py-3 bg-slate-700/60 backdrop-blur-sm border border-slate-500/50 text-slate-200 rounded-lg hover:bg-slate-600/60 hover:border-blue-400/50 transition-all duration-300 font-medium">
                         <span className="flex items-center">
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -547,7 +547,7 @@ const PathSixHomepage = () => {
                 </div>
                 <h3 className="text-xl font-bold text-slate-300 mb-2">The Chronicles Await</h3>
                 <p className="text-slate-400 mb-6">Our latest adventures are being penned... Check back soon for fresh tales from the frozen realms!</p>
-                <Link href="/adventure-log">
+                <Link href="/winter/adventure-log">
                   <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
                     Explore Past Adventures
                   </button>
@@ -574,7 +574,7 @@ const PathSixHomepage = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-                  <Link href="/adventure-log">
+                  <Link href="/winter/adventure-log">
                     <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
                       Start Reading
                     </button>

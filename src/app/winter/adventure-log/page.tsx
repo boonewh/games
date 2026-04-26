@@ -424,7 +424,7 @@ export default function AdventureLogPage() {
             to rescue Baba Yaga and break the eternal winter&apos;s hold.
           </p>
           <Link 
-            href="/adventure-log/the-snows-of-summer"
+            href="/winter/adventure-log/the-snows-of-summer"
             className="inline-flex items-center px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded-lg transition-colors duration-300 shadow-lg font-['Alkatra']"
           >
             Start Reading: The Snows of Summer

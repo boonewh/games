@@ -123,7 +123,7 @@ export default function WrathPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/Caleth.jpg' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru.jpg' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru1.jpg' },
               { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg' },
               { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg' },
             ].map((character) => (
@@ -456,7 +456,7 @@ export default function WrathPage() {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href={`/wrath/adventure-log/${latestStory.book}?entry=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
+                    <Link href={`/adventure-log/${latestStory.book}?entry=${latestStory.book}-${latestStory.date}-${latestStory.slug}`}>
                       <button className="group inline-flex items-center gap-2 px-6 py-2.5 bg-wotr-gold text-stone-dark font-cinzel text-sm uppercase tracking-widest hover:bg-wotr-gold/90 transition-colors duration-300">
                         Read Full Entry
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -464,7 +464,7 @@ export default function WrathPage() {
                         </svg>
                       </button>
                     </Link>
-                    <Link href="/wrath/adventure-log">
+                    <Link href="/adventure-log">
                       <button className="inline-flex items-center gap-2 px-6 py-2.5 border border-zinc-700 hover:border-wotr-gold/50 text-zinc-400 hover:text-parchment font-cinzel text-sm uppercase tracking-widest transition-all duration-300">
                         Browse All Chronicles
                       </button>
@@ -491,7 +491,7 @@ export default function WrathPage() {
                 </svg>
                 <h3 className="font-cinzel text-lg text-zinc-500 uppercase tracking-widest mb-2">The Chronicle Awaits Its First Entry</h3>
                 <p className="text-zinc-600 font-spectral mb-6">The Fifth Crusade has begun — its stories will be written here.</p>
-                <Link href="/wrath/adventure-log">
+                <Link href="/adventure-log">
                   <button className="px-6 py-2.5 border border-wotr-gold/40 text-wotr-gold font-cinzel text-sm uppercase tracking-widest hover:bg-wotr-gold/10 transition-colors">
                     Open the Chronicle
                   </button>

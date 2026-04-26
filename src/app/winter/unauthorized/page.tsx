@@ -12,7 +12,7 @@ export default function UnauthorizedPage() {
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/sign-in" className="btn">Sign In</Link>
-          <Link href="/" className="btn-ghost">Home</Link>
+          <Link href="/winter" className="btn-ghost">Home</Link>
         </div>
       </div>
     </main>

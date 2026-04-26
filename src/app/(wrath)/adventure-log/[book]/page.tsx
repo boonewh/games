@@ -267,7 +267,7 @@ export default function WrathAdventureBookPage() {
           <section className={`relative bg-gradient-to-b from-purple-950 to-stone-900`}>
             <div className="relative max-w-4xl mx-auto px-6 py-16">
               <Link
-                href="/wrath/adventure-log"
+                href="/adventure-log"
                 className="inline-flex items-center text-wotr-gold hover:text-wotr-gold/80 transition-colors mb-8 font-cinzel"
               >
                 <ArrowLeft size={20} className="mr-2" />
@@ -460,7 +460,7 @@ export default function WrathAdventureBookPage() {
           <div className="absolute inset-0 bg-black bg-opacity-20" />
           <div className="relative max-w-6xl mx-auto px-6 py-16">
             <Link
-              href="/wrath/adventure-log"
+              href="/adventure-log"
               className="inline-flex items-center text-wotr-gold hover:text-wotr-gold/80 transition-colors mb-8 font-cinzel"
             >
               <ArrowLeft size={20} className="mr-2" />

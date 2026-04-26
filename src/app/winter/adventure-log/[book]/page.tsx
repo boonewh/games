@@ -100,7 +100,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'The Witch Queen\'s Revenge',
     description: 'In the epic finale, the heroes must rescue Baba Yaga herself and face Queen Elvanna in a climactic battle that will determine the fate of not just Golarion, but multiple worlds. The eternal winter\'s grip must be broken once and for all.',
     bookNumber: 6,
-    status: 'current',
+    status: 'completed',
     theme: 'from-purple-900 to-blue-800'
   }
 ];
@@ -280,7 +280,7 @@ export default function AdventureBookPage() {
         <section className="relative bg-gradient-to-b from-blue-900 to-slate-800">
           <div className="relative max-w-4xl mx-auto px-6 py-16">
             <Link
-              href="/adventure-log"
+              href="/winter/adventure-log"
               className="inline-flex items-center text-cyan-300 hover:text-cyan-200 transition-colors mb-8"
             >
               <ArrowLeft size={20} className="mr-2" />
@@ -488,7 +488,7 @@ export default function AdventureBookPage() {
         <div className="absolute inset-0 bg-black bg-opacity-20" />
         <div className="relative max-w-6xl mx-auto px-6 py-16">
           <Link
-            href="/adventure-log"
+            href="/winter/adventure-log"
             className="inline-flex items-center text-cyan-300 hover:text-cyan-200 transition-colors mb-8"
           >
             <ArrowLeft size={20} className="mr-2" />

@@ -74,21 +74,21 @@ const Header = () => {
             <div className="hidden lg:block">
               <div className="flex items-center space-x-1 bg-stone-light/50 backdrop-blur-sm rounded-full px-2 py-1 border border-zinc-800">
                 <Link
-                  href="/wrath/about"
+                  href="/about"
                   className="px-4 py-2 rounded-full text-parchment hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral"
                 >
                   About
                 </Link>
 
                 <Link
-                  href="/wrath/adventure-log"
+                  href="/adventure-log"
                   className="px-4 py-2 rounded-full text-parchment hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral"
                 >
                   Adventure Log
                 </Link>
 
                 <Link
-                  href="/wrath/dice"
+                  href="/dice"
                   className="px-4 py-2 rounded-full text-parchment hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral"
                 >
                   Dice Roller
@@ -129,7 +129,7 @@ const Header = () => {
                           Jade Regent
                         </Link>
                         <Link
-                          href="/"
+                          href="/winter"
                           className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
                           onClick={() => setIsPastAdventuresOpen(false)}
                         >
@@ -141,7 +141,7 @@ const Header = () => {
                 </div>
 
                 <Link
-                  href="/wrath/rules"
+                  href="/rules"
                   className="px-4 py-2 rounded-full text-parchment hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral"
                 >
                   Rules
@@ -190,7 +190,7 @@ const Header = () => {
             <div className="bg-stone-light/95 backdrop-blur-sm rounded-lg border border-wotr-gold/30 shadow-2xl overflow-hidden">
               <div className="p-4 space-y-2">
                 <Link
-                  href="/wrath"
+                  href="/"
                   className="block px-4 py-3 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -198,7 +198,7 @@ const Header = () => {
                 </Link>
 
                 <Link
-                  href="/wrath/about"
+                  href="/about"
                   className="block px-4 py-3 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -206,7 +206,7 @@ const Header = () => {
                 </Link>
 
                 <Link
-                  href="/wrath/adventure-log"
+                  href="/adventure-log"
                   className="block px-4 py-3 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -214,7 +214,7 @@ const Header = () => {
                 </Link>
 
                 <Link
-                  href="/wrath/dice"
+                  href="/dice"
                   className="block px-4 py-3 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -241,7 +241,7 @@ const Header = () => {
                 </div>
 
                 <Link
-                  href="/wrath/rules"
+                  href="/rules"
                   className="block px-4 py-3 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -251,7 +251,7 @@ const Header = () => {
                 {/* Mobile call to action */}
                 <div className="pt-4 border-t border-zinc-800 mt-4">
                   <Link
-                    href="/wrath/adventure-log"
+                    href="/adventure-log"
                     className="block w-full text-center px-4 py-3 bg-gradient-to-r from-wardstone-blue to-wotr-gold text-stone-dark rounded-lg hover:from-wardstone-blue/80 hover:to-wotr-gold/80 transition-all duration-300 font-medium font-cinzel"
                     onClick={() => setIsMenuOpen(false)}
                   >

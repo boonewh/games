@@ -24,7 +24,7 @@ export default function WrathUnauthorizedPage() {
             Sign In
           </Link>
           <Link
-            href="/wrath"
+            href="/"
             className="px-6 py-3 border border-zinc-700 hover:border-wardstone-blue text-parchment hover:text-wardstone-blue rounded-sm transition-colors font-cinzel uppercase tracking-wider"
           >
             Return Home
