@@ -122,10 +122,10 @@ export default function WrathPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/Caleth.jpg' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru1.jpg' },
-              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg' },
-              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg' },
+              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/Caleth.jpg',  sheet: 'caleth.pdf' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru1.jpg', sheet: 'nageru.pdf' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg',   sheet: 'thane.pdf' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg',  sheet: 'korroc.pdf' },
             ].map((character) => (
               <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
@@ -135,6 +135,19 @@ export default function WrathPage() {
                     fill
                     className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
+                  {/* Character sheet link overlay */}
+                  <Link
+                    href={`/api/vault/proxy?file=${character.sheet}`}
+                    target="_blank"
+                    className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  >
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-black/80 border border-wotr-gold/60 text-wotr-gold font-cinzel text-xs uppercase tracking-widest hover:bg-wotr-gold/10 transition-colors">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Character Sheet
+                    </span>
+                  </Link>
                 </div>
                 <div className="text-center">
                   <h3 className="font-cinzel text-lg text-parchment uppercase tracking-widest">{character.name}</h3>

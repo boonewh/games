@@ -334,7 +334,7 @@ export default function AdventureLogPage() {
           {storiesPerBook.map((book) => (
             <Link 
               key={book.slug}
-              href={`/adventure-log/${book.slug}`}
+              href={`/winter/adventure-log/${book.slug}`}
               className="group block"
             >
               <article className="bg-slate-950/60 border border-slate-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1 hover:border-cyan-400/40">
