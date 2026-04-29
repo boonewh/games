@@ -51,7 +51,7 @@ const Header = () => {
       </div>
 
       {/* Main Header - Wrath themed */}
-      <header className="relative bg-gradient-to-r from-stone-dark via-stone-light to-stone-dark border-b border-wotr-gold/30 shadow-2xl">
+      <header className="relative z-30 bg-gradient-to-r from-stone-dark via-stone-light to-stone-dark border-b border-wotr-gold/30 shadow-2xl">
         {/* Mystical overlay texture */}
         <div className="absolute inset-0 bg-gradient-to-r from-wardstone-blue/10 via-transparent to-wotr-gold/10 pointer-events-none"></div>
 
