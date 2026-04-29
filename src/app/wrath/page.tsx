@@ -446,7 +446,7 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Brought arcane firepower to bear in the close confines of the tunnels, where every spell had to count and every second mattered.',
+                contribution: 'Glaive in hand and daggers at the ready, he fought as a warrior first — his arcane studies still sharpening, but his steel already proven.',
               },
               {
                 name: 'Nageru',
@@ -458,7 +458,7 @@ export default function WrathPage() {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Moved through the dark ahead of the party, reading the enemy and striking precisely where the line was thinnest.',
+                contribution: 'Twin daggers flashing in the dark, he read the enemy without hesitation and put steel exactly where it needed to be.',
               },
               {
                 name: 'Korroc',
