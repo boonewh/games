@@ -117,19 +117,19 @@ const Footer = () => {
                   Character Vault
                 </Link>
                 <Link
-                  href="/adventure-log"
+                  href="/wrath/adventure-log"
                   className="text-zinc-500 hover:text-wardstone-blue transition-colors duration-300 tracking-wide font-spectral"
                 >
                   Latest Adventure
                 </Link>
                 <Link
-                  href="/dice"
+                  href="/wrath/dice"
                   className="text-zinc-500 hover:text-wardstone-blue transition-colors duration-300 tracking-wide font-spectral"
                 >
                   Roll Dice
                 </Link>
                 <Link
-                  href="/rules"
+                  href="/wrath/rules"
                   className="text-zinc-500 hover:text-wardstone-blue transition-colors duration-300 tracking-wide font-spectral"
                 >
                   House Rules

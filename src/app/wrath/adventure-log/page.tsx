@@ -326,7 +326,7 @@ export default function WrathAdventureLogPage() {
             {storiesPerBook.map((book) => (
               <Link
                 key={book.slug}
-                href={`/adventure-log/${book.slug}`}
+                href={`/wrath/adventure-log/${book.slug}`}
                 className="group block"
               >
                 <article className="bg-stone-dark/60 border border-zinc-800 rounded-sm shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1 hover:border-wotr-gold/40">
@@ -411,7 +411,7 @@ export default function WrathAdventureLogPage() {
               Worldwound forever.
             </p>
             <Link
-              href="/adventure-log/the-worldwound-incursion"
+              href="/wrath/adventure-log/the-worldwound-incursion"
               className="inline-flex items-center px-8 py-3 bg-wotr-gold hover:bg-wotr-gold/90 text-stone-dark font-bold rounded-sm transition-colors duration-300 shadow-lg font-cinzel uppercase tracking-wider"
             >
               Start Reading: The Worldwound Incursion

@@ -57,7 +57,7 @@ const booksByCampaign: Record<string, { slug: string; title: string; bookNumber:
 
 const adventureLogBase: Record<string, string> = {
   winter: '/winter/adventure-log',
-  wrath: '/adventure-log',
+  wrath: '/wrath/adventure-log',
 }
 
 function EditorContent_Inner() {
