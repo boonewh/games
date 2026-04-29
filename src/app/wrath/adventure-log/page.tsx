@@ -52,7 +52,7 @@ const adventureBooks: AdventureBook[] = [
     description: 'The adventure begins in the city of Kenabres during the annual Armasse festival when the wardstone is shattered and the city falls under demonic assault. The heroes must survive the attack and discover they have been touched by mythic power.',
     bookNumber: 1,
     coverImage: "/images/wrath/placeholder-book1.jpg",
-    status: 'not-started',
+    status: 'current',
     theme: 'from-purple-950 to-stone-900'
   },
   {

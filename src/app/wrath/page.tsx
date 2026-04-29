@@ -267,7 +267,7 @@ export default function WrathPage() {
       </section>
 
       {/* TRANSITION: Worldwound to Abyss - The Void Fracture */}
-      <section className="relative w-full h-96 overflow-hidden">
+      <section className="relative w-full min-h-[720px] overflow-hidden">
 
         {/* 1. THE VOID GRADIENT (Purple -> Black -> Red) */}
         <div className="absolute inset-0 bg-gradient-to-b from-purple-950 via-black to-red-950"></div>
@@ -292,14 +292,23 @@ export default function WrathPage() {
           ))}
         </div>
 
-        {/* 4. THE CENTER TEAR (Text Overlay with Heavy Glow) */}
-        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <div className="text-center px-4">
+        {/* 4. KENABRES IS BURNING — Title + Image */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-6 py-10 px-4">
+          <div className="text-center">
             <h3 className="font-cinzel text-xl md:text-3xl tracking-[0.8em] uppercase text-white abyssal-glow">
-              Reality is <span className="text-red-600">Bleeding</span>
+              Kenabres is <span className="text-red-600">Burning</span>
             </h3>
-            {/* Secondary subtle light beam behind text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-24 bg-red-600/10 blur-[80px] rounded-full"></div>
+          </div>
+          <div className="relative w-full max-w-4xl mx-auto">
+            <div className="relative aspect-video border border-red-900/50 overflow-hidden shadow-[0_0_60px_rgba(239,68,68,0.2)]">
+              <Image
+                src="/images/wrath/fight-over-kenabres.jpg"
+                alt="The fall of Kenabres"
+                fill
+                className="object-cover opacity-85"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
+            </div>
           </div>
         </div>
 
