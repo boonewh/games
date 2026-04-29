@@ -405,29 +405,96 @@ export default function WrathPage() {
         `}</style>
       </section>
 
-      {/* THREAT SECTION (VILLAIN CARD) - Full Width */}
-      <section className="w-full bg-black border-t border-b border-abyssal-red">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="h-96 lg:h-auto overflow-hidden relative border border-abyssal-red">
-              <Image
-                src="/images/wrath/wrath3.jpg"
-                alt="The Shadow of the Abyss"
-                fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              />
+      {/* SESSION I: CHARACTER PROGRESS */}
+      <section className="w-full bg-black border-t border-b border-zinc-900 py-20 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+
+          {/* Session Header */}
+          <div className="mb-14">
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session I — The Worldwound Incursion</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Fall of Kenabres</h2>
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
+              <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
+              <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
-            <div className="p-10 lg:p-16 flex flex-col justify-center border-l border-abyssal-red">
-              <h2 className="font-cinzel text-3xl text-red-600 mb-6 tracking-tighter">The Shadow of the Abyss</h2>
-              <p className="text-zinc-400 mb-8 leading-relaxed">
-                The storm of approaches. As the sky turns to ash, the heroes must confront the ultimate source of the corruption.
-                {/*Deskari, Lord of the Locust Host, looks upon Kenabres with hunger.*/}
-              </p>
-              <div className="text-xs uppercase tracking-[.3em] text-abyssal-red font-bold">
-                Warning: Mythic Threat Level
+            <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
+              During the Armasse festival, the demon lord Khorramzadeh the Storm King tore through Kenabres&apos;s wardstone
+              and brought the city to ruin. As the sky turned to ash and chaos consumed the streets, the silver dragon
+              Terendelev — guardian of Kenabres — made her final stand. With the last of her magic she slowed the party&apos;s
+              plunge into the depths, then was gone. They woke in darkness, somewhere beneath a burning city, with nothing
+              but steel, faith, and each other.
+            </p>
+          </div>
+
+          {/* Terendelev — Fallen Guardian */}
+          <div className="border border-zinc-800 bg-zinc-950 p-6 mb-14 max-w-lg mx-auto">
+            <p className="text-xs uppercase tracking-[0.35em] text-zinc-500 font-cinzel mb-2">Fallen Guardian</p>
+            <h3 className="font-cinzel text-lg text-zinc-300 mb-0.5">Terendelev</h3>
+            <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
+            <div className="h-px w-full bg-zinc-800 mb-4"></div>
+            <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
+              &ldquo;She did not hesitate. As the Storm King&apos;s claws found her, her last thought was of us.
+              We carry that debt into every fight that follows.&rdquo;
+            </p>
+          </div>
+
+          {/* Party Contribution Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+            {[
+              {
+                name: 'Caleth',
+                classes: 'Paladin / Wizard',
+                role: 'Arcane Vanguard',
+                contribution: 'Brought arcane firepower to bear in the close confines of the tunnels, where every spell had to count and every second mattered.',
+              },
+              {
+                name: 'Nageru',
+                classes: 'Monk / Paladin',
+                role: 'Iron Fist of the Crusade',
+                contribution: 'Stood at the front and refused to yield, meeting the creatures of the deep with fists and divine will in equal measure.',
+              },
+              {
+                name: 'Thane',
+                classes: 'Inquisitor / Rogue',
+                role: 'Shadow of Judgment',
+                contribution: 'Moved through the dark ahead of the party, reading the enemy and striking precisely where the line was thinnest.',
+              },
+              {
+                name: 'Korroc',
+                classes: 'Paladin / Oracle',
+                role: 'Voice of Torag',
+                contribution: 'Kept the party standing through the fighting, then spent eight unbroken hours in prayer — reconsecrating the Shrine of Torag by sheer devotion.',
+              },
+            ].map((c) => (
+              <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
+                <p className="text-xs uppercase tracking-[0.3em] text-wotr-gold font-cinzel mb-1">{c.role}</p>
+                <h3 className="font-cinzel text-lg text-parchment mb-0.5">{c.name}</h3>
+                <p className="text-xs text-zinc-600 font-spectral italic mb-4">{c.classes}</p>
+                <p className="text-sm text-zinc-400 font-spectral leading-relaxed flex-1">{c.contribution}</p>
               </div>
+            ))}
+          </div>
+
+          {/* Milestone: Shrine Reconsecrated */}
+          <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
+            <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Milestone Achieved</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Shrine of Torag</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">First holy ground reclaimed beneath the Worldwound</p>
+            <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
+              Surrounded by enemies and cut off from the surface, the Vanguard fought through the corruption infesting
+              Torag&apos;s forgotten shrine. When the last creature fell, Korroc knelt — and did not rise for eight hours.
+              When he did, the darkness had retreated a little. The forge-god had answered.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
+              <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
+              <span className="text-zinc-800">|</span>
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">0</span></span>
+              <span className="text-zinc-800">|</span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">1</span></span>
             </div>
           </div>
+
         </div>
       </section>
 
