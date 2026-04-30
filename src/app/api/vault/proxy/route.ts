@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   const fileName = searchParams.get('file');
   
   // List of publicly accessible character sheet files
-  const publicCharacterSheets = ['aelira.pdf', 'alaric.pdf', 'joshua.pdf', 'ivan.pdf'];
+  const publicCharacterSheets = ['aelira.pdf', 'alaric.pdf', 'joshua.pdf', 'ivan.pdf', 'caleth.pdf', 'nageru.pdf', 'thane.pdf', 'korroc.pdf'];
   
   // Check if this is a public character sheet or if user is authenticated
   const isPublicFile = fileName && publicCharacterSheets.includes(fileName);
