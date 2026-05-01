@@ -41,12 +41,12 @@ export default function Page() {
             <p className="text-base leading-[1.2em] mb-4">
               Warning! Spoilers for the &quot;Skull &amp; Shackles&quot; Adventure Path.
             </p>
-            <button
-              onClick={() => window.location.href = '/shackles/adventure-log'}
-              className="mx-6 my-8 w-[250px] h-10 transition-transform duration-300 ease-in-out rounded-[10px] font-['Alkatra',Georgia,'Times_New_Roman',Times,serif] text-lg text-[#c6c4ba] bg-[#30393e] border border-[#c6c4ba] cursor-pointer hover:transform hover:scale-105"
+            <Link
+              href="/shackles/adventure-log"
+              className="mx-6 my-8 inline-flex items-center justify-center w-[250px] h-10 transition-transform duration-300 ease-in-out rounded-[10px] font-['Alkatra',Georgia,'Times_New_Roman',Times,serif] text-lg text-[#c6c4ba] bg-[#30393e] border border-[#c6c4ba] hover:scale-105"
             >
               Adventure Log
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function Page() {
             className="w-full rounded-[10px]"
           />
         </Link>
-        <Link href="/JadeRegent/index.html" className="flex-1 min-w-[200px] max-w-[250px]">
+        <Link href="/regent" className="flex-1 min-w-[200px] max-w-[250px]">
           <Image
             src="/images/shackles/jade-regent-link.jpg"
             alt="Our last adventure"

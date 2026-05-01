@@ -113,7 +113,7 @@ export default function WrathPage() {
           </p>
         </section>
 
-        {/* THE VANGUARD (CHARACTER PLACEHOLDERS) */}
+        {/* THE VANGUARD (CHARACTERS) */}
         <section className="mb-32">
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>

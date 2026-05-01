@@ -7,6 +7,7 @@ import Image from 'next/image';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPastAdventuresOpen, setIsPastAdventuresOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -115,18 +116,18 @@ const Header = () => {
                     <div className="absolute top-full left-0 mt-2 w-48 bg-stone-light/95 backdrop-blur-sm border border-wotr-gold/30 rounded-lg shadow-2xl z-50">
                       <div className="py-2">
                         <Link
-                          href="/shackles"
-                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
-                          onClick={() => setIsPastAdventuresOpen(false)}
-                        >
-                          Skull & Shackles
-                        </Link>
-                        <Link
                           href="/regent"
                           className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
                           onClick={() => setIsPastAdventuresOpen(false)}
                         >
                           Jade Regent
+                        </Link>
+                        <Link
+                          href="/shackles"
+                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                          onClick={() => setIsPastAdventuresOpen(false)}
+                        >
+                          Skull & Shackles
                         </Link>
                         <Link
                           href="/winter"
@@ -146,6 +147,58 @@ const Header = () => {
                 >
                   Rules
                 </Link>
+
+                {/* Resources Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                    className="px-4 py-2 rounded-full text-parchment hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral flex items-center space-x-1"
+                  >
+                    <span>Resources</span>
+                    <svg
+                      className={`w-3 h-3 transition-transform duration-200 ${isResourcesOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {isResourcesOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-stone-light/95 backdrop-blur-sm border border-wotr-gold/30 rounded-lg shadow-2xl z-50">
+                      <div className="py-2">
+                        <a
+                          href="https://www.aonprd.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                          onClick={() => setIsResourcesOpen(false)}
+                        >
+                          Archives of Nethys
+                        </a>
+                        <a
+                          href="https://www.d20pfsrd.com/extras/community-creations/fgf-houserules/vcg-gestalt-multiclassing/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                          onClick={() => setIsResourcesOpen(false)}
+                        >
+                          Gestalt Characters
+                        </a>
+                        <a
+                          href="https://www.sortekanin.com/collection/items/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 text-sm text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                          onClick={() => setIsResourcesOpen(false)}
+                        >
+                          SorteKanin&apos;s Treasure Generator
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -225,18 +278,18 @@ const Header = () => {
                 <div>
                   <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 px-4 font-cinzel">Past Adventures</div>
                   <Link
-                    href="/shackles"
-                    className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Skull & Shackles
-                  </Link>
-                  <Link
                     href="/regent"
                     className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Jade Regent
+                  </Link>
+                  <Link
+                    href="/shackles"
+                    className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Skull & Shackles
                   </Link>
                   <Link
                     href="/winter"
@@ -254,6 +307,38 @@ const Header = () => {
                 >
                   Rules Page
                 </Link>
+
+                {/* Mobile Resources */}
+                <div>
+                  <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 px-4 font-cinzel">Resources</div>
+                  <a
+                    href="https://www.aonprd.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Archives of Nethys
+                  </a>
+                  <a
+                    href="https://www.d20pfsrd.com/extras/community-creations/fgf-houserules/vcg-gestalt-multiclassing/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Gestalt Characters
+                  </a>
+                  <a
+                    href="https://www.sortekanin.com/collection/items/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 ml-4 rounded-lg text-parchment hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-spectral"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    SorteKanin&apos;s Treasure Generator
+                  </a>
+                </div>
 
                 {/* Mobile call to action */}
                 <div className="pt-4 border-t border-zinc-800 mt-4">

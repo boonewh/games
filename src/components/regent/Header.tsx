@@ -14,6 +14,7 @@ const Header = () => {
     { href: '/regent/adventure-log', label: 'Adventure Log' },
     { href: '/regent/characters', label: 'Characters' },
     { href: '/regent/about', label: 'About Us' },
+    { href: '/shackles', label: 'Next Adventure' },
   ];
 
   const toggleMenu = () => {
@@ -58,7 +59,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <ul className="hidden md:flex justify-center space-x-8 py-4">
             {navigationItems.map((item) => (
-              <li key={item.href}>
+              <li key={item.label}>
                 <Link 
                   href={item.href}
                   className="text-[#EFCAA3] font-extrabold hover:text-yellow-300 transition-colors px-2 py-1 rounded"
@@ -74,7 +75,7 @@ const Header = () => {
             <div className="md:hidden">
               <ul className="pb-4 space-y-2">
                 {navigationItems.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.label}>
                     <Link 
                       href={item.href}
                       onClick={closeMenu}

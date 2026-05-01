@@ -4,6 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+export const shacklesNavItems = [
+  { href: '/', label: 'Home Page' },
+  { href: '/shackles', label: 'Shackles Home Page' },
+  { href: '/shackles/adventure-log', label: 'Adventure Log' },
+  { href: '/shackles/rules', label: 'Rules Page' },
+  { href: '/winter', label: 'Next Adventure' },
+];
+
 export default function SkullShacklesNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -50,41 +58,16 @@ export default function SkullShacklesNavigation() {
             className="w-[15%] lg:w-[5%] lg:ml-[-2%] lg:z-[100]"
           />
           
-          <li className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
-            <Link 
-              href="/" 
-              className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
-            >
-              Home Page
-            </Link>
-          </li>
-          
-          <li className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
-            <Link 
-              href="/shackles" 
-              className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
-            >
-              Shackles Home Page
-            </Link>
-          </li>
-          
-          <li className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
-            <Link 
-              href="/shackles/adventure-log" 
-              className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
-            >
-              Adventure Log
-            </Link>
-          </li>
-          
-          <li className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
-            <Link 
-              href="/shackles/rules" 
-              className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
-            >
-              Rules Page
-            </Link>
-          </li>
+          {shacklesNavItems.map((item) => (
+            <li key={item.label} className="lg:w-full lg:ml-[-2.5%] lg:leading-[1.5em]">
+              <Link
+                href={item.href}
+                className="text-[#c6c4ba] text-[1.3em] leading-[1.6em] no-underline lg:block lg:text-center lg:text-[1.1em] lg:leading-[1.8em] lg:font-bold hover:bg-[#9d9b9c] hover:text-black active:bg-[#9d9b9c] active:text-black"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
           
           <Image 
             src="/images/shackles/flagfill.png" 
