@@ -272,8 +272,6 @@ export default function WrathPage() {
         {/* 1. THE VOID GRADIENT (Purple -> Black -> Red) */}
         <div className="absolute inset-0 bg-gradient-to-b from-purple-950 via-black to-red-950"></div>
 
-        {/* 2. ATMOSPHERIC SHADOWS (Deepens the "Black Middle" effect) */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,rgba(0,0,0,1)_80%)]"></div>
 
         {/* 3. UNSTABLE ENERGY SEAMS (Thinner, Slower, Vanishing) */}
         <div className="absolute inset-0 flex justify-around items-center opacity-40">
