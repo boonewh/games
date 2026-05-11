@@ -444,25 +444,25 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Glaive in hand and daggers at the ready, he fought as a warrior first — his arcane studies still sharpening, but his steel already proven.',
+                contribution: 'Glaive and daggers in the early dark, then something more — a shocking grasp channeled through smite evil dropped Hosilla where she stood. The two halves of his training finally speaking the same language.',
               },
               {
                 name: 'Nageru',
                 classes: 'Monk / Paladin',
                 role: 'Iron Fist of the Crusade',
-                contribution: 'Stood at the front and refused to yield, meeting the creatures of the deep with fists and divine will in equal measure.',
+                contribution: 'When the demons came, steel wasn\'t enough. He called on Terendelev\'s scale, channeling her sacrifice through his fists — and brought both of them down.',
               },
               {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Twin daggers flashing in the dark, he read the enemy without hesitation and put steel exactly where it needed to be.',
+                contribution: 'Scouted every passage, first into every fight, twin daggers finding their mark before the enemy knew he was there. He also opened the box — and now carries what was inside.',
               },
               {
                 name: 'Korroc',
                 classes: 'Paladin / Oracle',
                 role: 'Voice of Torag',
-                contribution: 'Kept the party standing through the fighting, then spent eight unbroken hours in prayer — reconsecrating the Shrine of Torag by sheer devotion.',
+                contribution: 'Kept the party standing through three sessions of relentless fighting. His eight-hour vigil at the Shrine was the foundation everything else was built on.',
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -474,22 +474,22 @@ export default function WrathPage() {
             ))}
           </div>
 
-          {/* Milestone: Shrine Reconsecrated */}
+          {/* Milestone: Underground Cleared */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
-            <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Milestone Achieved</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Shrine of Torag</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">First holy ground reclaimed beneath the Worldwound</p>
+            <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Underground Cleared</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Three sessions beneath a burning city — ready to surface</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              Surrounded by enemies and cut off from the surface, the Vanguard fought through the corruption infesting
-              Torag&apos;s forgotten shrine. When the last creature fell, Korroc knelt — and did not rise for eight hours.
-              When he did, the darkness had retreated a little. The forge-god had answered.
+              The Shrine reconsecrated. The demons in the maze defeated. A promise made to the mongrelfolk — and kept.
+              Hosilla fell to Caleth&apos;s magic and divine wrath. The Vanguard stands at the mouth of the long hallway,
+              battered but unbroken, with daylight somewhere ahead and Radiance in Thane&apos;s possession.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">0</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">1</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">3</span></span>
             </div>
           </div>
 
