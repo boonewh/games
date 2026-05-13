@@ -7,6 +7,7 @@ import Header from "@/components/wrath/Header";
 import Footer from "@/components/wrath/Footer";
 import WrathMiniatureGallery from "@/components/wrath/MiniatureGallery";
 import { StoryEntry } from "@/types/story";
+import { blockText } from "@/lib/story-blocks";
 
 const WRATH_BOOKS: Record<string, string> = {
   'the-worldwound-incursion': 'The Worldwound Incursion',
@@ -19,17 +20,21 @@ const WRATH_BOOKS: Record<string, string> = {
 
 function getStoryTitle(story: StoryEntry): string {
   const heading = story.story.find(b => b.type === 'heading');
-  if (heading && 'content' in heading && typeof heading.content === 'string') return heading.content;
+  if (heading && 'content' in heading) {
+    const text = blockText((heading as { content?: unknown }).content);
+    if (text) return text;
+  }
   return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
 function getStoryExcerpt(story: StoryEntry, limit = 350): string {
-  const para = story.story.find(b =>
-    b.type === 'paragraph' && 'content' in b && typeof b.content === 'string' && b.content.trim().length > 50
-  );
-  if (para && 'content' in para && typeof para.content === 'string') {
-    const text = para.content.trim();
-    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  for (const b of story.story) {
+    if (b.type === 'paragraph' && 'content' in b) {
+      const text = blockText((b as { content?: unknown }).content).trim();
+      if (text.length > 50) {
+        return text.length > limit ? text.substring(0, limit) + '...' : text;
+      }
+    }
   }
   return 'The chronicle of the Fifth Crusade awaits its first entry...';
 }

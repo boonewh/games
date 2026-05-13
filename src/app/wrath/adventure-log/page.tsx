@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { StoryEntry } from '@/types/story'
+import { blockText } from '@/lib/story-blocks'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
@@ -12,23 +13,23 @@ import Footer from '@/components/wrath/Footer'
 // Helper function to get a readable title or excerpt from a story
 function getStoryTitle(story: StoryEntry): string {
   const heading = story.story.find(block => block.type === 'heading')
-  if (heading && 'content' in heading && typeof heading.content === 'string') {
-    return heading.content
+  if (heading && 'content' in heading) {
+    const text = blockText((heading as { content?: unknown }).content)
+    if (text) return text
   }
   return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
 }
 
 // Helper function to get a story excerpt
 function getStoryExcerpt(story: StoryEntry, limit = 100): string {
-  const paragraph = story.story.find(block =>
-    block.type === 'paragraph' && 'content' in block && typeof block.content === 'string'
-  )
-
-  if (paragraph && 'content' in paragraph && typeof paragraph.content === 'string') {
-    const content = paragraph.content.trim()
-    return content.length > limit ? content.substring(0, limit) + '...' : content
+  for (const block of story.story) {
+    if (block.type === 'paragraph' && 'content' in block) {
+      const text = blockText((block as { content?: unknown }).content).trim()
+      if (text) {
+        return text.length > limit ? text.substring(0, limit) + '...' : text
+      }
+    }
   }
-
   return 'No excerpt available'
 }
 

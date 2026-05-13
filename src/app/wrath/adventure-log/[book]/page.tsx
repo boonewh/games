@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react'
 import { StoryEntry, StoryBlock } from '@/types/story';
+import { blockText, contentToTiptapChildren } from '@/lib/story-blocks';
 import Header from '@/components/wrath/Header';
 import Footer from '@/components/wrath/Footer';
 
@@ -15,8 +16,9 @@ export const dynamic = 'force-dynamic'
 // Helper function to get a readable title from a story
 function getStoryTitle(story: StoryEntry): string {
   const heading = story.story.find(block => block.type === 'heading')
-  if (heading && 'content' in heading && typeof heading.content === 'string') {
-    return heading.content
+  if (heading && 'content' in heading) {
+    const text = blockText((heading as { content?: unknown }).content)
+    if (text) return text
   }
   return story.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
 }
@@ -106,9 +108,12 @@ const adventureBooks: AdventureBook[] = [
 // Helper function to extract excerpt from story blocks
 function getStoryExcerpt(story: StoryBlock[], limit = 200): string {
   for (const block of story) {
-    if (block.type === 'paragraph' && 'content' in block && typeof block.content === 'string') {
-      const text = block.content.substring(0, limit);
-      return text.length < block.content.length ? text + '...' : text;
+    if (block.type === 'paragraph' && 'content' in block) {
+      const fullText = blockText((block as { content?: unknown }).content);
+      if (fullText) {
+        const text = fullText.substring(0, limit);
+        return text.length < fullText.length ? text + '...' : text;
+      }
     }
   }
   return 'No excerpt available';
@@ -223,13 +228,13 @@ export default function WrathAdventureBookPage() {
                   if (block.type === 'paragraph') {
                     return {
                       type: 'paragraph',
-                      content: [{ type: 'text', text: block.content }]
+                      content: contentToTiptapChildren((block as { content?: unknown }).content)
                     }
                   } else if (block.type === 'heading') {
                     return {
                       type: 'heading',
-                      attrs: { level: block.level },
-                      content: [{ type: 'text', text: block.content }]
+                      attrs: { level: (block as { level?: number }).level },
+                      content: contentToTiptapChildren((block as { content?: unknown }).content)
                     }
                   }
                   return {

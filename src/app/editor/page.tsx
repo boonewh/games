@@ -9,6 +9,12 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { Typography } from '@tiptap/extension-typography'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import {
+  blockText,
+  contentToTiptapChildren,
+  tiptapChildrenToContent,
+} from '@/lib/story-blocks'
+import type { StoryBlock } from '@/types/story'
 
 
 type JSONNode = {
@@ -169,37 +175,34 @@ function EditorContent_Inner() {
         // Convert story back to editor format
         // Try to get title from first heading block, fallback to slug-derived title
         const headingBlock = story.story.find((block: unknown) => {
-          return typeof block === 'object' && block !== null && 'type' in block && 
+          return typeof block === 'object' && block !== null && 'type' in block &&
                  (block as { type: string }).type === 'heading'
-        }) as { content?: string } | undefined
-        
-        const title = headingBlock?.content || 
+        }) as { content?: unknown } | undefined
+
+        // headingBlock.content can be a legacy string OR an inline-node array; blockText handles both.
+        const headingText = blockText(headingBlock?.content)
+        const title = headingText ||
                      story.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
         setTitle(title)
         setImage(story.coverUrl ?? '')
         
-        // Convert story blocks back to TipTap content
+        // Convert story blocks back to TipTap content.
+        // Handles both legacy string content and rich inline-node content (with marks).
         const contentBlocks = story.story
           .map((block: unknown) => {
             if (typeof block === 'object' && block !== null && 'type' in block) {
-              const typedBlock = block as { type: string; content?: string; level?: number }
-              
+              const typedBlock = block as { type: string; content?: unknown; level?: number }
+
               if (typedBlock.type === 'paragraph') {
-                // TipTap doesn't allow empty text nodes, so only create text node if content is non-empty
                 return {
                   type: 'paragraph',
-                  content: typedBlock.content && typedBlock.content.trim() !== '' 
-                    ? [{ type: 'text', text: typedBlock.content }] 
-                    : []
+                  content: contentToTiptapChildren(typedBlock.content),
                 }
               } else if (typedBlock.type === 'heading') {
-                // Same for headings - no empty text nodes
                 return {
                   type: 'heading',
                   attrs: { level: typedBlock.level || 1 },
-                  content: typedBlock.content && typedBlock.content.trim() !== '' 
-                    ? [{ type: 'text', text: typedBlock.content }] 
-                    : []
+                  content: contentToTiptapChildren(typedBlock.content),
                 }
               }
             }
@@ -304,37 +307,39 @@ function EditorContent_Inner() {
     setSaving(true)
     setError(null)
     const content = editor?.getJSON()
-    // Convert TipTap content to story blocks
-    let storyBlocks = content?.content?.map((node: unknown) => {
+    // Convert TipTap content to story blocks. tiptapChildrenToContent preserves
+    // inline marks (italic, bold, etc.) when any run carries them, and falls back
+    // to a plain string for fully unformatted prose (backward-compatible with
+    // older readers that expect content: string).
+    let storyBlocks: StoryBlock[] = content?.content?.map((node: unknown) => {
       if (typeof node === 'object' && node !== null && 'type' in node) {
-        const typedNode = node as { 
-          type: string; 
-          content?: Array<{ text?: string; type?: string }>; 
-          attrs?: { level?: number } 
+        const typedNode = node as {
+          type: string;
+          content?: Array<{ text?: string; type?: string; marks?: Array<{ type: string }> }>;
+          attrs?: { level?: number }
         }
-        
+
         if (typedNode.type === 'paragraph') {
-          const text = typedNode.content?.map((child) => child.text || '').join('') || ''
-          return { type: 'paragraph' as const, content: text }
+          return { type: 'paragraph' as const, content: tiptapChildrenToContent(typedNode.content) }
         } else if (typedNode.type === 'heading') {
-          const text = typedNode.content?.map((child) => child.text || '').join('') || ''
           const level = typedNode.attrs?.level || 1
-          return { type: 'heading' as const, level, content: text }
+          return { type: 'heading' as const, level, content: tiptapChildrenToContent(typedNode.content) }
         }
       }
       return { type: 'paragraph' as const, content: '' } // Default fallback
     }) || []
 
-    // Ensure the title is saved as the first heading block
-    // Remove any existing heading with the same content as the title
+    // Ensure the title is saved as the first heading block.
+    // Compare by flat text so we catch headings stored as inline-node arrays too.
     const titleContent = title.trim()
     if (titleContent) {
-      // Remove any existing heading that matches the title
-      storyBlocks = storyBlocks.filter(block => 
-        !(block.type === 'heading' && block.content === titleContent)
-      )
-      
-      // Add the title as the first heading block
+      storyBlocks = storyBlocks.filter((block) => {
+        if (block.type !== 'heading') return true
+        const headingText = blockText((block as { content?: unknown }).content)
+        return headingText !== titleContent
+      })
+
+      // Add the title as the first heading block (plain string is fine; titles have no inline marks).
       storyBlocks.unshift({
         type: 'heading' as const,
         level: 1,
