@@ -122,7 +122,8 @@ export default function WrathPage() {
         <section className="mb-32">
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 1 Gestalt • Mythic Tier 0</span>
+            {/* Level/Mythic Tier — KEEP IN SYNC with the Campaign Arc Status milestone box further down this page. Both display this info; both must update together. */}
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 4 Gestalt • Mythic Tier 0</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -408,25 +409,26 @@ export default function WrathPage() {
         `}</style>
       </section>
 
-      {/* SESSION I: CHARACTER PROGRESS */}
+      {/* CAMPAIGN ARC STATUS — REPLACE-NOT-APPEND each session. See wrath-story-book/memory/webpage-session-section.md for the design pattern and update process. */}
       <section className="w-full bg-black border-t border-b border-zinc-900 py-20 px-6">
         <div className="max-w-5xl mx-auto text-center">
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session I — The Worldwound Incursion</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Fall of Kenabres</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session V — The Worldwound Incursion</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Patient Thunder</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              During the Armasse festival, the demon lord Khorramzadeh the Storm King tore through Kenabres&apos;s wardstone
-              and brought the city to ruin. As the sky turned to ash and chaos consumed the streets, the silver dragon
-              Terendelev — guardian of Kenabres — made her final stand. With the last of her magic she slowed the party&apos;s
-              plunge into the depths, then was gone. They woke in darkness, somewhere beneath a burning city, with nothing
-              but steel, faith, and each other.
+              The party is whole again. Nageru led the Gwerm Manor survivors through demon-haunted streets to the
+              Blackwing Library, where the strike team waited — the first time all of them had stood in the same room
+              since the wardstone fell. Together they crossed a burning city to find Irabeth alive at the Defender&apos;s
+              Heart, delivered the intelligence they had bled to gather, and cleared the last two Templar safe houses.
+              The Minagho letter names what follows: Vorlesh has crossed into the Abyss for a Nahyndrian crystal.
+              The war has a shape now. The enemy is not idle.
             </p>
           </div>
 
@@ -449,25 +451,25 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Glaive and daggers in the early dark, then something more — a shocking grasp channeled through smite evil dropped Hosilla where she stood. The two halves of his training finally speaking the same language.',
+                contribution: 'Stood inside a column of enemy fire at the Tower of Estrod and emerged untouched — his resistance to flame holding where the cultist leader\'s power could not. Ended the fight with a holy-lightning strike that dropped the red-skinned commander. Carries a secret about the elder wizard beside him that is still too new to name.',
               },
               {
                 name: 'Nageru',
                 classes: 'Monk / Paladin',
                 role: 'Iron Fist of the Crusade',
-                contribution: 'When the demons came, steel wasn\'t enough. He called on Terendelev\'s scale, channeling her sacrifice through his fists — and brought both of them down.',
+                contribution: 'Detected the demon-swarm before it arrived and got the manor out in time. Carried the orphan through burning streets to the reunion. Spoke the password that opened the door to Irabeth. Told the whole story to the Watch. Took three arrows and a creature\'s roots in his flesh in the same morning and kept going. Ended the last fight with a javelin and four words.',
               },
               {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Scouted every passage, first into every fight, twin daggers finding their mark before the enemy knew he was there. He also opened the box — and now carries what was inside.',
+                contribution: 'Pulled the poison bottle from beneath a clockwork deathtrap\'s blades before they came down. Found the secret basement under Topaz Solutions. Used the captured poison against the Tower of Estrod garrison, then stood with Korroc and held the door. Now carries two letters — S.V.\'s and Minagho\'s — that together map the shape of the enemy.',
               },
               {
                 name: 'Korroc',
                 classes: 'Paladin / Oracle',
                 role: 'Voice of Torag',
-                contribution: 'Kept the party standing through three sessions of relentless fighting. His eight-hour vigil at the Shrine was the foundation everything else was built on.',
+                contribution: 'Walked up to the Tower of Estrod\'s door alone to confirm the enemy before letting Thane throw the bottle. Held that door shut while the poison worked. Stood between the party and a wave of reinforcements and did not move. Sent healing through the company every time they needed it. Solid as the stone in his blood.',
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -479,22 +481,24 @@ export default function WrathPage() {
             ))}
           </div>
 
-          {/* Milestone: Underground Cleared */}
+          {/* Milestone: The Defender's Heart */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Underground Cleared</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Three sessions beneath a burning city — ready to surface</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Defender&apos;s Heart</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The party is whole — and the enemy is named</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The Shrine reconsecrated. The demons in the maze defeated. A promise made to the mongrelfolk — and kept.
-              Hosilla fell to Caleth&apos;s magic and divine wrath. The Vanguard stands at the mouth of the long hallway,
-              battered but unbroken, with daylight somewhere ahead and Radiance in Thane&apos;s possession.
+              The Vanguard stands reunited at last, under Irabeth&apos;s command at the Defender&apos;s Heart. Topaz
+              Solutions and the Tower of Estrod have been cleared. The S.V. letter is in Eagle Watch hands. The Minagho
+              letter reveals what follows: Vorlesh has gone into the Abyss to secure a Nahyndrian crystal — a weapon
+              meant to turn the wardstone network against the Crusade. Kenabres burns on. The next move belongs to
+              the enemy, and the enemy is not idle.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">0</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">3</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">4</span></span>
             </div>
           </div>
 
