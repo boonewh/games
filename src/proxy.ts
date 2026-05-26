@@ -1,7 +1,7 @@
 import { withAuth } from 'next-auth/middleware'
 
 export default withAuth(
-  function middleware() {
+  function proxy() {
     // This runs only when the user is authenticated
     return
   },
@@ -9,11 +9,11 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         // Protect /editor and /vault routes
-        if (req.nextUrl.pathname.startsWith('/editor') || 
+        if (req.nextUrl.pathname.startsWith('/editor') ||
             req.nextUrl.pathname.startsWith('/vault')) {
           return !!token // Only allow if user has a token (is signed in)
         }
-        
+
         // All other routes are public
         return true
       }
