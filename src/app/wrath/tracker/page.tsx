@@ -1,16 +1,14 @@
-// Minimal smoke-test page. Confirms:
-//   - the auth gate works (you got here, so you're signed in)
-//   - the API can read from Supabase (the character list renders)
-//   - the API can write to Supabase (the test-create button inserts a row)
-//
-// This is a throwaway shell — we'll replace it with the real roster UI next.
+// Roster — every character belonging to the signed-in user.
+// Click one to enter its full view at /wrath/tracker/[id].
 
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import Link from 'next/link'
 import type { Character } from '@/lib/tracker/types'
+import { NewCharacterModal } from '@/components/tracker/NewCharacterModal'
 
-export default function TrackerSmokeTest() {
+export default function TrackerRosterPage() {
   const [characters, setCharacters] = useState<Character[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -34,85 +32,75 @@ export default function TrackerSmokeTest() {
     load()
   }, [load])
 
-  async function createTest() {
-    setCreating(true)
-    setError(null)
-    try {
-      const res = await fetch('/api/tracker/characters', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: `Korroc smoke-test ${new Date().toISOString().slice(11, 19)}`,
-          class_summary: 'Dwarf Gestalt Stonelord/Life Oracle',
-          level: 4,
-          max_hp: 52,
-          fortification_percent: 25,
-          drs: [{ amount: 2, bypass: 'adamantine' }],
-          vulnerabilities: [{ energy_type: 'cold' }]
-        })
-      })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
-      await load()
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e))
-    } finally {
-      setCreating(false)
-    }
-  }
-
   return (
-    <main className="min-h-screen bg-stone-dark text-parchment p-8 font-spectral">
-      <h1 className="font-cinzel text-3xl text-wotr-gold mb-2">Tracker — smoke test</h1>
-      <p className="text-sm opacity-70 mb-6">
-        Throwaway page to verify auth + Supabase round-trip. Real UI lands next.
-      </p>
+    <main className="min-h-screen bg-stone-dark text-parchment font-spectral">
+      <div className="mx-auto max-w-5xl px-6 py-10">
+        <header className="flex items-baseline justify-between mb-8 border-b border-stone-light pb-4">
+          <div>
+            <h1 className="font-cinzel text-3xl text-wotr-gold">Character Tracker</h1>
+            <p className="text-sm opacity-70 mt-1">Your characters in this campaign.</p>
+          </div>
+          <button
+            onClick={() => setCreating(true)}
+            className="px-4 py-2 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold font-cinzel"
+          >
+            + New Character
+          </button>
+        </header>
 
-      <button
-        onClick={createTest}
-        disabled={creating}
-        className="mb-6 px-4 py-2 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold disabled:opacity-50"
-      >
-        {creating ? 'Creating…' : '+ Create a test Korroc'}
-      </button>
+        {error && (
+          <div className="mb-4 p-3 rounded border border-abyssal-red/60 bg-abyssal-red/20 text-parchment">
+            <strong>Error:</strong> {error}
+          </div>
+        )}
 
-      {error && (
-        <div className="mb-4 p-3 rounded border border-abyssal-red/60 bg-abyssal-red/20 text-parchment">
-          <strong>Error:</strong> {error}
-        </div>
+        {loading ? (
+          <div className="opacity-60">Loading characters…</div>
+        ) : characters.length === 0 ? (
+          <div className="rounded border border-dashed border-stone-light p-8 text-center opacity-70">
+            <div className="text-lg font-cinzel text-wotr-gold/70 mb-2">No characters yet</div>
+            <div>Click <span className="text-wotr-gold">+ New Character</span> to create one.</div>
+          </div>
+        ) : (
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {characters.map((c) => (
+              <li key={c.id}>
+                <Link
+                  href={`/wrath/tracker/${c.id}`}
+                  className="block p-4 rounded border border-stone-light bg-stone-light/40 hover:bg-stone-light/70 hover:border-wotr-gold/60 transition"
+                >
+                  <div className="flex items-baseline justify-between gap-3">
+                    <div className="font-cinzel text-lg text-parchment">{c.name}</div>
+                    <div className="text-sm tabular-nums">
+                      HP <span className="text-wotr-gold">{c.current_hp}</span>
+                      <span className="opacity-60"> / {c.max_hp}</span>
+                    </div>
+                  </div>
+                  {c.class_summary && (
+                    <div className="text-xs opacity-70 mt-1">{c.class_summary}</div>
+                  )}
+                  <div className="flex gap-2 mt-2 text-[10px] uppercase tracking-wider opacity-60">
+                    {c.level && <span>Level {c.level}</span>}
+                    {c.fortification_percent > 0 && <span>· Fort {c.fortification_percent}%</span>}
+                    {c.temp_hp > 0 && <span>· Temp {c.temp_hp}</span>}
+                    {c.nonlethal > 0 && <span>· Nonlethal {c.nonlethal}</span>}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {creating && (
+        <NewCharacterModal
+          onClose={() => setCreating(false)}
+          onCreated={async () => {
+            setCreating(false)
+            await load()
+          }}
+        />
       )}
-
-      {loading ? (
-        <div className="opacity-60">Loading characters…</div>
-      ) : characters.length === 0 ? (
-        <div className="opacity-60">
-          No characters yet. Click the button above to insert one.
-        </div>
-      ) : (
-        <ul className="space-y-2">
-          {characters.map((c) => (
-            <li
-              key={c.id}
-              className="p-3 rounded border border-stone-light bg-stone-light/40 flex items-baseline justify-between"
-            >
-              <div>
-                <div className="font-semibold">{c.name}</div>
-                {c.class_summary && <div className="text-xs opacity-70">{c.class_summary}</div>}
-              </div>
-              <div className="text-sm tabular-nums">
-                HP <span className="text-wotr-gold">{c.current_hp}</span> / {c.max_hp}
-                {c.fortification_percent > 0 && (
-                  <span className="ml-3 text-xs opacity-70">fort {c.fortification_percent}%</span>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <pre className="mt-8 text-xs opacity-50">
-        {JSON.stringify({ count: characters.length, ids: characters.map((c) => c.id) }, null, 2)}
-      </pre>
     </main>
   )
 }
