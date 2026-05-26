@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tiptap/extension-placeholder": "^3.6.1",
     "@tiptap/extension-typography": "^3.0.9",
