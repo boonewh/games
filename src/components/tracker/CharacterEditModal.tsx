@@ -18,6 +18,11 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [maxHp, setMaxHp] = useState(String(character.max_hp))
   const [currentHp, setCurrentHp] = useState(String(character.current_hp))
   const [fortification, setFortification] = useState(String(character.fortification_percent))
+  const [ac, setAc] = useState(character.ac != null ? String(character.ac) : '')
+  const [acTouch, setAcTouch] = useState(character.ac_touch != null ? String(character.ac_touch) : '')
+  const [acFlatFooted, setAcFlatFooted] = useState(
+    character.ac_flat_footed != null ? String(character.ac_flat_footed) : ''
+  )
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
@@ -33,6 +38,12 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
 
     setSubmitting(true)
     try {
+      const parseOptInt = (s: string): number | null => {
+        if (!s.trim()) return null
+        const n = parseInt(s, 10)
+        return Number.isFinite(n) ? n : null
+      }
+
       const res = await fetch(`/api/tracker/characters/${character.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -42,7 +53,10 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           level: level ? parseInt(level, 10) : null,
           max_hp: max,
           current_hp: curr,
-          fortification_percent: Math.max(0, Math.min(100, fort))
+          fortification_percent: Math.max(0, Math.min(100, fort)),
+          ac: parseOptInt(ac),
+          ac_touch: parseOptInt(acTouch),
+          ac_flat_footed: parseOptInt(acFlatFooted)
         })
       })
       const json = await res.json()
@@ -134,6 +148,44 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
                 className="tracker-input"
               />
             </label>
+          </div>
+
+          <div>
+            <div className="text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">
+              Armor Class
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">AC</span>
+                <input
+                  type="number"
+                  value={ac}
+                  onChange={(e) => setAc(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Touch</span>
+                <input
+                  type="number"
+                  value={acTouch}
+                  onChange={(e) => setAcTouch(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Flat-Footed</span>
+                <input
+                  type="number"
+                  value={acFlatFooted}
+                  onChange={(e) => setAcFlatFooted(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </label>
+            </div>
           </div>
 
           <div className="text-xs opacity-60">

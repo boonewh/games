@@ -55,7 +55,13 @@ export async function requireSession(): Promise<
  * Looks up the resource's character_id, then runs the standard character access check.
  */
 export async function requireChildOfCharacter(
-  table: 'ability' | 'condition' | 'damage_reduction' | 'energy_resistance' | 'energy_vulnerability',
+  table:
+    | 'ability'
+    | 'condition'
+    | 'damage_reduction'
+    | 'energy_resistance'
+    | 'energy_vulnerability'
+    | 'resource_pool',
   resourceId: string,
   mode: 'view' | 'edit'
 ): Promise<{ session: TrackerSession; characterId: string } | { error: NextResponse }> {

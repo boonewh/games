@@ -27,6 +27,9 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
   const [level, setLevel] = useState('')
   const [maxHp, setMaxHp] = useState('')
   const [fortification, setFortification] = useState('0')
+  const [ac, setAc] = useState('')
+  const [acTouch, setAcTouch] = useState('')
+  const [acFlatFooted, setAcFlatFooted] = useState('')
   const [drs, setDrs] = useState<DrRow[]>([])
   const [resistances, setResistances] = useState<ResRow[]>([])
   const [vulnerabilities, setVulnerabilities] = useState<EnergyType[]>([])
@@ -41,6 +44,9 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     if (p.level != null) setLevel(String(p.level))
     if (p.max_hp) setMaxHp(String(p.max_hp))
     if (p.fortification_percent != null) setFortification(String(p.fortification_percent))
+    if (p.ac != null) setAc(String(p.ac))
+    if (p.ac_touch != null) setAcTouch(String(p.ac_touch))
+    if (p.ac_flat_footed != null) setAcFlatFooted(String(p.ac_flat_footed))
     if (p.drs) setDrs(p.drs.map((d) => ({ amount: String(d.amount), bypass: d.bypass })))
     if (p.vulnerabilities) setVulnerabilities(p.vulnerabilities.map((v) => v.energy_type))
   }, [templateKey])
@@ -57,12 +63,21 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
       const template = TEMPLATES.find((x) => x.key === templateKey)
       const seed_abilities = template?.preset.seed_abilities
 
+      const parseOptInt = (s: string): number | undefined => {
+        if (!s.trim()) return undefined
+        const n = parseInt(s, 10)
+        return Number.isFinite(n) ? n : undefined
+      }
+
       const body = {
         name: name.trim(),
         class_summary: classSummary.trim() || undefined,
         level: level ? parseInt(level, 10) : undefined,
         max_hp: max,
         fortification_percent: fort,
+        ac: parseOptInt(ac),
+        ac_touch: parseOptInt(acTouch),
+        ac_flat_footed: parseOptInt(acFlatFooted),
         drs: drs
           .map((d) => ({ amount: parseInt(d.amount, 10), bypass: d.bypass.trim() || '—' }))
           .filter((d) => Number.isFinite(d.amount) && d.amount > 0),
@@ -167,6 +182,39 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
                 placeholder="0"
               />
             </Field>
+          </div>
+
+          <div>
+            <span className="text-sm opacity-80 block mb-1">Armor Class (optional)</span>
+            <div className="grid grid-cols-3 gap-3">
+              <Field label="AC">
+                <input
+                  type="number"
+                  value={ac}
+                  onChange={(e) => setAc(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </Field>
+              <Field label="Touch">
+                <input
+                  type="number"
+                  value={acTouch}
+                  onChange={(e) => setAcTouch(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </Field>
+              <Field label="Flat-Footed">
+                <input
+                  type="number"
+                  value={acFlatFooted}
+                  onChange={(e) => setAcFlatFooted(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </Field>
+            </div>
           </div>
 
           <div>

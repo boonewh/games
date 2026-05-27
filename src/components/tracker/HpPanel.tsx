@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import type { CharacterDetail, DamageType } from '@/lib/tracker/types'
 import { DAMAGE_TYPES } from '@/lib/tracker/types'
 import { CharacterEditModal } from './CharacterEditModal'
+import { ConditionsBar } from './ConditionsBar'
+import { PoolsCard } from './PoolsCard'
 
 interface Props {
   character: CharacterDetail
@@ -140,7 +142,7 @@ export function HpPanel({ character, onChanged }: Props) {
   return (
     <section className="border-b border-stone-light p-6">
       <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
-        {/* HP block */}
+        {/* HP + AC block */}
         <div className="flex flex-col items-center min-w-[240px] mx-auto lg:mx-0">
           <div className="text-xs uppercase tracking-wider opacity-60 font-cinzel mb-1">HP</div>
           <div className={`text-6xl font-bold tabular-nums ${hpColor}`}>
@@ -151,6 +153,7 @@ export function HpPanel({ character, onChanged }: Props) {
             <Badge active={character.temp_hp > 0} label="Temp" value={character.temp_hp} color="sky" />
             <Badge active={character.nonlethal > 0} label="Nonlethal" value={character.nonlethal} color="amber" />
           </div>
+
           <div className="mt-3 text-center">
             <div className="flex items-center justify-center gap-2">
               <h2 className="font-cinzel text-2xl text-parchment">{character.name}</h2>
@@ -294,34 +297,64 @@ export function HpPanel({ character, onChanged }: Props) {
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
+      {/* AC | Conditions | Status+Buttons — three equal-height cards in one flex row. */}
+      <div className="mt-4 flex flex-wrap items-stretch gap-3">
+        {/* AC card (left) — content centered vertically when row stretches to match
+            taller siblings (conditions, status) */}
+        <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-around gap-5">
+          <AcStat label="AC" value={character.ac} large />
+          <AcStat label="Touch" value={character.ac_touch} />
+          <AcStat label="FF" value={character.ac_flat_footed} />
+        </div>
+
+        {/* Resource pools (Ki, Mythic Power, etc.) */}
+        <PoolsCard
+          characterId={character.id}
+          pools={character.pools}
+          onChanged={onChanged}
+          className="min-w-[220px]"
+        />
+
+        {/* Conditions (grows to fill remaining space) */}
+        <ConditionsBar
+          characterId={character.id}
+          conditions={character.conditions}
+          onChanged={onChanged}
+          className="flex-1 min-w-[240px]"
+        />
+
+        {/* Status + Undo + Long Rest (right) */}
         <div
-          className={`flex-1 min-w-[200px] text-sm px-3 py-2 rounded border ${
+          className={`p-3 rounded border flex items-center gap-3 ${
             statusKind === 'damage'
-              ? 'bg-abyssal-red/20 border-abyssal-red/50 text-parchment'
+              ? 'border-abyssal-red/50 bg-abyssal-red/15'
               : statusKind === 'heal'
-                ? 'bg-emerald-900/30 border-emerald-700/50 text-parchment'
-                : 'bg-stone-light/40 border-stone-light text-parchment/80'
+                ? 'border-emerald-700/50 bg-emerald-900/20'
+                : 'border-stone-light bg-stone-light/20'
           }`}
         >
-          {status ?? <span className="opacity-60">Enter damage or heal to apply.</span>}
+          <div className="text-sm max-w-[260px] flex-1">
+            {status ?? <span className="opacity-60 italic">Enter damage or heal to apply.</span>}
+          </div>
+          <div className="flex flex-col gap-1 shrink-0">
+            <button
+              onClick={undo}
+              disabled={busy}
+              className="px-3 py-1 text-xs rounded border border-stone-light hover:bg-stone-light/60 disabled:opacity-50"
+              title="Ctrl+Z"
+            >
+              Undo
+            </button>
+            <button
+              onClick={longRest}
+              disabled={busy}
+              className="px-3 py-1 text-xs rounded border border-stone-light hover:bg-stone-light/60 disabled:opacity-50"
+              title="Reset per-day abilities and nonlethal"
+            >
+              Long Rest
+            </button>
+          </div>
         </div>
-        <button
-          onClick={undo}
-          disabled={busy}
-          className="px-4 py-2 text-sm rounded border border-stone-light hover:bg-stone-light/60 disabled:opacity-50"
-          title="Ctrl+Z"
-        >
-          Undo
-        </button>
-        <button
-          onClick={longRest}
-          disabled={busy}
-          className="px-4 py-2 text-sm rounded border border-stone-light hover:bg-stone-light/60 disabled:opacity-50"
-          title="Reset per-day abilities and nonlethal"
-        >
-          Long Rest
-        </button>
       </div>
 
       {(character.drs.length > 0 ||
@@ -403,5 +436,16 @@ function Badge({
     <span className={`px-2 py-0.5 rounded border ${styles}`}>
       {label} {value}
     </span>
+  )
+}
+
+function AcStat({ label, value, large }: { label: string; value: number | null; large?: boolean }) {
+  return (
+    <div className="flex flex-col items-center">
+      <span className="text-[10px] uppercase tracking-wider opacity-60 font-cinzel">{label}</span>
+      <span className={`tabular-nums text-wotr-gold ${large ? 'text-2xl font-bold' : 'text-lg'}`}>
+        {value ?? '—'}
+      </span>
+    </div>
   )
 }

@@ -46,7 +46,10 @@ export async function POST(req: NextRequest) {
       level: body.level ?? null,
       max_hp: body.max_hp,
       current_hp: body.max_hp,
-      fortification_percent: body.fortification_percent ?? 0
+      fortification_percent: body.fortification_percent ?? 0,
+      ac: body.ac ?? null,
+      ac_touch: body.ac_touch ?? null,
+      ac_flat_footed: body.ac_flat_footed ?? null
     })
     .select()
     .single()

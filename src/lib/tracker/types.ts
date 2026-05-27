@@ -79,6 +79,9 @@ export interface Character {
   temp_hp: number
   nonlethal: number
   fortification_percent: number
+  ac: number | null
+  ac_touch: number | null
+  ac_flat_footed: number | null
   notes: string | null
   created_at: string
   updated_at: string
@@ -142,12 +145,24 @@ export interface Condition {
   applied_at: string
 }
 
+export interface ResourcePool {
+  id: string
+  character_id: string
+  name: string
+  points_remaining: number
+  points_max: number
+  recharge: Recharge | null
+  notes: string | null
+  sort_order: number
+}
+
 export interface CharacterDetail extends Character {
   drs: DamageReduction[]
   resistances: EnergyResistance[]
   vulnerabilities: EnergyVulnerability[]
   abilities: Ability[]
   conditions: Condition[]
+  pools: ResourcePool[]
 }
 
 export interface DamageRequest {
@@ -165,6 +180,9 @@ export interface CreateCharacterInput {
   level?: number
   max_hp: number
   fortification_percent?: number
+  ac?: number
+  ac_touch?: number
+  ac_flat_footed?: number
   campaign_key?: string
   party_id?: string
   drs?: Array<{ amount: number; bypass: string }>

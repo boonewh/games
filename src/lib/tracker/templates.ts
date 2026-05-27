@@ -222,6 +222,11 @@ export const TEMPLATES: CharacterTemplate[] = [
       // 4×d10 max + (Con 14 → +2)×4 + favored class HP +1×4 = 40 + 8 + 4 = 52
       max_hp: 52,
       fortification_percent: 25,
+      // 10 + 9 full plate + 2 heavy shield + 1 Dex + 1 natural armor (Stonelord L2) = 23
+      // Adjust in the edit modal once you confirm exact gear.
+      ac: 23,
+      ac_touch: 11,
+      ac_flat_footed: 22,
       drs: [{ amount: 2, bypass: 'adamantine' }],
       vulnerabilities: [{ energy_type: 'cold' }],
       seed_abilities: KORROC_L4_ABILITIES

@@ -5,12 +5,13 @@
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { fail, forbidden, json, notFound, requireSession } from '@/lib/tracker/http'
-import type { Character, Condition } from '@/lib/tracker/types'
+import type { Character, Condition, ResourcePool } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
 
 interface DashboardCharacter extends Character {
   conditions: Condition[]
+  pools: ResourcePool[]
   drs_label: string | null
   fortification_label: string | null
 }
@@ -35,7 +36,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     .select(
       `*,
        damage_reduction(amount, bypass, enabled),
-       condition(*)
+       condition(*),
+       resource_pool(*)
       `
     )
     .eq('party_id', id)
@@ -49,6 +51,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     return {
       ...(c as Character),
       conditions: (c as { condition: Condition[] }).condition ?? [],
+      pools: (c as { resource_pool: ResourcePool[] }).resource_pool ?? [],
       drs_label: drsLabel,
       fortification_label: fortLabel
     }

@@ -16,6 +16,9 @@ const EDITABLE_FIELDS = [
   'temp_hp',
   'nonlethal',
   'fortification_percent',
+  'ac',
+  'ac_touch',
+  'ac_flat_footed',
   'notes',
   'party_id'
 ] as const
@@ -25,7 +28,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
   const auth = await requireCharacter(id, 'view')
   if ('error' in auth) return auth.error
 
-  // One round trip: character + every nested defense/ability/condition.
+  // One round trip: character + every nested defense/ability/condition/pool.
   const { data, error } = await supabase
     .from('character')
     .select(
@@ -35,12 +38,14 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       energy_resistance(*),
       energy_vulnerability(*),
       ability(*),
-      condition(*)
+      condition(*),
+      resource_pool(*)
     `
     )
     .eq('id', id)
     .order('sort_order', { referencedTable: 'ability', ascending: true })
     .order('applied_at', { referencedTable: 'condition', ascending: false })
+    .order('sort_order', { referencedTable: 'resource_pool', ascending: true })
     .single()
 
   if (error) return fail(error.message)
@@ -53,6 +58,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     energy_vulnerability,
     ability,
     condition,
+    resource_pool,
     ...character
   } = data as Character & {
     damage_reduction: CharacterDetail['drs']
@@ -60,6 +66,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     energy_vulnerability: CharacterDetail['vulnerabilities']
     ability: CharacterDetail['abilities']
     condition: CharacterDetail['conditions']
+    resource_pool: CharacterDetail['pools']
   }
 
   const detail: CharacterDetail = {
@@ -68,7 +75,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     resistances: energy_resistance ?? [],
     vulnerabilities: energy_vulnerability ?? [],
     abilities: ability ?? [],
-    conditions: condition ?? []
+    conditions: condition ?? [],
+    pools: resource_pool ?? []
   }
 
   return json({ character: detail })

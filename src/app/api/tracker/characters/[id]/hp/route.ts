@@ -247,13 +247,27 @@ async function handleLongRest(characterId: string) {
     .eq('recharge', 'per_day')
     .not('uses_max', 'is', null)
 
-  let resetCount = 0
+  let abilityCount = 0
   if (perDayAbilities?.length) {
-    // Update each row to its max. Could batch via .upsert but loop is fine for handful of abilities.
     for (const a of perDayAbilities) {
       await supabase.from('ability').update({ uses_remaining: a.uses_max }).eq('id', a.id)
     }
-    resetCount = perDayAbilities.length
+    abilityCount = perDayAbilities.length
+  }
+
+  // Also reset per-day resource pools to their max.
+  const { data: perDayPools } = await supabase
+    .from('resource_pool')
+    .select('id, points_max')
+    .eq('character_id', characterId)
+    .eq('recharge', 'per_day')
+
+  let poolCount = 0
+  if (perDayPools?.length) {
+    for (const p of perDayPools) {
+      await supabase.from('resource_pool').update({ points_remaining: p.points_max }).eq('id', p.id)
+    }
+    poolCount = perDayPools.length
   }
 
   const { data: event, error: insertErr } = await supabase
@@ -271,10 +285,18 @@ async function handleLongRest(characterId: string) {
     .single()
   if (insertErr) return fail(`event: ${insertErr.message}`)
 
+  const summary = [
+    `Long rest: cleared nonlethal`,
+    abilityCount > 0 && `reset ${abilityCount} per-day abilities`,
+    poolCount > 0 && `reset ${poolCount} per-day pools`
+  ]
+    .filter(Boolean)
+    .join(', ') + '.'
+
   return json({
     character: updated as Character,
     event: event as HpEvent,
-    message: `Long rest: cleared nonlethal, reset ${resetCount} per-day abilities.`
+    message: summary
   })
 }
 
