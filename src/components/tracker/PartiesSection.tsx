@@ -114,7 +114,6 @@ function PartyCard({ party, isGm, onChanged }: { party: Party; isGm: boolean; on
           </>
         )}
       </div>
-      {onChanged && null /* noop, surfaces callback */}
     </div>
   )
 }

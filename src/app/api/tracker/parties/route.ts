@@ -32,8 +32,12 @@ export async function GET() {
     .eq('user_id', auth.session.userId)
   if (memErr) return fail(memErr.message)
 
+  // Supabase types the nested `party` as an array (since FK relationships are
+  // generically many-to-many in the typegen), but at runtime it's a single
+  // object because party_id is a single FK. Cast through unknown per the
+  // Supabase error suggestion.
   const memberParties: Party[] = (memberships ?? [])
-    .map((m) => (m as { party: Party | null }).party)
+    .map((m) => (m as unknown as { party: Party | null }).party)
     .filter((p): p is Party => p != null)
 
   // Merge and dedupe by id

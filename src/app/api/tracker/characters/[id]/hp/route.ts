@@ -224,22 +224,9 @@ async function handleLongRest(characterId: string) {
     .single()
   if (updateErr) return fail(`update: ${updateErr.message}`)
 
-  // Reset per-day uses (count returned via head:true + count:'exact')
-  const { count, error: resetErr } = await supabase
-    .from('ability')
-    .update({ uses_remaining: null }, { count: 'exact' })
-    .eq('character_id', characterId)
-    .eq('recharge', 'per_day')
-    .not('uses_max', 'is', null)
-    .select('id', { count: 'exact', head: true })
-
-  // Above with uses_remaining=null is wrong; we want uses_remaining = uses_max.
-  // Postgres doesn't let us refer to another column in a simple update via supabase-js,
-  // so we use an RPC-style approach via raw SQL through Supabase Functions later.
-  // For MVP, do it in two steps with a select-then-update:
-  void resetErr
-  void count
-
+  // Reset per-day uses to their max via a select-then-loop pattern.
+  // (Supabase-js doesn't expose Postgres' column-self-reference for a single
+  // UPDATE ability SET uses_remaining = uses_max, so we read and PATCH each.)
   const { data: perDayAbilities } = await supabase
     .from('ability')
     .select('id, uses_max')

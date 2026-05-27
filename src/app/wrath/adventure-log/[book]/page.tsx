@@ -185,7 +185,6 @@ function renderTiptapContent(node: TiptapNode | TiptapNode[] | null): React.Reac
 
 export default function WrathAdventureBookPage() {
   const { data: session } = useSession()
-  // @ts-expect-error - Custom NextAuth user.id property
   const userId = session?.user?.id || null
   const { book: rawBook } = useParams<{ book: string | string[] }>();
   const bookSlug = Array.isArray(rawBook) ? rawBook[0] : rawBook;

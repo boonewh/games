@@ -105,7 +105,6 @@ const adventureBooks: AdventureBook[] = [
 
 export default function WrathAdventureLogPage() {
   const { data: session } = useSession()
-  // @ts-expect-error - Custom NextAuth user.id property
   const userId = session?.user?.id || null
 
   const [stories, setStories] = useState<StoryEntry[]>([])

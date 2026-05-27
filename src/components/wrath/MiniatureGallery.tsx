@@ -14,7 +14,6 @@ interface MiniatureBlob {
 
 const WrathMiniatureGallery = () => {
   const { data: session, status } = useSession()
-  // @ts-expect-error - Custom NextAuth user.id property
   const userId = session?.user?.id || null
   const isLoaded = status !== 'loading'
   const [miniatures, setMiniatures] = useState<MiniatureBlob[]>([]);

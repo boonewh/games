@@ -68,7 +68,6 @@ const adventureLogBase: Record<string, string> = {
 
 function EditorContent_Inner() {
   const { data: session, status } = useSession()
-  // @ts-expect-error - Custom NextAuth user.id property
   const userId = session?.user?.id || null
   const isLoaded = status !== 'loading'
   const router = useRouter()
