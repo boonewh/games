@@ -20,6 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import type { Ability, AbilityCategory, ActionType, CharacterDetail } from '@/lib/tracker/types'
 import { AbilityEditModal } from './AbilityEditModal'
+import { SpellsModal } from './SpellsModal'
 
 interface Props {
   character: CharacterDetail
@@ -76,6 +77,7 @@ export function AbilityGrid({ character, onChanged }: Props) {
   const [parkedOpen, setParkedOpen] = useState(false)
   const [creating, setCreating] = useState(false)
   const [editing, setEditing] = useState<Ability | null>(null)
+  const [spellsOpen, setSpellsOpen] = useState(false)
 
   const visible = character.abilities.filter((a) => !a.hidden)
   const hidden = character.abilities.filter((a) => a.hidden)
@@ -97,6 +99,12 @@ export function AbilityGrid({ character, onChanged }: Props) {
               ? 'no abilities yet'
               : `${visible.length} active${hidden.length > 0 ? ` · ${hidden.length} parked` : ''}`}
           </span>
+          <button
+            onClick={() => setSpellsOpen(true)}
+            className="px-3 py-1.5 rounded border border-wotr-gold/60 text-wotr-gold hover:bg-wotr-gold/20 text-sm font-cinzel"
+          >
+            Spells{character.spells.length > 0 ? ` (${character.spells.length})` : ''}
+          </button>
           <button
             onClick={() => setCreating(true)}
             className="px-3 py-1.5 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold text-sm font-cinzel"
@@ -168,6 +176,14 @@ export function AbilityGrid({ character, onChanged }: Props) {
             setEditing(null)
             await onChanged()
           }}
+        />
+      )}
+      {spellsOpen && (
+        <SpellsModal
+          characterId={character.id}
+          spells={character.spells}
+          onClose={() => setSpellsOpen(false)}
+          onChanged={onChanged}
         />
       )}
     </section>

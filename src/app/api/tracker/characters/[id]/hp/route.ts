@@ -270,6 +270,23 @@ async function handleLongRest(characterId: string) {
     poolCount = perDayPools.length
   }
 
+  // Also reset cast_count to 0 on any spells that have been cast (prepared casters).
+  const { data: castSpells } = await supabase
+    .from('spell')
+    .select('id')
+    .eq('character_id', characterId)
+    .gt('cast_count', 0)
+
+  let spellCastCount = 0
+  if (castSpells?.length) {
+    await supabase
+      .from('spell')
+      .update({ cast_count: 0 })
+      .eq('character_id', characterId)
+      .gt('cast_count', 0)
+    spellCastCount = castSpells.length
+  }
+
   const { data: event, error: insertErr } = await supabase
     .from('hp_event')
     .insert({
@@ -288,7 +305,8 @@ async function handleLongRest(characterId: string) {
   const summary = [
     `Long rest: cleared nonlethal`,
     abilityCount > 0 && `reset ${abilityCount} per-day abilities`,
-    poolCount > 0 && `reset ${poolCount} per-day pools`
+    poolCount > 0 && `reset ${poolCount} per-day pools`,
+    spellCastCount > 0 && `reset ${spellCastCount} spell casts`
   ]
     .filter(Boolean)
     .join(', ') + '.'

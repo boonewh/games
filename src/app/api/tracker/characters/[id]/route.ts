@@ -28,7 +28,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
   const auth = await requireCharacter(id, 'view')
   if ('error' in auth) return auth.error
 
-  // One round trip: character + every nested defense/ability/condition/pool.
+  // One round trip: character + every nested defense/ability/condition/pool/spell.
   const { data, error } = await supabase
     .from('character')
     .select(
@@ -39,13 +39,16 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       energy_vulnerability(*),
       ability(*),
       condition(*),
-      resource_pool(*)
+      resource_pool(*),
+      spell(*)
     `
     )
     .eq('id', id)
     .order('sort_order', { referencedTable: 'ability', ascending: true })
     .order('applied_at', { referencedTable: 'condition', ascending: false })
     .order('sort_order', { referencedTable: 'resource_pool', ascending: true })
+    .order('level', { referencedTable: 'spell', ascending: true })
+    .order('name', { referencedTable: 'spell', ascending: true })
     .single()
 
   if (error) return fail(error.message)
@@ -59,6 +62,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     ability,
     condition,
     resource_pool,
+    spell,
     ...character
   } = data as Character & {
     damage_reduction: CharacterDetail['drs']
@@ -67,6 +71,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     ability: CharacterDetail['abilities']
     condition: CharacterDetail['conditions']
     resource_pool: CharacterDetail['pools']
+    spell: CharacterDetail['spells']
   }
 
   const detail: CharacterDetail = {
@@ -76,7 +81,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     vulnerabilities: energy_vulnerability ?? [],
     abilities: ability ?? [],
     conditions: condition ?? [],
-    pools: resource_pool ?? []
+    pools: resource_pool ?? [],
+    spells: spell ?? []
   }
 
   return json({ character: detail })

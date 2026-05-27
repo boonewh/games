@@ -157,6 +157,34 @@ export interface ResourcePool {
   sort_order: number
 }
 
+export interface Spell {
+  id: string
+  character_id: string
+  name: string
+  level: number
+  casting_class: string
+  school: string | null
+  description: string | null
+  /** null = spontaneous (no preparation); N = prepared N times today */
+  prepared_count: number | null
+  cast_count: number
+  notes: string | null
+  sort_order: number
+}
+
+export const SPELL_SCHOOLS = [
+  'abjuration',
+  'conjuration',
+  'divination',
+  'enchantment',
+  'evocation',
+  'illusion',
+  'necromancy',
+  'transmutation',
+  'universal'
+] as const
+export type SpellSchool = (typeof SPELL_SCHOOLS)[number]
+
 export interface CharacterDetail extends Character {
   drs: DamageReduction[]
   resistances: EnergyResistance[]
@@ -164,6 +192,7 @@ export interface CharacterDetail extends Character {
   abilities: Ability[]
   conditions: Condition[]
   pools: ResourcePool[]
+  spells: Spell[]
 }
 
 export interface DamageRequest {

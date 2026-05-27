@@ -61,7 +61,8 @@ export async function requireChildOfCharacter(
     | 'damage_reduction'
     | 'energy_resistance'
     | 'energy_vulnerability'
-    | 'resource_pool',
+    | 'resource_pool'
+    | 'spell',
   resourceId: string,
   mode: 'view' | 'edit'
 ): Promise<{ session: TrackerSession; characterId: string } | { error: NextResponse }> {
