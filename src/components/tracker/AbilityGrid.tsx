@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Ability, AbilityCategory, ActionType, CharacterDetail } from '@/lib/tracker/types'
+import { AbilityEditModal } from './AbilityEditModal'
 
 interface Props {
   character: CharacterDetail
@@ -38,6 +39,8 @@ async function setHidden(abilityId: string, hidden: boolean) {
 
 export function AbilityGrid({ character, onChanged }: Props) {
   const [parkedOpen, setParkedOpen] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [editing, setEditing] = useState<Ability | null>(null)
 
   const visible = character.abilities.filter((a) => !a.hidden)
   const hidden = character.abilities.filter((a) => a.hidden)
@@ -46,30 +49,52 @@ export function AbilityGrid({ character, onChanged }: Props) {
   const unlimited = visible.filter((a) => a.uses_max == null && a.action_type !== 'passive')
   const passive = visible.filter((a) => a.action_type === 'passive')
 
+  // Next sort_order = max existing + 10. Keeps room to slot between.
+  const nextSortOrder =
+    character.abilities.reduce((m, a) => Math.max(m, a.sort_order), 0) + 10
+
+  function openEdit(a: Ability) {
+    setEditing(a)
+  }
+
   return (
     <section className="flex-1 overflow-auto p-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 gap-3">
         <h3 className="font-cinzel text-xl text-wotr-gold">Cool Stuff</h3>
-        <span className="text-xs opacity-50">
-          {character.abilities.length === 0
-            ? 'no abilities yet'
-            : `${visible.length} active${hidden.length > 0 ? ` · ${hidden.length} parked` : ''}`}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs opacity-50">
+            {character.abilities.length === 0
+              ? 'no abilities yet'
+              : `${visible.length} active${hidden.length > 0 ? ` · ${hidden.length} parked` : ''}`}
+          </span>
+          <button
+            onClick={() => setCreating(true)}
+            className="px-3 py-1.5 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold text-sm font-cinzel"
+          >
+            + New ability
+          </button>
+        </div>
       </div>
 
       {character.abilities.length === 0 ? (
         <div className="rounded border border-dashed border-stone-light p-8 text-center opacity-70">
           <div className="font-cinzel text-wotr-gold/70 mb-1">No abilities yet</div>
           <div className="text-sm">
-            Pick a template when you create a character to pre-fill the cards, or come back and I&apos;ll add
-            more.
+            Pick a template when you create a character to pre-fill the cards, or click{' '}
+            <span className="text-wotr-gold">+ New ability</span> to add one manually.
           </div>
         </div>
       ) : (
         <div className="space-y-6">
-          {limited.length > 0 && <AbilitySection title="Limited use" items={limited} onChanged={onChanged} />}
-          {unlimited.length > 0 && <AbilitySection title="At will" items={unlimited} onChanged={onChanged} />}
-          {passive.length > 0 && <AbilitySection title="Reminders" items={passive} onChanged={onChanged} />}
+          {limited.length > 0 && (
+            <AbilitySection title="Limited use" items={limited} onEdit={openEdit} onChanged={onChanged} />
+          )}
+          {unlimited.length > 0 && (
+            <AbilitySection title="At will" items={unlimited} onEdit={openEdit} onChanged={onChanged} />
+          )}
+          {passive.length > 0 && (
+            <AbilitySection title="Reminders" items={passive} onEdit={openEdit} onChanged={onChanged} />
+          )}
         </div>
       )}
 
@@ -92,6 +117,29 @@ export function AbilityGrid({ character, onChanged }: Props) {
           )}
         </div>
       )}
+
+      {creating && (
+        <AbilityEditModal
+          characterId={character.id}
+          nextSortOrder={nextSortOrder}
+          onClose={() => setCreating(false)}
+          onSaved={async () => {
+            setCreating(false)
+            await onChanged()
+          }}
+        />
+      )}
+      {editing && (
+        <AbilityEditModal
+          characterId={character.id}
+          ability={editing}
+          onClose={() => setEditing(null)}
+          onSaved={async () => {
+            setEditing(null)
+            await onChanged()
+          }}
+        />
+      )}
     </section>
   )
 }
@@ -99,10 +147,12 @@ export function AbilityGrid({ character, onChanged }: Props) {
 function AbilitySection({
   title,
   items,
+  onEdit,
   onChanged
 }: {
   title: string
   items: Ability[]
+  onEdit: (a: Ability) => void
   onChanged: () => void | Promise<void>
 }) {
   return (
@@ -110,14 +160,22 @@ function AbilitySection({
       <div className="text-xs uppercase tracking-wider opacity-50 mb-2 font-cinzel">{title}</div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {items.map((a) => (
-          <AbilityCard key={a.id} ability={a} onChanged={onChanged} />
+          <AbilityCard key={a.id} ability={a} onEdit={onEdit} onChanged={onChanged} />
         ))}
       </div>
     </div>
   )
 }
 
-function AbilityCard({ ability, onChanged }: { ability: Ability; onChanged: () => void | Promise<void> }) {
+function AbilityCard({
+  ability,
+  onEdit,
+  onChanged
+}: {
+  ability: Ability
+  onEdit: (a: Ability) => void
+  onChanged: () => void | Promise<void>
+}) {
   const used = ability.uses_max != null && ability.uses_remaining === 0
   const action = ability.action_type
   const actionLabel = action ? action.replace('_', ' ') : null
@@ -143,15 +201,24 @@ function AbilityCard({ ability, onChanged }: { ability: Ability; onChanged: () =
         used ? 'border-stone-light opacity-50' : 'border-stone-light hover:border-wotr-gold/40 transition'
       }`}
     >
-      <button
-        onClick={park}
-        className="absolute top-1 right-1 px-1.5 py-0.5 text-xs leading-none rounded text-parchment/30 hover:text-parchment hover:bg-stone-light/60"
-        title="Park this card (hide until restored)"
-      >
-        ✕
-      </button>
+      <div className="absolute top-1 right-1 flex gap-0.5">
+        <button
+          onClick={() => onEdit(ability)}
+          className="px-1.5 py-0.5 text-xs leading-none rounded text-parchment/30 hover:text-wotr-gold hover:bg-stone-light/60"
+          title="Edit card"
+        >
+          ✎
+        </button>
+        <button
+          onClick={park}
+          className="px-1.5 py-0.5 text-xs leading-none rounded text-parchment/30 hover:text-parchment hover:bg-stone-light/60"
+          title="Park this card (hide until restored)"
+        >
+          ✕
+        </button>
+      </div>
 
-      <header className="flex items-start justify-between gap-2 pr-5">
+      <header className="flex items-start justify-between gap-2 pr-12">
         <div>
           <h4 className="font-cinzel text-parchment leading-tight">{ability.name}</h4>
           <div className="text-[10px] uppercase tracking-wider opacity-50 mt-0.5">
