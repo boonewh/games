@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import type { Ability, AbilityCategory, ActionType, CharacterDetail } from '@/lib/tracker/types'
 
 interface Props {
@@ -27,17 +28,32 @@ const ACTION_STYLES: Record<ActionType, string> = {
   passive: 'bg-stone-light text-parchment/60'
 }
 
+async function setHidden(abilityId: string, hidden: boolean) {
+  await fetch(`/api/tracker/abilities/${abilityId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ hidden })
+  })
+}
+
 export function AbilityGrid({ character, onChanged }: Props) {
-  const limited = character.abilities.filter((a) => a.uses_max != null)
-  const unlimited = character.abilities.filter((a) => a.uses_max == null && a.action_type !== 'passive')
-  const passive = character.abilities.filter((a) => a.action_type === 'passive')
+  const [parkedOpen, setParkedOpen] = useState(false)
+
+  const visible = character.abilities.filter((a) => !a.hidden)
+  const hidden = character.abilities.filter((a) => a.hidden)
+
+  const limited = visible.filter((a) => a.uses_max != null)
+  const unlimited = visible.filter((a) => a.uses_max == null && a.action_type !== 'passive')
+  const passive = visible.filter((a) => a.action_type === 'passive')
 
   return (
     <section className="flex-1 overflow-auto p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-cinzel text-xl text-wotr-gold">Cool Stuff</h3>
         <span className="text-xs opacity-50">
-          {character.abilities.length === 0 ? 'no abilities yet' : `${character.abilities.length} cards`}
+          {character.abilities.length === 0
+            ? 'no abilities yet'
+            : `${visible.length} active${hidden.length > 0 ? ` · ${hidden.length} parked` : ''}`}
         </span>
       </div>
 
@@ -45,7 +61,8 @@ export function AbilityGrid({ character, onChanged }: Props) {
         <div className="rounded border border-dashed border-stone-light p-8 text-center opacity-70">
           <div className="font-cinzel text-wotr-gold/70 mb-1">No abilities yet</div>
           <div className="text-sm">
-            Pick a template when you create a character to pre-fill the cards, or come back and I'll add more.
+            Pick a template when you create a character to pre-fill the cards, or come back and I&apos;ll add
+            more.
           </div>
         </div>
       ) : (
@@ -53,6 +70,26 @@ export function AbilityGrid({ character, onChanged }: Props) {
           {limited.length > 0 && <AbilitySection title="Limited use" items={limited} onChanged={onChanged} />}
           {unlimited.length > 0 && <AbilitySection title="At will" items={unlimited} onChanged={onChanged} />}
           {passive.length > 0 && <AbilitySection title="Reminders" items={passive} onChanged={onChanged} />}
+        </div>
+      )}
+
+      {hidden.length > 0 && (
+        <div className="mt-8 pt-4 border-t border-stone-light">
+          <button
+            onClick={() => setParkedOpen((o) => !o)}
+            className="flex items-center gap-2 text-xs uppercase tracking-wider opacity-60 hover:opacity-100 font-cinzel"
+          >
+            <span>{parkedOpen ? '▾' : '▸'}</span>
+            <span>Parked ({hidden.length})</span>
+            <span className="opacity-60 normal-case tracking-normal">— click a card to restore</span>
+          </button>
+          {parkedOpen && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-3">
+              {hidden.map((a) => (
+                <ParkedCard key={a.id} ability={a} onChanged={onChanged} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>
@@ -95,13 +132,26 @@ function AbilityCard({ ability, onChanged }: { ability: Ability; onChanged: () =
     await onChanged()
   }
 
+  async function park() {
+    await setHidden(ability.id, true)
+    await onChanged()
+  }
+
   return (
     <article
-      className={`rounded border bg-stone-light/40 p-3 flex flex-col gap-2 ${
+      className={`relative rounded border bg-stone-light/40 p-3 flex flex-col gap-2 ${
         used ? 'border-stone-light opacity-50' : 'border-stone-light hover:border-wotr-gold/40 transition'
       }`}
     >
-      <header className="flex items-start justify-between gap-2">
+      <button
+        onClick={park}
+        className="absolute top-1 right-1 px-1.5 py-0.5 text-xs leading-none rounded text-parchment/30 hover:text-parchment hover:bg-stone-light/60"
+        title="Park this card (hide until restored)"
+      >
+        ✕
+      </button>
+
+      <header className="flex items-start justify-between gap-2 pr-5">
         <div>
           <h4 className="font-cinzel text-parchment leading-tight">{ability.name}</h4>
           <div className="text-[10px] uppercase tracking-wider opacity-50 mt-0.5">
@@ -157,5 +207,26 @@ function AbilityCard({ ability, onChanged }: { ability: Ability; onChanged: () =
         </footer>
       )}
     </article>
+  )
+}
+
+function ParkedCard({ ability, onChanged }: { ability: Ability; onChanged: () => void | Promise<void> }) {
+  async function restore() {
+    await setHidden(ability.id, false)
+    await onChanged()
+  }
+
+  return (
+    <button
+      onClick={restore}
+      className="text-left p-2 rounded border border-stone-light/60 bg-stone-light/20 opacity-60 hover:opacity-100 hover:border-wotr-gold/50 hover:bg-stone-light/40 transition"
+      title="Click to restore"
+    >
+      <div className="font-cinzel text-xs text-parchment truncate">{ability.name}</div>
+      <div className="text-[10px] uppercase tracking-wider opacity-60 mt-0.5 truncate">
+        {CATEGORY_LABEL[ability.category]}
+        {ability.action_type && ability.action_type !== 'passive' && ` · ${ability.action_type}`}
+      </div>
+    </button>
   )
 }

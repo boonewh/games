@@ -16,6 +16,7 @@ const EDITABLE_FIELDS = [
   'uses_remaining',
   'recharge',
   'enabled',
+  'hidden',
   'sort_order'
 ] as const
 

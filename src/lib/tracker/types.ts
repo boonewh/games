@@ -133,6 +133,7 @@ export interface Ability {
   uses_remaining: number | null
   recharge: Recharge | null
   enabled: boolean
+  hidden: boolean
   sort_order: number
 }
 
