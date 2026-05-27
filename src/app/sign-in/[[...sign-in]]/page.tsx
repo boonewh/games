@@ -25,7 +25,13 @@ export default function SignInPage() {
 			})
 
 			if (result?.error) {
-				setError('Invalid credentials')
+				// NextAuth passes back the actual error string from authorize() when
+				// redirect:false is used. Display it as-is so the user sees:
+				//   "No account found for this email. Sign up first."
+				//   "Wrong password."
+				//   "Too many login attempts. You have been blocked for today."
+				// instead of a generic message.
+				setError(result.error)
 			} else {
 				// Refresh session and redirect
 				await getSession()

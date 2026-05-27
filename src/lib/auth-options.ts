@@ -11,8 +11,16 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
+import bcrypt from 'bcryptjs'
 import { kv } from '@vercel/kv'
 import { headers } from 'next/headers'
+
+const BCRYPT_ROUNDS = 10
+
+/** Returns true if the stored value looks like a bcrypt hash (starts with $2). */
+function isBcryptHash(value: string): boolean {
+  return value.startsWith('$2')
+}
 
 // KV layout:
 //   users:<email>                = { id, email, password }  (credentials users)
@@ -99,10 +107,11 @@ export const authOptions: NextAuthOptions = {
           const existingUser = await kv.get(`users:${email}`)
           if (existingUser) throw new Error('User already exists')
 
+          const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_ROUNDS)
           const newUser = {
             id: `user_${Date.now()}`,
             email,
-            password: credentials.password // TODO: hash in production
+            password: hashedPassword
           }
           await kv.set(`users:${email}`, newUser)
           return { id: newUser.id, name: email, email }
@@ -113,7 +122,23 @@ export const authOptions: NextAuthOptions = {
           email: string
           password: string
         } | null
-        if (!user || user.password !== credentials.password) return null
+        if (!user) {
+          throw new Error('No account found for this email. Sign up first.')
+        }
+
+        // Verify password. If the stored value is plaintext (legacy from before
+        // hashing was added), accept it AND upgrade it to a hash on the way out.
+        let passwordOk = false
+        if (isBcryptHash(user.password)) {
+          passwordOk = await bcrypt.compare(credentials.password, user.password)
+        } else {
+          passwordOk = user.password === credentials.password
+          if (passwordOk) {
+            const upgraded = await bcrypt.hash(credentials.password, BCRYPT_ROUNDS)
+            await kv.set(`users:${email}`, { ...user, password: upgraded })
+          }
+        }
+        if (!passwordOk) throw new Error('Wrong password.')
 
         await resetRateLimit(clientIP)
         return { id: user.id, name: user.email, email: user.email }
