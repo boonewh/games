@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   }
   if (body.seed_abilities?.length) {
     const { error: e } = await supabase.from('ability').insert(
-      body.seed_abilities.map((a) => ({
+      body.seed_abilities.map((a, idx) => ({
         character_id: character.id,
         name: a.name,
         category: a.category,
@@ -90,10 +90,41 @@ export async function POST(req: NextRequest) {
         uses_max: a.uses_max ?? null,
         uses_remaining: a.uses_remaining ?? a.uses_max ?? null,
         recharge: a.recharge ?? null,
-        sort_order: a.sort_order ?? 0
+        sort_order: a.sort_order ?? (idx + 1) * 10
       }))
     )
     if (e) return fail(`abilities: ${e.message}`)
+  }
+
+  if (body.seed_spells?.length) {
+    const { error: e } = await supabase.from('spell').insert(
+      body.seed_spells.map((s, idx) => ({
+        character_id: character.id,
+        name: s.name,
+        level: s.level,
+        casting_class: s.casting_class.toLowerCase(),
+        school: s.school?.toLowerCase() ?? null,
+        description: s.description ?? null,
+        prepared_count: s.prepared_count ?? null,
+        sort_order: idx
+      }))
+    )
+    if (e) return fail(`spells: ${e.message}`)
+  }
+
+  if (body.seed_pools?.length) {
+    const { error: e } = await supabase.from('resource_pool').insert(
+      body.seed_pools.map((p, idx) => ({
+        character_id: character.id,
+        name: p.name,
+        points_max: p.points_max,
+        points_remaining: p.points_remaining ?? p.points_max,
+        recharge: p.recharge ?? null,
+        notes: p.notes ?? null,
+        sort_order: p.points_remaining != null ? idx : idx
+      }))
+    )
+    if (e) return fail(`pools: ${e.message}`)
   }
 
   return json({ character }, { status: 201 })

@@ -228,4 +228,19 @@ export interface CreateCharacterInput {
     recharge?: Recharge
     sort_order?: number
   }>
+  seed_spells?: Array<{
+    name: string
+    level: number
+    casting_class: string
+    school?: string
+    description?: string
+    prepared_count?: number | null
+  }>
+  seed_pools?: Array<{
+    name: string
+    points_max: number
+    points_remaining?: number
+    recharge?: Recharge
+    notes?: string
+  }>
 }
