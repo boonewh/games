@@ -74,7 +74,13 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      // Always show the Google account picker, even if a session is already
+      // active in the browser. Prevents the "phone silently signed me in as
+      // the wrong account" surprise.
+      authorization: {
+        params: { prompt: 'select_account' }
+      }
     }),
     CredentialsProvider({
       name: 'credentials',
@@ -126,6 +132,14 @@ export const authOptions: NextAuthOptions = {
           throw new Error('No account found for this email. Sign up first.')
         }
 
+        // Continuous authorization: re-check the whitelist on every sign-in,
+        // not just at signup. Removing someone from the whitelist locks them
+        // out on their next attempt regardless of prior access.
+        const liveWhitelist = ((await kv.get('settings:allowedEmails')) as string[]) || []
+        if (liveWhitelist.length > 0 && !liveWhitelist.includes(email)) {
+          throw new Error('Your email is no longer authorized.')
+        }
+
         // Verify password. If the stored value is plaintext (legacy from before
         // hashing was added), accept it AND upgrade it to a hash on the way out.
         let passwordOk = false
@@ -153,13 +167,21 @@ export const authOptions: NextAuthOptions = {
       const allowedEmails = ((await kv.get('settings:allowedEmails')) as string[]) || []
 
       if (account?.provider === 'google') {
+        const email = user.email.toLowerCase()
         const existingGoogleUser = await kv.get(`google_users:${user.email}`)
-        if (!allowSignups && !existingGoogleUser) return false
-        if (allowSignups && !existingGoogleUser) {
-          if (allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) {
-            return false
-          }
+
+        // Continuous authorization: the whitelist is checked on EVERY sign-in
+        // (returning users included), not just at first signup. Removing
+        // someone from the whitelist locks them out on their next attempt.
+        if (allowedEmails.length > 0 && !allowedEmails.includes(email)) {
+          return false
         }
+
+        // If signups are disabled and this would be a new account, reject.
+        if (!allowSignups && !existingGoogleUser) {
+          return false
+        }
+
         await kv.set(`google_users:${user.email}`, {
           id: user.id,
           name: user.name,
