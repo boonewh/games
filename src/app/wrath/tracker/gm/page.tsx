@@ -10,6 +10,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import type { Character, Condition, Party, ResourcePool } from '@/lib/tracker/types'
 
 interface DashboardCharacter extends Character {
@@ -27,6 +28,7 @@ interface DashboardPayload {
 const POLL_MS = 5000
 
 export default function GmDashboardPage() {
+  const router = useRouter()
   const [parties, setParties] = useState<Party[]>([])
   const [selectedPartyId, setSelectedPartyId] = useState<string | null>(null)
   const [dashboard, setDashboard] = useState<DashboardPayload | null>(null)
@@ -34,6 +36,8 @@ export default function GmDashboardPage() {
   const [dashboardLoading, setDashboardLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const pollTimer = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Load parties on mount, filter to GM-owned (we need user_id for that)
@@ -80,6 +84,37 @@ export default function GmDashboardPage() {
   useEffect(() => {
     loadParties()
   }, [loadParties])
+
+  // When the selected party changes, reset the delete-confirm state so
+  // switching parties doesn't carry a half-confirmed delete intent across.
+  useEffect(() => {
+    setDeleteConfirm(false)
+  }, [selectedPartyId])
+
+  async function deleteParty() {
+    if (!selectedPartyId) return
+    setDeleting(true)
+    setError(null)
+    try {
+      const res = await fetch(`/api/tracker/parties/${selectedPartyId}`, { method: 'DELETE' })
+      const json = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
+
+      // Remove from local state and fall through to either the next party
+      // (if you GM more than one) or back to the roster (if this was your only one).
+      const remaining = parties.filter((p) => p.id !== selectedPartyId)
+      setParties(remaining)
+      if (remaining.length > 0) {
+        setSelectedPartyId(remaining[0].id)
+        setDeleteConfirm(false)
+      } else {
+        router.push('/wrath/tracker')
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e))
+      setDeleting(false)
+    }
+  }
 
   // Set up polling whenever the selected party changes
   useEffect(() => {
@@ -177,6 +212,40 @@ export default function GmDashboardPage() {
             {dashboard.characters.map((c) => (
               <PartyMemberCard key={c.id} character={c} />
             ))}
+          </div>
+        )}
+
+        {/* Party admin — discoverable but out of the main visual flow.
+            Same pattern as character delete in the edit modal. */}
+        {dashboard?.party && (
+          <div className="mt-10 pt-4 border-t border-stone-light flex items-center justify-end gap-3 text-sm">
+            {!deleteConfirm ? (
+              <button
+                onClick={() => setDeleteConfirm(true)}
+                className="text-abyssal-red hover:text-abyssal-red/80"
+              >
+                Delete this party
+              </button>
+            ) : (
+              <>
+                <span className="text-abyssal-red">
+                  Delete <strong>{dashboard.party.name}</strong>? All character assignments will detach (characters themselves stay).
+                </span>
+                <button
+                  onClick={deleteParty}
+                  disabled={deleting}
+                  className="px-3 py-1.5 rounded bg-abyssal-red text-parchment font-semibold text-xs disabled:opacity-50"
+                >
+                  {deleting ? 'Deleting…' : 'Delete'}
+                </button>
+                <button
+                  onClick={() => setDeleteConfirm(false)}
+                  className="text-parchment/60 hover:text-parchment text-xs"
+                >
+                  Cancel
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>
