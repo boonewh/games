@@ -110,6 +110,7 @@ async function handleDamage(characterId: string, request: DamageRequest) {
         applied_amount: result.breakdown.applied,
         damage_type: request.damage_type,
         dr_applied: result.breakdown.dr_applied,
+        temp_consumed: result.breakdown.temp_consumed,
         note: result.noteSummary
       })
       .select()
@@ -346,8 +347,13 @@ async function handleUndo(characterId: string) {
 
   let newCurrent = character.current_hp
   let newTemp = character.temp_hp
-  if (last.kind === 'damage') newCurrent += last.applied_amount
-  else if (last.kind === 'heal') newCurrent -= last.applied_amount
+  if (last.kind === 'damage') {
+    // Damage hit temp HP first, then current. Restore each pool by the amount it lost:
+    // temp absorbed `temp_consumed`, current took the rest (`applied_amount - temp_consumed`).
+    const tempConsumed = last.temp_consumed ?? 0
+    newCurrent += last.applied_amount - tempConsumed
+    newTemp += tempConsumed
+  } else if (last.kind === 'heal') newCurrent -= last.applied_amount
   else if (last.kind === 'temp_hp') newTemp -= last.applied_amount
 
   const [{ data: updated, error: updateErr }, { data: undoEvent, error: insertErr }] = await Promise.all([

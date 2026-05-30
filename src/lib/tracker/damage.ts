@@ -30,6 +30,8 @@ export interface DamageBreakdown {
   dr_applied: number
   resist_applied: number
   applied: number
+  /** Of `applied`, how much was absorbed by temp HP (the rest hit current HP). */
+  temp_consumed: number
 }
 
 export interface DamageContext {
@@ -102,10 +104,11 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
   // Temp HP soaks first
   let newTempHp = ctx.character.temp_hp
   let remaining = applied
+  let tempConsumed = 0
   if (newTempHp > 0 && remaining > 0) {
-    const fromTemp = Math.min(newTempHp, remaining)
-    newTempHp -= fromTemp
-    remaining -= fromTemp
+    tempConsumed = Math.min(newTempHp, remaining)
+    newTempHp -= tempConsumed
+    remaining -= tempConsumed
   }
   const newCurrentHp = ctx.character.current_hp - remaining
 
@@ -118,7 +121,8 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
     vulnerability_multiplier: vulnMultiplier,
     dr_applied: drApplied,
     resist_applied: resistApplied,
-    applied
+    applied,
+    temp_consumed: tempConsumed
   }
 
   // Build the friendly message

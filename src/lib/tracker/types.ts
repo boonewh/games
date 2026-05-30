@@ -119,6 +119,8 @@ export interface HpEvent {
   applied_amount: number
   damage_type: DamageType | null
   dr_applied: number
+  /** Of applied_amount, how much was absorbed by temp HP. Used to undo the split. */
+  temp_consumed: number
   note: string | null
 }
 

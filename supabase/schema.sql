@@ -111,6 +111,7 @@ create table if not exists hp_event (
   applied_amount  integer not null,
   damage_type     text,             -- physical|fire|cold|electricity|acid|sonic|null
   dr_applied      integer not null default 0,
+  temp_consumed   integer not null default 0,  -- of applied_amount, how much temp HP absorbed (for undo)
   note            text
 );
 create index if not exists hp_event_character_idx on hp_event (character_id, id desc);
