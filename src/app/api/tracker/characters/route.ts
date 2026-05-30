@@ -2,7 +2,8 @@
 
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { bad, fail, json, requireSession } from '@/lib/tracker/http'
+import { bad, fail, forbidden, json, requireSession } from '@/lib/tracker/http'
+import { isPartyMember } from '@/lib/tracker/auth'
 import type { CreateCharacterInput } from '@/lib/tracker/types'
 
 export async function GET() {
@@ -33,6 +34,11 @@ export async function POST(req: NextRequest) {
   if (!body.name?.trim()) return bad('name is required')
   if (!Number.isFinite(body.max_hp) || body.max_hp <= 0) {
     return bad('max_hp must be a positive number')
+  }
+
+  // Can only file a character under a party you actually belong to.
+  if (body.party_id && !(await isPartyMember(auth.session.userId, body.party_id))) {
+    return forbidden()
   }
 
   const { data: character, error } = await supabase
@@ -121,7 +127,7 @@ export async function POST(req: NextRequest) {
         points_remaining: p.points_remaining ?? p.points_max,
         recharge: p.recharge ?? null,
         notes: p.notes ?? null,
-        sort_order: p.points_remaining != null ? idx : idx
+        sort_order: idx
       }))
     )
     if (e) return fail(`pools: ${e.message}`)

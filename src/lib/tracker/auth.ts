@@ -71,3 +71,26 @@ export async function canEditCharacter(userId: string, characterId: string): Pro
 export async function canViewCharacter(userId: string, characterId: string): Promise<boolean> {
   return canEditCharacter(userId, characterId)
 }
+
+/**
+ * Returns true if the user is the GM of the party OR a member of it.
+ * Gates assigning a character into a party so a user can't inject characters
+ * into parties they don't belong to.
+ */
+export async function isPartyMember(userId: string, partyId: string): Promise<boolean> {
+  const { data: party } = await supabase
+    .from('party')
+    .select('gm_user_id')
+    .eq('id', partyId)
+    .maybeSingle()
+  if (!party) return false
+  if (party.gm_user_id === userId) return true
+
+  const { data: membership } = await supabase
+    .from('party_member')
+    .select('user_id')
+    .eq('party_id', partyId)
+    .eq('user_id', userId)
+    .maybeSingle()
+  return membership != null
+}

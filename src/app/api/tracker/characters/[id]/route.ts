@@ -2,7 +2,8 @@
 
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { bad, fail, json, notFound, requireCharacter } from '@/lib/tracker/http'
+import { bad, fail, forbidden, json, notFound, requireCharacter } from '@/lib/tracker/http'
+import { isPartyMember } from '@/lib/tracker/auth'
 import type { Character, CharacterDetail } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
@@ -108,6 +109,11 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
 
   if (typeof patch.fortification_percent === 'number') {
     patch.fortification_percent = Math.max(0, Math.min(100, Math.floor(patch.fortification_percent)))
+  }
+
+  // Reassigning into a party requires membership; clearing it (null) is always allowed.
+  if (patch.party_id && !(await isPartyMember(auth.session.userId, patch.party_id as string))) {
+    return forbidden()
   }
 
   const { data, error } = await supabase

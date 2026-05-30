@@ -1,7 +1,14 @@
 // Tiny HTTP helpers shared across tracker API routes.
 
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { canEditCharacter, canViewCharacter, ensureUserProfile, getTrackerSession, type TrackerSession } from './auth'
+
+/** Tables that expose the standard whitelist-PATCH / DELETE shape. */
+type ChildTable =
+  | 'ability'
+  | 'condition'
+  | 'resource_pool'
+  | 'spell'
 
 export const json = NextResponse.json
 
@@ -78,4 +85,46 @@ export async function requireChildOfCharacter(
   const auth = await requireCharacter(data.character_id, mode)
   if ('error' in auth) return { error: auth.error }
   return { session: auth.session, characterId: data.character_id }
+}
+
+/**
+ * Standard whitelist-PATCH for a child resource: parse the JSON body, copy only
+ * `editableFields` onto the patch, reject an empty patch, and apply it.
+ * Caller is responsible for auth (run `requireChildOfCharacter` first) and for
+ * wrapping the returned row in its own response envelope.
+ */
+export async function updateRow<T>(
+  table: ChildTable,
+  id: string,
+  req: NextRequest,
+  editableFields: readonly string[]
+): Promise<{ data: T } | { error: NextResponse }> {
+  let body: Record<string, unknown>
+  try {
+    body = (await req.json()) as Record<string, unknown>
+  } catch {
+    return { error: bad('invalid JSON body') }
+  }
+
+  const patch: Record<string, unknown> = {}
+  for (const key of editableFields) {
+    if (key in body) patch[key] = body[key]
+  }
+  if (Object.keys(patch).length === 0) return { error: bad('no editable fields supplied') }
+
+  const { supabase } = await import('@/lib/supabase')
+  const { data, error } = await supabase.from(table).update(patch).eq('id', id).select().single()
+  if (error || !data) return { error: fail(error?.message ?? 'update failed') }
+  return { data: data as T }
+}
+
+/**
+ * Standard hard-DELETE for a child resource by id. Caller handles auth first.
+ * Returns a ready-to-return response (`{ ok: true }` or a 500).
+ */
+export async function deleteRow(table: ChildTable, id: string): Promise<NextResponse> {
+  const { supabase } = await import('@/lib/supabase')
+  const { error } = await supabase.from(table).delete().eq('id', id)
+  if (error) return fail(error.message)
+  return json({ ok: true })
 }

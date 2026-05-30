@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { Condition } from '@/lib/tracker/types'
 import { ALL_CONDITIONS, getConditionInfo, severityNameColor, severityStyles } from '@/lib/tracker/conditions'
 

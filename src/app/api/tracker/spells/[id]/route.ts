@@ -2,7 +2,7 @@
 
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { bad, fail, json, notFound, requireChildOfCharacter } from '@/lib/tracker/http'
+import { bad, deleteRow, fail, json, notFound, requireChildOfCharacter, updateRow } from '@/lib/tracker/http'
 import type { Spell } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
@@ -24,27 +24,9 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   const auth = await requireChildOfCharacter('spell', id, 'edit')
   if ('error' in auth) return auth.error
 
-  let body: Partial<Spell>
-  try {
-    body = (await req.json()) as Partial<Spell>
-  } catch {
-    return bad('invalid JSON body')
-  }
-
-  const patch: Record<string, unknown> = {}
-  for (const key of EDITABLE_FIELDS) {
-    if (key in body) patch[key] = (body as Record<string, unknown>)[key]
-  }
-  if (Object.keys(patch).length === 0) return bad('no editable fields supplied')
-
-  const { data, error } = await supabase
-    .from('spell')
-    .update(patch)
-    .eq('id', id)
-    .select()
-    .single()
-  if (error || !data) return fail(error?.message ?? 'update failed')
-  return json({ spell: data as Spell })
+  const res = await updateRow<Spell>('spell', id, req, EDITABLE_FIELDS)
+  if ('error' in res) return res.error
+  return json({ spell: res.data })
 }
 
 export async function DELETE(_req: NextRequest, ctx: Ctx) {
@@ -52,9 +34,7 @@ export async function DELETE(_req: NextRequest, ctx: Ctx) {
   const auth = await requireChildOfCharacter('spell', id, 'edit')
   if ('error' in auth) return auth.error
 
-  const { error } = await supabase.from('spell').delete().eq('id', id)
-  if (error) return fail(error.message)
-  return json({ ok: true })
+  return deleteRow('spell', id)
 }
 
 interface ActionBody {

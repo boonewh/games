@@ -64,10 +64,10 @@ export function PartiesSection() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {gmParties.map((p) => (
-            <PartyCard key={p.id} party={p} isGm onChanged={load} />
+            <PartyCard key={p.id} party={p} isGm />
           ))}
           {memberParties.map((p) => (
-            <PartyCard key={p.id} party={p} isGm={false} onChanged={load} />
+            <PartyCard key={p.id} party={p} isGm={false} />
           ))}
         </div>
       )}
@@ -82,7 +82,7 @@ export function PartiesSection() {
   )
 }
 
-function PartyCard({ party, isGm, onChanged }: { party: Party; isGm: boolean; onChanged: () => void }) {
+function PartyCard({ party, isGm }: { party: Party; isGm: boolean }) {
   const [showCode, setShowCode] = useState(false)
 
   return (
