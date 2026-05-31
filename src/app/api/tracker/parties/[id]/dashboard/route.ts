@@ -14,6 +14,7 @@ interface DashboardCharacter extends Character {
   pools: ResourcePool[]
   drs_label: string | null
   fortification_label: string | null
+  gm_note: string | null
 }
 
 export async function GET(_req: NextRequest, ctx: Ctx) {
@@ -37,7 +38,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       `*,
        damage_reduction(amount, bypass, enabled),
        condition(*),
-       resource_pool(*)
+       resource_pool(*),
+       gm_note(body)
       `
     )
     .eq('party_id', id)
@@ -48,12 +50,17 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     const drs = ((c as { damage_reduction: { amount: number; bypass: string; enabled: boolean }[] }).damage_reduction ?? []).filter((d) => d.enabled)
     const drsLabel = drs.length > 0 ? drs.map((d) => `DR ${d.amount}/${d.bypass}`).join(', ') : null
     const fortLabel = c.fortification_percent > 0 ? `${c.fortification_percent}% fort` : null
+    // gm_note is one-to-one; supabase-js may hand it back as an object or a
+    // single-element array depending on FK detection, so normalize both.
+    const gmNoteRel = (c as { gm_note: { body: string | null } | { body: string | null }[] | null }).gm_note
+    const gmNote = Array.isArray(gmNoteRel) ? (gmNoteRel[0]?.body ?? null) : (gmNoteRel?.body ?? null)
     return {
       ...(c as Character),
       conditions: (c as { condition: Condition[] }).condition ?? [],
       pools: (c as { resource_pool: ResourcePool[] }).resource_pool ?? [],
       drs_label: drsLabel,
-      fortification_label: fortLabel
+      fortification_label: fortLabel,
+      gm_note: gmNote
     }
   })
 

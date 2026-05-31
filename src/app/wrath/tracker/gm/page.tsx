@@ -18,6 +18,7 @@ interface DashboardCharacter extends Character {
   pools: ResourcePool[]
   drs_label: string | null
   fortification_label: string | null
+  gm_note: string | null
 }
 
 interface DashboardPayload {
@@ -389,7 +390,67 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
           ))}
         </div>
       )}
+
+      <GmNoteBox characterId={character.id} body={character.gm_note} />
     </article>
+  )
+}
+
+/**
+ * The DM's private note for a character. The dashboard polls every 5s, which
+ * would clobber whatever the GM is typing — so we keep a local draft and only
+ * resync from the incoming prop when the field is NOT focused. Saves on blur.
+ */
+function GmNoteBox({ characterId, body }: { characterId: string; body: string | null }) {
+  const [draft, setDraft] = useState(body ?? '')
+  const focused = useRef(false)
+  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+
+  // Pull in server changes only while the GM isn't actively editing.
+  useEffect(() => {
+    if (!focused.current) setDraft(body ?? '')
+  }, [body])
+
+  async function save() {
+    focused.current = false
+    if (draft === (body ?? '')) return // nothing changed
+    setStatus('saving')
+    try {
+      const res = await fetch(`/api/tracker/characters/${characterId}/gm-note`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body: draft })
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setStatus('saved')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <div className="mt-3 pt-3 border-t border-stone-light/60">
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[10px] uppercase tracking-wider opacity-50 font-cinzel">GM note</span>
+        <span className="text-[10px] opacity-60">
+          {status === 'saving' ? 'Saving…' : status === 'saved' ? 'Saved' : status === 'error' ? 'Save failed' : ''}
+        </span>
+      </div>
+      <textarea
+        value={draft}
+        onChange={(e) => {
+          setDraft(e.target.value)
+          if (status !== 'idle') setStatus('idle')
+        }}
+        onFocus={() => {
+          focused.current = true
+        }}
+        onBlur={save}
+        rows={2}
+        placeholder="Private note (only you see this)…"
+        className="w-full resize-y rounded bg-stone-dark/60 border border-stone-light/60 px-2 py-1 text-xs text-parchment placeholder:opacity-40 focus:outline-none focus:border-wotr-gold/50"
+      />
+    </div>
   )
 }
 

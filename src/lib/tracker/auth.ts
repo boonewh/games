@@ -94,3 +94,24 @@ export async function isPartyMember(userId: string, partyId: string): Promise<bo
     .maybeSingle()
   return membership != null
 }
+
+/**
+ * Returns true only if the user is the GM of the party the character belongs to.
+ * Stricter than canEditCharacter (which also allows the owner) — used to gate
+ * the DM's private note, which the character's own player must not write.
+ */
+export async function isPartyGmOfCharacter(userId: string, characterId: string): Promise<boolean> {
+  const { data: character } = await supabase
+    .from('character')
+    .select('party_id')
+    .eq('id', characterId)
+    .maybeSingle()
+  if (!character?.party_id) return false
+
+  const { data: party } = await supabase
+    .from('party')
+    .select('gm_user_id')
+    .eq('id', character.party_id)
+    .maybeSingle()
+  return party?.gm_user_id === userId
+}
