@@ -135,11 +135,23 @@ export function HpPanel({ character, onChanged }: Props) {
   }
 
   async function longRest() {
-    if (!confirm('Long rest: clear nonlethal and reset all per-day abilities. Continue?')) return
+    if (!confirm('Long rest: heal by level, clear nonlethal, and reset all per-day abilities. Continue?')) return
     try {
       const res = await postHp('long_rest', {})
       setStatus(res.message)
+      setStatusKind('heal')
+      await onChanged()
+    } catch (e) {
+      setStatus(e instanceof Error ? e.message : String(e))
       setStatusKind('info')
+    }
+  }
+
+  async function fullHeal() {
+    try {
+      const res = await postHp('full_heal', {})
+      setStatus(res.message)
+      setStatusKind('heal')
       await onChanged()
     } catch (e) {
       setStatus(e instanceof Error ? e.message : String(e))
@@ -369,9 +381,17 @@ export function HpPanel({ character, onChanged }: Props) {
               onClick={longRest}
               disabled={busy}
               className="px-3 py-1 text-xs rounded border border-stone-light hover:bg-stone-light/60 disabled:opacity-50"
-              title="Reset per-day abilities and nonlethal"
+              title="Heal by level, clear nonlethal, reset per-day abilities"
             >
               Long Rest
+            </button>
+            <button
+              onClick={fullHeal}
+              disabled={busy}
+              className="px-3 py-1 text-xs rounded border border-emerald-700/60 text-emerald-300 hover:bg-emerald-900/30 disabled:opacity-50"
+              title="Set HP to full and clear nonlethal (no per-day resets)"
+            >
+              Full Heal
             </button>
           </div>
         </div>

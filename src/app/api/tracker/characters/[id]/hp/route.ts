@@ -28,6 +28,7 @@ type Action =
   | { action: 'heal'; amount: number; note?: string }
   | { action: 'temp_hp'; amount: number }
   | { action: 'long_rest' }
+  | { action: 'full_heal' }
   | { action: 'undo' }
 
 export async function POST(req: NextRequest, ctx: Ctx) {
@@ -51,6 +52,8 @@ export async function POST(req: NextRequest, ctx: Ctx) {
       return await handleTempHp(id, body.amount)
     case 'long_rest':
       return await handleLongRest(id)
+    case 'full_heal':
+      return await handleFullHeal(id)
     case 'undo':
       return await handleUndo(id)
     default:
@@ -217,9 +220,20 @@ async function handleTempHp(characterId: string, amount: number) {
 }
 
 async function handleLongRest(characterId: string) {
+  // PF1e: a night's rest restores HP equal to character level (capped at max).
+  const { data: pre, error: preErr } = await supabase
+    .from('character')
+    .select('current_hp, max_hp, level')
+    .eq('id', characterId)
+    .single()
+  if (preErr || !pre) return fail(preErr?.message ?? 'character missing')
+
+  const healAmount = Math.max(0, Math.min(pre.max_hp - pre.current_hp, pre.level ?? 0))
+  const newCurrentHp = pre.current_hp + healAmount
+
   const { data: updated, error: updateErr } = await supabase
     .from('character')
-    .update({ nonlethal: 0 })
+    .update({ nonlethal: 0, current_hp: newCurrentHp })
     .eq('id', characterId)
     .select()
     .single()
@@ -280,8 +294,8 @@ async function handleLongRest(characterId: string) {
     .insert({
       character_id: characterId,
       kind: 'rest',
-      raw_amount: 0,
-      applied_amount: 0,
+      raw_amount: pre.level ?? 0,
+      applied_amount: healAmount,
       damage_type: null,
       dr_applied: 0,
       note: 'long rest'
@@ -290,19 +304,65 @@ async function handleLongRest(characterId: string) {
     .single()
   if (insertErr) return fail(`event: ${insertErr.message}`)
 
-  const summary = [
-    `Long rest: cleared nonlethal`,
+  const parts = [
+    healAmount > 0 && `healed ${healAmount} HP`,
+    `cleared nonlethal`,
     abilityCount > 0 && `reset ${abilityCount} per-day abilities`,
     poolCount > 0 && `reset ${poolCount} per-day pools`,
     spellCastCount > 0 && `reset ${spellCastCount} spell casts`
-  ]
-    .filter(Boolean)
-    .join(', ') + '.'
+  ].filter(Boolean)
+  const summary = `Long rest: ${parts.join(', ')}.`
 
   return json({
     character: updated as Character,
     event: event as HpEvent,
     message: summary
+  })
+}
+
+// One-click "everyone's topped off" convenience: set current HP to max and
+// clear nonlethal. Unlike a long rest this does NOT run the per-day resets —
+// it's purely for skipping the dice when the party has healing to spare.
+// Logged as a normal heal so it can be undone.
+async function handleFullHeal(characterId: string) {
+  const { data: pre, error: preErr } = await supabase
+    .from('character')
+    .select('current_hp, max_hp')
+    .eq('id', characterId)
+    .single()
+  if (preErr || !pre) return fail(preErr?.message ?? 'character missing')
+
+  const healed = Math.max(0, pre.max_hp - pre.current_hp)
+
+  const [{ data: updated, error: updateErr }, { data: event, error: insertErr }] = await Promise.all([
+    supabase
+      .from('character')
+      .update({ current_hp: pre.max_hp, nonlethal: 0 })
+      .eq('id', characterId)
+      .select()
+      .single(),
+    supabase
+      .from('hp_event')
+      .insert({
+        character_id: characterId,
+        kind: 'heal',
+        raw_amount: healed,
+        applied_amount: healed,
+        damage_type: null,
+        dr_applied: 0,
+        note: 'full heal'
+      })
+      .select()
+      .single()
+  ])
+
+  if (updateErr) return fail(`update: ${updateErr.message}`)
+  if (insertErr) return fail(`event: ${insertErr.message}`)
+
+  return json({
+    character: updated as Character,
+    event: event as HpEvent,
+    message: healed > 0 ? `Topped off to full (${pre.max_hp} HP), cleared nonlethal.` : 'Already at full HP; cleared nonlethal.'
   })
 }
 
