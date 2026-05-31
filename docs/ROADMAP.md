@@ -66,6 +66,8 @@ from real table use. Ordered roughly by size, not priority.
 - Editable in the character editor ("GM details" section); displayed on the GM
   dashboard only (saves+maneuvers row, deity/alignment/languages line). Not on
   the player combat screen. Added to the character PATCH whitelist.
+- PDF parser now extracts them too (c60071d) — imported characters arrive with
+  deity/alignment/saves/CMB/CMD/languages populated, not blank.
 - ⚠️ **Run migration 007 in Supabase before deploying** — the editor sends these
   fields on save, so deploying first would break character editing. Held
   unpushed until the migration is applied.
