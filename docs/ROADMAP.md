@@ -19,29 +19,17 @@ from real table use. Ordered roughly by size, not priority.
 
 ## Quick wins (small, no schema)
 
-### Inline AC adjustment
-- Today AC is only editable via the character editor modal (pencil by the name).
-- Want: adjust AC right where it's displayed, with up/down steppers.
-- Scope question: AC only, or also Touch + Flat-Footed (same treatment)?
-- Files: `components/tracker/HpPanel.tsx` (AC badges), PATCH already supports
-  `ac`/`ac_touch`/`ac_flat_footed`.
+### ✅ Inline AC adjustment — DONE (7655822)
+- Steppers on all three (AC, Touch, FF) on the HpPanel AC card. Optimistic +
+  debounced PATCH. Replaced the static `AcStat` with `AcStepper`.
 
-### HP restore — TWO separate buttons (decided)
-The table wants both behaviors, on distinct buttons:
-
-1. **Long Rest** (extend existing button) — keep the current resets (clear
-   nonlethal, reset per-day abilities/pools/spell casts) AND add **RAW PF1e HP
-   recovery: heal `current_hp` by character `level`**, capped at `max_hp`. (8h
-   rest = level in HP.) Open: `level` is nullable — if null, heal 0 (skip).
-   Whether to clear `temp_hp` on rest is a minor open q (lean: leave it).
-2. **Full Heal** (new button) — one click sets `current_hp = max_hp` and clears
-   nonlethal. For "we have plenty of healing, just call everyone topped off —
-   don't roll." Purely an HP convenience: does NOT run the per-day resets, and
-   leaves `temp_hp` alone (healing doesn't strip a separate temp pool).
-
-- File: `app/api/tracker/characters/[id]/hp/route.ts`. Long Rest extends
-  `handleLongRest`; Full Heal is a new action (e.g. `action: 'full_heal'`).
-- Both should write an `hp_event` row for the audit log.
+### ✅ HP restore — TWO separate buttons — DONE (54f87e3)
+- **Long Rest** now heals by character `level` (capped at max; null level heals
+  0) on top of its existing resets. Logged as `rest` with the healed amount.
+- **Full Heal** new action/button: sets `current_hp = max_hp`, clears nonlethal,
+  no per-day resets, leaves `temp_hp` alone. Logged as a `heal` so Undo reverses
+  it.
+- `temp_hp` is left alone on both (decided: lean).
 
 ---
 
