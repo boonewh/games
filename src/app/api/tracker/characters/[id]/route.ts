@@ -20,6 +20,14 @@ const EDITABLE_FIELDS = [
   'ac',
   'ac_touch',
   'ac_flat_footed',
+  'deity',
+  'alignment',
+  'save_fort',
+  'save_ref',
+  'save_will',
+  'cmb',
+  'cmd',
+  'languages',
   'notes',
   'party_id'
 ] as const

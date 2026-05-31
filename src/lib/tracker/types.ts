@@ -82,6 +82,16 @@ export interface Character {
   ac: number | null
   ac_touch: number | null
   ac_flat_footed: number | null
+  // DM-visibility fields (migration 007). Shown on the GM dashboard, not the
+  // lean player combat screen. All optional.
+  deity: string | null
+  alignment: string | null
+  save_fort: number | null
+  save_ref: number | null
+  save_will: number | null
+  cmb: number | null
+  cmd: number | null
+  languages: string | null
   notes: string | null
   created_at: string
   updated_at: string

@@ -305,6 +305,39 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
         </div>
       )}
 
+      {/* Saves + combat maneuvers (GM detail) */}
+      {(character.save_fort != null ||
+        character.save_ref != null ||
+        character.save_will != null ||
+        character.cmb != null ||
+        character.cmd != null) && (
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3 px-2 py-1 rounded bg-stone-dark/40 border border-stone-light/40">
+          {(character.save_fort != null || character.save_ref != null || character.save_will != null) && (
+            <>
+              <Stat label="Fort" value={character.save_fort} />
+              <Stat label="Ref" value={character.save_ref} />
+              <Stat label="Will" value={character.save_will} />
+            </>
+          )}
+          {character.cmb != null && <Stat label="CMB" value={character.cmb} />}
+          {character.cmd != null && <Stat label="CMD" value={character.cmd} />}
+        </div>
+      )}
+
+      {/* Deity / alignment / languages (GM reference) */}
+      {(character.deity || character.alignment || character.languages) && (
+        <div className="text-xs opacity-75 mb-2 space-y-0.5">
+          {(character.deity || character.alignment) && (
+            <div>
+              {character.alignment && <span className="uppercase tracking-wide">{character.alignment}</span>}
+              {character.alignment && character.deity && <span className="opacity-40"> · </span>}
+              {character.deity && <span>{character.deity}</span>}
+            </div>
+          )}
+          {character.languages && <div className="opacity-70">Languages: {character.languages}</div>}
+        </div>
+      )}
+
       {character.drs_label && (
         <div className="text-xs opacity-80 mb-2">{character.drs_label}</div>
       )}

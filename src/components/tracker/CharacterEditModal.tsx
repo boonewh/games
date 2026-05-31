@@ -23,6 +23,15 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [acFlatFooted, setAcFlatFooted] = useState(
     character.ac_flat_footed != null ? String(character.ac_flat_footed) : ''
   )
+  // DM-visibility fields (shown on the GM dashboard, not the player screen).
+  const [deity, setDeity] = useState(character.deity ?? '')
+  const [alignment, setAlignment] = useState(character.alignment ?? '')
+  const [saveFort, setSaveFort] = useState(character.save_fort != null ? String(character.save_fort) : '')
+  const [saveRef, setSaveRef] = useState(character.save_ref != null ? String(character.save_ref) : '')
+  const [saveWill, setSaveWill] = useState(character.save_will != null ? String(character.save_will) : '')
+  const [cmb, setCmb] = useState(character.cmb != null ? String(character.cmb) : '')
+  const [cmd, setCmd] = useState(character.cmd != null ? String(character.cmd) : '')
+  const [languages, setLanguages] = useState(character.languages ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
@@ -56,7 +65,15 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           fortification_percent: Math.max(0, Math.min(100, fort)),
           ac: parseOptInt(ac),
           ac_touch: parseOptInt(acTouch),
-          ac_flat_footed: parseOptInt(acFlatFooted)
+          ac_flat_footed: parseOptInt(acFlatFooted),
+          deity: deity.trim() || null,
+          alignment: alignment.trim() || null,
+          save_fort: parseOptInt(saveFort),
+          save_ref: parseOptInt(saveRef),
+          save_will: parseOptInt(saveWill),
+          cmb: parseOptInt(cmb),
+          cmd: parseOptInt(cmd),
+          languages: languages.trim() || null
         })
       })
       const json = await res.json()
@@ -186,6 +203,63 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
                 />
               </label>
             </div>
+          </div>
+
+          <div>
+            <div className="text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">
+              GM details
+            </div>
+            <div className="text-xs opacity-50 mb-2">
+              Shown on the GM dashboard, not your combat screen.
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Deity</span>
+                <input value={deity} onChange={(e) => setDeity(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Alignment</span>
+                <input
+                  value={alignment}
+                  onChange={(e) => setAlignment(e.target.value)}
+                  className="tracker-input"
+                  placeholder="e.g. LG"
+                />
+              </label>
+            </div>
+            <div className="grid grid-cols-3 gap-3 mt-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Fort</span>
+                <input type="number" value={saveFort} onChange={(e) => setSaveFort(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Ref</span>
+                <input type="number" value={saveRef} onChange={(e) => setSaveRef(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Will</span>
+                <input type="number" value={saveWill} onChange={(e) => setSaveWill(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">CMB</span>
+                <input type="number" value={cmb} onChange={(e) => setCmb(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">CMD</span>
+                <input type="number" value={cmd} onChange={(e) => setCmd(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+            </div>
+            <label className="block mt-3">
+              <span className="block text-xs opacity-70 mb-1">Languages</span>
+              <input
+                value={languages}
+                onChange={(e) => setLanguages(e.target.value)}
+                className="tracker-input"
+                placeholder="Common, Dwarven, …"
+              />
+            </label>
           </div>
 
           <div className="text-xs opacity-60">
