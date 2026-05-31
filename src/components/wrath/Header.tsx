@@ -95,6 +95,13 @@ const Header = () => {
                   Dice Roller
                 </Link>
 
+                <Link
+                  href="/wrath/tracker"
+                  className="px-4 py-2 rounded-full text-wotr-gold hover:text-wardstone-blue hover:bg-stone-dark/70 transition-all duration-300 font-medium text-lg font-spectral"
+                >
+                  Tracker
+                </Link>
+
                 {/* Past Adventures Dropdown */}
                 <div className="relative">
                   <button
@@ -272,6 +279,14 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Dice Roller
+                </Link>
+
+                <Link
+                  href="/wrath/tracker"
+                  className="block px-4 py-3 rounded-lg text-wotr-gold hover:text-wardstone-blue hover:bg-stone-dark/50 transition-all duration-300 font-medium font-spectral"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Tracker
                 </Link>
 
                 {/* Mobile Past Adventures */}
