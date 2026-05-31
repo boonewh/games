@@ -72,15 +72,15 @@ from real table use. Ordered roughly by size, not priority.
   fields on save, so deploying first would break character editing. Held
   unpushed until the migration is applied.
 
-### ▢ GM private note box — TODO (own table + migration 008)
-- Free-text DM note per character, shown + edited on the GM dashboard only.
-- **Must not leak to the player.** Use a **separate `gm_note` table** (fetched
-  only by the dashboard endpoint, never the player `GET` which returns `*`) so
-  the privacy is structural rather than a thing we remember to strip.
-- Edit gated to the party GM (`canEditCharacter` already returns true for GM).
-- **Editing hazard:** the dashboard polls every 5s — a free-text box there needs
-  a focus guard (don't resync from a poll while the field is focused) or the
-  DM's typing gets clobbered. Same pattern as the AcStepper's pending guard.
+### ✅ GM private note box — migration 008 — DONE, UNPUSHED (e6c3c00)
+- Separate `gm_note` table; the player character GET never joins it, so the note
+  is structurally unable to leak to the player.
+- GM-only PUT `/characters/[id]/gm-note` gated by `isPartyGmOfCharacter` (the
+  owner can't write it, only the party GM). Read via the GM-gated dashboard.
+- Dashboard card textarea with a focus guard (no resync from the 5s poll while
+  focused); saves on blur.
+- ⚠️ **Run migration 008 before deploying** — the dashboard query joins
+  `gm_note`. Held unpushed until applied.
 
 ---
 
