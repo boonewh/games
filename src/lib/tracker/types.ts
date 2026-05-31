@@ -225,6 +225,14 @@ export interface CreateCharacterInput {
   ac?: number
   ac_touch?: number
   ac_flat_footed?: number
+  deity?: string | null
+  alignment?: string | null
+  save_fort?: number | null
+  save_ref?: number | null
+  save_will?: number | null
+  cmb?: number | null
+  cmd?: number | null
+  languages?: string | null
   campaign_key?: string
   party_id?: string
   drs?: Array<{ amount: number; bypass: string }>

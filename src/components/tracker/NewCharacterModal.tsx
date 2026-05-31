@@ -201,6 +201,17 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         ac: parseOptInt(ac),
         ac_touch: parseOptInt(acTouch),
         ac_flat_footed: parseOptInt(acFlatFooted),
+        // DM-detail fields flow straight from the PDF parse (reviewable/editable
+        // afterward in the character editor). null when created from a template
+        // or by hand.
+        deity: extracted?.deity ?? undefined,
+        alignment: extracted?.alignment ?? undefined,
+        save_fort: extracted?.save_fort ?? undefined,
+        save_ref: extracted?.save_ref ?? undefined,
+        save_will: extracted?.save_will ?? undefined,
+        cmb: extracted?.cmb ?? undefined,
+        cmd: extracted?.cmd ?? undefined,
+        languages: extracted?.languages ?? undefined,
         drs: drs
           .map((d) => ({ amount: parseInt(d.amount, 10), bypass: d.bypass.trim() || '—' }))
           .filter((d) => Number.isFinite(d.amount) && d.amount > 0),

@@ -31,6 +31,14 @@ Schema:
   "ac_touch": number | null,
   "ac_flat_footed": number | null,
   "fortification_percent": number,    // 0 if none; light=25, moderate=50, heavy=75
+  "deity": string | null,             // patron deity if listed
+  "alignment": string | null,         // standard abbreviation: LG, NG, CG, LN, N, CN, LE, NE, CE
+  "save_fort": number | null,         // total Fortitude save bonus
+  "save_ref": number | null,          // total Reflex save bonus
+  "save_will": number | null,         // total Will save bonus
+  "cmb": number | null,               // total Combat Maneuver Bonus
+  "cmd": number | null,               // total Combat Maneuver Defense
+  "languages": string | null,         // comma-separated list, e.g. "Common, Dwarven, Giant"
   "drs": [{ "amount": number, "bypass": string }],
   "resistances": [{ "energy_type": "fire"|"cold"|"electricity"|"acid"|"sonic", "amount": number }],
   "vulnerabilities": [{ "energy_type": "fire"|"cold"|"electricity"|"acid"|"sonic" }],
@@ -96,6 +104,15 @@ DRs / RESISTANCES / VULNERABILITIES / FORTIFICATION:
 - Energy resistances: individual entries by type, lowercase type.
 - Vulnerabilities: rare (curses, racial templates).
 - Fortification: light=25, moderate=50, heavy=75. 0 if none.
+
+DM REFERENCE FIELDS — pull these straight off the sheet for the GM dashboard:
+- deity: the listed deity, or null if none.
+- alignment: the standard abbreviation only (LG, NG, CG, LN, N, CN, LE, NE, CE).
+  Convert spelled-out alignments (e.g. "Lawful Good" → "LG"). null if absent.
+- save_fort / save_ref / save_will: the TOTAL save numbers (the final modifiers).
+- cmb / cmd: the total Combat Maneuver Bonus and Combat Maneuver Defense.
+- languages: a comma-separated list of languages known (e.g. "Common, Dwarven").
+Use null for any of these not present in the PDF.
 
 Final reminder: Output ONLY the JSON. Begin with { end with }.`
 

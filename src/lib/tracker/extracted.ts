@@ -42,6 +42,14 @@ export interface ExtractedCharacter {
   ac_touch: number | null
   ac_flat_footed: number | null
   fortification_percent: number
+  deity: string | null
+  alignment: string | null
+  save_fort: number | null
+  save_ref: number | null
+  save_will: number | null
+  cmb: number | null
+  cmd: number | null
+  languages: string | null
   drs: Array<{ amount: number; bypass: string }>
   resistances: Array<{ energy_type: EnergyType; amount: number }>
   vulnerabilities: Array<{ energy_type: EnergyType }>

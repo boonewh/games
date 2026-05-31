@@ -55,7 +55,15 @@ export async function POST(req: NextRequest) {
       fortification_percent: body.fortification_percent ?? 0,
       ac: body.ac ?? null,
       ac_touch: body.ac_touch ?? null,
-      ac_flat_footed: body.ac_flat_footed ?? null
+      ac_flat_footed: body.ac_flat_footed ?? null,
+      deity: body.deity ?? null,
+      alignment: body.alignment ?? null,
+      save_fort: body.save_fort ?? null,
+      save_ref: body.save_ref ?? null,
+      save_will: body.save_will ?? null,
+      cmb: body.cmb ?? null,
+      cmd: body.cmd ?? null,
+      languages: body.languages ?? null
     })
     .select()
     .single()
