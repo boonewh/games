@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CharacterDetail, DamageType } from '@/lib/tracker/types'
 import { DAMAGE_TYPES } from '@/lib/tracker/types'
 import { CharacterEditModal } from './CharacterEditModal'
@@ -99,6 +99,26 @@ export function HpPanel({ character, onChanged }: Props) {
     } catch (e) {
       setStatus(e instanceof Error ? e.message : String(e))
       setStatusKind('info')
+    }
+  }
+
+  // AC / Touch / FF live on the character row, so they go through the character
+  // PATCH endpoint rather than the HP action route. The stepper updates its own
+  // value optimistically and debounces the write; this reconciles to the truth.
+  async function commitAc(field: 'ac' | 'ac_touch' | 'ac_flat_footed', next: number) {
+    try {
+      const res = await fetch(`/api/tracker/characters/${character.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: next })
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
+      await onChanged()
+    } catch (e) {
+      setStatus(e instanceof Error ? e.message : String(e))
+      setStatusKind('info')
+      await onChanged() // pull back to server truth so the optimistic value corrects
     }
   }
 
@@ -302,9 +322,9 @@ export function HpPanel({ character, onChanged }: Props) {
         {/* AC card (left) — content centered vertically when row stretches to match
             taller siblings (conditions, status) */}
         <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-around gap-5">
-          <AcStat label="AC" value={character.ac} large />
-          <AcStat label="Touch" value={character.ac_touch} />
-          <AcStat label="FF" value={character.ac_flat_footed} />
+          <AcStepper label="AC" value={character.ac} large onCommit={(n) => commitAc('ac', n)} />
+          <AcStepper label="Touch" value={character.ac_touch} onCommit={(n) => commitAc('ac_touch', n)} />
+          <AcStepper label="FF" value={character.ac_flat_footed} onCommit={(n) => commitAc('ac_flat_footed', n)} />
         </div>
 
         {/* Resource pools (Ki, Mythic Power, etc.) */}
@@ -439,13 +459,68 @@ function Badge({
   )
 }
 
-function AcStat({ label, value, large }: { label: string; value: number | null; large?: boolean }) {
+/**
+ * AC value with inline +/- steppers. Shows an optimistic draft so taps feel
+ * instant, and debounces the persist so mashing the buttons fires one PATCH
+ * once the value settles. While a write is pending we don't resync from props,
+ * so an in-flight refetch can't clobber the value mid-edit.
+ */
+function AcStepper({
+  label,
+  value,
+  large,
+  onCommit
+}: {
+  label: string
+  value: number | null
+  large?: boolean
+  onCommit: (next: number) => void
+}) {
+  const [draft, setDraft] = useState<number | null>(value)
+  const commitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Reconcile to the persisted value, but only when no write is pending.
+  useEffect(() => {
+    if (commitTimer.current == null) setDraft(value)
+  }, [value])
+
+  // Clean up a pending debounce if the component unmounts mid-edit.
+  useEffect(() => () => {
+    if (commitTimer.current) clearTimeout(commitTimer.current)
+  }, [])
+
+  function bump(delta: number) {
+    setDraft((prev) => {
+      const next = Math.max(0, (prev ?? 0) + delta)
+      if (commitTimer.current) clearTimeout(commitTimer.current)
+      commitTimer.current = setTimeout(() => {
+        commitTimer.current = null
+        onCommit(next)
+      }, 400)
+      return next
+    })
+  }
+
+  const btn =
+    'w-5 h-5 leading-none flex items-center justify-center rounded border border-stone-light ' +
+    'text-parchment/50 hover:text-wotr-gold hover:border-wotr-gold/50 disabled:opacity-30 text-sm select-none'
+
   return (
     <div className="flex flex-col items-center">
       <span className="text-[10px] uppercase tracking-wider opacity-60 font-cinzel">{label}</span>
-      <span className={`tabular-nums text-wotr-gold ${large ? 'text-2xl font-bold' : 'text-lg'}`}>
-        {value ?? '—'}
-      </span>
+      <div className="flex items-center gap-1.5 mt-0.5">
+        <button type="button" onClick={() => bump(-1)} className={btn} aria-label={`Decrease ${label}`}>
+          −
+        </button>
+        <span
+          className={`tabular-nums text-wotr-gold text-center ${large ? 'text-2xl font-bold min-w-[2ch]' : 'text-lg min-w-[2ch]'}`}
+        >
+          {draft ?? '—'}
+        </span>
+        <button type="button" onClick={() => bump(1)} className={btn} aria-label={`Increase ${label}`}>
+          +
+        </button>
+      </div>
     </div>
   )
 }
