@@ -58,31 +58,27 @@ from real table use. Ordered roughly by size, not priority.
 
 ---
 
-## Schema changes (migration 007 — DM visibility)
+## Schema changes (DM visibility)
 
-The DM wants to see more per character. These render on the **GM dashboard only**
-(keep the player screen lean). New columns on `character` unless noted:
+### ✅ DM stat fields — migration 007 — DONE, UNPUSHED (6594a00)
+- Added `deity, alignment, save_fort, save_ref, save_will, cmb, cmd, languages`
+  columns to `character` (migration 007, all nullable).
+- Editable in the character editor ("GM details" section); displayed on the GM
+  dashboard only (saves+maneuvers row, deity/alignment/languages line). Not on
+  the player combat screen. Added to the character PATCH whitelist.
+- ⚠️ **Run migration 007 in Supabase before deploying** — the editor sends these
+  fields on save, so deploying first would break character editing. Held
+  unpushed until the migration is applied.
 
-- `deity` (text) — important for WotR
-- `alignment` (text)
-- saving throws: `save_fort`, `save_ref`, `save_will` (int)
-- `cmb` (int)
-- `cmd` (int)
-- `languages` (text — comma list, or its own table? probably text is fine)
-- `gm_notes` (text) — **GM-only free-text note per character**
-
-### Open design points for migration 007
-- **`gm_notes` must not leak to the player.** The character `GET` returns `*`,
-  which players can read for their own character. Saves/deity/alignment/CMB/CMD/
-  languages are the player's own data — fine for them to see. But `gm_notes` is
-  the DM's private note about the character and must be stripped from any
-  player-facing payload (or stored in a separate GM-only table gated to the
-  party GM).
-- **Who edits these?** Likely the GM, from the dashboard. Editing must be gated
-  to the party GM (existing `canEditCharacter` already returns true for the GM).
-- Decide: extra `character` columns vs. a separate `gm_character_notes` table.
-  Single column is simplest for everything except `gm_notes`, where a separate
-  table makes the "never expose to player" rule structurally enforceable.
+### ▢ GM private note box — TODO (own table + migration 008)
+- Free-text DM note per character, shown + edited on the GM dashboard only.
+- **Must not leak to the player.** Use a **separate `gm_note` table** (fetched
+  only by the dashboard endpoint, never the player `GET` which returns `*`) so
+  the privacy is structural rather than a thing we remember to strip.
+- Edit gated to the party GM (`canEditCharacter` already returns true for GM).
+- **Editing hazard:** the dashboard polls every 5s — a free-text box there needs
+  a focus guard (don't resync from a poll while the field is focused) or the
+  DM's typing gets clobbered. Same pattern as the AcStepper's pending guard.
 
 ---
 
