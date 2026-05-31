@@ -415,20 +415,21 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session V — The Worldwound Incursion</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Patient Thunder</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session VI — The Worldwound Incursion</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Blade That Chooses</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The party is whole again. Nageru led the Gwerm Manor survivors through demon-haunted streets to the
-              Blackwing Library, where the strike team waited — the first time all of them had stood in the same room
-              since the wardstone fell. Together they crossed a burning city to find Irabeth alive at the Defender&apos;s
-              Heart, delivered the intelligence they had bled to gather, and cleared the last two Templar safe houses.
-              The Minagho letter names what follows: Vorlesh has crossed into the Abyss for a Nahyndrian crystal.
-              The war has a shape now. The enemy is not idle.
+              Radiance has found its hand. Yaniel&apos;s holy blade — carried out of the dark, wrapped in oilcloth,
+              never quite forgotten — transformed into a glaive the moment Caleth gripped it, and has not changed back.
+              Irabeth laid out the shape of the enemy&apos;s plan: Vorlesh is coming to Kenabres with a Nahyndrian
+              crystal to turn the wardstone network into a weapon against the Crusade. The Vanguard walked back through
+              the ruins of the city, past the empty square where Terendelev fell, and fought their way to the doors
+              of the Gray Garrison. Two demons were wearing the skins of Kenabres&apos;s leaders. Now the skins lie
+              empty on the flagstones. The doors are in front of them.
             </p>
           </div>
 
@@ -439,8 +440,8 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She did not hesitate. As the Storm King&apos;s claws found her, her last thought was of us.
-              We carry that debt into every fight that follows.&rdquo;
+              &ldquo;They came back to the square where she fell. Her body was not there.
+              The demons had taken even that. Only swept stone and a dark rift in the earth.&rdquo;
             </p>
           </div>
 
@@ -451,25 +452,25 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Stood inside a column of enemy fire at the Tower of Estrod and emerged untouched — his resistance to flame holding where the cultist leader\'s power could not. Ended the fight with a holy-lightning strike that dropped the red-skinned commander. Carries a secret about the elder wizard beside him that is still too new to name.',
+                contribution: 'Took Radiance from Thane\'s hands and watched it become a glaive. Korroc gave it back to him with the plainest reasoning in the world — the blade keeps finding your hand. Carries a rod of cancellation from Quednys. Stood in the empty square where Terendelev fell and said nothing aloud. The only one who understood what the mirror-breaker called him, and what he answered.',
               },
               {
                 name: 'Nageru',
                 classes: 'Monk / Paladin',
                 role: 'Iron Fist of the Crusade',
-                contribution: 'Detected the demon-swarm before it arrived and got the manor out in time. Carried the orphan through burning streets to the reunion. Spoke the password that opened the door to Irabeth. Told the whole story to the Watch. Took three arrows and a creature\'s roots in his flesh in the same morning and kept going. Ended the last fight with a javelin and four words.',
+                contribution: 'Held Radiance for one moment — it became a longsword, and he handed it back without ceremony. Flanked the book-throwing demon alongside Caleth and dropped two in as many strikes. Put his fist into the Hulrun-skinsuit as it erupted and ended it before it finished standing. Barefoot at the garrison doors with the rest of them.',
               },
               {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Pulled the poison bottle from beneath a clockwork deathtrap\'s blades before they came down. Found the secret basement under Topaz Solutions. Used the captured poison against the Tower of Estrod garrison, then stood with Korroc and held the door. Now carries two letters — S.V.\'s and Minagho\'s — that together map the shape of the enemy.',
+                contribution: 'Unwrapped Radiance and handed it over without sentiment. Drank the invisible potion and hit first. Took a thrown book to the head from a demon that preferred throwing them to fighting — kept the other demon between himself and the window the whole time. Did not wait for the talking to finish before he nocked the arrow at Hulrun\'s door.',
               },
               {
                 name: 'Korroc',
                 classes: 'Paladin / Oracle',
                 role: 'Voice of Torag',
-                contribution: 'Walked up to the Tower of Estrod\'s door alone to confirm the enemy before letting Thane throw the bottle. Held that door shut while the poison worked. Stood between the party and a wave of reinforcements and did not move. Sent healing through the company every time they needed it. Solid as the stone in his blood.',
+                contribution: 'Held Radiance — it became a warhammer, blazing — and gave it to Caleth anyway. Walked out alone into the open square and called Lord Hulrun by name, because he could not help trying. Took a scythe across the shoulder for it. Found out afterward what was wearing the skin. Knelt over the empty hides and named what they were. The conscience of the company, paying its price.',
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -481,17 +482,18 @@ export default function WrathPage() {
             ))}
           </div>
 
-          {/* Milestone: The Defender's Heart */}
+          {/* Milestone: The Gray Garrison */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Defender&apos;s Heart</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The party is whole — and the enemy is named</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Doors of the Gray Garrison</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The wardstone fragment is inside — and Vorlesh is coming</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The Vanguard stands reunited at last, under Irabeth&apos;s command at the Defender&apos;s Heart. Topaz
-              Solutions and the Tower of Estrod have been cleared. The S.V. letter is in Eagle Watch hands. The Minagho
-              letter reveals what follows: Vorlesh has gone into the Abyss to secure a Nahyndrian crystal — a weapon
-              meant to turn the wardstone network against the Crusade. Kenabres burns on. The next move belongs to
-              the enemy, and the enemy is not idle.
+              The wardstone fragment that survived the Kite&apos;s destruction sits inside the Gray Garrison, waiting
+              for Vorlesh and her Nahyndrian crystal. If she corrupts it, the whole border field turns — a hundred
+              thousand crusaders lined up to die by the thing they thought was protecting them. Irabeth&apos;s forces
+              are bleeding to keep the streets clear. The Vanguard stands at the garrison doors with a rod that can
+              sever the fragment&apos;s connection and a holy blade that chose its wielder. The doors are shut.
+              The next chapter begins when they open.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
