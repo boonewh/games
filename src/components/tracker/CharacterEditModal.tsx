@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Character } from '@/lib/tracker/types'
+import type { ExtractedCharacter } from '@/lib/tracker/extracted'
+import { MergeReviewModal } from './MergeReviewModal'
 
 interface Props {
   character: Character
@@ -35,6 +37,32 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
+
+  // "Update from PDF" — parse, then hand off to the merge review modal.
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [parsing, setParsing] = useState(false)
+  const [parseError, setParseError] = useState<string | null>(null)
+  const [merging, setMerging] = useState<ExtractedCharacter | null>(null)
+
+  async function onPdfPicked(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setParsing(true)
+    setParseError(null)
+    try {
+      const fd = new FormData()
+      fd.append('pdf', file)
+      const res = await fetch('/api/tracker/parse-character-pdf', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
+      setMerging(json.extracted as ExtractedCharacter)
+    } catch (err) {
+      setParseError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setParsing(false)
+      if (fileRef.current) fileRef.current.value = ''
+    }
+  }
 
   async function save() {
     setError(null)
@@ -101,6 +129,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   }
 
   return (
+    <>
     <div
       className="fixed inset-0 bg-black/70 flex items-start sm:items-center justify-center z-50 p-4 overflow-auto"
       onClick={onClose}
@@ -110,6 +139,20 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="font-cinzel text-2xl text-wotr-gold mb-4">Edit {character.name}</h2>
+
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={parsing}
+            className="px-3 py-1.5 text-sm rounded border border-wotr-gold/60 text-wotr-gold hover:bg-wotr-gold/10 disabled:opacity-50"
+          >
+            {parsing ? 'Parsing…' : 'Update from PDF'}
+          </button>
+          <span className="text-xs opacity-50">Re-parse a Hero Lab PDF and review what changed.</span>
+          <input ref={fileRef} type="file" accept="application/pdf,.pdf" onChange={onPdfPicked} className="hidden" />
+        </div>
+        {parseError && <div className="text-abyssal-red text-sm mb-3">Parse failed: {parseError}</div>}
 
         <div className="space-y-3">
           <label className="block">
@@ -330,5 +373,18 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
         `}</style>
       </div>
     </div>
+
+    {merging && (
+      <MergeReviewModal
+        characterId={character.id}
+        incoming={merging}
+        onClose={() => setMerging(null)}
+        onApplied={async () => {
+          await onSaved()
+          onClose()
+        }}
+      />
+    )}
+    </>
   )
 }
