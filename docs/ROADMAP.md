@@ -35,14 +35,20 @@ from real table use. Ordered roughly by size, not priority.
 
 ## Features (need design before building)
 
-### Leveling / "add things" merge-diff
-- When re-applying a template/PDF or leveling a character, new data must NOT
-  squash existing custom edits.
-- Want: show the user a diff and let them choose, field by field / card by card,
-  what to keep vs. take from the new version.
-- Trigger today is *adding* things, not only leveling.
-- **Needs its own design pass** — merge semantics, what's diffable (abilities,
-  spells, pools, defenses), and the review UI.
+### ✅ Leveling / "add things" merge-diff — "Update from PDF" — DONE (fcb87d0, 5e802d8, 4437dc8)
+- Re-parse a Hero Lab PDF from the character editor → review a diff → apply,
+  without squashing custom edits. No migration.
+- **Phase 1** `lib/tracker/merge.ts` + 22 tests: pure diff/bucketing (unchanged/
+  changed/new/removed), normalized-name matching (spells keyed by class, DR by
+  bypass, resist/vuln by energy type), and preservation merges (take-new keeps
+  uses_remaining/cast_count/points_remaining clamped + enabled/hidden/sort_order).
+- **Phase 2** `POST /characters/[id]/merge`: re-fetches server-side, rebuilds the
+  plan, applies decisions; convergent (re-run = no-op).
+- **Phase 3** `MergeReviewModal` + "Update from PDF" button in the editor;
+  per-item toggles defaulted to spec (new→add, changed→take, removed→keep).
+- **Deferred:** manual re-link for parser renames (rename shows as new+removed;
+  reconcile in the editor for now).
+- ⚠️ Couldn't click-test (auth wall) — verified via tsc/eslint/build/tests.
 
 ### Spell / spell-slot tracking rework
 - PDF parsing creates individual `spell` rows but dropped the old spell-level
