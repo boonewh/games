@@ -25,7 +25,7 @@ Schema:
 {
   "name": string,
   "class_summary": string,           // e.g. "Stonelord Paladin 4 / Life Oracle 4"
-  "level": number,                    // total character level (sum of class levels)
+  "level": number,                    // GESTALT campaign: the shared class level, NOT the sum (see LEVEL rule)
   "max_hp": number,
   "ac": number | null,
   "ac_touch": number | null,
@@ -104,6 +104,15 @@ DRs / RESISTANCES / VULNERABILITIES / FORTIFICATION:
 - Energy resistances: individual entries by type, lowercase type.
 - Vulnerabilities: rare (curses, racial templates).
 - Fortification: light=25, moderate=50, heavy=75. 0 if none.
+
+LEVEL (IMPORTANT) — This is a GESTALT campaign: characters advance two classes
+in parallel, gaining a level in BOTH at once. So the character level is the
+shared single-class level, NOT the sum. A gestalt "Paladin 4 / Oracle 4" is
+level 4, not 8. Set "level" to the maximum individual class level (which, for
+gestalt, equals each class's level) — never add the class levels together. A
+"Gestalt" entry on the sheet confirms gestalt. Only a genuinely single-classed
+character uses that one class's level directly. class_summary should still list
+both classes (e.g. "Stonelord Paladin 4 / Life Oracle 4").
 
 DM REFERENCE FIELDS — pull these straight off the sheet for the GM dashboard:
 - deity: the listed deity, or null if none.
