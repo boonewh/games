@@ -8,12 +8,15 @@ import Link from 'next/link'
 import type { Character } from '@/lib/tracker/types'
 import { NewCharacterModal } from '@/components/tracker/NewCharacterModal'
 import { PartiesSection } from '@/components/tracker/PartiesSection'
+import { ZoomControls } from '@/components/tracker/ZoomControls'
+import { useTrackerZoom } from '@/hooks/useTrackerZoom'
 
 export default function TrackerRosterPage() {
   const [characters, setCharacters] = useState<Character[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
+  const zoom = useTrackerZoom()
 
   const load = useCallback(async () => {
     setError(null)
@@ -35,18 +38,28 @@ export default function TrackerRosterPage() {
 
   return (
     <main className="min-h-screen bg-stone-dark text-parchment font-spectral">
+      <div style={{ zoom: zoom.zoom }}>
       <div className="mx-auto max-w-5xl px-6 py-10">
         <header className="flex items-baseline justify-between mb-8 border-b border-stone-light pb-4">
           <div>
             <h1 className="font-cinzel text-3xl text-wotr-gold">Character Tracker</h1>
             <p className="text-sm opacity-70 mt-1">Your characters in this campaign.</p>
           </div>
-          <button
-            onClick={() => setCreating(true)}
-            className="px-4 py-2 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold font-cinzel"
-          >
-            + New Character
-          </button>
+          <div className="flex items-center gap-3">
+            <ZoomControls
+              isMin={zoom.isMin}
+              isMax={zoom.isMax}
+              isDefault={zoom.isDefault}
+              onChange={zoom.change}
+              onReset={zoom.reset}
+            />
+            <button
+              onClick={() => setCreating(true)}
+              className="px-4 py-2 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold font-cinzel"
+            >
+              + New Character
+            </button>
+          </div>
         </header>
 
         <PartiesSection />
@@ -109,6 +122,7 @@ export default function TrackerRosterPage() {
           }}
         />
       )}
+      </div>
     </main>
   )
 }

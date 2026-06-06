@@ -12,6 +12,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Character, Condition, Party, ResourcePool } from '@/lib/tracker/types'
+import { ZoomControls } from '@/components/tracker/ZoomControls'
+import { useTrackerZoom } from '@/hooks/useTrackerZoom'
 
 interface DashboardCharacter extends Character {
   conditions: Condition[]
@@ -40,6 +42,7 @@ export default function GmDashboardPage() {
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const pollTimer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const zoom = useTrackerZoom()
 
   // Load parties on mount, filter to GM-owned (we need user_id for that)
   const loadParties = useCallback(async () => {
@@ -161,6 +164,7 @@ export default function GmDashboardPage() {
 
   return (
     <main className="min-h-screen bg-stone-dark text-parchment font-spectral">
+      <div style={{ zoom: zoom.zoom }}>
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex items-baseline justify-between mb-6">
           <div>
@@ -169,27 +173,36 @@ export default function GmDashboardPage() {
             </Link>
             <h1 className="font-cinzel text-3xl text-wotr-gold mt-2">GM Dashboard</h1>
           </div>
-          <div className="text-right">
-            {parties.length > 1 ? (
-              <select
-                value={selectedPartyId ?? ''}
-                onChange={(e) => setSelectedPartyId(e.target.value)}
-                className="p-2 rounded bg-stone-dark border border-stone-light text-parchment"
-              >
-                {parties.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <div className="font-cinzel text-lg text-parchment">{dashboard?.party.name}</div>
-            )}
-            {lastRefresh && (
-              <div className="text-[10px] uppercase tracking-wider opacity-50 mt-1">
-                refreshed {lastRefresh.toLocaleTimeString()}
-              </div>
-            )}
+          <div className="flex items-start gap-3">
+            <ZoomControls
+              isMin={zoom.isMin}
+              isMax={zoom.isMax}
+              isDefault={zoom.isDefault}
+              onChange={zoom.change}
+              onReset={zoom.reset}
+            />
+            <div className="text-right">
+              {parties.length > 1 ? (
+                <select
+                  value={selectedPartyId ?? ''}
+                  onChange={(e) => setSelectedPartyId(e.target.value)}
+                  className="p-2 rounded bg-stone-dark border border-stone-light text-parchment"
+                >
+                  {parties.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div className="font-cinzel text-lg text-parchment">{dashboard?.party.name}</div>
+              )}
+              {lastRefresh && (
+                <div className="text-[10px] uppercase tracking-wider opacity-50 mt-1">
+                  refreshed {lastRefresh.toLocaleTimeString()}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -249,6 +262,7 @@ export default function GmDashboardPage() {
             )}
           </div>
         )}
+      </div>
       </div>
     </main>
   )
