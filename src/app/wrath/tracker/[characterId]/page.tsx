@@ -9,33 +9,15 @@ import { useParams } from 'next/navigation'
 import type { CharacterDetail } from '@/lib/tracker/types'
 import { HpPanel } from '@/components/tracker/HpPanel'
 import { AbilityGrid } from '@/components/tracker/AbilityGrid'
-
-const ZOOM_LEVELS = [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.35]
-const ZOOM_DEFAULT_INDEX = 3
-const ZOOM_LS_KEY = 'tracker-zoom-index'
+import { ZoomControls } from '@/components/tracker/ZoomControls'
+import { useTrackerZoom } from '@/hooks/useTrackerZoom'
 
 export default function CharacterPage() {
   const { characterId } = useParams<{ characterId: string }>()
   const [detail, setDetail] = useState<CharacterDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [zoomIndex, setZoomIndex] = useState(ZOOM_DEFAULT_INDEX)
-
-  useEffect(() => {
-    const saved = localStorage.getItem(ZOOM_LS_KEY)
-    if (saved !== null) {
-      const idx = parseInt(saved, 10)
-      if (idx >= 0 && idx < ZOOM_LEVELS.length) setZoomIndex(idx)
-    }
-  }, [])
-
-  function changeZoom(delta: number) {
-    setZoomIndex((prev) => {
-      const next = Math.max(0, Math.min(ZOOM_LEVELS.length - 1, prev + delta))
-      localStorage.setItem(ZOOM_LS_KEY, String(next))
-      return next
-    })
-  }
+  const zoom = useTrackerZoom()
 
   const load = useCallback(async () => {
     setError(null)
@@ -82,26 +64,15 @@ export default function CharacterPage() {
         <Link href="/wrath/tracker" className="text-sm text-wotr-gold/80 hover:text-wotr-gold underline">
           ← Roster
         </Link>
-        <div className="flex items-center gap-1" title="Adjust text size">
-          <button
-            onClick={() => changeZoom(-1)}
-            disabled={zoomIndex === 0}
-            className="w-7 h-7 flex items-center justify-center rounded border border-stone-light text-parchment/60 hover:text-parchment hover:border-wotr-gold/50 disabled:opacity-25 disabled:cursor-not-allowed text-sm font-cinzel leading-none"
-            aria-label="Decrease text size"
-          >
-            A−
-          </button>
-          <button
-            onClick={() => changeZoom(1)}
-            disabled={zoomIndex === ZOOM_LEVELS.length - 1}
-            className="w-7 h-7 flex items-center justify-center rounded border border-stone-light text-parchment/60 hover:text-parchment hover:border-wotr-gold/50 disabled:opacity-25 disabled:cursor-not-allowed text-base font-cinzel leading-none"
-            aria-label="Increase text size"
-          >
-            A+
-          </button>
-        </div>
+        <ZoomControls
+          isMin={zoom.isMin}
+          isMax={zoom.isMax}
+          isDefault={zoom.isDefault}
+          onChange={zoom.change}
+          onReset={zoom.reset}
+        />
       </div>
-      <div style={{ zoom: ZOOM_LEVELS[zoomIndex] }}>
+      <div style={{ zoom: zoom.zoom }}>
         <HpPanel character={detail} onChanged={load} />
         <AbilityGrid character={detail} onChanged={load} />
       </div>
