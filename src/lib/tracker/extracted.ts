@@ -41,6 +41,7 @@ export interface ExtractedCharacter {
   ac: number | null
   ac_touch: number | null
   ac_flat_footed: number | null
+  spell_dc: number | null
   fortification_percent: number
   deity: string | null
   alignment: string | null

@@ -34,6 +34,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
   const [ac, setAc] = useState('')
   const [acTouch, setAcTouch] = useState('')
   const [acFlatFooted, setAcFlatFooted] = useState('')
+  const [spellDc, setSpellDc] = useState('')
   const [drs, setDrs] = useState<DrRow[]>([])
   const [resistances, setResistances] = useState<ResRow[]>([])
   const [vulnerabilities, setVulnerabilities] = useState<EnergyType[]>([])
@@ -61,6 +62,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     if (p.ac != null) setAc(String(p.ac))
     if (p.ac_touch != null) setAcTouch(String(p.ac_touch))
     if (p.ac_flat_footed != null) setAcFlatFooted(String(p.ac_flat_footed))
+    if (p.spell_dc != null) setSpellDc(String(p.spell_dc))
     if (p.drs) setDrs(p.drs.map((d) => ({ amount: String(d.amount), bypass: d.bypass })))
     if (p.vulnerabilities) setVulnerabilities(p.vulnerabilities.map((v) => v.energy_type))
   }, [templateKey])
@@ -74,6 +76,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     setAc(e.ac != null ? String(e.ac) : '')
     setAcTouch(e.ac_touch != null ? String(e.ac_touch) : '')
     setAcFlatFooted(e.ac_flat_footed != null ? String(e.ac_flat_footed) : '')
+    setSpellDc(e.spell_dc != null ? String(e.spell_dc) : '')
     setDrs((e.drs ?? []).map((d) => ({ amount: String(d.amount), bypass: d.bypass })))
     setResistances((e.resistances ?? []).map((r) => ({ energy_type: r.energy_type, amount: String(r.amount) })))
     setVulnerabilities((e.vulnerabilities ?? []).map((v) => v.energy_type))
@@ -201,6 +204,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         ac: parseOptInt(ac),
         ac_touch: parseOptInt(acTouch),
         ac_flat_footed: parseOptInt(acFlatFooted),
+        spell_dc: parseOptInt(spellDc),
         // DM-detail fields flow straight from the PDF parse (reviewable/editable
         // afterward in the character editor). null when created from a template
         // or by hand.
@@ -393,6 +397,16 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
               </Field>
             </div>
           </div>
+
+          <Field label="Spell DC (optional)">
+            <input
+              type="number"
+              value={spellDc}
+              onChange={(e) => setSpellDc(e.target.value)}
+              className="tracker-input"
+              placeholder="—"
+            />
+          </Field>
 
           <div>
             <div className="flex items-center justify-between mb-1">

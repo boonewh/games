@@ -82,6 +82,9 @@ export interface Character {
   ac: number | null
   ac_touch: number | null
   ac_flat_footed: number | null
+  // Single spell save DC (migration 009). House rule: every spell, regardless of
+  // level, uses the caster's highest DC — so one number covers all of them.
+  spell_dc: number | null
   // DM-visibility fields (migration 007). Shown on the GM dashboard, not the
   // lean player combat screen. All optional.
   deity: string | null
@@ -225,6 +228,7 @@ export interface CreateCharacterInput {
   ac?: number
   ac_touch?: number
   ac_flat_footed?: number
+  spell_dc?: number | null
   deity?: string | null
   alignment?: string | null
   save_fort?: number | null

@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       ac: body.ac ?? null,
       ac_touch: body.ac_touch ?? null,
       ac_flat_footed: body.ac_flat_footed ?? null,
+      spell_dc: body.spell_dc ?? null,
       deity: body.deity ?? null,
       alignment: body.alignment ?? null,
       save_fort: body.save_fort ?? null,

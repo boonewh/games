@@ -30,6 +30,7 @@ Schema:
   "ac": number | null,
   "ac_touch": number | null,
   "ac_flat_footed": number | null,
+  "spell_dc": number | null,          // single highest spell save DC (see SPELL DC rule); null if non-caster
   "fortification_percent": number,    // 0 if none; light=25, moderate=50, heavy=75
   "deity": string | null,             // patron deity if listed
   "alignment": string | null,         // standard abbreviation: LG, NG, CG, LN, N, CN, LE, NE, CE
@@ -91,6 +92,15 @@ SPELLS — every known and prepared spell.
 - casting_class: lowercase short form.
 - school: lowercase like "evocation"; null if not in the PDF.
 - description: 1-2 sentences. Effect, save DC if applicable, range.
+
+SPELL DC (IMPORTANT) — this campaign uses a HOUSE RULE: every spell, at every
+level, uses the caster's single highest spell save DC. So report ONE number, not
+a DC per spell level. Compute it as the maximum spell save DC the character can
+produce: 10 + (the highest spell level they can cast) + (their relevant casting
+ability modifier). If the character has multiple casting classes, take the
+highest such DC across all of them. Hero Lab usually prints per-level save DCs in
+the spellcasting section — if so, just report the largest one you see. Set
+spell_dc to null only if the character has no spellcasting at all.
 
 POOLS — resource pools that multiple abilities draw from (DIFFERENT from per-day ability uses):
 - Ki Pool (monk), Arcane Pool (magus), Grit (gunslinger), Panache (swashbuckler), Phrenic Pool (psychic), Mythic Power (mythic), Bardic Performance rounds (treat as pool OR ability — prefer pool if spent in increments).

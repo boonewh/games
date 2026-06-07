@@ -25,6 +25,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [acFlatFooted, setAcFlatFooted] = useState(
     character.ac_flat_footed != null ? String(character.ac_flat_footed) : ''
   )
+  const [spellDc, setSpellDc] = useState(character.spell_dc != null ? String(character.spell_dc) : '')
   // DM-visibility fields (shown on the GM dashboard, not the player screen).
   const [deity, setDeity] = useState(character.deity ?? '')
   const [alignment, setAlignment] = useState(character.alignment ?? '')
@@ -94,6 +95,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           ac: parseOptInt(ac),
           ac_touch: parseOptInt(acTouch),
           ac_flat_footed: parseOptInt(acFlatFooted),
+          spell_dc: parseOptInt(spellDc),
           deity: deity.trim() || null,
           alignment: alignment.trim() || null,
           save_fort: parseOptInt(saveFort),
@@ -247,6 +249,22 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
               </label>
             </div>
           </div>
+
+          <label className="block">
+            <span className="block text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">
+              Spell DC
+            </span>
+            <input
+              type="number"
+              value={spellDc}
+              onChange={(e) => setSpellDc(e.target.value)}
+              className="tracker-input"
+              placeholder="—"
+            />
+            <span className="block text-xs opacity-50 mt-1">
+              House rule: one DC for every spell, all levels.
+            </span>
+          </label>
 
           <div>
             <div className="text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">

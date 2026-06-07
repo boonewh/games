@@ -20,6 +20,7 @@ const EDITABLE_FIELDS = [
   'ac',
   'ac_touch',
   'ac_flat_footed',
+  'spell_dc',
   'deity',
   'alignment',
   'save_fort',

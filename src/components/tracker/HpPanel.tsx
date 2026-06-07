@@ -102,10 +102,11 @@ export function HpPanel({ character, onChanged }: Props) {
     }
   }
 
-  // AC / Touch / FF live on the character row, so they go through the character
-  // PATCH endpoint rather than the HP action route. The stepper updates its own
-  // value optimistically and debounces the write; this reconciles to the truth.
-  async function commitAc(field: 'ac' | 'ac_touch' | 'ac_flat_footed', next: number) {
+  // AC / Touch / FF / Spell DC live on the character row, so they go through the
+  // character PATCH endpoint rather than the HP action route. The stepper updates
+  // its own value optimistically and debounces the write; this reconciles to the
+  // truth.
+  async function commitStat(field: 'ac' | 'ac_touch' | 'ac_flat_footed' | 'spell_dc', next: number) {
     try {
       const res = await fetch(`/api/tracker/characters/${character.id}`, {
         method: 'PATCH',
@@ -334,9 +335,15 @@ export function HpPanel({ character, onChanged }: Props) {
         {/* AC card (left) — content centered vertically when row stretches to match
             taller siblings (conditions, status) */}
         <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-around gap-5">
-          <AcStepper label="AC" value={character.ac} large onCommit={(n) => commitAc('ac', n)} />
-          <AcStepper label="Touch" value={character.ac_touch} onCommit={(n) => commitAc('ac_touch', n)} />
-          <AcStepper label="FF" value={character.ac_flat_footed} onCommit={(n) => commitAc('ac_flat_footed', n)} />
+          <AcStepper label="AC" value={character.ac} large onCommit={(n) => commitStat('ac', n)} />
+          <AcStepper label="Touch" value={character.ac_touch} onCommit={(n) => commitStat('ac_touch', n)} />
+          <AcStepper label="FF" value={character.ac_flat_footed} onCommit={(n) => commitStat('ac_flat_footed', n)} />
+        </div>
+
+        {/* Spell DC — house rule: one DC for every spell at every level, so it
+            lives on the character like AC rather than per-spell. */}
+        <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-center">
+          <AcStepper label="Spell DC" value={character.spell_dc} large onCommit={(n) => commitStat('spell_dc', n)} />
         </div>
 
         {/* Resource pools (Ki, Mythic Power, etc.) */}
