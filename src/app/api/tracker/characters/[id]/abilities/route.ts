@@ -16,6 +16,7 @@ interface CreateAbilityBody {
   uses_remaining?: number | null
   recharge?: Recharge
   sort_order?: number
+  section_id?: string | null
 }
 
 export async function GET(_req: NextRequest, ctx: Ctx) {
@@ -60,7 +61,8 @@ export async function POST(req: NextRequest, ctx: Ctx) {
       uses_max: body.uses_max ?? null,
       uses_remaining: body.uses_remaining ?? body.uses_max ?? null,
       recharge: body.recharge ?? null,
-      sort_order: body.sort_order ?? 0
+      sort_order: body.sort_order ?? 0,
+      section_id: body.section_id ?? null
     })
     .select()
     .single()

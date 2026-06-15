@@ -18,7 +18,7 @@ import {
   useSortable
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Ability, AbilityCategory, ActionType, CharacterDetail } from '@/lib/tracker/types'
+import type { Ability, AbilityCategory, AbilitySection, ActionType, CharacterDetail } from '@/lib/tracker/types'
 import { AbilityEditModal } from './AbilityEditModal'
 import { SpellsModal } from './SpellsModal'
 
@@ -55,8 +55,6 @@ async function setHidden(abilityId: string, hidden: boolean) {
   })
 }
 
-/** After a drag, renumber the affected section's items to clean multiples of 10
- *  (10, 20, 30, …). Only PATCH the ones whose sort_order actually changed. */
 async function applyReorder(reordered: Ability[]) {
   const updates = reordered
     .map((item, i) => ({ id: item.id, oldOrder: item.sort_order, newOrder: (i + 1) * 10 }))
@@ -78,27 +76,71 @@ export function AbilityGrid({ character, onChanged }: Props) {
   const [creating, setCreating] = useState(false)
   const [editing, setEditing] = useState<Ability | null>(null)
   const [spellsOpen, setSpellsOpen] = useState(false)
+  const [newSectionName, setNewSectionName] = useState('')
+  const [addingSectionOpen, setAddingSectionOpen] = useState(false)
+  const [savingSection, setSavingSection] = useState(false)
+  const [renamingId, setRenamingId] = useState<string | null>(null)
+  const [renameValue, setRenameValue] = useState('')
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const visible = character.abilities.filter((a) => !a.hidden)
   const hidden = character.abilities.filter((a) => a.hidden)
 
-  const limited = visible.filter((a) => a.uses_max != null)
-  const unlimited = visible.filter((a) => a.uses_max == null && a.action_type !== 'passive')
-  const passive = visible.filter((a) => a.action_type === 'passive')
+  const nextSortOrder = character.abilities.reduce((m, a) => Math.max(m, a.sort_order), 0) + 10
 
-  const nextSortOrder =
-    character.abilities.reduce((m, a) => Math.max(m, a.sort_order), 0) + 10
+  async function createSection() {
+    if (!newSectionName.trim()) return
+    setSavingSection(true)
+    try {
+      await fetch(`/api/tracker/characters/${character.id}/sections`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newSectionName.trim() })
+      })
+      setNewSectionName('')
+      setAddingSectionOpen(false)
+      await onChanged()
+    } finally {
+      setSavingSection(false)
+    }
+  }
+
+  async function renameSection(sectionId: string, name: string) {
+    if (!name.trim()) return
+    await fetch(`/api/tracker/characters/${character.id}/sections/${sectionId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name.trim() })
+    })
+    setRenamingId(null)
+    await onChanged()
+  }
+
+  async function deleteSection(sectionId: string) {
+    await fetch(`/api/tracker/characters/${character.id}/sections/${sectionId}`, {
+      method: 'DELETE'
+    })
+    setDeletingId(null)
+    await onChanged()
+  }
 
   return (
     <section className="flex-1 overflow-auto p-6">
-      <div className="flex items-center justify-between mb-4 gap-3">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
         <h3 className="font-cinzel text-xl text-wotr-gold">Cool Stuff</h3>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xs opacity-50">
             {character.abilities.length === 0
               ? 'no abilities yet'
               : `${visible.length} active${hidden.length > 0 ? ` · ${hidden.length} parked` : ''}`}
           </span>
+          <button
+            onClick={() => setAddingSectionOpen((o) => !o)}
+            className="px-3 py-1.5 rounded border border-stone-light text-parchment/70 hover:text-parchment hover:border-wotr-gold/50 text-sm font-cinzel"
+          >
+            + New Section
+          </button>
           <button
             onClick={() => setSpellsOpen(true)}
             className="px-3 py-1.5 rounded border border-wotr-gold/60 text-wotr-gold hover:bg-wotr-gold/20 text-sm font-cinzel"
@@ -114,28 +156,135 @@ export function AbilityGrid({ character, onChanged }: Props) {
         </div>
       </div>
 
-      {character.abilities.length === 0 ? (
+      {/* New-section form */}
+      {addingSectionOpen && (
+        <div className="mb-4 flex items-center gap-2">
+          <input
+            autoFocus
+            value={newSectionName}
+            onChange={(e) => setNewSectionName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') createSection()
+              if (e.key === 'Escape') { setAddingSectionOpen(false); setNewSectionName('') }
+            }}
+            placeholder="Section name…"
+            className="flex-1 max-w-xs p-2 rounded bg-stone-dark border border-stone-light text-parchment text-sm"
+          />
+          <button
+            onClick={createSection}
+            disabled={savingSection || !newSectionName.trim()}
+            className="px-3 py-2 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold text-sm disabled:opacity-50"
+          >
+            {savingSection ? '…' : 'Add'}
+          </button>
+          <button
+            onClick={() => { setAddingSectionOpen(false); setNewSectionName('') }}
+            className="px-3 py-2 rounded border border-stone-light text-parchment/60 hover:text-parchment text-sm"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {character.abilities.length === 0 && character.sections.length === 0 ? (
         <div className="rounded border border-dashed border-stone-light p-8 text-center opacity-70">
           <div className="font-cinzel text-wotr-gold/70 mb-1">No abilities yet</div>
           <div className="text-sm">
-            Pick a template when you create a character to pre-fill the cards, or click{' '}
-            <span className="text-wotr-gold">+ New ability</span> to add one manually.
+            Click <span className="text-wotr-gold">+ New Section</span> to create a section, then{' '}
+            <span className="text-wotr-gold">+ New ability</span> to add cards.
           </div>
         </div>
       ) : (
         <div className="space-y-6">
-          {limited.length > 0 && (
-            <AbilitySection title="Limited use" items={limited} onEdit={setEditing} onChanged={onChanged} />
-          )}
-          {unlimited.length > 0 && (
-            <AbilitySection title="At will" items={unlimited} onEdit={setEditing} onChanged={onChanged} />
-          )}
-          {passive.length > 0 && (
-            <AbilitySection title="Reminders" items={passive} onEdit={setEditing} onChanged={onChanged} />
-          )}
+          {/* User-defined sections */}
+          {character.sections.map((sec) => {
+            const items = visible.filter((a) => a.section_id === sec.id)
+            return (
+              <div key={sec.id}>
+                {/* Section header with rename / delete */}
+                <div className="flex items-center gap-2 mb-2">
+                  {renamingId === sec.id ? (
+                    <input
+                      autoFocus
+                      value={renameValue}
+                      onChange={(e) => setRenameValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') renameSection(sec.id, renameValue)
+                        if (e.key === 'Escape') setRenamingId(null)
+                      }}
+                      onBlur={() => renameSection(sec.id, renameValue)}
+                      className="text-xs font-cinzel uppercase tracking-wider bg-stone-dark border border-wotr-gold/40 rounded px-2 py-0.5 text-parchment w-40"
+                    />
+                  ) : (
+                    <span className="text-xs uppercase tracking-wider opacity-70 font-cinzel">{sec.name}</span>
+                  )}
+                  <button
+                    onClick={() => { setRenamingId(sec.id); setRenameValue(sec.name) }}
+                    className="text-parchment/30 hover:text-wotr-gold text-xs px-1"
+                    title="Rename section"
+                  >
+                    ✎
+                  </button>
+                  {deletingId === sec.id ? (
+                    <span className="flex items-center gap-1 text-xs">
+                      <span className="text-abyssal-red">Delete section?</span>
+                      <button
+                        onClick={() => deleteSection(sec.id)}
+                        className="px-2 py-0.5 rounded bg-abyssal-red text-parchment"
+                      >
+                        Yes
+                      </button>
+                      <button
+                        onClick={() => setDeletingId(null)}
+                        className="px-2 py-0.5 rounded border border-stone-light text-parchment/60"
+                      >
+                        No
+                      </button>
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => setDeletingId(sec.id)}
+                      className="text-parchment/20 hover:text-abyssal-red text-xs px-1"
+                      title="Delete section (abilities move to Unsorted)"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                {items.length === 0 ? (
+                  <div className="rounded border border-dashed border-stone-light/40 p-4 text-center text-xs opacity-50">
+                    No cards here — edit an ability and pick this section.
+                  </div>
+                ) : (
+                  <AbilitySectionGrid
+                    items={items}
+                    onEdit={setEditing}
+                    onChanged={onChanged}
+                  />
+                )}
+              </div>
+            )
+          })}
+
+          {/* Unsorted — abilities with no section */}
+          {(() => {
+            const unsorted = visible.filter((a) => a.section_id == null)
+            if (unsorted.length === 0 && character.sections.length > 0) return null
+            return (
+              <div>
+                {character.sections.length > 0 && (
+                  <div className="text-xs uppercase tracking-wider opacity-40 mb-2 font-cinzel">Unsorted</div>
+                )}
+                {unsorted.length === 0 ? null : (
+                  <AbilitySectionGrid items={unsorted} onEdit={setEditing} onChanged={onChanged} />
+                )}
+              </div>
+            )
+          })()}
         </div>
       )}
 
+      {/* Parked */}
       {hidden.length > 0 && (
         <div className="mt-8 pt-4 border-t border-stone-light">
           <button
@@ -159,6 +308,7 @@ export function AbilityGrid({ character, onChanged }: Props) {
       {creating && (
         <AbilityEditModal
           characterId={character.id}
+          sections={character.sections}
           nextSortOrder={nextSortOrder}
           onClose={() => setCreating(false)}
           onSaved={async () => {
@@ -170,6 +320,7 @@ export function AbilityGrid({ character, onChanged }: Props) {
       {editing && (
         <AbilityEditModal
           characterId={character.id}
+          sections={character.sections}
           ability={editing}
           onClose={() => setEditing(null)}
           onSaved={async () => {
@@ -190,22 +341,16 @@ export function AbilityGrid({ character, onChanged }: Props) {
   )
 }
 
-function AbilitySection({
-  title,
+function AbilitySectionGrid({
   items,
   onEdit,
   onChanged
 }: {
-  title: string
   items: Ability[]
   onEdit: (a: Ability) => void
   onChanged: () => void | Promise<void>
 }) {
-  // Local optimistic order — applied immediately on drop, then we sync with server.
-  // We re-derive from props on every render so server state wins after refetch.
   const sensors = useSensors(
-    // 5px movement before drag triggers — prevents accidental drags when clicking
-    // buttons (−1, +1, ✎, ✕).
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
@@ -222,18 +367,15 @@ function AbilitySection({
   }
 
   return (
-    <div>
-      <div className="text-xs uppercase tracking-wider opacity-50 mb-2 font-cinzel">{title}</div>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={items.map((a) => a.id)} strategy={rectSortingStrategy}>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            {items.map((a) => (
-              <SortableAbilityCard key={a.id} ability={a} onEdit={onEdit} onChanged={onChanged} />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
-    </div>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <SortableContext items={items.map((a) => a.id)} strategy={rectSortingStrategy}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+          {items.map((a) => (
+            <SortableAbilityCard key={a.id} ability={a} onEdit={onEdit} onChanged={onChanged} />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   )
 }
 

@@ -4,12 +4,14 @@ import { useState } from 'react'
 import type {
   Ability,
   AbilityCategory,
+  AbilitySection,
   ActionType,
   Recharge
 } from '@/lib/tracker/types'
 
 interface Props {
   characterId: string
+  sections: AbilitySection[]
   ability?: Ability
   /** Next available sort_order, used when creating. */
   nextSortOrder?: number
@@ -46,7 +48,7 @@ const RECHARGE_OPTIONS: { value: Recharge | ''; label: string }[] = [
   { value: 'manual', label: 'manual' }
 ]
 
-export function AbilityEditModal({ characterId, ability, nextSortOrder, onClose, onSaved }: Props) {
+export function AbilityEditModal({ characterId, sections, ability, nextSortOrder, onClose, onSaved }: Props) {
   const isNew = !ability
   const [name, setName] = useState(ability?.name ?? '')
   const [category, setCategory] = useState<AbilityCategory>(ability?.category ?? 'class_feature')
@@ -57,6 +59,7 @@ export function AbilityEditModal({ characterId, ability, nextSortOrder, onClose,
     ability?.uses_remaining != null ? String(ability.uses_remaining) : ''
   )
   const [recharge, setRecharge] = useState<Recharge | ''>(ability?.recharge ?? '')
+  const [sectionId, setSectionId] = useState<string>(ability?.section_id ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
@@ -94,7 +97,8 @@ export function AbilityEditModal({ characterId, ability, nextSortOrder, onClose,
         description: description.trim() || null,
         uses_max: max,
         uses_remaining: remaining,
-        recharge: recharge || null
+        recharge: recharge || null,
+        section_id: sectionId || null
       }
       if (isNew) {
         body.sort_order = nextSortOrder ?? 0
@@ -190,6 +194,24 @@ export function AbilityEditModal({ characterId, ability, nextSortOrder, onClose,
               </select>
             </label>
           </div>
+
+          {sections.length > 0 && (
+            <label className="block">
+              <span className="block text-sm opacity-80 mb-1">Section</span>
+              <select
+                value={sectionId}
+                onChange={(e) => setSectionId(e.target.value)}
+                className="w-full p-2 rounded bg-stone-dark border border-stone-light text-parchment"
+              >
+                <option value="">— Unsorted —</option>
+                {sections.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
 
           <label className="block">
             <span className="block text-sm opacity-80 mb-1">Description</span>

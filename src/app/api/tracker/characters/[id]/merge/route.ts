@@ -110,6 +110,7 @@ export async function POST(req: NextRequest, ctx: Ctx) {
     drs: (d.damage_reduction as CharacterDetail['drs']) ?? [],
     resistances: (d.energy_resistance as CharacterDetail['resistances']) ?? [],
     vulnerabilities: (d.energy_vulnerability as CharacterDetail['vulnerabilities']) ?? [],
+    sections: [], // not part of the merge
     abilities: (d.ability as CharacterDetail['abilities']) ?? [],
     conditions: [], // not part of the merge
     pools: (d.resource_pool as CharacterDetail['pools']) ?? [],
