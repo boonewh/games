@@ -21,6 +21,8 @@ const EDITABLE_FIELDS = [
   'ac_touch',
   'ac_flat_footed',
   'spell_dc',
+  'mythic_path',
+  'mythic_tier',
   'deity',
   'alignment',
   'save_fort',

@@ -24,13 +24,15 @@ Output ONLY valid JSON. No markdown code fences, no prose. Start with { and end 
 Schema:
 {
   "name": string,
-  "class_summary": string,           // e.g. "Stonelord Paladin 4 / Life Oracle 4"
+  "class_summary": string,           // concise; see CLASS SUMMARY rule. e.g. "Stonelord Paladin 4 / Life Oracle 4"
   "level": number,                    // GESTALT campaign: the shared class level, NOT the sum (see LEVEL rule)
   "max_hp": number,
   "ac": number | null,
   "ac_touch": number | null,
   "ac_flat_footed": number | null,
   "spell_dc": number | null,          // single highest spell save DC (see SPELL DC rule); null if non-caster
+  "mythic_path": string | null,       // mythic path name(s); dual path joined " / " (see MYTHIC rule); null if not mythic
+  "mythic_tier": number | null,       // mythic tier 1-10 (see MYTHIC rule); null if not mythic
   "fortification_percent": number,    // 0 if none; light=25, moderate=50, heavy=75
   "deity": string | null,             // patron deity if listed
   "alignment": string | null,         // standard abbreviation: LG, NG, CG, LN, N, CN, LE, NE, CE
@@ -115,6 +117,17 @@ DRs / RESISTANCES / VULNERABILITIES / FORTIFICATION:
 - Vulnerabilities: rare (curses, racial templates).
 - Fortification: light=25, moderate=50, heavy=75. 0 if none.
 
+CLASS SUMMARY — keep it short and readable, the way a player would say it aloud.
+- Each CLASS appears at most ONCE. If a class has multiple archetypes (e.g. a
+  paladin that is both "Virtuous Bravo" and "Oath of the Mendevian Crusade"), do
+  NOT list the class twice. Pick the single most defining archetype as a one-word
+  qualifier, or drop the qualifier if none stands out. Prefer build archetypes
+  (Stonelord, Virtuous Bravo, Admixture Evoker) over oaths/orders.
+- Join the two gestalt classes with " / ". One qualifier word per class.
+- Good: "Virtuous Bravo Paladin 6 / Admixture Evoker 6". Bad (redundant):
+  "Oath of the Mendevian Crusade Paladin 6 / Virtuous Bravo Paladin 6 / Evoker 6".
+- Do NOT put the mythic path here — it has its own field.
+
 LEVEL (IMPORTANT) — This is a GESTALT campaign: characters advance two classes
 in parallel, gaining a level in BOTH at once. So the character level is the
 shared single-class level, NOT the sum. A gestalt "Paladin 4 / Oracle 4" is
@@ -123,6 +136,31 @@ gestalt, equals each class's level) — never add the class levels together. A
 "Gestalt" entry on the sheet confirms gestalt. Only a genuinely single-classed
 character uses that one class's level directly. class_summary should still list
 both classes (e.g. "Stonelord Paladin 4 / Life Oracle 4").
+
+MYTHIC PATH / TIER (Wrath of the Righteous) — characters also advance on a
+mythic path. Capture two fields. The six standard paths are: Archmage, Champion,
+Guardian, Hierophant, Marshal, Trickster.
+
+mythic_path:
+- If the class/header line names it (e.g. ".../Hierophant 1"), use that name.
+- DUAL PATH: if the character has the "Dual Path" feat, it names a SECOND path in
+  brackets, e.g. "Dual Path [Mythic, Guardian]". Include BOTH paths, primary
+  first, joined with " / " — e.g. "Hierophant / Guardian".
+- If NO path is named anywhere on the sheet (some exports omit it), INFER it from
+  the mythic abilities the character has. Signature tells:
+    Archmage    → Arcane Surge, Wild Arcana, Versatile Evocation, Component Freedom, Enduring Armor
+    Champion    → Fleet Charge, Mythic Weapon Skill, Champion's Strike, Sudden Attack
+    Guardian    → Absorb Blow, Sudden Block, Guardian's Call, Fortification
+    Hierophant  → Inspired Spell, Divine Surge, Faith's Reach, Energy Body
+    Marshal     → Marshal's Order, Inspiring Word, Steal Glory
+    Trickster   → Surprise Strike, Fickle Attack, Mythic Saving Throw
+  Use the single best-matching path. null ONLY if there is no mythic content at all.
+
+mythic_tier:
+- Read the number after the path in the class line if present ("Hierophant 1" → 1).
+- If absent, infer from "Mythic Power (N/day)" using tier = (N - 3) / 2
+  (so 5/day = tier 1, 7/day = tier 2, 9/day = tier 3).
+- null if the character is not mythic.
 
 DM REFERENCE FIELDS — pull these straight off the sheet for the GM dashboard:
 - deity: the listed deity, or null if none.

@@ -26,6 +26,10 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
     character.ac_flat_footed != null ? String(character.ac_flat_footed) : ''
   )
   const [spellDc, setSpellDc] = useState(character.spell_dc != null ? String(character.spell_dc) : '')
+  const [mythicPath, setMythicPath] = useState(character.mythic_path ?? '')
+  const [mythicTier, setMythicTier] = useState(
+    character.mythic_tier != null ? String(character.mythic_tier) : ''
+  )
   // DM-visibility fields (shown on the GM dashboard, not the player screen).
   const [deity, setDeity] = useState(character.deity ?? '')
   const [alignment, setAlignment] = useState(character.alignment ?? '')
@@ -96,6 +100,8 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           ac_touch: parseOptInt(acTouch),
           ac_flat_footed: parseOptInt(acFlatFooted),
           spell_dc: parseOptInt(spellDc),
+          mythic_path: mythicPath.trim() || null,
+          mythic_tier: parseOptInt(mythicTier),
           deity: deity.trim() || null,
           alignment: alignment.trim() || null,
           save_fort: parseOptInt(saveFort),
@@ -272,6 +278,27 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
             </div>
             <div className="text-xs opacity-50 mb-2">
               Shown on the GM dashboard, not your combat screen.
+            </div>
+            <div className="grid grid-cols-[1fr_90px] gap-3 mb-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Mythic path</span>
+                <input
+                  value={mythicPath}
+                  onChange={(e) => setMythicPath(e.target.value)}
+                  className="tracker-input"
+                  placeholder="e.g. Hierophant / Guardian"
+                />
+              </label>
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Tier</span>
+                <input
+                  type="number"
+                  value={mythicTier}
+                  onChange={(e) => setMythicTier(e.target.value)}
+                  className="tracker-input"
+                  placeholder="—"
+                />
+              </label>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <label className="block">
