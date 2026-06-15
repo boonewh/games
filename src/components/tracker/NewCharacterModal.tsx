@@ -208,6 +208,8 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         // DM-detail fields flow straight from the PDF parse (reviewable/editable
         // afterward in the character editor). null when created from a template
         // or by hand.
+        mythic_path: extracted?.mythic_path ?? undefined,
+        mythic_tier: extracted?.mythic_tier ?? undefined,
         deity: extracted?.deity ?? undefined,
         alignment: extracted?.alignment ?? undefined,
         save_fort: extracted?.save_fort ?? undefined,

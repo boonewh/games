@@ -288,6 +288,12 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
           {character.class_summary && (
             <div className="text-xs opacity-70 truncate">{character.class_summary}</div>
           )}
+          {character.mythic_path && (
+            <div className="text-xs text-wotr-gold truncate font-cinzel">
+              Mythic: {character.mythic_path}
+              {character.mythic_tier != null && ` ${character.mythic_tier}`}
+            </div>
+          )}
         </div>
         <div className="shrink-0 flex flex-col items-end">
           <div className={`text-2xl font-bold tabular-nums ${hpColor}`}>

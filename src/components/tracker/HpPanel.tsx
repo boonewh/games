@@ -199,6 +199,12 @@ export function HpPanel({ character, onChanged }: Props) {
               </button>
             </div>
             {character.class_summary && <div className="text-sm opacity-70">{character.class_summary}</div>}
+            {character.mythic_path && (
+              <div className="text-xs text-wotr-gold font-cinzel mt-0.5">
+                Mythic: {character.mythic_path}
+                {character.mythic_tier != null && ` ${character.mythic_tier}`}
+              </div>
+            )}
           </div>
         </div>
 

@@ -42,6 +42,8 @@ export interface ExtractedCharacter {
   ac_touch: number | null
   ac_flat_footed: number | null
   spell_dc: number | null
+  mythic_path: string | null
+  mythic_tier: number | null
   fortification_percent: number
   deity: string | null
   alignment: string | null
