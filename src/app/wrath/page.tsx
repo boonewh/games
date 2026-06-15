@@ -123,7 +123,7 @@ export default function WrathPage() {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
             {/* Level/Mythic Tier — KEEP IN SYNC with the Campaign Arc Status milestone box further down this page. Both display this info; both must update together. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 5 Gestalt • Mythic Tier 0</span>
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 6 Gestalt • Mythic Tier 1</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -415,22 +415,25 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session VII — The Worldwound Incursion</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Threshold and the Bar</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session VIII — The Worldwound Incursion</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Stone Remembers</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The doors opened, and the Vanguard went in. Behind them lay a house with no honest tenants — its
-              murals defaced, its shrine to Iomedae fouled, a temple turned to obscenity by the things that had
-              taken the Gray Garrison. They cleaned what they could, laid two murdered knights to rest, and took
-              back what the city needs: a sealed temple armory and an adamantine warhammer of the First Crusade.
-              A servant&apos;s letter surfaced a name — Lord Staunton — and the cold fate of the man whose skin had
-              guarded the door. Then they fought up through tieflings, mirror-breaker demons, and the garrison&apos;s
-              own cultists, taking both floors at a brutal price: Nageru run through and brought back from the stone.
-              The wardstone fragment is still somewhere above them. So is Vorlesh.
+              They cleared the last rooms of the Gray Garrison and fought to the trophy room at the top. Caleth
+              dimensional-slid to the wardstone fragment, prayed to both his gods at once, and pushed the rod of
+              cancellation through. The stone broke clean. A century of stored holy power flooded out through
+              the gap and into the four of them — every wound sealed, every spell restored, the gold of a hundred
+              crusades burning in their blood. The visions that followed showed them everything: the first wardstone
+              raised, Hulrun&apos;s burnings, Terendelev driving Khorramzadeh from the Kite, and the demons&apos; true
+              design — a corruption that would have turned the entire crusade into slaves. Then Areelu Vorlesh
+              appeared in projection, tried to drown them in an abyssal rift, and was severed from the material
+              plane screaming when the wardstone&apos;s last pulse slammed it shut. The six babaus left behind could
+              not keep up with wounds that healed before they finished opening. Iomedae visited them in their sleep
+              and kissed each brow. Korroc woke to find his shield bore Torag&apos;s hammer and anvil. Book One is closed.
             </p>
           </div>
 
@@ -441,8 +444,8 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;They came back to the square where she fell. Her body was not there.
-              The demons had taken even that. Only swept stone and a dark rift in the earth.&rdquo;
+              &ldquo;The wardstone visions showed her whole — younger, furious, driving Khorramzadeh from the Kite
+              when his sword shattered on the stone. They had seen her fall. Now they saw what she had been.&rdquo;
             </p>
           </div>
 
@@ -453,25 +456,25 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Cleaned the shrine, read the Celestial the desecration had hidden, and spoke the words that opened the temple armory. Conjured water to put out his burning companions more than once. Slid through a cultist crossfire from one seam of the air to the next, and struck down the man who felled Nageru with a touch that smelled of lightning. Still carries Quednys\'s rod — and now a dead man\'s letter with a name in it.',
+                contribution: 'Named the wardstone the moment the trophy room opened. Dimensional-slid across the fight to reach the cage while Korroc held the woman in red. Felt the stone push back — near-sentient, refusing to be unmade — and prayed to Shelyn and Iomedae simultaneously until it gave way. His rod broke the wardstone clean instead of corrupt. Turned his own fire spell inside out to bite a babau with ice. Told Irabeth about Hulrun without softening it.',
               },
               {
                 name: 'Nageru',
                 classes: 'Monk / Paladin',
                 role: 'Iron Fist of the Crusade',
-                contribution: 'First through every door, as always. Put a mirror-breaker demon through a wall with a single spinning kick, and kicked a barred door off its brackets when patience ran short. Lit his fists with the dragon\'s scale to unmake the dretches that turned honest steel. Listened a blurring tiefling out of a smoke-blind room and ended it by sound alone. Took a cultist\'s glaive clean through the chest, went down — and rose.',
+                contribution: 'Vaulted the stairwell railing mid-horn-blast and put the first mirror-breaker down before the warning note finished echoing. Killed both. First up when the stun broke and the babaus came through the rift — wounds opened and sealed before they had time to hurt. When the last babau fell, he was still standing, still moving, still first.',
               },
               {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Persuaded the barred door open with a chime and put a flask of fire through the gap before anyone inside could hide. Read every threshold in a house with no honest tenants — and checked the passphrase-vault for traps before he let a soul walk in. Stood guard at the door while the paladins gave two dead knights their rite. Found the letter in the weapon case, read the name Lord Staunton aloud, and filed it cold against an older one he carries. Went first up the killing stair and took a crossbow bolt for it.',
+                contribution: 'Dropped the trophy room bar with the silver chime and flanked the corrupted minotaur from behind — three fronts at once finished what the shield had started. The wardstone visions confirmed what a letter had only suggested. He sat with Irabeth the next morning and asked the exact right questions. When the answers were given, he made the only declaration worth making: when they find Staunton Vhane, he is a dead man.',
               },
               {
                 name: 'Korroc',
                 classes: 'Paladin / Oracle',
                 role: 'Voice of Torag',
-                contribution: 'Knelt in the filth to clean a fouled shrine to a goddess not his own. Lifted a defiled adamantine warhammer of the First Crusade, named the metal, and took it up as his own with a prayer to both Torag and Iomedae — a borrowed sunburst shield on his arm. A demon\'s foulness reached into him through a bite and broke on his faith. Held the wall back-to-back through the crossfire, then reached Nageru where he fell and would not let him stay down.',
+                contribution: 'Stepped into the trophy room first and took three devastating strikes in a single breath — the Stonelord in him turned the worst of it aside. Held the scythe-woman while Caleth reached the wardstone. Felt a new thing answer in him: a thread of grace stretched to all three companions, carrying a measure of every wound to himself. When Irabeth fell to Vorlesh\'s spell, he was at her side the instant the last babau dropped. Woke to find his shield bore Torag\'s mark. Knelt and gave thanks.',
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -483,27 +486,25 @@ export default function WrathPage() {
             ))}
           </div>
 
-          {/* Milestone: The Gray Garrison */}
+          {/* Milestone: Book One Complete */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Up Through the Gray Garrison</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Two floors taken — the wardstone fragment still waits above</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Worldwound Incursion — Complete</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Book One closed · The Fifth Crusade has only just begun</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The Vanguard breached the doors and fought floor by floor through a fortress of desecration — tieflings
-              at the threshold, mirror-breaker demons in the museum, dretches and the garrison&apos;s own cultists in
-              the halls above. The ground floor is theirs. The second is theirs, taken at a cost that nearly bought
-              Nageru&apos;s life. They have pulled an armory and an adamantine relic back from the dark for a bleeding
-              city, and turned up a letter that names Lord Staunton and the brother a stolen blade was promised to.
-              But the wardstone fragment is still unfound, Vorlesh is still coming, and the rod that can sever it is
-              still cold in Caleth&apos;s keeping. A stair waits at the end of a bloodied hall. The next chapter begins
-              at the top of it.
+              The wardstone is broken. The border is changed forever — the demons&apos; great design, a corruption that
+              would have turned an entire crusade into slaves, lies in ruin. Kenabres still burns, but the Vanguard
+              woke to gold in their blood and a name carved into their purpose: Staunton Vhane, north, Drezen.
+              A man who sat at their fathers&apos; table and rode out with them on the last road. The garrison is theirs.
+              The city has its armory back. And two dwarves share a single nod that means the same thing
+              it has always meant, and will not mean anything else until the work is done.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">0</span></span>
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">1</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">5</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">6</span></span>
             </div>
           </div>
 
