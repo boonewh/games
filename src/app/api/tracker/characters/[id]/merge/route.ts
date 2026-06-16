@@ -114,7 +114,8 @@ export async function POST(req: NextRequest, ctx: Ctx) {
     abilities: (d.ability as CharacterDetail['abilities']) ?? [],
     conditions: [], // not part of the merge
     pools: (d.resource_pool as CharacterDetail['pools']) ?? [],
-    spells: (d.spell as CharacterDetail['spells']) ?? []
+    spells: (d.spell as CharacterDetail['spells']) ?? [],
+    spell_dc_entries: [] // not part of the merge
   }
 
   const plan = buildMergePlan(current, body.incoming)

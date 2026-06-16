@@ -144,5 +144,18 @@ export async function POST(req: NextRequest) {
     if (e) return fail(`pools: ${e.message}`)
   }
 
+  if (body.seed_spell_dcs?.length) {
+    const { error: e } = await supabase.from('spell_dc_entry').insert(
+      body.seed_spell_dcs.map((d, idx) => ({
+        character_id: character.id,
+        name: d.name,
+        dc: d.dc,
+        notes: d.notes ?? null,
+        sort_order: idx * 10
+      }))
+    )
+    if (e) return fail(`spell_dcs: ${e.message}`)
+  }
+
   return json({ character }, { status: 201 })
 }

@@ -186,6 +186,15 @@ export interface ResourcePool {
   sort_order: number
 }
 
+export interface SpellDcEntry {
+  id: string
+  character_id: string
+  name: string
+  dc: number
+  notes: string | null
+  sort_order: number
+}
+
 export interface Spell {
   id: string
   character_id: string
@@ -223,6 +232,7 @@ export interface CharacterDetail extends Character {
   conditions: Condition[]
   pools: ResourcePool[]
   spells: Spell[]
+  spell_dc_entries: SpellDcEntry[]
 }
 
 export interface DamageRequest {
@@ -284,4 +294,5 @@ export interface CreateCharacterInput {
     recharge?: Recharge
     notes?: string
   }>
+  seed_spell_dcs?: Array<{ name: string; dc: number; notes?: string }>
 }
