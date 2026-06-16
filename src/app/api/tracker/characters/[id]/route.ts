@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { bad, fail, forbidden, json, notFound, requireCharacter } from '@/lib/tracker/http'
 import { isPartyMember } from '@/lib/tracker/auth'
-import type { AbilitySection, Character, CharacterDetail } from '@/lib/tracker/types'
+import type { AbilitySection, Character, CharacterDetail, SpellDcEntry } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -53,7 +53,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       ability(*),
       condition(*),
       resource_pool(*),
-      spell(*)
+      spell(*),
+      spell_dc_entry(*)
     `
     )
     .eq('id', id)
@@ -63,6 +64,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     .order('sort_order', { referencedTable: 'resource_pool', ascending: true })
     .order('level', { referencedTable: 'spell', ascending: true })
     .order('name', { referencedTable: 'spell', ascending: true })
+    .order('sort_order', { referencedTable: 'spell_dc_entry', ascending: true })
     .single()
 
   if (error) return fail(error.message)
@@ -78,6 +80,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     condition,
     resource_pool,
     spell,
+    spell_dc_entry,
     ...character
   } = data as Character & {
     damage_reduction: CharacterDetail['drs']
@@ -88,6 +91,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     condition: CharacterDetail['conditions']
     resource_pool: CharacterDetail['pools']
     spell: CharacterDetail['spells']
+    spell_dc_entry: SpellDcEntry[]
   }
 
   const detail: CharacterDetail = {
@@ -99,7 +103,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     abilities: ability ?? [],
     conditions: condition ?? [],
     pools: resource_pool ?? [],
-    spells: spell ?? []
+    spells: spell ?? [],
+    spell_dc_entries: spell_dc_entry ?? []
   }
 
   return json({ character: detail })
