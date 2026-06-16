@@ -128,7 +128,7 @@ export default function WrathPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/Caleth.jpg',  sheet: 'caleth.pdf' },
+              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
               { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru1.jpg', sheet: 'nageru.pdf' },
               { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg',   sheet: 'thane.pdf' },
               { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg',  sheet: 'korroc.pdf' },
