@@ -17,7 +17,8 @@ const EDITABLE_FIELDS = [
   'recharge',
   'enabled',
   'hidden',
-  'sort_order'
+  'sort_order',
+  'section_id'
 ] as const
 
 export async function PATCH(req: NextRequest, ctx: Ctx) {

@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { bad, fail, forbidden, json, notFound, requireCharacter } from '@/lib/tracker/http'
 import { isPartyMember } from '@/lib/tracker/auth'
-import type { Character, CharacterDetail } from '@/lib/tracker/types'
+import type { AbilitySection, Character, CharacterDetail } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -49,6 +49,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       damage_reduction(*),
       energy_resistance(*),
       energy_vulnerability(*),
+      ability_section(*),
       ability(*),
       condition(*),
       resource_pool(*),
@@ -56,6 +57,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     `
     )
     .eq('id', id)
+    .order('sort_order', { referencedTable: 'ability_section', ascending: true })
     .order('sort_order', { referencedTable: 'ability', ascending: true })
     .order('applied_at', { referencedTable: 'condition', ascending: false })
     .order('sort_order', { referencedTable: 'resource_pool', ascending: true })
@@ -71,6 +73,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     damage_reduction,
     energy_resistance,
     energy_vulnerability,
+    ability_section,
     ability,
     condition,
     resource_pool,
@@ -80,6 +83,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     damage_reduction: CharacterDetail['drs']
     energy_resistance: CharacterDetail['resistances']
     energy_vulnerability: CharacterDetail['vulnerabilities']
+    ability_section: AbilitySection[]
     ability: CharacterDetail['abilities']
     condition: CharacterDetail['conditions']
     resource_pool: CharacterDetail['pools']
@@ -91,6 +95,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     drs: damage_reduction ?? [],
     resistances: energy_resistance ?? [],
     vulnerabilities: energy_vulnerability ?? [],
+    sections: ability_section ?? [],
     abilities: ability ?? [],
     conditions: condition ?? [],
     pools: resource_pool ?? [],

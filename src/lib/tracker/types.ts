@@ -142,9 +142,18 @@ export interface HpEvent {
   note: string | null
 }
 
+export interface AbilitySection {
+  id: string
+  character_id: string
+  name: string
+  sort_order: number
+  created_at: string
+}
+
 export interface Ability {
   id: string
   character_id: string
+  section_id: string | null
   name: string
   category: AbilityCategory
   action_type: ActionType | null
@@ -209,6 +218,7 @@ export interface CharacterDetail extends Character {
   drs: DamageReduction[]
   resistances: EnergyResistance[]
   vulnerabilities: EnergyVulnerability[]
+  sections: AbilitySection[]
   abilities: Ability[]
   conditions: Condition[]
   pools: ResourcePool[]
