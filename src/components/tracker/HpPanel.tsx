@@ -6,6 +6,7 @@ import { DAMAGE_TYPES } from '@/lib/tracker/types'
 import { CharacterEditModal } from './CharacterEditModal'
 import { ConditionsBar } from './ConditionsBar'
 import { PoolsCard } from './PoolsCard'
+import { SpellDcsCard } from './SpellDcsCard'
 
 interface Props {
   character: CharacterDetail
@@ -102,11 +103,11 @@ export function HpPanel({ character, onChanged }: Props) {
     }
   }
 
-  // AC / Touch / FF / Spell DC live on the character row, so they go through the
+  // AC / Touch / FF live on the character row, so they go through the
   // character PATCH endpoint rather than the HP action route. The stepper updates
   // its own value optimistically and debounces the write; this reconciles to the
   // truth.
-  async function commitStat(field: 'ac' | 'ac_touch' | 'ac_flat_footed' | 'spell_dc', next: number) {
+  async function commitStat(field: 'ac' | 'ac_touch' | 'ac_flat_footed', next: number) {
     try {
       const res = await fetch(`/api/tracker/characters/${character.id}`, {
         method: 'PATCH',
@@ -346,18 +347,20 @@ export function HpPanel({ character, onChanged }: Props) {
           <AcStepper label="FF" value={character.ac_flat_footed} onCommit={(n) => commitStat('ac_flat_footed', n)} />
         </div>
 
-        {/* Spell DC — house rule: one DC for every spell at every level, so it
-            lives on the character like AC rather than per-spell. */}
-        <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-center">
-          <AcStepper label="Spell DC" value={character.spell_dc} large onCommit={(n) => commitStat('spell_dc', n)} />
-        </div>
-
         {/* Resource pools (Ki, Mythic Power, etc.) */}
         <PoolsCard
           characterId={character.id}
           pools={character.pools}
           onChanged={onChanged}
           className="min-w-[220px]"
+        />
+
+        {/* Spell DCs (named per school/class, house rule: use highest DC) */}
+        <SpellDcsCard
+          characterId={character.id}
+          spellDcs={character.spell_dc_entries}
+          onChanged={onChanged}
+          className="min-w-[180px]"
         />
 
         {/* Conditions (grows to fill remaining space) */}

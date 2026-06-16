@@ -25,7 +25,6 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [acFlatFooted, setAcFlatFooted] = useState(
     character.ac_flat_footed != null ? String(character.ac_flat_footed) : ''
   )
-  const [spellDc, setSpellDc] = useState(character.spell_dc != null ? String(character.spell_dc) : '')
   const [mythicPath, setMythicPath] = useState(character.mythic_path ?? '')
   const [mythicTier, setMythicTier] = useState(
     character.mythic_tier != null ? String(character.mythic_tier) : ''
@@ -99,7 +98,6 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           ac: parseOptInt(ac),
           ac_touch: parseOptInt(acTouch),
           ac_flat_footed: parseOptInt(acFlatFooted),
-          spell_dc: parseOptInt(spellDc),
           mythic_path: mythicPath.trim() || null,
           mythic_tier: parseOptInt(mythicTier),
           deity: deity.trim() || null,
@@ -256,21 +254,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
             </div>
           </div>
 
-          <label className="block">
-            <span className="block text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">
-              Spell DC
-            </span>
-            <input
-              type="number"
-              value={spellDc}
-              onChange={(e) => setSpellDc(e.target.value)}
-              className="tracker-input"
-              placeholder="—"
-            />
-            <span className="block text-xs opacity-50 mt-1">
-              House rule: one DC for every spell, all levels.
-            </span>
-          </label>
+          <div className="text-xs opacity-50">Spell DCs are managed in the Spell DCs panel on the character screen.</div>
 
           <div>
             <div className="text-sm opacity-80 mb-1 font-cinzel uppercase tracking-wider text-wotr-gold/80">

@@ -30,7 +30,7 @@ Schema:
   "ac": number | null,
   "ac_touch": number | null,
   "ac_flat_footed": number | null,
-  "spell_dc": number | null,          // single highest spell save DC (see SPELL DC rule); null if non-caster
+  "spell_dcs": [{ "name": string, "dc": number }],
   "mythic_path": string | null,       // mythic path name(s); dual path joined " / " (see MYTHIC rule); null if not mythic
   "mythic_tier": number | null,       // mythic tier 1-10 (see MYTHIC rule); null if not mythic
   "fortification_percent": number,    // 0 if none; light=25, moderate=50, heavy=75
@@ -95,14 +95,14 @@ SPELLS — every known and prepared spell.
 - school: lowercase like "evocation"; null if not in the PDF.
 - description: 1-2 sentences. Effect, save DC if applicable, range.
 
-SPELL DC (IMPORTANT) — this campaign uses a HOUSE RULE: every spell, at every
-level, uses the caster's single highest spell save DC. So report ONE number, not
-a DC per spell level. Compute it as the maximum spell save DC the character can
-produce: 10 + (the highest spell level they can cast) + (their relevant casting
-ability modifier). If the character has multiple casting classes, take the
-highest such DC across all of them. Hero Lab usually prints per-level save DCs in
-the spellcasting section — if so, just report the largest one you see. Set
-spell_dc to null only if the character has no spellcasting at all.
+SPELL DCS — extract every distinct spell save DC the character has.
+- Most casters have one DC per casting stat/class. Name it by school or class if situational.
+- This campaign uses a HOUSE RULE: every spell at every level uses the caster's highest DC per school/type. So report the maximum DC for each distinct context.
+- If the character has a single DC for all spells, output one entry: [{ "name": "Spell DC", "dc": N }].
+- If the character has multiple situational DCs (e.g. different by school, by class, or via feats like Spell Focus), output one entry per distinct DC, naming it descriptively: e.g. "Conjuration DC", "Enchantment DC", "Oracle DC".
+- Compute each DC as: 10 + (highest spell level they can cast with that class/school) + (relevant casting ability modifier).
+- Hero Lab usually prints per-level save DCs in the spellcasting section — use the largest value for each context.
+- Non-casters: output [].
 
 POOLS — resource pools that multiple abilities draw from (DIFFERENT from per-day ability uses):
 - Ki Pool (monk), Arcane Pool (magus), Grit (gunslinger), Panache (swashbuckler), Phrenic Pool (psychic), Mythic Power (mythic), Bardic Performance rounds (treat as pool OR ability — prefer pool if spent in increments).
