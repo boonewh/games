@@ -34,7 +34,6 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
   const [ac, setAc] = useState('')
   const [acTouch, setAcTouch] = useState('')
   const [acFlatFooted, setAcFlatFooted] = useState('')
-  const [spellDc, setSpellDc] = useState('')
   const [drs, setDrs] = useState<DrRow[]>([])
   const [resistances, setResistances] = useState<ResRow[]>([])
   const [vulnerabilities, setVulnerabilities] = useState<EnergyType[]>([])
@@ -45,10 +44,11 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
   const [parsing, setParsing] = useState(false)
   const [parseError, setParseError] = useState<string | null>(null)
   const [extracted, setExtracted] = useState<ExtractedCharacter | null>(null)
-  // Indices into extracted.{abilities,spells,pools} that the user wants to keep
+  // Indices into extracted.{abilities,spells,pools,spell_dcs} that the user wants to keep
   const [keptAbilityIdx, setKeptAbilityIdx] = useState<Set<number>>(new Set())
   const [keptSpellIdx, setKeptSpellIdx] = useState<Set<number>>(new Set())
   const [keptPoolIdx, setKeptPoolIdx] = useState<Set<number>>(new Set())
+  const [keptSpellDcIdx, setKeptSpellDcIdx] = useState<Set<number>>(new Set())
 
   // Template populate
   useEffect(() => {
@@ -62,7 +62,6 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     if (p.ac != null) setAc(String(p.ac))
     if (p.ac_touch != null) setAcTouch(String(p.ac_touch))
     if (p.ac_flat_footed != null) setAcFlatFooted(String(p.ac_flat_footed))
-    if (p.spell_dc != null) setSpellDc(String(p.spell_dc))
     if (p.drs) setDrs(p.drs.map((d) => ({ amount: String(d.amount), bypass: d.bypass })))
     if (p.vulnerabilities) setVulnerabilities(p.vulnerabilities.map((v) => v.energy_type))
   }, [templateKey])
@@ -76,7 +75,6 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     setAc(e.ac != null ? String(e.ac) : '')
     setAcTouch(e.ac_touch != null ? String(e.ac_touch) : '')
     setAcFlatFooted(e.ac_flat_footed != null ? String(e.ac_flat_footed) : '')
-    setSpellDc(e.spell_dc != null ? String(e.spell_dc) : '')
     setDrs((e.drs ?? []).map((d) => ({ amount: String(d.amount), bypass: d.bypass })))
     setResistances((e.resistances ?? []).map((r) => ({ energy_type: r.energy_type, amount: String(r.amount) })))
     setVulnerabilities((e.vulnerabilities ?? []).map((v) => v.energy_type))
@@ -84,6 +82,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     setKeptAbilityIdx(new Set((e.abilities ?? []).map((_, i) => i)))
     setKeptSpellIdx(new Set((e.spells ?? []).map((_, i) => i)))
     setKeptPoolIdx(new Set((e.pools ?? []).map((_, i) => i)))
+    setKeptSpellDcIdx(new Set((e.spell_dcs ?? []).map((_, i) => i)))
   }
 
   async function parsePdf(file: File) {
@@ -125,6 +124,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
     setKeptAbilityIdx(new Set())
     setKeptSpellIdx(new Set())
     setKeptPoolIdx(new Set())
+    setKeptSpellDcIdx(new Set())
     lastPdfFile.current = null
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
@@ -195,6 +195,12 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
             }))
         : undefined
 
+      const seedSpellDcs = extracted
+        ? extracted.spell_dcs
+            .map((d, i) => (keptSpellDcIdx.has(i) ? d : null))
+            .filter((d): d is NonNullable<typeof d> => d !== null)
+        : undefined
+
       const body = {
         name: name.trim(),
         class_summary: classSummary.trim() || undefined,
@@ -204,7 +210,6 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         ac: parseOptInt(ac),
         ac_touch: parseOptInt(acTouch),
         ac_flat_footed: parseOptInt(acFlatFooted),
-        spell_dc: parseOptInt(spellDc),
         // DM-detail fields flow straight from the PDF parse (reviewable/editable
         // afterward in the character editor). null when created from a template
         // or by hand.
@@ -228,7 +233,8 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         // PDF parse takes precedence over template if both were used
         seed_abilities: seedAbilitiesFromPdf ?? templateSeedAbilities,
         seed_spells: seedSpells,
-        seed_pools: seedPools
+        seed_pools: seedPools,
+        seed_spell_dcs: seedSpellDcs
       }
 
       const res = await fetch('/api/tracker/characters', {
@@ -400,16 +406,6 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
             </div>
           </div>
 
-          <Field label="Spell DC (optional)">
-            <input
-              type="number"
-              value={spellDc}
-              onChange={(e) => setSpellDc(e.target.value)}
-              className="tracker-input"
-              placeholder="—"
-            />
-          </Field>
-
           <div>
             <div className="flex items-center justify-between mb-1">
               <span className="text-sm opacity-80">Damage reduction</span>
@@ -580,11 +576,26 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
                 />
               )}
 
+              {extracted.spell_dcs.length > 0 && (
+                <ReviewSection
+                  title={`Spell DCs (${keptSpellDcIdx.size}/${extracted.spell_dcs.length})`}
+                  items={extracted.spell_dcs.map((d, i) => ({
+                    idx: i,
+                    label: d.name,
+                    sub: `DC ${d.dc}`,
+                    detail: null
+                  }))}
+                  keptSet={keptSpellDcIdx}
+                  onToggle={(i) => toggleKept(keptSpellDcIdx, setKeptSpellDcIdx, i)}
+                />
+              )}
+
               {extracted.abilities.length === 0 &&
                 extracted.spells.length === 0 &&
-                extracted.pools.length === 0 && (
+                extracted.pools.length === 0 &&
+                extracted.spell_dcs.length === 0 && (
                   <div className="text-sm opacity-60 italic">
-                    Parser extracted no abilities, spells, or pools from this PDF.
+                    Parser extracted no abilities, spells, pools, or spell DCs from this PDF.
                   </div>
                 )}
             </>

@@ -171,7 +171,6 @@ const SCALAR_FIELDS: Array<{ field: string; label: string }> = [
   { field: 'ac', label: 'AC' },
   { field: 'ac_touch', label: 'Touch' },
   { field: 'ac_flat_footed', label: 'Flat-Footed' },
-  { field: 'spell_dc', label: 'Spell DC' },
   { field: 'mythic_path', label: 'Mythic Path' },
   { field: 'mythic_tier', label: 'Mythic Tier' },
   { field: 'fortification_percent', label: 'Fortification %' },

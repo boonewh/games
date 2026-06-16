@@ -50,6 +50,7 @@ function detail(over: Partial<CharacterDetail> = {}): CharacterDetail {
     conditions: [],
     pools: [],
     spells: [],
+    spell_dc_entries: [],
     ...over
   }
 }
@@ -140,7 +141,7 @@ function extracted(over: Partial<ExtractedCharacter> = {}): ExtractedCharacter {
     ac: 20,
     ac_touch: 11,
     ac_flat_footed: 19,
-    spell_dc: null,
+    spell_dcs: [],
     mythic_path: null,
     mythic_tier: null,
     fortification_percent: 0,
