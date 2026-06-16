@@ -203,7 +203,14 @@ export function AbilityEditModal({ characterId, sections, ability, nextSortOrder
                 onChange={(e) => setSectionId(e.target.value)}
                 className="w-full p-2 rounded bg-stone-dark border border-stone-light text-parchment"
               >
-                <option value="">— Unsorted —</option>
+                <option value="">
+                  {(() => {
+                    const hasMax = usesMax.trim() !== '' && parseInt(usesMax, 10) > 0
+                    if (hasMax) return '← Auto-grouped: Limited use'
+                    if (actionType === 'passive') return '← Auto-grouped: Reminders'
+                    return '← Auto-grouped: At will'
+                  })()}
+                </option>
                 {sections.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
