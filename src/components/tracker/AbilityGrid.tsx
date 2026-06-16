@@ -186,12 +186,12 @@ export function AbilityGrid({ character, onChanged }: Props) {
         </div>
       )}
 
-      {character.abilities.length === 0 && character.sections.length === 0 ? (
+      {character.abilities.length === 0 ? (
         <div className="rounded border border-dashed border-stone-light p-8 text-center opacity-70">
           <div className="font-cinzel text-wotr-gold/70 mb-1">No abilities yet</div>
           <div className="text-sm">
-            Click <span className="text-wotr-gold">+ New Section</span> to create a section, then{' '}
-            <span className="text-wotr-gold">+ New ability</span> to add cards.
+            Pick a template when you create a character to pre-fill the cards, or click{' '}
+            <span className="text-wotr-gold">+ New ability</span> to add one manually.
           </div>
         </div>
       ) : (
@@ -266,19 +266,34 @@ export function AbilityGrid({ character, onChanged }: Props) {
             )
           })}
 
-          {/* Unsorted — abilities with no section */}
+          {/* Auto-buckets for abilities not yet moved to a custom section */}
           {(() => {
-            const unsorted = visible.filter((a) => a.section_id == null)
-            if (unsorted.length === 0 && character.sections.length > 0) return null
+            const unassigned = visible.filter((a) => a.section_id == null)
+            if (unassigned.length === 0) return null
+            const limited = unassigned.filter((a) => a.uses_max != null)
+            const atWill = unassigned.filter((a) => a.uses_max == null && a.action_type !== 'passive')
+            const passive = unassigned.filter((a) => a.action_type === 'passive')
             return (
-              <div>
-                {character.sections.length > 0 && (
-                  <div className="text-xs uppercase tracking-wider opacity-40 mb-2 font-cinzel">Unsorted</div>
+              <>
+                {limited.length > 0 && (
+                  <div>
+                    <div className="text-xs uppercase tracking-wider opacity-50 mb-2 font-cinzel">Limited use</div>
+                    <AbilitySectionGrid items={limited} onEdit={setEditing} onChanged={onChanged} />
+                  </div>
                 )}
-                {unsorted.length === 0 ? null : (
-                  <AbilitySectionGrid items={unsorted} onEdit={setEditing} onChanged={onChanged} />
+                {atWill.length > 0 && (
+                  <div>
+                    <div className="text-xs uppercase tracking-wider opacity-50 mb-2 font-cinzel">At will</div>
+                    <AbilitySectionGrid items={atWill} onEdit={setEditing} onChanged={onChanged} />
+                  </div>
                 )}
-              </div>
+                {passive.length > 0 && (
+                  <div>
+                    <div className="text-xs uppercase tracking-wider opacity-50 mb-2 font-cinzel">Reminders</div>
+                    <AbilitySectionGrid items={passive} onEdit={setEditing} onChanged={onChanged} />
+                  </div>
+                )}
+              </>
             )
           })()}
         </div>
