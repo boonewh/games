@@ -83,7 +83,7 @@ export default function WrathPage() {
       <Header />
 
       {/* HERO SECTION */}
-      <header className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden border-b-2 border-wotr-gold">
+      <header className="relative h-screen w-full flex items-center justify-center overflow-hidden border-b-2 border-wotr-gold">
         {/* Main Crusader/Wardstone Image */}
         <Image
           src="/images/wrath/wrath-hero.jpg"

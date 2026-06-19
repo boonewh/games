@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -8,6 +8,14 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPastAdventuresOpen, setIsPastAdventuresOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -52,9 +60,9 @@ const Header = () => {
       </div>
 
       {/* Main Header - Wrath themed */}
-      <header className="relative z-30 bg-gradient-to-r from-stone-dark via-stone-light to-stone-dark border-b border-wotr-gold/30 shadow-2xl">
+      <header className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ${scrolled ? 'bg-gradient-to-r from-stone-dark via-stone-light to-stone-dark border-b border-wotr-gold/30 shadow-2xl' : 'bg-transparent border-b border-transparent'}`}>
         {/* Mystical overlay texture */}
-        <div className="absolute inset-0 bg-gradient-to-r from-wardstone-blue/10 via-transparent to-wotr-gold/10 pointer-events-none"></div>
+        <div className={`absolute inset-0 bg-gradient-to-r from-wardstone-blue/10 via-transparent to-wotr-gold/10 pointer-events-none transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}></div>
 
         <nav className="relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
