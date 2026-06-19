@@ -424,7 +424,7 @@ export default function WrathPage() {
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
               They cleared the last rooms of the Gray Garrison and fought to the trophy room at the top. Caleth
-              dimensional-slid to the wardstone fragment, prayed to both his gods at once, and pushed the rod of
+              performed a dimensional slide to appear before the wardstone fragment, prayed to Iomedae in her own house, and pushed the rod of
               cancellation through. The stone broke clean. A century of stored holy power flooded out through
               the gap and into the four of them — every wound sealed, every spell restored, the gold of a hundred
               crusades burning in their blood. The visions that followed showed them everything: the first wardstone
@@ -456,7 +456,7 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Named the wardstone the moment the trophy room opened. Dimensional-slid across the fight to reach the cage while Korroc held the woman in red. Felt the stone push back — near-sentient, refusing to be unmade — and prayed to Shelyn and Iomedae simultaneously until it gave way. His rod broke the wardstone clean instead of corrupt. Turned his own fire spell inside out to bite a babau with ice. Told Irabeth about Hulrun without softening it.',
+                contribution: 'Named the wardstone the moment the trophy room opened. Performed a dimensional slide across the fight to reach the cage while Korroc held the woman in red. Felt the stone push back — near-sentient, refusing to be unmade — and prayed to Iomedae until it gave way. His rod broke the wardstone clean instead of corrupt. Turned his own fire spell inside out to bite a babau with ice. Told Irabeth about Hulrun without softening it.',
               },
               {
                 name: 'Nageru',
