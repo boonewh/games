@@ -129,9 +129,9 @@ export default function WrathPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru1.jpg', sheet: 'nageru.pdf' },
-              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/Thane.jpg',   sheet: 'thane.pdf' },
-              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/Korroc.jpg',  sheet: 'korroc.pdf' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
             ].map((character) => (
               <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
