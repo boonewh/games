@@ -267,7 +267,7 @@ export default function WrathAdventureBookPage() {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-stone-dark text-parchment">
+        <div className="min-h-screen bg-stone-dark text-parchment pt-20">
           <section className={`relative bg-gradient-to-b from-purple-950 to-stone-900`}>
             <div className="relative max-w-4xl mx-auto px-6 py-16">
               <Link
@@ -355,7 +355,7 @@ export default function WrathAdventureBookPage() {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-stone-dark text-parchment font-spectral">
+        <div className="min-h-screen bg-stone-dark text-parchment font-spectral pt-20">
           {/* Entry Header */}
           <div className={`relative bg-gradient-to-b ${book.theme}`}>
             <div className="max-w-4xl mx-auto px-6 py-8">
@@ -458,7 +458,7 @@ export default function WrathAdventureBookPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-stone-dark text-parchment font-spectral">
+      <div className="min-h-screen bg-stone-dark text-parchment font-spectral pt-20">
         {/* Book Header */}
         <section className={`relative bg-gradient-to-b ${book.theme}`}>
           <div className="absolute inset-0 bg-black bg-opacity-20" />

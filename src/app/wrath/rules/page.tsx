@@ -9,7 +9,7 @@ const WrathHouseRulesPage = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen relative overflow-hidden bg-stone-dark font-spectral">
+      <div className="min-h-screen relative overflow-hidden bg-stone-dark font-spectral pt-20">
 
         {/* Hero Section */}
         <section className="relative min-h-[60vh] flex items-center justify-center">

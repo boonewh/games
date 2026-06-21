@@ -125,7 +125,7 @@ const WrathDiceRollerPage = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-stone-dark via-stone-light to-stone-dark font-spectral">
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-stone-dark via-stone-light to-stone-dark font-spectral pt-20">
         {/* Animated Background - Wrath themed */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 opacity-20">

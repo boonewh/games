@@ -209,7 +209,7 @@ export default function WrathAdventureLogPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-stone-dark text-parchment font-spectral">
+      <div className="min-h-screen bg-stone-dark text-parchment font-spectral pt-20">
         {/* Hero */}
         <section className="relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-dark to-stone-dark">
           <Image

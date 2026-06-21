@@ -7,7 +7,7 @@ export default function WrathAboutPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-stone-dark font-spectral">
+      <div className="min-h-screen bg-stone-dark font-spectral pt-20">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-b from-purple-950 to-stone-dark text-parchment">
           <div className="absolute inset-0 bg-black/50" />
