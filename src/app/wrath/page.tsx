@@ -415,25 +415,21 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session VIII — The Worldwound Incursion</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Stone Remembers</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session IX — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Voice That Answers</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              They cleared the last rooms of the Gray Garrison and fought to the trophy room at the top. Caleth
-              performed a dimensional slide to appear before the wardstone fragment, prayed to Iomedae in her own house, and pushed the rod of
-              cancellation through. The stone broke clean. A century of stored holy power flooded out through
-              the gap and into the four of them — every wound sealed, every spell restored, the gold of a hundred
-              crusades burning in their blood. The visions that followed showed them everything: the first wardstone
-              raised, Hulrun&apos;s burnings, Terendelev driving Khorramzadeh from the Kite, and the demons&apos; true
-              design — a corruption that would have turned the entire crusade into slaves. Then Areelu Vorlesh
-              appeared in projection, tried to drown them in an abyssal rift, and was severed from the material
-              plane screaming when the wardstone&apos;s last pulse slammed it shut. The six babaus left behind could
-              not keep up with wounds that healed before they finished opening. Iomedae visited them in their sleep
-              and kissed each brow. Korroc woke to find his shield bore Torag&apos;s hammer and anvil. Book One is closed.
+              Queen Galfrey rode at the head of her army into broken Kenabres and named the four of them
+              Knights of the Fifth Crusade. Then she gave them the mission: retake Drezen, a dwarven-built
+              citadel lost since the First Crusade, and recover the Sword of Valor — Iomedae&apos;s own banner.
+              Two hundred soldiers and a company of old friends marched north along the Selen. They took
+              Vilareth Ford from a hundred tieflings in one clean charge, freed prisoners marked for sacrifice,
+              and crushed a larger demon army at Keeper&apos;s Canyon — two hundred tieflings, a hundred dretches,
+              and an incubus commander who fell to a single strike. The road to Drezen is open. Book Two has begun.
             </p>
           </div>
 
@@ -444,8 +440,9 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;The wardstone visions showed her whole — younger, furious, driving Khorramzadeh from the Kite
-              when his sword shattered on the stone. They had seen her fall. Now they saw what she had been.&rdquo;
+              &ldquo;They marched north from the city she had died to protect. Her name was not spoken on the road,
+              but her absence walked with them — the space above the walls where a silver shape should have circled,
+              the sky that no longer had a guardian in it.&rdquo;
             </p>
           </div>
 
@@ -456,25 +453,25 @@ export default function WrathPage() {
                 name: 'Caleth',
                 classes: 'Paladin / Wizard',
                 role: 'Arcane Vanguard',
-                contribution: 'Named the wardstone the moment the trophy room opened. Performed a dimensional slide across the fight to reach the cage while Korroc held the woman in red. Felt the stone push back — near-sentient, refusing to be unmade — and prayed to Iomedae until it gave way. His rod broke the wardstone clean instead of corrupt. Turned his own fire spell inside out to bite a babau with ice. Told Irabeth about Hulrun without softening it.',
+                contribution: 'Stood before the Queen and nodded last, the strategist weighing futures even as the others spoke. Turned his fire inside out again at Vilareth Ford and Keeper’s Canyon — cold-forged fireballs that dropped tieflings where they stood. Slid through space to flank what others could not reach. When Irabeth reported how few were lost, he stopped, looked at her, and smiled — the rarest thing he owns.',
               },
               {
                 name: 'Nageru',
                 classes: 'Monk / Paladin',
-                role: 'Iron Fist of the Crusade',
-                contribution: 'Vaulted the stairwell railing mid-horn-blast and put the first mirror-breaker down before the warning note finished echoing. Killed both. First up when the stun broke and the babaus came through the rift — wounds opened and sealed before they had time to hurt. When the last babau fell, he was still standing, still moving, still first.',
+                role: 'The Voice That Answers',
+                contribution: 'Spoke first when the Queen asked if they would take Drezen. Recruited the company — talked Irabeth into command, gave Horgus a purpose, asked the Queen for help with Aravashnial’s eye. At Keeper’s Canyon he crossed seventy feet in a breath and put an incubus down with a single strike. Gave the paladins words to loot with conscience. The still water rose; the thunder spoke.',
               },
               {
                 name: 'Thane',
                 classes: 'Inquisitor / Rogue',
                 role: 'Shadow of Judgment',
-                contribution: 'Dropped the trophy room bar with the silver chime and flanked the corrupted minotaur from behind — three fronts at once finished what the shield had started. The wardstone visions confirmed what a letter had only suggested. He sat with Irabeth the next morning and asked the exact right questions. When the answers were given, he made the only declaration worth making: when they find Staunton Vhane, he is a dead man.',
+                contribution: 'Scouted ahead of the column all the way north — reading the floor, counting the enemy, sending back the small certainties that kept an army alive. His demon-slaying arrow opened the incubus at Keeper’s Canyon. His signal arrow drew every tiefling eye the wrong direction a half-second before the cavalry hit. The knife’s path, ahead of the body, every time.',
               },
               {
                 name: 'Korroc',
                 classes: 'Paladin / Oracle',
-                role: 'Voice of Torag',
-                contribution: 'Stepped into the trophy room first and took three devastating strikes in a single breath — the Stonelord in him turned the worst of it aside. Held the scythe-woman while Caleth reached the wardstone. Felt a new thing answer in him: a thread of grace stretched to all three companions, carrying a measure of every wound to himself. When Irabeth fell to Vorlesh\'s spell, he was at her side the instant the last babau dropped. Woke to find his shield bore Torag\'s mark. Knelt and gave thanks.',
+                role: 'The Wall That Walks',
+                contribution: 'Looked at the horse, looked at the horse again, and climbed into the wagon. Planted himself at the center of every fight — shield forward, life-bond open, drinking his brothers’ wounds into his own body. Drew strength from the stone beneath him and brought the hammer down. Healed the company in waves. Nine lost out of two hundred, and he carried the count.',
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -486,21 +483,20 @@ export default function WrathPage() {
             ))}
           </div>
 
-          {/* Milestone: Book One Complete */}
+          {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Worldwound Incursion — Complete</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Book One closed · The Fifth Crusade has only just begun</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The March on Drezen</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Book Two begun · The Sword of Valor awaits</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The wardstone is broken. The border is changed forever — the demons&apos; great design, a corruption that
-              would have turned an entire crusade into slaves, lies in ruin. Kenabres still burns, but the Vanguard
-              woke to gold in their blood and a name carved into their purpose: Staunton Vhane, north, Drezen.
-              A man who sat at their fathers&apos; table and rode out with them on the last road. The garrison is theirs.
-              The city has its armory back. And two dwarves share a single nod that means the same thing
-              it has always meant, and will not mean anything else until the work is done.
+              Four knights, two hundred soldiers, and a company of friends march north along the edge of
+              the Worldwound. Vilareth Ford and Keeper&apos;s Canyon are behind them — the road ahead leads
+              to Drezen, the dwarven citadel that fell in the First Crusade, where Iomedae&apos;s own banner
+              hangs as a demon&apos;s trophy. Aponavicius has taken the bulk of her army south. The iron is hot.
+              Two dwarves carry a name in their teeth — Staunton Vhane — and the road runs straight to him.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
-              <span className="text-zinc-600">Book <span className="text-wotr-gold">1</span> of 6</span>
+              <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">1</span></span>
               <span className="text-zinc-800">|</span>
