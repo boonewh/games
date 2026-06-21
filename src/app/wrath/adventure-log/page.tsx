@@ -61,7 +61,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'Sword of Valor',
     description: 'With mythic power awakening within them, the heroes lead the charge to retake the city of Drezen and recover the legendary Sword of Valor, a sacred banner that can turn the tide of the crusade.',
     bookNumber: 2,
-    coverImage: '/images/wrath/wrath-hero.jpg',
+    coverImage: '/images/wrath/watchers.jpg',
     status: 'current',
     theme: 'from-red-950 to-stone-900'
   },
