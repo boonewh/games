@@ -30,6 +30,7 @@ const EDITABLE_FIELDS = [
   'save_will',
   'cmb',
   'cmd',
+  'spell_penetration',
   'languages',
   'notes',
   'party_id'

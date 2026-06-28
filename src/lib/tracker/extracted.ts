@@ -52,6 +52,7 @@ export interface ExtractedCharacter {
   save_will: number | null
   cmb: number | null
   cmd: number | null
+  spell_penetration: number | null
   languages: string | null
   drs: Array<{ amount: number; bypass: string }>
   resistances: Array<{ energy_type: EnergyType; amount: number }>

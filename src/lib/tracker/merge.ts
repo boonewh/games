@@ -181,6 +181,7 @@ const SCALAR_FIELDS: Array<{ field: string; label: string }> = [
   { field: 'save_will', label: 'Will' },
   { field: 'cmb', label: 'CMB' },
   { field: 'cmd', label: 'CMD' },
+  { field: 'spell_penetration', label: 'Spell Pen' },
   { field: 'languages', label: 'Languages' }
 ]
 

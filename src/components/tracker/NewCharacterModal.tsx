@@ -222,6 +222,7 @@ export function NewCharacterModal({ onClose, onCreated }: Props) {
         save_will: extracted?.save_will ?? undefined,
         cmb: extracted?.cmb ?? undefined,
         cmd: extracted?.cmd ?? undefined,
+        spell_penetration: extracted?.spell_penetration ?? undefined,
         languages: extracted?.languages ?? undefined,
         drs: drs
           .map((d) => ({ amount: parseInt(d.amount, 10), bypass: d.bypass.trim() || '—' }))

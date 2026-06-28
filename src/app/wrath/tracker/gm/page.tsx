@@ -332,7 +332,8 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
         character.save_will != null ||
         character.cmb != null ||
         character.cmd != null ||
-        character.spell_dc != null) && (
+        character.spell_dc != null ||
+        character.spell_penetration != null) && (
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3 px-2 py-1 rounded bg-stone-dark/40 border border-stone-light/40">
           {(character.save_fort != null || character.save_ref != null || character.save_will != null) && (
             <>
@@ -344,6 +345,7 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
           {character.cmb != null && <Stat label="CMB" value={character.cmb} />}
           {character.cmd != null && <Stat label="CMD" value={character.cmd} />}
           {character.spell_dc != null && <Stat label="Spell DC" value={character.spell_dc} highlight />}
+          {character.spell_penetration != null && <Stat label="Spell Pen" value={character.spell_penetration} />}
         </div>
       )}
 

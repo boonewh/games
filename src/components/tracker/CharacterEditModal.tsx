@@ -37,6 +37,9 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
   const [saveWill, setSaveWill] = useState(character.save_will != null ? String(character.save_will) : '')
   const [cmb, setCmb] = useState(character.cmb != null ? String(character.cmb) : '')
   const [cmd, setCmd] = useState(character.cmd != null ? String(character.cmd) : '')
+  const [spellPenetration, setSpellPenetration] = useState(
+    character.spell_penetration != null ? String(character.spell_penetration) : ''
+  )
   const [languages, setLanguages] = useState(character.languages ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -107,6 +110,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
           save_will: parseOptInt(saveWill),
           cmb: parseOptInt(cmb),
           cmd: parseOptInt(cmd),
+          spell_penetration: parseOptInt(spellPenetration),
           languages: languages.trim() || null
         })
       })
@@ -321,6 +325,12 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
               <label className="block">
                 <span className="block text-xs opacity-70 mb-1">CMD</span>
                 <input type="number" value={cmd} onChange={(e) => setCmd(e.target.value)} className="tracker-input" placeholder="—" />
+              </label>
+            </div>
+            <div className="grid grid-cols-1 gap-3 mt-3">
+              <label className="block">
+                <span className="block text-xs opacity-70 mb-1">Spell Penetration</span>
+                <input type="number" value={spellPenetration} onChange={(e) => setSpellPenetration(e.target.value)} className="tracker-input" placeholder="CL check vs SR" />
               </label>
             </div>
             <label className="block mt-3">

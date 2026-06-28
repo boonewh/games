@@ -99,6 +99,7 @@ export interface Character {
   save_will: number | null
   cmb: number | null
   cmd: number | null
+  spell_penetration: number | null
   languages: string | null
   notes: string | null
   created_at: string
@@ -263,6 +264,7 @@ export interface CreateCharacterInput {
   save_will?: number | null
   cmb?: number | null
   cmd?: number | null
+  spell_penetration?: number | null
   languages?: string | null
   campaign_key?: string
   party_id?: string

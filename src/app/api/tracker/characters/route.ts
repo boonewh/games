@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
       save_will: body.save_will ?? null,
       cmb: body.cmb ?? null,
       cmd: body.cmd ?? null,
+      spell_penetration: body.spell_penetration ?? null,
       languages: body.languages ?? null
     })
     .select()

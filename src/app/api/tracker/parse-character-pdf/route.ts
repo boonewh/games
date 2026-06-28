@@ -41,6 +41,7 @@ Schema:
   "save_will": number | null,         // total Will save bonus
   "cmb": number | null,               // total Combat Maneuver Bonus
   "cmd": number | null,               // total Combat Maneuver Defense
+  "spell_penetration": number | null, // total caster level check bonus vs spell resistance (CL + feats like Spell Penetration/Greater Spell Penetration + other modifiers); null if non-caster
   "languages": string | null,         // comma-separated list, e.g. "Common, Dwarven, Giant"
   "drs": [{ "amount": number, "bypass": string }],
   "resistances": [{ "energy_type": "fire"|"cold"|"electricity"|"acid"|"sonic", "amount": number }],
@@ -161,6 +162,13 @@ mythic_tier:
 - If absent, infer from "Mythic Power (N/day)" using tier = (N - 3) / 2
   (so 5/day = tier 1, 7/day = tier 2, 9/day = tier 3).
 - null if the character is not mythic.
+
+SPELL PENETRATION — the total bonus on a caster level check to overcome spell
+resistance (1d20 + this value vs the target's SR). Compute as:
+  caster_level + Spell_Penetration_feat(+2) + Greater_Spell_Penetration(+2) + any other modifiers.
+Hero Lab sometimes prints this as "Spell Penetration" or "Caster Level Check" in
+the offense or spells section. If you can find or compute it, set the value. If
+the character is not a caster or you cannot determine it, use null.
 
 DM REFERENCE FIELDS — pull these straight off the sheet for the GM dashboard:
 - deity: the listed deity, or null if none.

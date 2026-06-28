@@ -14,12 +14,11 @@ interface Props {
 }
 
 export function HpPanel({ character, onChanged }: Props) {
-  const [damageAmount, setDamageAmount] = useState('')
+  const [amount, setAmount] = useState('')
   const [damageType, setDamageType] = useState<DamageType>('physical')
   const [bypassesDr, setBypassesDr] = useState(false)
   const [isCrit, setIsCrit] = useState(false)
   const [critMultiplier, setCritMultiplier] = useState(2)
-  const [healAmount, setHealAmount] = useState('')
   const [tempHpInput, setTempHpInput] = useState('')
   const [status, setStatus] = useState<string | null>(null)
   const [statusKind, setStatusKind] = useState<'info' | 'damage' | 'heal'>('info')
@@ -50,11 +49,11 @@ export function HpPanel({ character, onChanged }: Props) {
   }
 
   async function submitDamage() {
-    const amount = parseInt(damageAmount, 10)
-    if (!Number.isFinite(amount) || amount <= 0) return
+    const parsed = parseInt(amount, 10)
+    if (!Number.isFinite(parsed) || parsed <= 0) return
     try {
       const res = await postHp('damage', {
-        amount,
+        amount: parsed,
         damage_type: damageType,
         bypasses_dr: damageType === 'physical' ? bypassesDr : undefined,
         is_crit: isCrit,
@@ -62,7 +61,7 @@ export function HpPanel({ character, onChanged }: Props) {
       })
       setStatus(res.message)
       setStatusKind('damage')
-      setDamageAmount('')
+      setAmount('')
       setBypassesDr(false)
       setIsCrit(false)
       setCritMultiplier(2)
@@ -74,13 +73,13 @@ export function HpPanel({ character, onChanged }: Props) {
   }
 
   async function submitHeal() {
-    const amount = parseInt(healAmount, 10)
-    if (!Number.isFinite(amount) || amount <= 0) return
+    const parsed = parseInt(amount, 10)
+    if (!Number.isFinite(parsed) || parsed <= 0) return
     try {
-      const res = await postHp('heal', { amount })
+      const res = await postHp('heal', { amount: parsed })
       setStatus(res.message)
       setStatusKind('heal')
-      setHealAmount('')
+      setAmount('')
       await onChanged()
     } catch (e) {
       setStatus(e instanceof Error ? e.message : String(e))
@@ -89,10 +88,10 @@ export function HpPanel({ character, onChanged }: Props) {
   }
 
   async function submitTempHp() {
-    const amount = parseInt(tempHpInput, 10)
-    if (!Number.isFinite(amount) || amount < 0) return
+    const parsed = parseInt(tempHpInput, 10)
+    if (!Number.isFinite(parsed) || parsed < 0) return
     try {
-      const res = await postHp('temp_hp', { amount })
+      const res = await postHp('temp_hp', { amount: parsed })
       setStatus(res.message)
       setStatusKind('info')
       setTempHpInput('')
@@ -103,11 +102,7 @@ export function HpPanel({ character, onChanged }: Props) {
     }
   }
 
-  // AC / Touch / FF live on the character row, so they go through the
-  // character PATCH endpoint rather than the HP action route. The stepper updates
-  // its own value optimistically and debounces the write; this reconciles to the
-  // truth.
-  async function commitStat(field: 'ac' | 'ac_touch' | 'ac_flat_footed', next: number) {
+  async function commitStat(field: 'ac' | 'ac_touch' | 'ac_flat_footed' | 'spell_penetration', next: number) {
     try {
       const res = await fetch(`/api/tracker/characters/${character.id}`, {
         method: 'PATCH',
@@ -120,7 +115,7 @@ export function HpPanel({ character, onChanged }: Props) {
     } catch (e) {
       setStatus(e instanceof Error ? e.message : String(e))
       setStatusKind('info')
-      await onChanged() // pull back to server truth so the optimistic value corrects
+      await onChanged()
     }
   }
 
@@ -176,7 +171,7 @@ export function HpPanel({ character, onChanged }: Props) {
   return (
     <section className="border-b border-stone-light p-6">
       <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
-        {/* HP + AC block */}
+        {/* HP block */}
         <div className="flex flex-col items-center min-w-[240px] mx-auto lg:mx-0">
           <div className="text-xs uppercase tracking-wider opacity-60 font-cinzel mb-1">HP</div>
           <div className={`text-6xl font-bold tabular-nums ${hpColor}`}>
@@ -207,20 +202,65 @@ export function HpPanel({ character, onChanged }: Props) {
               </div>
             )}
           </div>
+
+          {/* Defense pills */}
+          {(character.drs.length > 0 ||
+            character.resistances.length > 0 ||
+            character.vulnerabilities.length > 0 ||
+            character.fortification_percent > 0) && (
+            <div className="mt-3 flex flex-wrap gap-1.5 justify-center">
+              {character.drs.map((dr) => (
+                <span
+                  key={`dr-${dr.id}`}
+                  className="px-2 py-0.5 rounded-md bg-emerald-900/30 border border-emerald-700/40 text-[11px] uppercase tracking-wider font-oswald text-parchment/90"
+                >
+                  DR {dr.amount}/{dr.bypass}
+                </span>
+              ))}
+              {character.resistances.map((r) => (
+                <span
+                  key={`r-${r.id}`}
+                  className="px-2 py-0.5 rounded-md bg-emerald-900/30 border border-emerald-700/40 text-[11px] uppercase tracking-wider font-oswald text-parchment/90"
+                >
+                  Resist {r.amount} {r.energy_type}
+                </span>
+              ))}
+              {character.vulnerabilities.map((v) => (
+                <span
+                  key={`v-${v.id}`}
+                  className="px-2 py-0.5 rounded-md bg-abyssal-red/20 border border-abyssal-red/40 text-[11px] uppercase tracking-wider font-oswald text-parchment"
+                >
+                  Vulnerable: {v.energy_type}
+                </span>
+              ))}
+              {character.fortification_percent > 0 && (
+                <span className="px-2 py-0.5 rounded-md bg-wardstone-blue/15 border border-wardstone-blue/40 text-[11px] uppercase tracking-wider font-oswald text-parchment">
+                  Fortification {character.fortification_percent}%
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Damage + Heal */}
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        {/* Combined Damage / Heal card */}
+        <div className="flex-1 w-full">
           <div className="bg-stone-light/40 border border-stone-light rounded-lg p-4">
-            <div className="text-sm font-semibold text-abyssal-red mb-2 font-cinzel uppercase tracking-wider">
-              Damage
+            <div className="text-sm font-semibold text-parchment mb-2 font-cinzel uppercase tracking-wider">
+              Damage &amp; Healing
             </div>
+
+            {/* Amount + Type + Action buttons */}
             <div className="flex flex-wrap gap-2">
               <input
                 type="number"
-                value={damageAmount}
-                onChange={(e) => setDamageAmount(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && submitDamage()}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    submitDamage()
+                  }
+                }}
                 placeholder="Amount"
                 className="tracker-input flex-1 min-w-[100px]"
               />
@@ -240,10 +280,18 @@ export function HpPanel({ character, onChanged }: Props) {
                 disabled={busy}
                 className="px-4 py-2 rounded bg-abyssal-red hover:bg-abyssal-red/80 text-parchment font-semibold text-sm disabled:opacity-50"
               >
-                Apply
+                ▼ Damage
+              </button>
+              <button
+                onClick={submitHeal}
+                disabled={busy}
+                className="px-4 py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-parchment font-semibold text-sm disabled:opacity-50"
+              >
+                ▲ Heal
               </button>
             </div>
 
+            {/* Options row */}
             <div className="mt-2 flex flex-wrap gap-3 text-xs opacity-80">
               {damageType === 'physical' && (
                 <label className="flex items-center gap-1.5">
@@ -275,6 +323,7 @@ export function HpPanel({ character, onChanged }: Props) {
               )}
             </div>
 
+            {/* Contextual warnings */}
             <div className="mt-2 text-xs space-y-0.5">
               {willBeVulnerable && (
                 <div className="text-abyssal-red">⚠ Vulnerable to {damageType} — damage will be ×1.5.</div>
@@ -290,33 +339,12 @@ export function HpPanel({ character, onChanged }: Props) {
                 </div>
               )}
             </div>
-          </div>
 
-          <div className="bg-stone-light/40 border border-stone-light rounded-lg p-4">
-            <div className="text-sm font-semibold text-emerald-400 mb-2 font-cinzel uppercase tracking-wider">
-              Heal
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                value={healAmount}
-                onChange={(e) => setHealAmount(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && submitHeal()}
-                placeholder="Amount"
-                className="tracker-input flex-1"
-              />
-              <button
-                onClick={submitHeal}
-                disabled={busy}
-                className="px-4 py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-parchment font-semibold text-sm disabled:opacity-50"
-              >
-                Heal
-              </button>
-            </div>
-            <div className="mt-3 text-sm font-semibold text-wardstone-blue mb-1 font-cinzel uppercase tracking-wider">
-              Temp HP
-            </div>
-            <div className="flex gap-2">
+            {/* Temp HP row */}
+            <div className="mt-3 pt-3 border-t border-stone-light/50 flex gap-2 items-center">
+              <span className="text-xs font-semibold text-wardstone-blue font-cinzel uppercase tracking-wider shrink-0">
+                Temp HP
+              </span>
               <input
                 type="number"
                 value={tempHpInput}
@@ -328,7 +356,7 @@ export function HpPanel({ character, onChanged }: Props) {
               <button
                 onClick={submitTempHp}
                 disabled={busy}
-                className="px-4 py-2 rounded border border-stone-light hover:bg-stone-light/60 text-parchment text-sm disabled:opacity-50"
+                className="px-3 py-2 rounded border border-stone-light hover:bg-stone-light/60 text-parchment text-sm disabled:opacity-50"
               >
                 Set
               </button>
@@ -337,17 +365,24 @@ export function HpPanel({ character, onChanged }: Props) {
         </div>
       </div>
 
-      {/* AC | Conditions | Status+Buttons — three equal-height cards in one flex row. */}
+      {/* Stats strip: AC | Spell Pen | Pools | Spell DCs | Conditions | Status */}
       <div className="mt-4 flex flex-wrap items-stretch gap-3">
-        {/* AC card (left) — content centered vertically when row stretches to match
-            taller siblings (conditions, status) */}
+        {/* AC card */}
         <div className="px-4 py-3 rounded border border-wotr-gold/40 bg-stone-light/30 flex items-center justify-around gap-5">
           <AcStepper label="AC" value={character.ac} large onCommit={(n) => commitStat('ac', n)} />
           <AcStepper label="Touch" value={character.ac_touch} onCommit={(n) => commitStat('ac_touch', n)} />
           <AcStepper label="FF" value={character.ac_flat_footed} onCommit={(n) => commitStat('ac_flat_footed', n)} />
         </div>
 
-        {/* Resource pools (Ki, Mythic Power, etc.) */}
+        {/* Spell Penetration card */}
+        <div className="px-4 py-3 rounded border border-stone-light bg-stone-light/20 flex items-center gap-3">
+          <SpellPenStepper
+            value={character.spell_penetration}
+            onCommit={(n) => commitStat('spell_penetration', n)}
+          />
+        </div>
+
+        {/* Resource pools */}
         <PoolsCard
           characterId={character.id}
           pools={character.pools}
@@ -355,7 +390,7 @@ export function HpPanel({ character, onChanged }: Props) {
           className="min-w-[220px]"
         />
 
-        {/* Spell DCs (named per school/class, house rule: use highest DC) */}
+        {/* Spell DCs */}
         <SpellDcsCard
           characterId={character.id}
           spellDcs={character.spell_dc_entries}
@@ -363,7 +398,7 @@ export function HpPanel({ character, onChanged }: Props) {
           className="min-w-[180px]"
         />
 
-        {/* Conditions (grows to fill remaining space) */}
+        {/* Conditions */}
         <ConditionsBar
           characterId={character.id}
           conditions={character.conditions}
@@ -371,7 +406,7 @@ export function HpPanel({ character, onChanged }: Props) {
           className="flex-1 min-w-[240px]"
         />
 
-        {/* Status + Undo + Long Rest (right) */}
+        {/* Status + Undo + Long Rest */}
         <div
           className={`p-3 rounded border flex items-center gap-3 ${
             statusKind === 'damage'
@@ -412,43 +447,6 @@ export function HpPanel({ character, onChanged }: Props) {
           </div>
         </div>
       </div>
-
-      {(character.drs.length > 0 ||
-        character.resistances.length > 0 ||
-        character.vulnerabilities.length > 0 ||
-        character.fortification_percent > 0) && (
-        <div className="mt-4 flex flex-wrap gap-2 text-xs">
-          {character.drs.map((dr) => (
-            <span
-              key={`dr-${dr.id}`}
-              className="px-2 py-1 rounded bg-stone-light/60 border border-stone-light text-parchment/90"
-            >
-              DR {dr.amount}/{dr.bypass}
-            </span>
-          ))}
-          {character.resistances.map((r) => (
-            <span
-              key={`r-${r.id}`}
-              className="px-2 py-1 rounded bg-stone-light/60 border border-stone-light text-parchment/90"
-            >
-              Resist {r.amount} {r.energy_type}
-            </span>
-          ))}
-          {character.vulnerabilities.map((v) => (
-            <span
-              key={`v-${v.id}`}
-              className="px-2 py-1 rounded bg-abyssal-red/20 border border-abyssal-red/50 text-parchment"
-            >
-              Vulnerable: {v.energy_type}
-            </span>
-          ))}
-          {character.fortification_percent > 0 && (
-            <span className="px-2 py-1 rounded bg-wardstone-blue/15 border border-wardstone-blue/40 text-parchment">
-              Fortification {character.fortification_percent}%
-            </span>
-          )}
-        </div>
-      )}
 
       {editing && (
         <CharacterEditModal character={character} onClose={() => setEditing(false)} onSaved={onChanged} />
@@ -495,12 +493,6 @@ function Badge({
   )
 }
 
-/**
- * AC value with inline +/- steppers. Shows an optimistic draft so taps feel
- * instant, and debounces the persist so mashing the buttons fires one PATCH
- * once the value settles. While a write is pending we don't resync from props,
- * so an in-flight refetch can't clobber the value mid-edit.
- */
 function AcStepper({
   label,
   value,
@@ -515,12 +507,10 @@ function AcStepper({
   const [draft, setDraft] = useState<number | null>(value)
   const commitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Reconcile to the persisted value, but only when no write is pending.
   useEffect(() => {
     if (commitTimer.current == null) setDraft(value)
   }, [value])
 
-  // Clean up a pending debounce if the component unmounts mid-edit.
   useEffect(() => () => {
     if (commitTimer.current) clearTimeout(commitTimer.current)
   }, [])
@@ -557,6 +547,61 @@ function AcStepper({
           +
         </button>
       </div>
+    </div>
+  )
+}
+
+function SpellPenStepper({
+  value,
+  onCommit
+}: {
+  value: number | null
+  onCommit: (next: number) => void
+}) {
+  const [draft, setDraft] = useState<number | null>(value)
+  const commitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (commitTimer.current == null) setDraft(value)
+  }, [value])
+
+  useEffect(() => () => {
+    if (commitTimer.current) clearTimeout(commitTimer.current)
+  }, [])
+
+  function bump(delta: number) {
+    setDraft((prev) => {
+      const next = (prev ?? 0) + delta
+      if (commitTimer.current) clearTimeout(commitTimer.current)
+      commitTimer.current = setTimeout(() => {
+        commitTimer.current = null
+        onCommit(next)
+      }, 400)
+      return next
+    })
+  }
+
+  const btn =
+    'w-5 h-5 leading-none flex items-center justify-center rounded border border-stone-light ' +
+    'text-parchment/50 hover:text-wotr-gold hover:border-wotr-gold/50 disabled:opacity-30 text-sm select-none'
+
+  const display = draft != null ? (draft >= 0 ? `+${draft}` : `${draft}`) : '—'
+
+  return (
+    <div className="flex flex-col items-center">
+      <span className="text-[10px] uppercase tracking-wider opacity-60 font-cinzel">Spell Pen</span>
+      <div className="flex items-center gap-1.5 mt-0.5">
+        <button type="button" onClick={() => bump(-1)} className={btn} aria-label="Decrease Spell Penetration">
+          −
+        </button>
+        <span className="tabular-nums text-wotr-gold text-center text-lg min-w-[3ch] font-bold">
+          {display}
+        </span>
+        <button type="button" onClick={() => bump(1)} className={btn} aria-label="Increase Spell Penetration">
+          +
+        </button>
+      </div>
+      <span className="text-[9px] opacity-40 italic mt-0.5">CL check vs SR</span>
     </div>
   )
 }
