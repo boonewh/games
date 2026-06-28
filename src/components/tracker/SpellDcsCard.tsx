@@ -34,7 +34,7 @@ export function SpellDcsCard({ characterId, spellDcs, onChanged, className }: Pr
   }
 
   return (
-    <div className={`p-3 rounded border border-stone-light bg-stone-light/20 ${className ?? ''}`}>
+    <div className={`p-[14px_16px] rounded-xl ${className ?? ''}`} style={{ background: 'var(--panel, #17130d)', border: '1px solid var(--border, rgba(190,158,92,0.14))' }}>
       <div className="flex items-center justify-between mb-2">
         <div className="text-xs uppercase tracking-wider font-cinzel opacity-70">Spell DCs</div>
         <button onClick={() => setAdding(true)} className="text-xs text-wotr-gold hover:underline">
