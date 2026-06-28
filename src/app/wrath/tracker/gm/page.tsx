@@ -10,7 +10,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import type { Character, Condition, Party, ResourcePool } from '@/lib/tracker/types'
 import { ZoomControls } from '@/components/tracker/ZoomControls'
 import { useTrackerZoom } from '@/hooks/useTrackerZoom'
@@ -32,8 +32,10 @@ const POLL_MS = 5000
 
 export default function GmDashboardPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const partyFromUrl = searchParams.get('party')
   const [parties, setParties] = useState<Party[]>([])
-  const [selectedPartyId, setSelectedPartyId] = useState<string | null>(null)
+  const [selectedPartyId, setSelectedPartyId] = useState<string | null>(partyFromUrl)
   const [dashboard, setDashboard] = useState<DashboardPayload | null>(null)
   const [partiesLoading, setPartiesLoading] = useState(true)
   const [dashboardLoading, setDashboardLoading] = useState(false)
@@ -60,7 +62,10 @@ export default function GmDashboardPage() {
       const myUserId = sessionJson?.user?.id
       const gmParties = ((partiesJson.parties ?? []) as Party[]).filter((p) => p.gm_user_id === myUserId)
       setParties(gmParties)
-      setSelectedPartyId((prev) => prev ?? gmParties[0]?.id ?? null)
+      setSelectedPartyId((prev) => {
+        if (prev && gmParties.some((p) => p.id === prev)) return prev
+        return gmParties[0]?.id ?? null
+      })
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
@@ -185,7 +190,10 @@ export default function GmDashboardPage() {
               {parties.length > 1 ? (
                 <select
                   value={selectedPartyId ?? ''}
-                  onChange={(e) => setSelectedPartyId(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedPartyId(e.target.value)
+                    router.replace(`/wrath/tracker/gm?party=${e.target.value}`, { scroll: false })
+                  }}
                   className="p-2 rounded bg-stone-dark border border-stone-light text-parchment"
                 >
                   {parties.map((p) => (

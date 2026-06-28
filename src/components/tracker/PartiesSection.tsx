@@ -97,7 +97,7 @@ function PartyCard({ party, isGm }: { party: Party; isGm: boolean }) {
         {isGm && (
           <>
             <Link
-              href="/wrath/tracker/gm"
+              href={`/wrath/tracker/gm?party=${party.id}`}
               className="text-xs px-2 py-1 rounded bg-wotr-gold/90 hover:bg-wotr-gold text-stone-dark font-semibold"
             >
               GM →
