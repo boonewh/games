@@ -123,7 +123,7 @@ export default function WrathPage() {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
             {/* Level/Mythic Tier — KEEP IN SYNC with the Campaign Arc Status milestone box further down this page. Both display this info; both must update together. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 6 Gestalt • Mythic Tier 1</span>
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 7 Gestalt • Mythic Tier 1</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -415,21 +415,21 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session IX — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Voice That Answers</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session X — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The House That Beauty Built</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              Queen Galfrey rode at the head of her army into broken Kenabres and named the four of them
-              Knights of the Fifth Crusade. Then she gave them the mission: retake Drezen, a dwarven-built
-              citadel lost since the First Crusade, and recover the Sword of Valor — Iomedae&apos;s own banner.
-              Two hundred soldiers and a company of old friends marched north along the Selen. They took
-              Vilareth Ford from a hundred tieflings in one clean charge, freed prisoners marked for sacrifice,
-              and crushed a larger demon army at Keeper&apos;s Canyon — two hundred tieflings, a hundred dretches,
-              and an incubus commander who fell to a single strike. The road to Drezen is open. Book Two has begun.
+              The march west into the Worldwound brought the first test from within. A wagon axle,
+              sawn nearly through. A drug planted in an ally&apos;s pack. An evil-sweep of the entire company
+              that found nothing — the saboteur invisible to divine sight. Between those threats, the four
+              knights cleared a ruined chapel on a cliff: gargoyles, ghouls consecrated to a demon lord of
+              the dead, and a winged horror that had grown fat on travelers. The chapel was restored. A holy
+              weapon answered the restoration with new power. But the enemy inside the company remains unseen,
+              and the road to Drezen runs through trust they can no longer take for granted.
             </p>
           </div>
 
@@ -440,9 +440,10 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;They marched north from the city she had died to protect. Her name was not spoken on the road,
-              but her absence walked with them — the space above the walls where a silver shape should have circled,
-              the sky that no longer had a guardian in it.&rdquo;
+              &ldquo;The deeper they marched into the Worldwound, the more her absence weighed. She had held
+              this border for an age. Now they walked the land she had guarded, and the land was wrong,
+              and the sky had no silver shape in it, and every mile west was a mile further from the place
+              she had died to give them time.&rdquo;
             </p>
           </div>
 
@@ -450,28 +451,28 @@ export default function WrathPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
             {[
               {
-                name: 'Caleth',
-                classes: 'Paladin / Wizard',
-                role: 'Arcane Vanguard',
-                contribution: 'Stood before the Queen and nodded last, the strategist weighing futures even as the others spoke. Turned his fire inside out again at Vilareth Ford and Keeper’s Canyon — cold-forged fireballs that dropped tieflings where they stood. Slid through space to flank what others could not reach. When Irabeth reported how few were lost, he stopped, looked at her, and smiled — the rarest thing he owns.',
+                name: "Caleth",
+                classes: "Paladin / Wizard",
+                role: "The Painter’s Fury",
+                contribution: "Found the sabotaged axle before anyone else — the break was sawn, not stressed. Recognized a ruined chapel for what it had been and could not say why it mattered to him. Fireballed nine ghouls before anyone else could move — a scowl on his face, rare as a comet. Turned scorching ray inside out into killing frost and froze a demon solid. Restored the chapel with a consecration scroll; his holy glaive answered with new power.",
               },
               {
-                name: 'Nageru',
-                classes: 'Monk / Paladin',
-                role: 'The Voice That Answers',
-                contribution: 'Spoke first when the Queen asked if they would take Drezen. Recruited the company — talked Irabeth into command, gave Horgus a purpose, asked the Queen for help with Aravashnial’s eye. At Keeper’s Canyon he crossed seventy feet in a breath and put an incubus down with a single strike. Gave the paladins words to loot with conscience. The still water rose; the thunder spoke.',
+                name: "Nageru",
+                classes: "Monk / Paladin",
+                role: "The Thunder’s Reach",
+                contribution: "Flowed up a broken staircase barefoot while three others fell or flew. Spotted the gargoyles before they moved. Destroyed one with three blows — chips of stone flying like spat seeds. Doubled in size mid-fight and swept through ghouls like a man through wheat. Threw spears that flared with divine light into a demon twice his height. Shook off its paralyzing gaze without breaking stride.",
               },
               {
-                name: 'Thane',
-                classes: 'Inquisitor / Rogue',
-                role: 'Shadow of Judgment',
-                contribution: 'Scouted ahead of the column all the way north — reading the floor, counting the enemy, sending back the small certainties that kept an army alive. His demon-slaying arrow opened the incubus at Keeper’s Canyon. His signal arrow drew every tiefling eye the wrong direction a half-second before the cavalry hit. The knife’s path, ahead of the body, every time.',
+                name: "Thane",
+                classes: "Inquisitor / Rogue",
+                role: "Shadow of Judgment",
+                contribution: "Scouted the cliff-top chapel and stayed to watch while the others were called. Picked every lock in the ruin. Listened at a door and heard what waited behind it. Daggers found the seams of gargoyle stone. Went invisible when the worst demon arrived — the knife’s path, always behind the fight. Found poison planted in his own pack. Called the leadership meeting. Swept the camp and found nothing. The saboteur is still out there.",
               },
               {
-                name: 'Korroc',
-                classes: 'Paladin / Oracle',
-                role: 'The Wall That Walks',
-                contribution: 'Looked at the horse, looked at the horse again, and climbed into the wagon. Planted himself at the center of every fight — shield forward, life-bond open, drinking his brothers’ wounds into his own body. Drew strength from the stone beneath him and brought the hammer down. Healed the company in waves. Nine lost out of two hundred, and he carried the count.',
+                name: "Korroc",
+                classes: "Paladin / Oracle",
+                role: "The Wall That Walks",
+                contribution: "Levitated up a broken staircase on dragonscale rather than dignify it with his boots. Cracked a gargoyle with adamantine — stone meeting stone. A ghoul’s claws broke against his Stonelord skin without leaving a mark. Took a demon’s claws and teeth and life-drain and healed himself twice and kept standing. Wanted the planted drug destroyed immediately. The wall does not negotiate with poison.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -486,21 +487,22 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The March on Drezen</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Book Two begun · The Sword of Valor awaits</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Enemy Within</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The road to Drezen · A saboteur unseen</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              Four knights, two hundred soldiers, and a company of friends march north along the edge of
-              the Worldwound. Vilareth Ford and Keeper&apos;s Canyon are behind them — the road ahead leads
-              to Drezen, the dwarven citadel that fell in the First Crusade, where Iomedae&apos;s own banner
-              hangs as a demon&apos;s trophy. Aponavicius has taken the bulk of her army south. The iron is hot.
-              Two dwarves carry a name in their teeth — Staunton Vhane — and the road runs straight to him.
+              The company marches west into the Worldwound. A chapel on a cliff has been cleared and
+              consecrated — gargoyles, ghouls, and demons put down, a holy weapon made stronger by the
+              restoring. But a sawn axle and a planted drug say someone in the company is working against
+              them, and four servants of the light swept two hundred souls and found nothing. The road to
+              Drezen runs through trust they cannot verify. The demons ahead are a known quantity. The enemy
+              within is not.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">1</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">6</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">7</span></span>
             </div>
           </div>
 
