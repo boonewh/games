@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Header from '@/components/mummy/Header';
+import Footer from '@/components/mummy/Footer';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 // Character names are explicit placeholders — swap for real party names.
@@ -35,74 +37,27 @@ const GALLERY_ITEMS = [
   { id: 5, label: 'Hieroglyph rubbing' },
 ];
 
-// ── Theme: "The Threshold" — night sky, burnt-ember sunset, sandstone gold, ─────
-//    and a glowing teal portal as the single otherworldly accent.
+const GALLERY_SPANS = [
+  { col: 'span 3', row: 'span 3' },
+  { col: 'span 2', row: 'span 2' },
+  { col: 'span 1', row: 'span 2' },
+  { col: 'span 3', row: 'span 2' },
+  { col: 'span 3', row: 'span 2' },
+];
 
-const TH = {
-  night:    '#0a0b0d',              // sky black, top of hero / page bg
-  dusk:     '#1c140d',              // warm near-black, section bg
-  duskAlt:  '#241a10',              // slightly lighter warm black, alt section bg
-  card:     '#2a2015',              // carved-stone card surface
-  cardLine: '#4a3a24',              // card hairline
-  stone:    '#d9c39a',              // sandstone / heading color
-  ink:      '#e7dcc3',              // body text, warm bone
-  inkSoft:  '#a89878',              // muted body text
-  ember:    '#e8791f',              // burnt orange sun
-  amber:    '#f0a83c',              // warm gold torchlight
-  gold:     '#c9a15b',              // rule lines, mono labels
-  teal:     '#2be0c9',             // the glowing portal — sole otherworldly accent
-  tealDeep: '#0f8f82',
-  tealDim:  'rgba(43,224,201,0.16)',
-};
+// ── Reusable class fragments ──────────────────────────────────────────────────
+// Colors/fonts live as Tailwind theme tokens (see globals.css @theme).
 
-// ── Typography ────────────────────────────────────────────────────────────────
-
-const F = {
-  display: {
-    fontFamily: "'Cinzel', 'Cormorant Garamond', serif",
-    letterSpacing: '0.06em',
-    fontWeight: 600,
-  } as React.CSSProperties,
-  body: {
-    fontFamily: "'Spectral', Georgia, serif",
-  } as React.CSSProperties,
-  mono: {
-    fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-    letterSpacing: '0.18em',
-    textTransform: 'uppercase' as const,
-    fontSize: 11,
-  } as React.CSSProperties,
-};
-
-// ── CSS keyframes + Google Fonts ──────────────────────────────────────────────
-
-const STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
-  @keyframes mm-mote {
-    0%   { transform: translate(0, 0); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translate(var(--drift, 0), -120vh); opacity: 0; }
-  }
-  @keyframes mm-ember {
-    0%   { transform: translate(0, 0); opacity: 0; }
-    8%   { opacity: 1; }
-    100% { transform: translate(var(--drift, 0), -90vh); opacity: 0; }
-  }
-
-  /* Honor reduced-motion: park the ambient particles off-screen, no animation. */
-  @media (prefers-reduced-motion: reduce) {
-    .mm-particle { animation: none !important; opacity: 0 !important; }
-  }
-`;
+const DISPLAY = 'font-cinzel font-semibold tracking-[0.06em]';       // Cinzel 600
+const MONO = 'font-plex uppercase tracking-[0.18em] text-[11px]';    // IBM Plex Mono label
+// Fluid section padding — gutter 64px→20px, verticals shrink on small screens.
+const SECTION = 'px-[clamp(20px,6vw,64px)] pt-[clamp(44px,7vw,64px)] pb-[clamp(40px,6vw,56px)] border-b border-mm-cardline';
 
 // ── Ambient effects ───────────────────────────────────────────────────────────
 // Drifting teal motes — the portal's light finding its way out into the world.
+// Generated on the client only; Math.random() during render would break hydration.
 
 function PortalMotes({ count = 26, intensity = 1 }: { count?: number; intensity?: number }) {
-  // Generate on the client only — Math.random() during render would produce
-  // different values on server vs. client and break hydration.
   const [motes, setMotes] = useState<Array<{ left: number; delay: number; duration: number; size: number; drift: number }>>([]);
   useEffect(() => {
     setMotes(
@@ -117,16 +72,13 @@ function PortalMotes({ count = 26, intensity = 1 }: { count?: number; intensity?
   }, [count, intensity]);
   if (!intensity) return null;
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 1 }}>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
       {motes.map((m, i) => (
         <span
           key={i}
-          className="mm-particle"
+          className="mm-particle absolute rounded-full bg-mm-teal shadow-[0_0_8px_#2be0c9,0_0_16px_#0f8f82]"
           style={{
-            position: 'absolute', left: `${m.left}%`, bottom: -10,
-            width: m.size, height: m.size, borderRadius: '50%',
-            background: TH.teal,
-            boxShadow: `0 0 8px ${TH.teal}, 0 0 16px ${TH.tealDeep}`,
+            left: `${m.left}%`, bottom: -10, width: m.size, height: m.size,
             animation: `mm-mote ${m.duration}s linear ${m.delay}s infinite`,
             '--drift': `${m.drift}px`,
           } as React.CSSProperties}
@@ -138,7 +90,6 @@ function PortalMotes({ count = 26, intensity = 1 }: { count?: number; intensity?
 
 // Embers — rising warm sparks, used sparingly in the cinematic moment.
 function Embers({ count = 24, intensity = 1 }: { count?: number; intensity?: number }) {
-  // Client-only generation — see note in PortalMotes.
   const [sparks, setSparks] = useState<Array<{ left: number; delay: number; duration: number; size: number; hue: number; drift: number }>>([]);
   useEffect(() => {
     setSparks(
@@ -154,14 +105,13 @@ function Embers({ count = 24, intensity = 1 }: { count?: number; intensity?: num
   }, [count, intensity]);
   if (!intensity) return null;
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 1 }}>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
       {sparks.map((s, i) => (
         <span
           key={i}
-          className="mm-particle"
+          className="mm-particle absolute rounded-full"
           style={{
-            position: 'absolute', left: `${s.left}%`, bottom: -12,
-            width: s.size, height: s.size, borderRadius: '50%',
+            left: `${s.left}%`, bottom: -12, width: s.size, height: s.size,
             background: `hsl(${s.hue}, 90%, 60%)`,
             boxShadow: `0 0 6px hsl(${s.hue}, 95%, 55%), 0 0 14px hsl(${s.hue + 6}, 90%, 50%)`,
             animation: `mm-ember ${s.duration}s ease-out ${s.delay}s infinite`,
@@ -175,58 +125,61 @@ function Embers({ count = 24, intensity = 1 }: { count?: number; intensity?: num
 
 // ── Shared bits ───────────────────────────────────────────────────────────────
 // Striped placeholder standing in for art the user will supply later.
+// The diagonal-stripe gradient is parameterized, so it stays an inline style.
 
 function Placeholder({
-  label, bg = '#332615', stripe = '#241a0e', ink = TH.inkSoft, aspect, style = {},
+  label, bg = '#332615', stripe = '#241a0e', ink = '#a89878', aspect, style = {},
 }: {
   label: string; bg?: string; stripe?: string; ink?: string;
   aspect?: string; style?: React.CSSProperties;
 }) {
   return (
-    <div style={{
-      position: 'relative', aspectRatio: aspect,
-      background: `repeating-linear-gradient(135deg, ${bg} 0 14px, ${stripe} 14px 15px)`,
-      color: ink, display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-      fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
-      textAlign: 'center', padding: 16, overflow: 'hidden', ...style,
-    }}>
-      <span style={{ opacity: 0.7, position: 'relative', zIndex: 2 }}>{label}</span>
+    <div
+      className="relative flex items-center justify-center overflow-hidden text-center p-4 font-plex uppercase text-[11px] tracking-[0.12em]"
+      style={{
+        aspectRatio: aspect, color: ink,
+        background: `repeating-linear-gradient(135deg, ${bg} 0 14px, ${stripe} 14px 15px)`,
+        ...style,
+      }}
+    >
+      <span className="relative z-[2] opacity-70">{label}</span>
     </div>
   );
 }
 
-function SectionEyebrow({ children, color = TH.gold }: { children: React.ReactNode; color?: string }) {
-  return <div style={{ ...F.mono, color, marginBottom: 10 }}>{children}</div>;
+function SectionEyebrow({ children, className = 'text-mm-gold' }: { children: React.ReactNode; className?: string }) {
+  return <div className={`${MONO} mb-2.5 ${className}`}>{children}</div>;
 }
 
 // ── Hero — the actual photo, dark gradient, monumental title ───────────────────
 
 function Hero({ intensity }: { intensity: number }) {
   return (
-    <div style={{ position: 'relative', height: '92vh', minHeight: 620, overflow: 'hidden', background: TH.night }}>
+    <div className="relative h-[92vh] min-h-[620px] overflow-hidden bg-mm-night">
       <Image
         src="/mummy-hero.jpg"
         alt="Four adventurers approach a temple gate glowing teal at dusk"
         fill
         priority
         sizes="100vw"
-        style={{ objectFit: 'cover', objectPosition: '60% 50%' }}
+        className="object-cover"
+        style={{ objectPosition: '60% 50%' }}
       />
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, rgba(8,6,4,0.96) 0%, rgba(10,8,6,0.55) 40%, rgba(10,8,6,0.15) 65%, rgba(6,8,10,0.35) 100%)' }} />
-      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 78% 58%, ${TH.tealDim} 0%, transparent 34%)` }} />
+      {/* Dark bottom-up gradient + teal portal glow (multi-stop → inline). */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(0deg, rgba(8,6,4,0.96) 0%, rgba(10,8,6,0.55) 40%, rgba(10,8,6,0.15) 65%, rgba(6,8,10,0.35) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 78% 58%, rgba(43,224,201,0.16) 0%, transparent 34%)' }} />
       <PortalMotes intensity={intensity} count={22} />
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 64px 72px', zIndex: 3 }}>
-        <SectionEyebrow color={TH.amber}>Pathfinder · Book I · Osirion</SectionEyebrow>
-        <h1 style={{ ...F.display, fontSize: 116, lineHeight: 0.93, margin: 0, color: TH.stone, textShadow: '0 6px 0 #000, 0 18px 40px rgba(0,0,0,0.6)' }}>
+      <div className="absolute inset-0 z-[3] flex flex-col justify-end px-[clamp(20px,6vw,64px)] pb-[clamp(48px,8vw,72px)]">
+        <SectionEyebrow className="text-mm-amber">Our Next Adventure: Coming Spring 2027</SectionEyebrow>
+        <h1 className={`${DISPLAY} m-0 text-mm-stone text-[clamp(52px,14vw,116px)] leading-[0.93]`} style={{ textShadow: '0 6px 0 #000, 0 18px 40px rgba(0,0,0,0.6)' }}>
           MUMMY&apos;S<br />MASK
         </h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 22, flexWrap: 'wrap' }}>
-          <div style={{ ...F.display, fontSize: 17, color: TH.night, background: TH.teal, padding: '8px 18px', letterSpacing: '0.14em', boxShadow: `0 0 24px ${TH.tealDeep}` }}>
+        <div className="mt-[22px] flex flex-wrap items-center gap-[14px]">
+          <div className={`${DISPLAY} text-[17px] text-mm-night bg-mm-teal px-[18px] py-2 tracking-[0.14em] shadow-[0_0_24px_#0f8f82]`}>
             FOUR ARE NAMED · ONE TOMB OPENS
           </div>
-          <div style={{ width: 40, height: 1, background: TH.gold, opacity: 0.6 }} />
-          <div style={{ ...F.mono, color: TH.inkSoft }}>Wati · The Half-City</div>
+          <div className="w-10 h-px bg-mm-gold opacity-60" />
+          <div className={`${MONO} text-mm-ink-soft`}>Wati · The Half-City</div>
         </div>
       </div>
     </div>
@@ -237,24 +190,24 @@ function Hero({ intensity }: { intensity: number }) {
 
 function Flavor() {
   return (
-    <section style={{ padding: '64px 64px 56px', background: TH.dusk, borderBottom: `1px solid ${TH.cardLine}` }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 44, alignItems: 'start' }}>
+    <section className={`${SECTION} bg-mm-dusk`}>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 md:gap-11 items-start">
         <div>
           <SectionEyebrow>Dispatch I</SectionEyebrow>
-          <h2 style={{ ...F.display, fontSize: 54, margin: 0, color: TH.stone, lineHeight: 1.02 }}>
+          <h2 className={`${DISPLAY} m-0 text-mm-stone text-[clamp(34px,7vw,54px)] leading-[1.02]`}>
             FOUR<br />THOUSAND<br />YEARS
           </h2>
-          <div style={{ ...F.display, fontSize: 19, color: TH.teal, marginTop: 14 }}>
+          <div className={`${DISPLAY} text-[19px] text-mm-teal mt-[14px]`}>
             of waiting · ends tonight
           </div>
         </div>
-        <div style={{ borderLeft: `3px solid ${TH.teal}`, paddingLeft: 28, ...F.body }}>
-          <p style={{ fontSize: 19, lineHeight: 1.8, color: TH.ink, margin: '0 0 16px' }}>
+        <div className="border-l-[3px] border-mm-teal pl-7">
+          <p className="text-[19px] leading-[1.8] text-mm-ink mt-0 mb-4">
             The Ruby Prince has unsealed the Necropolis of Wati. By his decree, the priests of Pharasma
             have drawn names from the urn — and the right to enter one tomb has been granted. Beyond its
             doors, something waits that does not answer to torchlight alone.
           </p>
-          <p style={{ fontSize: 17, fontStyle: 'italic', color: TH.amber, margin: 0 }}>
+          <p className="text-[17px] italic text-mm-amber m-0">
             Travelers are advised: the dead of Osirion do not stay where they are put.
           </p>
         </div>
@@ -268,36 +221,29 @@ function Flavor() {
 function Party() {
   const [flipped, setFlipped] = useState<number | null>(null);
   return (
-    <section style={{ padding: '64px 64px 56px', background: TH.duskAlt, borderBottom: `1px solid ${TH.cardLine}` }}>
+    <section id="party" className={`${SECTION} bg-mm-dusk-alt scroll-mt-20`}>
       <SectionEyebrow>The Lottery&apos;s Names</SectionEyebrow>
-      <h2 style={{ ...F.display, fontSize: 50, margin: '0 0 28px', color: TH.stone }}>THE FOUR</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }}>
+      <h2 className={`${DISPLAY} text-mm-stone text-[clamp(32px,6.5vw,50px)] mt-0 mb-7`}>THE FOUR</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-[18px]">
         {PARTY.map((p, i) => (
           <div
             key={p.name}
             onClick={() => setFlipped(flipped === i ? null : i)}
-            style={{
-              cursor: 'pointer',
-              background: TH.card,
-              border: `1px solid ${TH.cardLine}`,
-              padding: 14,
-              transform: flipped === i ? 'translateY(-8px)' : 'none',
-              boxShadow: flipped === i ? `0 18px 32px rgba(0,0,0,0.5), 0 0 0 1px ${TH.teal}60` : '0 8px 18px rgba(0,0,0,0.35)',
-              transition: 'all .3s',
-            }}
+            className={`cursor-pointer bg-mm-card border border-mm-cardline p-[14px] transition-all duration-300 ${flipped === i ? '-translate-y-2' : ''}`}
+            style={{ boxShadow: flipped === i ? '0 18px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(43,224,201,0.38)' : '0 8px 18px rgba(0,0,0,0.35)' }}
           >
-            <Placeholder label={`portrait · ${p.name}`} bg="#332615" stripe="#241a0e" ink={TH.inkSoft} aspect="3 / 4" />
-            <div style={{ ...F.mono, color: TH.teal, marginTop: 10, fontSize: 10 }}>
+            <Placeholder label={`portrait · ${p.name}`} aspect="3 / 4" />
+            <div className={`${MONO} text-mm-teal mt-2.5 text-[10px]`}>
               Drawn the {['First', 'Second', 'Third', 'Fourth'][i]}
             </div>
-            <div style={{ ...F.display, fontSize: 22, color: TH.stone, lineHeight: 1.1, marginTop: 6 }}>
+            <div className={`${DISPLAY} text-[22px] text-mm-stone leading-[1.1] mt-1.5`}>
               {p.name.toUpperCase()}
             </div>
-            <div style={{ ...F.display, fontSize: 16, color: TH.ink, marginTop: 4, fontWeight: 500 }}>
+            <div className="font-cinzel tracking-[0.06em] font-medium text-[16px] text-mm-ink mt-1">
               {p.role}
             </div>
             {flipped === i && (
-              <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px dashed ${TH.cardLine}`, fontSize: 14, fontStyle: 'italic', color: TH.ink, ...F.body }}>
+              <div className="mt-2.5 pt-2.5 border-t border-dashed border-mm-cardline text-[14px] italic text-mm-ink">
                 &ldquo;{p.tagline}&rdquo;
               </div>
             )}
@@ -313,45 +259,49 @@ function Party() {
 function Map() {
   const [active, setActive] = useState<string | null>(null);
   return (
-    <section style={{ padding: '64px 64px 56px', background: TH.dusk, borderBottom: `1px solid ${TH.cardLine}` }}>
+    <section id="map" className={`${SECTION} bg-mm-dusk scroll-mt-20`}>
       <SectionEyebrow>Field Map · Osirion North</SectionEyebrow>
-      <h2 style={{ ...F.display, fontSize: 50, margin: '0 0 28px', color: TH.stone }}>THE LIE OF THE LAND</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 28 }}>
-        <div style={{ position: 'relative', aspectRatio: '16 / 11', background: `radial-gradient(ellipse at 30% 40%, ${TH.duskAlt} 0%, ${TH.night} 100%)`, border: `1px solid ${TH.cardLine}`, overflow: 'hidden' }}>
-          <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.5 }}>
-            <path d="M10,30 Q40,20 70,30 T100,28" fill="none" stroke={TH.gold} strokeWidth="0.2" />
-            <path d="M5,40 Q35,28 65,38 T100,38" fill="none" stroke={TH.gold} strokeWidth="0.2" />
-            <path d="M0,48 Q30,38 60,46 T100,46" fill="none" stroke={TH.gold} strokeWidth="0.2" />
-            <polygon points="14,32 18,26 22,32" fill={TH.ember} opacity="0.5" />
-            <polygon points="56,38 62,30 68,38" fill={TH.ember} opacity="0.5" />
+      <h2 className={`${DISPLAY} text-mm-stone text-[clamp(32px,6.5vw,50px)] mt-0 mb-7`}>THE LIE OF THE LAND</h2>
+      <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr] gap-7">
+        <div className="relative aspect-[16/11] border border-mm-cardline overflow-hidden" style={{ background: 'radial-gradient(ellipse at 30% 40%, #241a10 0%, #0a0b0d 100%)' }}>
+          <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="absolute inset-0 w-full h-full opacity-50">
+            <path d="M10,30 Q40,20 70,30 T100,28" fill="none" stroke="#c9a15b" strokeWidth="0.2" />
+            <path d="M5,40 Q35,28 65,38 T100,38" fill="none" stroke="#c9a15b" strokeWidth="0.2" />
+            <path d="M0,48 Q30,38 60,46 T100,46" fill="none" stroke="#c9a15b" strokeWidth="0.2" />
+            <polygon points="14,32 18,26 22,32" fill="#e8791f" opacity="0.5" />
+            <polygon points="56,38 62,30 68,38" fill="#e8791f" opacity="0.5" />
           </svg>
-          <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-            <path d="M30,55 Q50,42 78,22" fill="none" stroke={TH.teal} strokeWidth="0.6" strokeDasharray="2 1.5" opacity="0.8" />
+          <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+            <path d="M30,55 Q50,42 78,22" fill="none" stroke="#2be0c9" strokeWidth="0.6" strokeDasharray="2 1.5" opacity="0.8" />
           </svg>
           {HOTSPOTS.map((h) => (
             <button
               key={h.id}
               onMouseEnter={() => setActive(h.id)}
               onMouseLeave={() => setActive(null)}
-              style={{ position: 'absolute', left: `${h.x}%`, top: `${h.y}%`, transform: 'translate(-50%,-50%)', background: 'transparent', border: 0, cursor: 'pointer', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}
+              className="absolute -translate-x-1/2 -translate-y-1/2 bg-transparent border-0 cursor-pointer p-0 flex flex-col items-center gap-1.5"
+              style={{ left: `${h.x}%`, top: `${h.y}%` }}
             >
-              <span style={{ width: 15, height: 15, borderRadius: '50%', background: TH.teal, border: `3px solid ${TH.night}`, boxShadow: active === h.id ? `0 0 0 7px ${TH.tealDim}, 0 0 14px ${TH.teal}` : `0 0 8px ${TH.teal}`, transition: 'box-shadow .25s' }} />
-              <span style={{ ...F.display, fontSize: 13, color: TH.night, background: TH.stone, padding: '2px 10px', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
+              <span
+                className="w-[15px] h-[15px] rounded-full bg-mm-teal border-[3px] border-mm-night transition-shadow duration-200"
+                style={{ boxShadow: active === h.id ? '0 0 0 7px rgba(43,224,201,0.16), 0 0 14px #2be0c9' : '0 0 8px #2be0c9' }}
+              />
+              <span className={`${DISPLAY} text-[13px] text-mm-night bg-mm-stone px-2.5 py-0.5 tracking-[0.1em] whitespace-nowrap`}>
                 {h.label.toUpperCase()}
               </span>
             </button>
           ))}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="flex flex-col gap-3">
           {HOTSPOTS.map((h) => (
             <div
               key={h.id}
               onMouseEnter={() => setActive(h.id)}
               onMouseLeave={() => setActive(null)}
-              style={{ padding: '14px 18px', background: active === h.id ? TH.card : 'transparent', border: `1px solid ${TH.cardLine}`, transform: active === h.id ? 'translateX(4px)' : 'none', transition: 'all .2s' }}
+              className={`px-[18px] py-3.5 border border-mm-cardline transition-all duration-200 ${active === h.id ? 'bg-mm-card translate-x-1' : ''}`}
             >
-              <div style={{ ...F.display, fontSize: 21, color: TH.stone }}>{h.label.toUpperCase()}</div>
-              <div style={{ fontSize: 14, color: TH.inkSoft, fontStyle: 'italic', marginTop: 2, ...F.body }}>{h.note}</div>
+              <div className={`${DISPLAY} text-[21px] text-mm-stone`}>{h.label.toUpperCase()}</div>
+              <div className="text-[14px] text-mm-ink-soft italic mt-0.5">{h.note}</div>
             </div>
           ))}
         </div>
@@ -364,23 +314,27 @@ function Map() {
 
 function Moment({ intensity }: { intensity: number }) {
   return (
-    <section style={{ position: 'relative', padding: '80px 64px 110px', background: 'radial-gradient(ellipse at 78% 60%, #12312c 0%, #0a0f0e 45%, #05070a 100%)', borderBottom: `1px solid ${TH.cardLine}`, overflow: 'hidden', minHeight: 600 }}>
+    <section
+      id="moment"
+      className="relative overflow-hidden border-b border-mm-cardline min-h-[600px] scroll-mt-20 px-[clamp(20px,6vw,64px)] pt-[clamp(56px,9vw,80px)] pb-[clamp(72px,11vw,110px)]"
+      style={{ background: 'radial-gradient(ellipse at 78% 60%, #12312c 0%, #0a0f0e 45%, #05070a 100%)' }}
+    >
       <PortalMotes intensity={intensity * 1.4} count={34} />
       <Embers count={16} intensity={intensity * 0.5} />
-      <div style={{ position: 'relative', zIndex: 3 }}>
-        <SectionEyebrow color={TH.teal}>Session I — The Doors Give Way</SectionEyebrow>
-        <h2 style={{ ...F.display, fontSize: 78, margin: '0 0 20px', color: TH.teal, lineHeight: 0.95, textShadow: `0 0 40px ${TH.tealDeep}, 0 5px 0 #020403` }}>
+      <div className="relative z-[3]">
+        <SectionEyebrow className="text-mm-teal">Session I — The Doors Give Way</SectionEyebrow>
+        <h2 className={`${DISPLAY} text-mm-teal text-[clamp(40px,10vw,78px)] leading-[0.95] mt-0 mb-5`} style={{ textShadow: '0 0 40px #0f8f82, 0 5px 0 #020403' }}>
           THE THRESHOLD OPENS
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 36, alignItems: 'start' }}>
-          <Placeholder label="opening scene · the door swings inward" bg="rgba(0,0,0,0.45)" stripe="rgba(0,0,0,0.6)" ink={TH.teal} aspect="16 / 10" style={{ border: `2px solid ${TH.teal}` }} />
-          <div style={{ fontSize: 18, lineHeight: 1.75, color: '#cdeae4', ...F.body }}>
-            <p style={{ margin: '0 0 14px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-6 md:gap-9 items-start">
+          <Placeholder label="opening scene · the door swings inward" bg="rgba(0,0,0,0.45)" stripe="rgba(0,0,0,0.6)" ink="#2be0c9" aspect="16 / 10" style={{ border: '2px solid #2be0c9' }} />
+          <div className="text-[18px] leading-[1.75]" style={{ color: '#cdeae4' }}>
+            <p className="mt-0 mb-3.5">
               The great doors ground open on hinges no living hand had touched, and the dark beyond
               them was not dark at all — it breathed a cold green-blue light up out of the depths, over
               the carved feet of gods, into the last color of the sunset.
             </p>
-            <p style={{ margin: 0, color: TH.teal, fontStyle: 'italic' }}>
+            <p className="m-0 text-mm-teal italic">
               None of us stepped back. All of us wanted to know what waited behind that light.
             </p>
           </div>
@@ -394,21 +348,21 @@ function Moment({ intensity }: { intensity: number }) {
 
 function Log() {
   return (
-    <section style={{ padding: '64px 64px 56px', background: TH.duskAlt, borderBottom: `1px solid ${TH.cardLine}` }}>
+    <section id="log" className={`${SECTION} bg-mm-dusk-alt scroll-mt-20`}>
       <SectionEyebrow>Adventure Log · Latest Dispatch</SectionEyebrow>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 28, background: TH.card, border: `1px solid ${TH.cardLine}`, padding: 28, boxShadow: '10px 10px 0 rgba(0,0,0,0.35)' }}>
-        <Placeholder label="entry plate" bg="#332615" stripe="#241a0e" ink={TH.inkSoft} aspect="4 / 5" />
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ ...F.mono, color: TH.teal }}>{LOG_TEASER.session} · {LOG_TEASER.date}</div>
-          <h3 style={{ ...F.display, fontSize: 38, margin: '8px 0 12px', color: TH.stone, lineHeight: 1.05 }}>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-7 bg-mm-card border border-mm-cardline p-7 shadow-[10px_10px_0_rgba(0,0,0,0.35)]">
+        <Placeholder label="entry plate" aspect="4 / 5" />
+        <div className="flex flex-col">
+          <div className={`${MONO} text-mm-teal`}>{LOG_TEASER.session} · {LOG_TEASER.date}</div>
+          <h3 className={`${DISPLAY} text-[clamp(28px,6vw,38px)] text-mm-stone leading-[1.05] mt-2 mb-3`}>
             {LOG_TEASER.title.toUpperCase()}
           </h3>
-          <p style={{ fontSize: 17, lineHeight: 1.7, color: TH.ink, fontStyle: 'italic', margin: 0, ...F.body }}>
+          <p className="text-[17px] leading-[1.7] text-mm-ink italic m-0">
             {LOG_TEASER.excerpt}
           </p>
-          <div style={{ flex: 1 }} />
-          <div style={{ marginTop: 24 }}>
-            <a href="#" style={{ ...F.display, fontSize: 18, color: TH.night, background: TH.teal, padding: '8px 18px', textDecoration: 'none', letterSpacing: '0.1em', display: 'inline-block', boxShadow: `0 0 20px ${TH.tealDeep}` }}>
+          <div className="flex-1" />
+          <div className="mt-6">
+            <a href="#" className={`${DISPLAY} text-[18px] text-mm-night bg-mm-teal px-[18px] py-2 no-underline tracking-[0.1em] inline-block shadow-[0_0_20px_#0f8f82]`}>
               READ THE FULL CHRONICLE →
             </a>
           </div>
@@ -420,40 +374,21 @@ function Log() {
 
 // ── Gallery ───────────────────────────────────────────────────────────────────
 
-const GALLERY_SPANS = [
-  { col: 'span 3', row: 'span 3' },
-  { col: 'span 2', row: 'span 2' },
-  { col: 'span 1', row: 'span 2' },
-  { col: 'span 3', row: 'span 2' },
-  { col: 'span 3', row: 'span 2' },
-];
-
 function Gallery() {
   return (
-    <section style={{ padding: '64px 64px 56px', background: TH.dusk, borderBottom: `1px solid ${TH.cardLine}` }}>
+    <section id="gallery" className={`${SECTION} bg-mm-dusk scroll-mt-20`}>
       <SectionEyebrow>Photo Plates · Field Records</SectionEyebrow>
-      <h2 style={{ ...F.display, fontSize: 50, margin: '0 0 24px', color: TH.stone }}>FROM THE EXPEDITION</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gridAutoRows: 100, gap: 12 }}>
+      <h2 className={`${DISPLAY} text-mm-stone text-[clamp(32px,6.5vw,50px)] mt-0 mb-6`}>FROM THE EXPEDITION</h2>
+      <div className="grid grid-cols-6 gap-3" style={{ gridAutoRows: 'clamp(58px,13vw,100px)' }}>
         {GALLERY_ITEMS.map((g, i) => (
-          <div key={g.id} style={{ gridColumn: GALLERY_SPANS[i].col, gridRow: GALLERY_SPANS[i].row, background: TH.card, padding: 6, border: `1px solid ${TH.cardLine}` }}>
-            <Placeholder label={g.label} bg="#332615" stripe="#241a0e" ink={TH.inkSoft} style={{ width: '100%', height: '100%' }} />
+          <div
+            key={g.id}
+            className="bg-mm-card p-1.5 border border-mm-cardline"
+            style={{ gridColumn: GALLERY_SPANS[i].col, gridRow: GALLERY_SPANS[i].row }}
+          >
+            <Placeholder label={g.label} style={{ width: '100%', height: '100%' }} />
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-// ── Footer ────────────────────────────────────────────────────────────────────
-
-function Footer() {
-  return (
-    <section style={{ padding: '44px 64px 60px', textAlign: 'center', background: TH.night }}>
-      <div style={{ ...F.display, fontSize: 26, color: TH.stone, letterSpacing: '0.2em' }}>
-        PATHSIX · MUMMY&apos;S MASK
-      </div>
-      <div style={{ ...F.mono, color: TH.inkSoft, marginTop: 10 }}>
-        A Pathfinder Adventure Path by Paizo Inc · Chronicled since MMXXIII
       </div>
     </section>
   );
@@ -462,22 +397,20 @@ function Footer() {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function MummyPage() {
-  // Handoff recommends full-density ("Lively") ambient effects as a fixed
-  // decision; reduced-motion users get them parked via the CSS above.
+  // Full-density ("Lively") ambient effects, per the design handoff;
+  // reduced-motion users get them parked via CSS in globals.css.
   const intensity = 1;
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
-      <div style={{ ...F.body, color: TH.ink, background: TH.dusk, minHeight: '100vh' }}>
-        <Hero intensity={intensity} />
-        <Flavor />
-        <Party />
-        <Map />
-        <Moment intensity={intensity} />
-        <Log />
-        <Gallery />
-        <Footer />
-      </div>
+      <Header />
+      <Hero intensity={intensity} />
+      <Flavor />
+      <Party />
+      <Map />
+      <Moment intensity={intensity} />
+      <Log />
+      <Gallery />
+      <Footer />
     </>
   );
 }

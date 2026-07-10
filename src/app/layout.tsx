@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Alkatra, Cinzel, Spectral } from 'next/font/google'
+import { Inter, Alkatra, Cinzel, Spectral, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import AuthProvider from '@/components/AuthProvider'
 
@@ -10,7 +10,7 @@ const alkatra = Alkatra({
   variable: '--font-alkatra',
 })
 const cinzel = Cinzel({
-  weight: ['400', '700'],
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-cinzel',
 })
@@ -19,6 +19,11 @@ const spectral = Spectral({
   style: ['normal', 'italic'],
   subsets: ['latin'],
   variable: '--font-spectral',
+})
+const plexMono = IBM_Plex_Mono({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-plex-mono',
 })
 
 export const metadata: Metadata = {
@@ -33,7 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${alkatra.variable} ${cinzel.variable} ${spectral.variable}`} style={{ backgroundColor: '#30393e' }}>
+      <body className={`${inter.variable} ${alkatra.variable} ${cinzel.variable} ${spectral.variable} ${plexMono.variable}`} style={{ backgroundColor: '#30393e' }}>
         <AuthProvider>
           {children}
         </AuthProvider>
