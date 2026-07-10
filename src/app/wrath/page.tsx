@@ -415,21 +415,24 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session X — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The House That Beauty Built</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XI — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Latch That Held</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The march west into the Worldwound brought the first test from within. A wagon axle,
-              sawn nearly through. A drug planted in an ally&apos;s pack. An evil-sweep of the entire company
-              that found nothing — the saboteur invisible to divine sight. Between those threats, the four
-              knights cleared a ruined chapel on a cliff: gargoyles, ghouls consecrated to a demon lord of
-              the dead, and a winged horror that had grown fat on travelers. The chapel was restored. A holy
-              weapon answered the restoration with new power. But the enemy inside the company remains unseen,
-              and the road to Drezen runs through trust they can no longer take for granted.
+              The army halted at the Ahari Gorge — a dry riverbed seething with Vescavor swarms too vast to
+              march through. Five went down beneath the riverbed and killed the queen at the heart of the nest.
+              Behind her, an Abyssal rift — a tear in reality — spat vrock demons until the elf wizard
+              Aravashnial revealed what he had been all along: a Riftwarden, with power over the movement of
+              demons, and sealed it shut on the last of them. Topside, the company&apos;s scout Aron Kir lay near
+              death, knifed from behind by an attacker no one saw — the saboteur again. A suspicion now has a
+              shape but no proof. And a sealed satchel from Queen Galfrey yielded the reconstructed blueprints
+              of Citadel Drezen, signed seventy years ago by dwarves whose names the two Stonevein cousins know
+              better than any: their own parents. The army stands within striking distance of Drezen. The
+              assault goes in at dawn.
             </p>
           </div>
 
@@ -440,10 +443,10 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;The deeper they marched into the Worldwound, the more her absence weighed. She had held
-              this border for an age. Now they walked the land she had guarded, and the land was wrong,
-              and the sky had no silver shape in it, and every mile west was a mile further from the place
-              she had died to give them time.&rdquo;
+              &ldquo;Down in the dark beneath the riverbed, when Korroc stepped off the edge, it was her light
+              that caught him — silver blooming from the scale at his belt, carrying him slow and stately into
+              the nest. Her last will, spent again in the deep. Every time a scale wakes, a little more of the
+              dragon&apos;s dying gift is given away. And every time, she is still with them.&rdquo;
             </p>
           </div>
 
@@ -454,25 +457,25 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The Painter’s Fury",
-                contribution: "Found the sabotaged axle before anyone else — the break was sawn, not stressed. Recognized a ruined chapel for what it had been and could not say why it mattered to him. Fireballed nine ghouls before anyone else could move — a scowl on his face, rare as a comet. Turned scorching ray inside out into killing frost and froze a demon solid. Restored the chapel with a consecration scroll; his holy glaive answered with new power.",
+                contribution: "Opened the queen-fight with a fireball turned to killing ice — a white starburst of frost that broke the swarms all at once. Turned a stunned ally invisible under vrock claws. Drove Radiance home in three flashing thrusts, the holy glaive blazing where it bit. Blinked three companions through solid stone to the surface. Now carries the citadel’s blueprints folded deep in his spellbook — “people don’t lightly meddle with a wizard’s spellbook.”",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
                 role: "The Thunder’s Reach",
-                contribution: "Flowed up a broken staircase barefoot while three others fell or flew. Spotted the gargoyles before they moved. Destroyed one with three blows — chips of stone flying like spat seeds. Doubled in size mid-fight and swept through ghouls like a man through wheat. Threw spears that flared with divine light into a demon twice his height. Shook off its paralyzing gaze without breaking stride.",
+                contribution: "Spotted the one silent tunnel-mouth — the way in — while the others read only noise. Crossed the treacherous cavern with a running kick the instant the ice erupted. Took the queen’s acid full in the chest and did not fall. Beat two vrocks down with holy-smite-lit fists, celestial fire along every knuckle. Reached the dying scout first and brought him back with his own hands.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "Shadow of Judgment",
-                contribution: "Scouted the cliff-top chapel and stayed to watch while the others were called. Picked every lock in the ruin. Listened at a door and heard what waited behind it. Daggers found the seams of gargoyle stone. Went invisible when the worst demon arrived — the knife’s path, always behind the fight. Found poison planted in his own pack. Called the leadership meeting. Swept the camp and found nothing. The saboteur is still out there.",
+                contribution: "Scouted point through the whole nest, reading floors no one else could. Was moving before the ice even burst — the queen died on two daggers she never saw. Stunned and bleeding under a vrock’s talons, and rose. Read the drag-trail and the gnome-sized footprints where the scout was taken. Slammed the evidence on the war-council table — “We have a traitor amongst us” — then read his own father’s handwriting on a seventy-year-old letter.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Levitated up a broken staircase on dragonscale rather than dignify it with his boots. Cracked a gargoyle with adamantine — stone meeting stone. A ghoul’s claws broke against his Stonelord skin without leaving a mark. Took a demon’s claws and teeth and life-drain and healed himself twice and kept standing. Wanted the planted drug destroyed immediately. The wall does not negotiate with poison.",
+                contribution: "Drifted down into the nest on dragonscale light to end an argument, hammer across his back. Planted himself as a wall between the wizard and the demons and rooted into the stone. Flung mythic protection across the whole cave to his stunned cousin, turning a talon aside on nothing. His life-bond drank the others’ wounds the whole fight. And he heard his own parents’ names read off a seventy-year-old letter.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -487,15 +490,15 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Enemy Within</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The road to Drezen · A saboteur unseen</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Eve of Drezen</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Striking distance · A traitor still unnamed</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The company marches west into the Worldwound. A chapel on a cliff has been cleared and
-              consecrated — gargoyles, ghouls, and demons put down, a holy weapon made stronger by the
-              restoring. But a sawn axle and a planted drug say someone in the company is working against
-              them, and four servants of the light swept two hundred souls and found nothing. The road to
-              Drezen runs through trust they cannot verify. The demons ahead are a known quantity. The enemy
-              within is not.
+              The gorge is cleared. The queen is dead, the swarm scattered, the Abyssal rift sealed by a
+              wizard who turned out to be far more than he seemed. And in a sealed satchel from the Queen
+              herself lie the reconstructed blueprints of Citadel Drezen — the way in, drawn seventy years
+              ago by dwarven hands the two Stoneveins would know anywhere. The army stands within striking
+              distance, and the assault goes in at dawn. But a saboteur still moves unfound inside the
+              company. Suspicion has a shape now — small, quick, quiet — and no proof at all.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
