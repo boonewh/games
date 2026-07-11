@@ -567,7 +567,7 @@ function DefenseStepper({
 
   return (
     <div className="text-center">
-      <div className="font-oswald uppercase tracking-[.1em] text-[11px]" style={{ color: 'var(--faint, #6b6253)' }}>
+      <div className="font-oswald uppercase tracking-[.1em] text-[11px] whitespace-nowrap" style={{ color: 'var(--faint, #6b6253)' }}>
         {label}
       </div>
       <div className="flex items-center justify-center gap-1.5 mt-1">
