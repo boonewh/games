@@ -66,7 +66,7 @@ from real table use. Ordered roughly by size, not priority.
 
 ## Schema changes (DM visibility)
 
-### ✅ DM stat fields — migration 007 — DONE, UNPUSHED (6594a00)
+### ✅ DM stat fields — migration 007 — DONE (6594a00)
 - Added `deity, alignment, save_fort, save_ref, save_will, cmb, cmd, languages`
   columns to `character` (migration 007, all nullable).
 - Editable in the character editor ("GM details" section); displayed on the GM
@@ -74,19 +74,16 @@ from real table use. Ordered roughly by size, not priority.
   the player combat screen. Added to the character PATCH whitelist.
 - PDF parser now extracts them too (c60071d) — imported characters arrive with
   deity/alignment/saves/CMB/CMD/languages populated, not blank.
-- ⚠️ **Run migration 007 in Supabase before deploying** — the editor sends these
-  fields on save, so deploying first would break character editing. Held
-  unpushed until the migration is applied.
+- Migration 007 has been applied in Supabase; pushed and live.
 
-### ✅ GM private note box — migration 008 — DONE, UNPUSHED (e6c3c00)
+### ✅ GM private note box — migration 008 — DONE (e6c3c00)
 - Separate `gm_note` table; the player character GET never joins it, so the note
   is structurally unable to leak to the player.
 - GM-only PUT `/characters/[id]/gm-note` gated by `isPartyGmOfCharacter` (the
   owner can't write it, only the party GM). Read via the GM-gated dashboard.
 - Dashboard card textarea with a focus guard (no resync from the 5s poll while
   focused); saves on blur.
-- ⚠️ **Run migration 008 before deploying** — the dashboard query joins
-  `gm_note`. Held unpushed until applied.
+- Migration 008 has been applied in Supabase; pushed and live.
 
 ---
 
