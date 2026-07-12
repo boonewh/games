@@ -173,11 +173,11 @@ export default function WrathPage() {
         <div className="flex flex-col md:flex-row items-baseline justify-between border-b border-zinc-800 pb-4 mb-8">
           <div>
             <h2 className="font-cinzel text-3xl text-wotr-gold uppercase tracking-widest">Theater of War</h2>
-            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: Fifth Crusade Geographic Survey</p>
+            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: The Siege of Drezen</p>
           </div>
           <div className="flex gap-4 mt-4 md:mt-0 text-[10px] font-bold uppercase tracking-widest">
-            <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> The Front Lines</span>
-            <span className="flex items-center gap-2 text-red-600"><span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> Abyssal Encroachment</span>
+            <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> Crusader Held</span>
+            <span className="flex items-center gap-2 text-red-600"><span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> Demon Held</span>
           </div>
         </div>
 
@@ -191,30 +191,49 @@ export default function WrathPage() {
             <div className="relative bg-black border border-zinc-800 overflow-hidden shadow-2xl aspect-[16/10]">
               {/* The Base Map (Image 1) */}
               <Image
-                src="/images/wrath/mendev-map2.jpg"
-                alt="Map of Mendev"
+                src="/images/wrath/drezen.jpg"
+                alt="Tactical map of Drezen"
                 fill
                 className="object-cover"
               />
 
-              {/* FLOATING HOTSPOTS (Example: Kenabres) */}
-              <div className="absolute top-[47%] left-[51%] group/pin">
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
-                {/* Label that appears on hover */}
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">Kenabres</h4>
-                  <p className="text-sm text-zinc-400 italic">The Shield of Mendev. Current location of the Wardstone.</p>
-                </div>
-              </div>
-
-              {/* FLOATING HOTSPOT (Example: The Worldwound) */}
-              <div className="absolute top-[49%] left-[21%] group/pin">
+              {/* FLOATING HOTSPOT (Citadel Drezen) */}
+              <div className="absolute top-[28%] left-[41%] group/pin">
                 <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-red-600 text-base">Threshold</h4>
-                  <p className="text-sm text-zinc-400 italic">The epicenter of the rift. Entry forbidden to all mortal souls.</p>
+                  <h4 className="font-cinzel text-red-600 text-base">Citadel Drezen</h4>
+                  <p className="text-sm text-zinc-400 italic">The seat of the city&apos;s command. Still enemy-held. The war ends here.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (The Bridge) */}
+              <div className="absolute top-[56%] left-[40%] group/pin">
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">The Bridge</h4>
+                  <p className="text-sm text-zinc-400 italic">Taken and held under crusader arrows. The approach is open.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (Paradise Hill) */}
+              <div className="absolute top-[39%] left-[75%] group/pin">
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Paradise Hill</h4>
+                  <p className="text-sm text-zinc-400 italic">Some two hundred prisoners freed. Many now carry bows for the crusade.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (The Cemetery) */}
+              <div className="absolute top-[67%] left-[9%] group/pin">
+                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-red-600 text-base">The Cemetery</h4>
+                  <p className="text-sm text-zinc-400 italic">No one who enters returns. Unread, and next on the list.</p>
                 </div>
               </div>
             </div>
@@ -223,23 +242,23 @@ export default function WrathPage() {
           {/* 2. SIDEBAR - "Intelligence Briefing" */}
           <div className="lg:col-span-1 flex flex-col justify-center space-y-8">
             <div>
-              <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Mendevian Borders</h4>
+              <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Stretching from the Lake of Mists and Veils to the Sarkoris Scar, Mendev stands as the final bulwark against the Abyss.
+                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. Everything else is the road to its gate.
               </p>
             </div>
 
             <div>
-              <h4 className="font-cinzel text-zinc-300 text-base tracking-widest mb-2 border-b border-zinc-800 pb-1">The Sellen River</h4>
+              <h4 className="font-cinzel text-zinc-300 text-base tracking-widest mb-2 border-b border-zinc-800 pb-1">The Ahari</h4>
               <p className="text-base text-zinc-500 leading-relaxed italic">
-                A vital supply vein now choked by the filth of the Worldwound.
+                The dry riverbed that carried the army unseen to the walls. Now the south bank of it holds the siege camp.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;The geography changes as the rift exhales. Do not trust the old maps. The land itself is a lie.&quot;
+                &quot;We hold the outer city and camp beside a graveyard no one walks out of. I will not have this army sleeping blind next to it.&quot;
               </p>
             </div>
           </div>
@@ -415,24 +434,24 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XI — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Latch That Held</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XII — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Strain the Smith Takes</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The army halted at the Ahari Gorge — a dry riverbed seething with Vescavor swarms too vast to
-              march through. Five went down beneath the riverbed and killed the queen at the heart of the nest.
-              Behind her, an Abyssal rift — a tear in reality — spat vrock demons until the elf wizard
-              Aravashnial revealed what he had been all along: a Riftwarden, with power over the movement of
-              demons, and sealed it shut on the last of them. Topside, the company&apos;s scout Aron Kir lay near
-              death, knifed from behind by an attacker no one saw — the saboteur again. A suspicion now has a
-              shape but no proof. And a sealed satchel from Queen Galfrey yielded the reconstructed blueprints
-              of Citadel Drezen, signed seventy years ago by dwarves whose names the two Stonevein cousins know
-              better than any: their own parents. The army stands within striking distance of Drezen. The
-              assault goes in at dawn.
+              The plan was laid in a whisper — a hand-span of embers and five heads bent close, because a
+              traitor still walked the camp and no council could be trusted to the open air. In the last black
+              hour before dawn, a hundred paladins and the four went forward into the ruins of Drezen. A
+              watchtower fell first: schir demons on the roof and a vrock that could see the unseen, put down in
+              blood. At Paradise Hill they broke a cellar door on some two hundred prisoners and freed them —
+              many took up fallen blades, and more were handed bows. The bridge came next, seized after
+              Caleth&apos;s fireball fell as acid across the enemy leadership and the cultist and tiefling camps
+              broke and routed. Irabeth brought the army up the dry riverbed as the sun cleared the walls, and
+              the siege of Drezen began — a camp thrown up on the south bank. Ahead, unread, a cemetery no one
+              who enters walks out of. That is the next target.
             </p>
           </div>
 
@@ -443,10 +462,11 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;Down in the dark beneath the riverbed, when Korroc stepped off the edge, it was her light
-              that caught him — silver blooming from the scale at his belt, carrying him slow and stately into
-              the nest. Her last will, spent again in the deep. Every time a scale wakes, a little more of the
-              dragon&apos;s dying gift is given away. And every time, she is still with them.&rdquo;
+              &ldquo;She never lived to see Drezen. She fell above Kenabres so that others might one day stand
+              where she could not — and now her crusade camps inside the city&apos;s outer wall, one bought yard
+              of it turned back to the light. The silver scale at Korroc&apos;s belt slept quiet through this
+              fight, unspent. But he keeps it close all the same. Some gifts you carry whether or not the day
+              asks for them.&rdquo;
             </p>
           </div>
 
@@ -457,25 +477,25 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The Painter’s Fury",
-                contribution: "Opened the queen-fight with a fireball turned to killing ice — a white starburst of frost that broke the swarms all at once. Turned a stunned ally invisible under vrock claws. Drove Radiance home in three flashing thrusts, the holy glaive blazing where it bit. Blinked three companions through solid stone to the surface. Now carries the citadel’s blueprints folded deep in his spellbook — “people don’t lightly meddle with a wizard’s spellbook.”",
+                contribution: "Radiance opened the towertop fight — the holy glaive driven home before the demons knew the air had spat enemies onto their roof. Turned a shocking-grasp inside out into a burst of killing cold. Then, across the gorge, loosed a fireball that fell not as flame but as acid over the enemy’s leadership, felling a whole swath at once. Folded the strike team through the air to land behind the army. And gave the freed prisoners his word — and bows. “Archers are always valuable in a war.”",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
                 role: "The Thunder’s Reach",
-                contribution: "Spotted the one silent tunnel-mouth — the way in — while the others read only noise. Crossed the treacherous cavern with a running kick the instant the ice erupted. Took the queen’s acid full in the chest and did not fall. Beat two vrocks down with holy-smite-lit fists, celestial fire along every knuckle. Reached the dying scout first and brought him back with his own hands.",
+                contribution: "Punched a schir clean off the tower and over the parapet. Lit his fists with holy fire against the vrock, celestial fury banked along every knuckle. Read the enemy’s critical points from across the gorge and asked to be put behind them — then hunted casters and leaders through the press until the whole army broke. Took the worst blows of the day standing, and accepted the strengthened life-link with a chuckle. “I’ll do my best.”",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "Shadow of Judgment",
-                contribution: "Scouted point through the whole nest, reading floors no one else could. Was moving before the ice even burst — the queen died on two daggers she never saw. Stunned and bleeding under a vrock’s talons, and rose. Read the drag-trail and the gnome-sized footprints where the scout was taken. Slammed the evidence on the war-council table — “We have a traitor amongst us” — then read his own father’s handwriting on a seventy-year-old letter.",
+                contribution: "Climbed the outer stair unseen, on his own feet, through a dark he was made for — and met a vrock that could see him anyway. Ran a gauntlet of demon and friendly arrows both at a dead sprint. Came up behind the vrock with mother’s knife and father’s and put the daggers in the seam under its wing, and it fell. At the war-table, looking at the last mark on the map: “Well, that’s our next target then.”",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Drifted down into the nest on dragonscale light to end an argument, hammer across his back. Planted himself as a wall between the wizard and the demons and rooted into the stone. Flung mythic protection across the whole cave to his stunned cousin, turning a talon aside on nothing. His life-bond drank the others’ wounds the whole fight. And he heard his own parents’ names read off a seventy-year-old letter.",
+                contribution: "Felt his cousin’s wounds bloom in his own chest from the towertop — “Thane is being attacked below!” — and could not reach him. Thickened the life-link to carry half of every blow Nageru took into the enemy’s rear. Turned back into the tentacles and the poison-cloud to pull a trapped Caleth free. Rolled healing waves over the whole company. And walked, at last, into the city his parents’ generation built and died losing.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -490,15 +510,15 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Eve of Drezen</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Striking distance · A traitor still unnamed</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Siege Begins</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">South bank encamped · The cemetery waits</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The gorge is cleared. The queen is dead, the swarm scattered, the Abyssal rift sealed by a
-              wizard who turned out to be far more than he seemed. And in a sealed satchel from the Queen
-              herself lie the reconstructed blueprints of Citadel Drezen — the way in, drawn seventy years
-              ago by dwarven hands the two Stoneveins would know anywhere. The army stands within striking
-              distance, and the assault goes in at dawn. But a saboteur still moves unfound inside the
-              company. Suspicion has a shape now — small, quick, quiet — and no proof at all.
+              The outer city is cleared. The watchtower fell, the bridge was taken and held under crusader
+              arrows, and some two hundred prisoners walked free from Paradise Hill — many of them now armed,
+              some in crusader steel taken back off the enemy&apos;s hoard. Irabeth brought the army up and
+              threw a siege camp across the south bank of the dry river. Ahead stand the citadel and a cemetery
+              no one has ever walked out of. And somewhere in the company a saboteur still moves — unproven,
+              unnamed, and not yet run to ground.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
