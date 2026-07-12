@@ -173,7 +173,7 @@ export default function WrathPage() {
         <div className="flex flex-col md:flex-row items-baseline justify-between border-b border-zinc-800 pb-4 mb-8">
           <div>
             <h2 className="font-cinzel text-3xl text-wotr-gold uppercase tracking-widest">Theater of War</h2>
-            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: The Siege of Drezen</p>
+            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: The Drezen Approach</p>
           </div>
           <div className="flex gap-4 mt-4 md:mt-0 text-[10px] font-bold uppercase tracking-widest">
             <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> Crusader Held</span>
@@ -207,13 +207,13 @@ export default function WrathPage() {
                 </div>
               </div>
 
-              {/* FLOATING HOTSPOT (The Bridge) */}
+              {/* FLOATING HOTSPOT (Ahari Bridge) */}
               <div className="absolute top-[56%] left-[40%] group/pin">
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">The Bridge</h4>
-                  <p className="text-sm text-zinc-400 italic">Taken and held under crusader arrows. The approach is open.</p>
+                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-red-600 text-base">Ahari Bridge</h4>
+                  <p className="text-sm text-zinc-400 italic">Still in demon hands. The western approach is not yet won.</p>
                 </div>
               </div>
 
@@ -221,9 +221,29 @@ export default function WrathPage() {
               <div className="absolute top-[39%] left-[75%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Paradise Hill</h4>
                   <p className="text-sm text-zinc-400 italic">Some two hundred prisoners freed. Many now carry bows for the crusade.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (The Unnamed Bridge) */}
+              <div className="absolute top-[62%] left-[82%] group/pin">
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">The Unnamed Bridge</h4>
+                  <p className="text-sm text-zinc-400 italic">Taken and held. Paradise Hill sealed at its back — nothing reaches the hill now but wings or magic.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (Crusader Camp) */}
+              <div className="absolute top-[79%] left-[84%] group/pin">
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Crusader Camp</h4>
+                  <p className="text-sm text-zinc-400 italic">Irabeth&apos;s army, camped on ground the enemy held that morning. The road west waits.</p>
                 </div>
               </div>
 
@@ -251,14 +271,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-zinc-300 text-base tracking-widest mb-2 border-b border-zinc-800 pb-1">The Ahari</h4>
               <p className="text-base text-zinc-500 leading-relaxed italic">
-                The dry riverbed that carried the army unseen to the walls. Now the south bank of it holds the siege camp.
+                The dry riverbed that carried the army unseen to Drezen&apos;s edge. Its western crossing remains demon-held; the camp sits instead south of the unnamed eastern bridge, below sealed Paradise Hill.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;We hold the outer city and camp beside a graveyard no one walks out of. I will not have this army sleeping blind next to it.&quot;
+                &quot;We hold one hill and one bridge — a foothold on the edge, no more. The west is not won, and a graveyard no one walks out of sits square in the road.&quot;
               </p>
             </div>
           </div>
@@ -447,11 +467,14 @@ export default function WrathPage() {
               hour before dawn, a hundred paladins and the four went forward into the ruins of Drezen. A
               watchtower fell first: schir demons on the roof and a vrock that could see the unseen, put down in
               blood. At Paradise Hill they broke a cellar door on some two hundred prisoners and freed them —
-              many took up fallen blades, and more were handed bows. The bridge came next, seized after
-              Caleth&apos;s fireball fell as acid across the enemy leadership and the cultist and tiefling camps
-              broke and routed. Irabeth brought the army up the dry riverbed as the sun cleared the walls, and
-              the siege of Drezen began — a camp thrown up on the south bank. Ahead, unread, a cemetery no one
-              who enters walks out of. That is the next target.
+              many took up fallen blades, and more were handed bows. Then the unnamed bridge south of the
+              hill, seized after Caleth&apos;s fireball fell as acid across the enemy leadership and the
+              cultist and tiefling camps on its far side broke and routed. The hill is sealed at the
+              crusade&apos;s back now — nothing reaches it without wings or foul magic — and Irabeth&apos;s
+              army camps on the very ground the enemy held that morning: a foothold on Drezen&apos;s edge, won
+              and paid for. The outer city is not cleared. The Ahari crossing to the west is still demon-held.
+              And square in the road west sits a cemetery no one who enters walks out of. That is the next
+              target.
             </p>
           </div>
 
@@ -463,10 +486,10 @@ export default function WrathPage() {
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
               &ldquo;She never lived to see Drezen. She fell above Kenabres so that others might one day stand
-              where she could not — and now her crusade camps inside the city&apos;s outer wall, one bought yard
-              of it turned back to the light. The silver scale at Korroc&apos;s belt slept quiet through this
-              fight, unspent. But he keeps it close all the same. Some gifts you carry whether or not the day
-              asks for them.&rdquo;
+              where she could not — and now her crusade holds its first ground on the city&apos;s edge, one
+              bought yard of it turned back to the light. The silver scale at Korroc&apos;s belt slept quiet
+              through this fight, unspent. But he keeps it close all the same. Some gifts you carry whether or
+              not the day asks for them.&rdquo;
             </p>
           </div>
 
@@ -495,7 +518,7 @@ export default function WrathPage() {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Felt his cousin’s wounds bloom in his own chest from the towertop — “Thane is being attacked below!” — and could not reach him. Thickened the life-link to carry half of every blow Nageru took into the enemy’s rear. Turned back into the tentacles and the poison-cloud to pull a trapped Caleth free. Rolled healing waves over the whole company. And walked, at last, into the city his parents’ generation built and died losing.",
+                contribution: "Felt his cousin’s wounds bloom in his own chest from the towertop — “Thane is being attacked below!” — and could not reach him. Thickened the life-link to carry half of every blow Nageru took into the enemy’s rear. Turned back into the tentacles and the poison-cloud to pull a trapped Caleth free. Rolled healing waves over the whole company. And set foot, at last, on the edge of the city his parents’ generation built and died losing.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -510,15 +533,16 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Siege Begins</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">South bank encamped · The cemetery waits</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Foothold on the Edge</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Paradise Hill sealed · The road west waits</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The outer city is cleared. The watchtower fell, the bridge was taken and held under crusader
-              arrows, and some two hundred prisoners walked free from Paradise Hill — many of them now armed,
-              some in crusader steel taken back off the enemy&apos;s hoard. Irabeth brought the army up and
-              threw a siege camp across the south bank of the dry river. Ahead stand the citadel and a cemetery
-              no one has ever walked out of. And somewhere in the company a saboteur still moves — unproven,
-              unnamed, and not yet run to ground.
+              A foothold, won and paid for. The watchtower fell, the unnamed bridge south of Paradise Hill was
+              taken and held under crusader arrows, and some two hundred prisoners walked free — many of them
+              now armed, some in crusader steel taken back off the enemy&apos;s hoard. The hill is sealed at the
+              army&apos;s back, and Irabeth&apos;s camp stands on ground the enemy held that morning. It is not
+              the siege — not yet. The outer city is uncleared, the west unwon, and square in the road sits a
+              cemetery no one has ever walked out of. And somewhere in the company a saboteur still moves —
+              unproven, unnamed, and not yet run to ground.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
