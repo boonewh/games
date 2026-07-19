@@ -123,7 +123,7 @@ export default function WrathPage() {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
             {/* Level/Mythic Tier — KEEP IN SYNC with the Campaign Arc Status milestone box further down this page. Both display this info; both must update together. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 7 Gestalt • Mythic Tier 1</span>
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 8 Gestalt • Mythic Tier 2</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -209,11 +209,11 @@ export default function WrathPage() {
 
               {/* FLOATING HOTSPOT (Ahari Bridge) */}
               <div className="absolute top-[56%] left-[40%] group/pin">
-                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
-                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-red-600 text-base">Ahari Bridge</h4>
-                  <p className="text-sm text-zinc-400 italic">Still in demon hands. The western approach is not yet won.</p>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Ahari Bridge</h4>
+                  <p className="text-sm text-zinc-400 italic">Cleared. Four chained beasts meant to drop the span are dead; engineers shore the piers. The road west is open.</p>
                 </div>
               </div>
 
@@ -238,22 +238,22 @@ export default function WrathPage() {
               </div>
 
               {/* FLOATING HOTSPOT (Crusader Camp) */}
-              <div className="absolute top-[79%] left-[84%] group/pin">
+              <div className="absolute top-[69%] left-[39%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Crusader Camp</h4>
-                  <p className="text-sm text-zinc-400 italic">Irabeth&apos;s army, camped on ground the enemy held that morning. The road west waits.</p>
+                  <p className="text-sm text-zinc-400 italic">The army at the Ahari&apos;s south edge, within sight of the citadel&apos;s silhouette. The next step is the last one.</p>
                 </div>
               </div>
 
               {/* FLOATING HOTSPOT (The Cemetery) */}
               <div className="absolute top-[67%] left-[9%] group/pin">
-                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
-                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-red-600 text-base">The Cemetery</h4>
-                  <p className="text-sm text-zinc-400 italic">No one who enters returns. Unread, and next on the list.</p>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-wardstone-blue text-base">The Cemetery</h4>
+                  <p className="text-sm text-zinc-400 italic">The curse is broken and the tomb re-hallowed. The dead of the First Crusade sleep clean at last.</p>
                 </div>
               </div>
             </div>
@@ -271,14 +271,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-zinc-300 text-base tracking-widest mb-2 border-b border-zinc-800 pb-1">The Ahari</h4>
               <p className="text-base text-zinc-500 leading-relaxed italic">
-                The dry riverbed that carried the army unseen to Drezen&apos;s edge. Its western crossing remains demon-held; the camp sits instead south of the unnamed eastern bridge, below sealed Paradise Hill.
+                The dry riverbed that carried the army unseen to Drezen&apos;s edge. Its crossing was rigged to fall — four demon-fused beasts chained to the piers as living demolition. They are dead, the chains are broken, and the army now camps at the span&apos;s south edge while engineers make it fit to carry a crusade.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;We hold one hill and one bridge — a foothold on the edge, no more. The west is not won, and a graveyard no one walks out of sits square in the road.&quot;
+                &quot;The thing we killed at the bridge was too strong for its own skin. Whatever power woke in our four at Kenabres — the enemy has found a version of its own.&quot;
               </p>
             </div>
           </div>
@@ -454,27 +454,29 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XII — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Strain the Smith Takes</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIII — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Sound the Thunder Makes</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The plan was laid in a whisper — a hand-span of embers and five heads bent close, because a
-              traitor still walked the camp and no council could be trusted to the open air. In the last black
-              hour before dawn, a hundred paladins and the four went forward into the ruins of Drezen. A
-              watchtower fell first: schir demons on the roof and a vrock that could see the unseen, put down in
-              blood. At Paradise Hill they broke a cellar door on some two hundred prisoners and freed them —
-              many took up fallen blades, and more were handed bows. Then the unnamed bridge south of the
-              hill, seized after Caleth&apos;s fireball fell as acid across the enemy leadership and the
-              cultist and tiefling camps on its far side broke and routed. The hill is sealed at the
-              crusade&apos;s back now — nothing reaches it without wings or foul magic — and Irabeth&apos;s
-              army camps on the very ground the enemy held that morning: a foothold on Drezen&apos;s edge, won
-              and paid for. The outer city is not cleared. The Ahari crossing to the west is still demon-held.
-              And square in the road west sits a cemetery no one who enters walks out of. That is the next
-              target.
+              The vote went around the fire and ended on Korroc, who would not lock the company in a tie:
+              the cemetery first. Thane walked out of the arguing and into the dark to scout ahead — and
+              found, with Nageru shadowing him, something worse along the way: four huge demon-fused beasts
+              chained to the piers of Ahari Bridge, living demolition waiting for the order to pull the
+              crusade&apos;s road down into the riverbed. At dawn the four broke the cemetery&apos;s curse —
+              ghouls in the antechamber, a winged horror feeding in the dark, and a desecrated mausoleum of
+              Iomedae that Caleth&apos;s quiet unmaking turned back to hallowed ground. Then the bridge:
+              handlers dropped before they could shout, a caster&apos;s fireball returned to him as ice,
+              every chain shattered off the piers by the adamantine hammer. And then it came down out of the
+              north sky — a three-headed thing, snow leopard and white dragon and mountain goat, breathing a
+              storm of cutting ice that nearly finished Korroc and left Caleth a breath from the dark before
+              daggers from nowhere ended it. By evening the army stood camped at the Ahari&apos;s south edge,
+              engineers shoring the span. And Aravashnial gave the day its dread: the three-headed beast was
+              enhanced — in the same way the stone changed the four. The enemy is making mythic things of
+              its own.
             </p>
           </div>
 
@@ -485,11 +487,10 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She never lived to see Drezen. She fell above Kenabres so that others might one day stand
-              where she could not — and now her crusade holds its first ground on the city&apos;s edge, one
-              bought yard of it turned back to the light. The silver scale at Korroc&apos;s belt slept quiet
-              through this fight, unspent. But he keeps it close all the same. Some gifts you carry whether or
-              not the day asks for them.&rdquo;
+              &ldquo;She never lived to see Drezen. But the crusade she died for stands now at the Ahari with
+              the citadel in open sight, and the four she pulled from the sky are twice what they were when
+              she saved them. Her scales slept quiet at their belts through the whole of the bridge —
+              unspent, patient. Some gifts keep their own counsel about when they will be needed.&rdquo;
             </p>
           </div>
 
@@ -500,25 +501,25 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The Painter’s Fury",
-                contribution: "Radiance opened the towertop fight — the holy glaive driven home before the demons knew the air had spat enemies onto their roof. Turned a shocking-grasp inside out into a burst of killing cold. Then, across the gorge, loosed a fireball that fell not as flame but as acid over the enemy’s leadership, felling a whole swath at once. Folded the strike team through the air to land behind the army. And gave the freed prisoners his word — and bows. “Archers are always valuable in a war.”",
+                contribution: "Put lightning through a ghoul at the range of a caress, then unmade a tomb’s desecration with a quiet incantation — hallowed ground handed back to Iomedae. Took an enemy caster’s own fireball, folded it inside out, and returned it as a flower of ice across the bridge deck. Threw a ward of warmth over every friend he could see when the chimera breathed. Was dragged to the very edge of the dark by the dragon head’s bite — and walked back into camp within the hour, straight as a spear. “Damn, that hurt.”",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
                 role: "The Thunder’s Reach",
-                contribution: "Punched a schir clean off the tower and over the parapet. Lit his fists with holy fire against the vrock, celestial fury banked along every knuckle. Read the enemy’s critical points from across the gorge and asked to be put behind them — then hunted casters and leaders through the press until the whole army broke. Took the worst blows of the day standing, and accepted the strengthened life-link with a chuckle. “I’ll do my best.”",
+                contribution: "Followed Thane into the dark without being asked, and read the chained beasts for what they were — living demolition. Caught a crossbow bolt out of the air and returned it through its owner. And when the chimera’s ice put Korroc halfway to his knees and the dragon head bit down, the still water finally broke: fists lit with holy fire, a leap across the channel, and the first time any of them had ever heard him raise his voice — one word. “NO!” He was first to fallen Caleth, grace ready in both hands.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "Shadow of Judgment",
-                contribution: "Climbed the outer stair unseen, on his own feet, through a dark he was made for — and met a vrock that could see him anyway. Ran a gauntlet of demon and friendly arrows both at a dead sprint. Came up behind the vrock with mother’s knife and father’s and put the daggers in the seam under its wing, and it fell. At the war-table, looking at the last mark on the map: “Well, that’s our next target then.”",
+                contribution: "Walked out of a council that kept talking and went to read the ground himself — the chained beasts were found because he would not wait. Picked both locks of the cursed mausoleum (“Big doors, common lock”) and kept the door while the paladins cleaned, a watchman’s verse of the same prayer. Unseen through the whole of the bridge fight — and when the chimera reared over fallen Caleth, mother’s knife and father’s found the one seam where its three lives ran together. It died mid-scream.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Felt his cousin’s wounds bloom in his own chest from the towertop — “Thane is being attacked below!” — and could not reach him. Thickened the life-link to carry half of every blow Nageru took into the enemy’s rear. Turned back into the tentacles and the poison-cloud to pull a trapped Caleth free. Rolled healing waves over the whole company. And set foot, at last, on the edge of the city his parents’ generation built and died losing.",
+                contribution: "Broke the war-council deadlock by voting against his own argument — “Cemetery. I won’t lock us up.” Shattered every chain off the Ahari’s piers with the adamantine hammer. Took the chimera’s winter twice as deep as any of them — a child of the forge, and cold finds him the way water finds a crack — and let go of the life-link rather than fall, standing alone in his own body for the first time in days. Rooted into the stone, took three heads on his shield, and was still standing when it died.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -533,23 +534,23 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Foothold on the Edge</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">Paradise Hill sealed · The road west waits</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Road West Is Open</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Ahari cleared · The citadel in sight</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              A foothold, won and paid for. The watchtower fell, the unnamed bridge south of Paradise Hill was
-              taken and held under crusader arrows, and some two hundred prisoners walked free — many of them
-              now armed, some in crusader steel taken back off the enemy&apos;s hoard. The hill is sealed at the
-              army&apos;s back, and Irabeth&apos;s camp stands on ground the enemy held that morning. It is not
-              the siege — not yet. The outer city is uncleared, the west unwon, and square in the road sits a
-              cemetery no one has ever walked out of. And somewhere in the company a saboteur still moves —
-              unproven, unnamed, and not yet run to ground.
+              The cemetery&apos;s curse is broken, and the dead of the First Crusade sleep clean. Ahari Bridge
+              stands — its four chained engines dead, its chains shattered, its strained piers in the
+              engineers&apos; hands — and the army camps at its south edge with the citadel&apos;s silhouette
+              on the sky ahead. The four came out of the day changed again: the power that woke in them at
+              Kenabres has deepened. So has the dread that answers it. The three-headed thing they killed at
+              the bridge was enhanced the way the stone enhanced them — the enemy is making mythic things of
+              its own. And the saboteur in the company remains unproven, unnamed, and loose.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">1</span></span>
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">2</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">7</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">8</span></span>
             </div>
           </div>
 
