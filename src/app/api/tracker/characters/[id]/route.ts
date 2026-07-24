@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { bad, fail, forbidden, json, notFound, requireCharacter } from '@/lib/tracker/http'
 import { isPartyMember } from '@/lib/tracker/auth'
-import type { AbilitySection, Character, CharacterDetail, SpellDcEntry } from '@/lib/tracker/types'
+import type { AbilitySection, Character, CharacterDetail, SpellDcEntry, SpellPenEntry } from '@/lib/tracker/types'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -55,7 +55,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       condition(*),
       resource_pool(*),
       spell(*),
-      spell_dc_entry(*)
+      spell_dc_entry(*),
+      spell_pen_entry(*)
     `
     )
     .eq('id', id)
@@ -66,6 +67,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     .order('level', { referencedTable: 'spell', ascending: true })
     .order('name', { referencedTable: 'spell', ascending: true })
     .order('sort_order', { referencedTable: 'spell_dc_entry', ascending: true })
+    .order('sort_order', { referencedTable: 'spell_pen_entry', ascending: true })
     .single()
 
   if (error) return fail(error.message)
@@ -82,6 +84,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     resource_pool,
     spell,
     spell_dc_entry,
+    spell_pen_entry,
     ...character
   } = data as Character & {
     damage_reduction: CharacterDetail['drs']
@@ -93,6 +96,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     resource_pool: CharacterDetail['pools']
     spell: CharacterDetail['spells']
     spell_dc_entry: SpellDcEntry[]
+    spell_pen_entry: SpellPenEntry[]
   }
 
   const detail: CharacterDetail = {
@@ -105,7 +109,8 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     conditions: condition ?? [],
     pools: resource_pool ?? [],
     spells: spell ?? [],
-    spell_dc_entries: spell_dc_entry ?? []
+    spell_dc_entries: spell_dc_entry ?? [],
+    spell_pen_entries: spell_pen_entry ?? []
   }
 
   return json({ character: detail })

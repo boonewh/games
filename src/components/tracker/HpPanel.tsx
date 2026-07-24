@@ -7,6 +7,7 @@ import { CharacterEditModal } from './CharacterEditModal'
 import { ConditionsBar } from './ConditionsBar'
 import { PoolsCard } from './PoolsCard'
 import { SpellDcsCard } from './SpellDcsCard'
+import { SpellPenCard } from './SpellPenCard'
 
 interface Props {
   character: CharacterDetail
@@ -510,8 +511,10 @@ export function HpPanel({ character, onChanged }: Props) {
 
         {/* Spell Penetration */}
         <SpellPenCard
-          value={character.spell_penetration}
-          onCommit={(n) => commitStat('spell_penetration', n)}
+          characterId={character.id}
+          spellPens={character.spell_pen_entries}
+          onChanged={onChanged}
+          className="flex-[1_1_190px]"
         />
 
         {/* Conditions */}
@@ -595,73 +598,6 @@ function DefenseStepper({
         >
           +
         </button>
-      </div>
-    </div>
-  )
-}
-
-function SpellPenCard({
-  value,
-  onCommit
-}: {
-  value: number | null
-  onCommit: (next: number) => void
-}) {
-  const [draft, setDraft] = useState<number | null>(value)
-  const commitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    if (commitTimer.current == null) setDraft(value)
-  }, [value])
-
-  useEffect(() => () => {
-    if (commitTimer.current) clearTimeout(commitTimer.current)
-  }, [])
-
-  function bump(delta: number) {
-    setDraft((prev) => {
-      const next = (prev ?? 0) + delta
-      if (commitTimer.current) clearTimeout(commitTimer.current)
-      commitTimer.current = setTimeout(() => {
-        commitTimer.current = null
-        onCommit(next)
-      }, 400)
-      return next
-    })
-  }
-
-  const display = draft != null ? (draft >= 0 ? `+${draft}` : `${draft}`) : '—'
-
-  return (
-    <div className="flex-[1_1_190px] rounded-xl p-[14px_16px]"
-      style={{ background: 'var(--panel, #17130d)', border: '1px solid var(--border, rgba(190,158,92,0.14))' }}>
-      <div className="flex items-center justify-between">
-        <span className="font-oswald uppercase tracking-[.14em] text-[11.5px]" style={{ color: 'var(--muted, #9a907c)' }}>Spell Pen.</span>
-      </div>
-      <div className="flex items-center gap-2 mt-2.5">
-        <span className="flex-1 font-oswald uppercase tracking-[.05em] text-[12.5px]" style={{ color: 'var(--ink, #e8e0d0)' }}>
-          Spell Pen
-        </span>
-        <span className="font-cinzel text-[20px] min-w-[1.8ch] text-center" style={{ color: 'var(--gold, #caa14e)' }}>
-          {display}
-        </span>
-        <button
-          onClick={() => bump(-1)}
-          className="px-[7px] py-[2px] rounded-md font-oswald text-[11px] cursor-pointer"
-          style={{ background: 'transparent', border: '1px solid rgba(204,77,66,.4)', color: 'var(--dmg, #cc4d42)' }}
-        >
-          −1
-        </button>
-        <button
-          onClick={() => bump(1)}
-          className="px-[7px] py-[2px] rounded-md font-oswald text-[11px] cursor-pointer"
-          style={{ background: 'transparent', border: '1px solid rgba(52,162,104,.4)', color: 'var(--heal, #34a268)' }}
-        >
-          +1
-        </button>
-      </div>
-      <div className="text-[11px] italic mt-2" style={{ color: 'var(--faint, #6b6253)' }}>
-        CL check vs spell resistance
       </div>
     </div>
   )

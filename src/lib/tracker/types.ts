@@ -196,6 +196,15 @@ export interface SpellDcEntry {
   sort_order: number
 }
 
+export interface SpellPenEntry {
+  id: string
+  character_id: string
+  name: string
+  bonus: number
+  notes: string | null
+  sort_order: number
+}
+
 export interface Spell {
   id: string
   character_id: string
@@ -234,6 +243,7 @@ export interface CharacterDetail extends Character {
   pools: ResourcePool[]
   spells: Spell[]
   spell_dc_entries: SpellDcEntry[]
+  spell_pen_entries: SpellPenEntry[]
 }
 
 export interface DamageRequest {
