@@ -52,6 +52,7 @@ function detail(over: Partial<CharacterDetail> = {}): CharacterDetail {
     pools: [],
     spells: [],
     spell_dc_entries: [],
+    spell_pen_entries: [],
     ...over
   }
 }
