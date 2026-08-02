@@ -10,6 +10,7 @@ import { NewCharacterModal } from '@/components/tracker/NewCharacterModal'
 import { PartiesSection } from '@/components/tracker/PartiesSection'
 import { ZoomControls } from '@/components/tracker/ZoomControls'
 import { useTrackerZoom } from '@/hooks/useTrackerZoom'
+import { readApiJson } from '@/lib/tracker/client-http'
 
 export default function TrackerRosterPage() {
   const [characters, setCharacters] = useState<Character[]>([])
@@ -22,8 +23,7 @@ export default function TrackerRosterPage() {
     setError(null)
     try {
       const res = await fetch('/api/tracker/characters')
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
+      const json = await readApiJson<{ characters?: Character[] }>(res)
       setCharacters(json.characters ?? [])
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))

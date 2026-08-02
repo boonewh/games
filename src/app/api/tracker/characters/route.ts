@@ -2,22 +2,26 @@
 
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { bad, fail, forbidden, json, requireSession } from '@/lib/tracker/http'
+import { bad, fail, forbidden, json, requireSession, unexpected } from '@/lib/tracker/http'
 import { isPartyMember } from '@/lib/tracker/auth'
 import type { CreateCharacterInput } from '@/lib/tracker/types'
 
 export async function GET() {
-  const auth = await requireSession()
-  if ('error' in auth) return auth.error
+  try {
+    const auth = await requireSession()
+    if ('error' in auth) return auth.error
 
-  const { data, error } = await supabase
-    .from('character')
-    .select('*')
-    .eq('user_id', auth.session.userId)
-    .order('name')
+    const { data, error } = await supabase
+      .from('character')
+      .select('*')
+      .eq('user_id', auth.session.userId)
+      .order('name')
 
-  if (error) return fail(error.message)
-  return json({ characters: data ?? [] })
+    if (error) return fail(error.message)
+    return json({ characters: data ?? [] })
+  } catch (error) {
+    return unexpected(error, 'characters')
+  }
 }
 
 export async function POST(req: NextRequest) {

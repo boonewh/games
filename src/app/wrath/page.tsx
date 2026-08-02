@@ -203,7 +203,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken and its roof breached — the strike team is inside. Still enemy-held: an unmapped dungeon below, and the whole citadel between them and its master. The war ends here.</p>
+                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken, its roof breached, its upper halls being fought through room by room. Still enemy-held — a master somewhere ahead, and, far below, a stair the old maps mark only for storage, where they believe the stolen Banner now lies in the dark. The war ends here.</p>
                 </div>
               </div>
 
@@ -264,14 +264,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. The road to its gate has been run at last: the four are inside the walls, and what matters now waits in the dark below.
+                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. The four are still fighting their way through its upper halls; what matters most, they suspect, lies far below — past a stair the old dwarven maps mark for storage and nothing more.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;We caught the Queen&apos;s own chronicler with shadowblood on her hands and a knife in the dark. If they can turn one who sat at Galfrey&apos;s table, trust nothing inside these walls — and less below them.&quot;
+                &quot;A demon met them in a chapel wearing the Inheritor&apos;s own face, and holy men knelt to it before the blades came out. Trust nothing inside these walls that wears a kind face or a sacred one — the enemy has learned to forge both.&quot;
               </p>
             </div>
           </div>
@@ -447,29 +447,29 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIV — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Who Has Business Inside</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XV — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Beauty Has Teeth</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The saboteur the company had hunted since Kenabres finally showed a hand in the dark —
-              shadowblood flung into a prisoner&apos;s cage, an invisible knife opening a tent-wall — and at
-              the end of it, soaked and cornered and bound, stood the Queen&apos;s own chronicler: a Templar
-              spy who had walked the whole march at their side. With the traitor caught, the four turned to
-              the towers. Four watchtowers of goat-headed demons — creatures that breathe boiling blood and
-              shrug off fire and lightning both — guarded the army&apos;s road to the citadel, and the four
-              climbed them in the dark, broke every one, and fouled the catapults that crowned them. Then
-              Caleth folded the party onto the citadel&apos;s own roof, where a succubus had left a dozen dead
-              without a single defensive wound. In a barracks of butchered siege-crews below, they found a
-              captain who had turned on her own masters — and Thane, reading the bodies, stayed the killing
-              blow and sent her out to safety instead. She left them two gifts: a dungeon beneath every map
-              the dwarves ever drew, where the stolen Banner is kept, and word of a crack in the enemy&apos;s
-              house — the commander&apos;s own brother, ill-used and resentful, who might yet open a door for
-              them. The strike team stands inside the walls at last, an unmapped dark below and a whole
-              citadel ahead.
+              Past the roof-door and down into the citadel proper, the four fought room by room through a
+              fortress that lied with craft. They silenced a gallery of archers raining death on the army
+              below, then opened a chapel door onto a demon wearing the Inheritor&apos;s own face — a
+              beautiful, holy lie that had ensnared four crusaders and turned even a sworn paladin&apos;s
+              guard against him for a breath, until dwarven blades tore it out of its stolen shape and
+              banished it. Deeper in, the Banner they had climbed a fortress to find proved a decoy — but a
+              suit of gold-and-mithral armor beside it settled onto Korroc as though a master had forged it
+              for him and no one else, and only now, after all these years, brought it home. They cut down a
+              vulture-headed horror and a fire-hooved demon in the ruined great court, broke a knot of the
+              enemy in the halls, and came at last to a chapel of the dwarven Father — its every surface
+              defiled, its statues risen to hunt the two dwarves among them. They shattered the statues; and
+              then Caleth knelt and washed the filth away with the smallest magics he knew, giving a defiled
+              holy place its face back. Deeper into the citadel there is more to fight through yet, and beyond
+              it the way down — a stair the old dwarven maps mark for storage alone, and only guesswork for
+              whatever the enemy has carved beneath it.
             </p>
           </div>
 
@@ -480,11 +480,11 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She hid among the people of Kenabres as a woman in grey, and died as their shield. Now
-              the four she pulled from the falling sky stand inside the enemy&apos;s own citadel — and in its
-              darkest room, one of them lowered his blades and gave mercy to a stranger who had not earned it.
-              She would have known that choice. It was the one she made every day she walked the world wearing
-              a kind face.&rdquo;
+              &ldquo;She wore a plain grey face over all her glory and walked among the people of Kenabres
+              because she loved them, and died as their shield. In the enemy&apos;s citadel her four survivors
+              met the mirror of that: a thing that wore glory over rot, a holy face pulled across a hunger.
+              They are learning what she always knew — that a face can be a gift or a lie, and telling the two
+              apart is the whole of the war.&rdquo;
             </p>
           </div>
 
@@ -495,25 +495,25 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The Painter’s Fury",
-                contribution: "Measured four unknown towers off a map with his fingertips, gave the whole company the walls to climb them, and folded the strike team from roof to roof through the dark. Turned his fire inside-out against demons that only laughed at flame — bolts of force and killing cold where they braced for a blaze. And when the last enemy in the citadel proved to be a victim, he wrote her a safe-passage note in his own hand and sent her out of the war with a touch.",
+                contribution: "Named the demon in Iomedae’s stolen face for the lie it was in a single glance — and learned, when it reached past his guard anyway, that knowing a thing is evil is not always proof against it. He tore a stone-jawed horror off his own chest with a bolt of the wardstone’s own fire, and put holy steel through demons that shrugged off flame. Then, in the defiled chapel of a god not his own, he spent his smallest magics washing the filth from the Father’s house — beauty given back where a demon had only ever defiled it.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
                 role: "The Thunder’s Reach",
-                contribution: "Heard a fight erupt across the entire width of camp and simply arrived — a bronze blur, one fist, and the invisible saboteur folded, stunned. Warded against fire, he let the towers’ boiling blood slide off him and crossed their tops in a blink to break the goat-headed things that held them. And when the traitor sat bound in the command tent, it was Nageru who put his face to hers and asked the only question worth asking: why.",
+                contribution: "Plucked an arrow out of the air point-blank and sent it back through the man who loosed it, then found the hidden seam in a wall that opened the way to the citadel’s treasury. When statues rose in the Father’s chapel to hunt the dwarves among them, the monk who fights with nothing but his hands took up a fallen adamantine axe and used it — wordless, exact — smashing the runed stone off his brothers. Every strike a prayer, whatever the shape of the tool.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "Shadow of Judgment",
-                contribution: "Ran the saboteur to ground at last — dropped water on an invisible knife-hand to paint it into the open, wore its acid across his shoulder, and pulled the hood back on the Queen’s own chronicler, a Templar spy the whole march long. Then, in the citadel, the harder judgment: he read a room full of the enemy’s dead, saw a captain who had turned on her own masters, and lowered his blades. A doorkeeper does not ask whether the trespasser is wicked — only whether they have business inside. He judged the crime, and let the woman live.",
+                contribution: "Read a fortress built to deceive and opened its every hidden door — the archer-gallery lock that silenced the arrows falling on the army, and the two stone doors behind Nageru’s seam that led to the treasury. And when a demon stood cloaked in the Inheritor’s own holy face, it was Thane’s daggers, driven up under its guard, that tore it out of the stolen shape and forced the truth into the light. A false credential at a sacred door is still a trespasser — and the doorkeeper knows one on sight.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Knelt in the mud and named the poison by its smell — shadowblood — and dragged a convulsing prisoner back from death, then felt down the bond that his cousin was under attack a camp away. On the towers he rooted into the stone until it turned a demon’s killing thrust to a shallow one; in the citadel he drank half of Nageru’s wounds down the link so the monk could stand. And when a spared enemy swore herself to their cause, he named the risk plainly — and still let the mercy stand.",
+                contribution: "Knew the Inheritor’s face on sight and named the lie wearing it — then put his own body between the fight and four ensnared crusaders and tried to talk them free rather than cut them down. He carried the ruined great court on his shoulders, drinking his cousin’s wounds down the bond and refusing to fall. And in a demon’s hoard he found a suit of gold-and-mithral armor that closed around him as though it had been forged for him and no one else — a thing he feels, bone-deep, he ought to remember, and cannot yet.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -528,16 +528,17 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Inside the Walls</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The saboteur unmasked · The strike team within Drezen</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Toward the Dark Below</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The false vision undone · The way down still ahead</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The traitor who shadowed the march since Kenabres is caught at last — the Queen&apos;s own
-              chronicler, a Templar spy, now bound and silenced under guard. The four watchtowers that would
-              have torn the army apart are broken, their catapults fouled, and the crusade presses up the
-              Ahari toward the gate. The strike team stands inside Citadel Drezen itself, high above a war it
-              can hear starting below — a succubus loose in the halls, a dungeon beneath every map the dwarves
-              ever drew, the stolen Banner somewhere in that dark, and one thin thread of hope: the enemy
-              commander&apos;s ill-used brother, who may open a door no siege could force.
+              Room by room, the four are fighting through the upper citadel — an archer-gallery silenced, a
+              demon that wore the Inheritor&apos;s own face unmasked and banished, the crusaders it had
+              ensnared set free, and the defiled chapel of the dwarven Father washed clean. The Banner they
+              came to seize proved a decoy; the true one, they believe, lies far below — down a stair the old
+              dwarven maps mark for storage alone, and beneath it whatever the enemy has since carved into the
+              dark. More of the citadel stands between them and that descent — the master somewhere ahead,
+              another demon of the same stolen-face kind still loose in the citadel — and the whole
+              war may turn on what they find at the bottom.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>

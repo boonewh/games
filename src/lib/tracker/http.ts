@@ -18,6 +18,12 @@ export const notFound = (what = 'not found') => json({ error: what }, { status: 
 export const bad = (msg: string) => json({ error: msg }, { status: 400 })
 export const fail = (msg: string) => json({ error: msg }, { status: 500 })
 
+export function unexpected(error: unknown, context: string): NextResponse {
+  const requestId = crypto.randomUUID().slice(0, 8)
+  console.error(`[tracker:${context}] ${requestId}`, error)
+  return json({ error: `Unable to load ${context}`, requestId }, { status: 500 })
+}
+
 /**
  * Resolve session + ensure profile + check ownership for a character resource.
  * Returns either `{ session }` on success or `{ error }` (a ready-to-return NextResponse).

@@ -2,7 +2,7 @@
 
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { bad, fail, json, requireSession } from '@/lib/tracker/http'
+import { bad, fail, json, requireSession, unexpected } from '@/lib/tracker/http'
 import type { Party } from '@/lib/tracker/types'
 
 interface CreatePartyBody {
@@ -16,36 +16,40 @@ function generateInviteCode(): string {
 }
 
 export async function GET() {
-  const auth = await requireSession()
-  if ('error' in auth) return auth.error
+  try {
+    const auth = await requireSession()
+    if ('error' in auth) return auth.error
 
-  // Parties I'm GM of OR a member of
-  const { data: gmParties, error: gmErr } = await supabase
-    .from('party')
-    .select('*')
-    .eq('gm_user_id', auth.session.userId)
-  if (gmErr) return fail(gmErr.message)
+    // Parties I'm GM of OR a member of
+    const { data: gmParties, error: gmErr } = await supabase
+      .from('party')
+      .select('*')
+      .eq('gm_user_id', auth.session.userId)
+    if (gmErr) return fail(gmErr.message)
 
-  const { data: memberships, error: memErr } = await supabase
-    .from('party_member')
-    .select('party_id, party(*)')
-    .eq('user_id', auth.session.userId)
-  if (memErr) return fail(memErr.message)
+    const { data: memberships, error: memErr } = await supabase
+      .from('party_member')
+      .select('party_id, party(*)')
+      .eq('user_id', auth.session.userId)
+    if (memErr) return fail(memErr.message)
 
   // Supabase types the nested `party` as an array (since FK relationships are
   // generically many-to-many in the typegen), but at runtime it's a single
   // object because party_id is a single FK. Cast through unknown per the
   // Supabase error suggestion.
-  const memberParties: Party[] = (memberships ?? [])
-    .map((m) => (m as unknown as { party: Party | null }).party)
-    .filter((p): p is Party => p != null)
+    const memberParties: Party[] = (memberships ?? [])
+      .map((m) => (m as unknown as { party: Party | null }).party)
+      .filter((p): p is Party => p != null)
 
-  // Merge and dedupe by id
-  const all = new Map<string, Party>()
-  for (const p of gmParties ?? []) all.set(p.id, p as Party)
-  for (const p of memberParties) all.set(p.id, p)
+    // Merge and dedupe by id
+    const all = new Map<string, Party>()
+    for (const p of gmParties ?? []) all.set(p.id, p as Party)
+    for (const p of memberParties) all.set(p.id, p)
 
-  return json({ parties: Array.from(all.values()) })
+    return json({ parties: Array.from(all.values()) })
+  } catch (error) {
+    return unexpected(error, 'parties')
+  }
 }
 
 export async function POST(req: NextRequest) {

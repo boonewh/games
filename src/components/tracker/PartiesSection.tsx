@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import type { Party } from '@/lib/tracker/types'
+import { readApiJson } from '@/lib/tracker/client-http'
 
 export function PartiesSection() {
   const { data: session } = useSession()
@@ -18,8 +19,7 @@ export function PartiesSection() {
     setError(null)
     try {
       const res = await fetch('/api/tracker/parties')
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`)
+      const json = await readApiJson<{ parties?: Party[] }>(res)
       setParties(json.parties ?? [])
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
