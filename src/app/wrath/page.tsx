@@ -203,7 +203,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">The seat of the city&apos;s command. Still enemy-held. The war ends here.</p>
+                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken and its roof breached — the strike team is inside. Still enemy-held: an unmapped dungeon below, and the whole citadel between them and its master. The war ends here.</p>
                 </div>
               </div>
 
@@ -243,7 +243,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Crusader Camp</h4>
-                  <p className="text-sm text-zinc-400 italic">The army at the Ahari&apos;s south edge, within sight of the citadel&apos;s silhouette. The next step is the last one.</p>
+                  <p className="text-sm text-zinc-400 italic">The towers are down and the signal given. The army presses up the Ahari toward the citadel&apos;s gate while the four strike from within.</p>
                 </div>
               </div>
 
@@ -264,21 +264,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. Everything else is the road to its gate.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-cinzel text-zinc-300 text-base tracking-widest mb-2 border-b border-zinc-800 pb-1">The Ahari</h4>
-              <p className="text-base text-zinc-500 leading-relaxed italic">
-                The dry riverbed that carried the army unseen to Drezen&apos;s edge. Its crossing was rigged to fall — four demon-fused beasts chained to the piers as living demolition. They are dead, the chains are broken, and the army now camps at the span&apos;s south edge while engineers make it fit to carry a crusade.
+                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. The road to its gate has been run at last: the four are inside the walls, and what matters now waits in the dark below.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;The thing we killed at the bridge was too strong for its own skin. Whatever power woke in our four at Kenabres — the enemy has found a version of its own.&quot;
+                &quot;We caught the Queen&apos;s own chronicler with shadowblood on her hands and a knife in the dark. If they can turn one who sat at Galfrey&apos;s table, trust nothing inside these walls — and less below them.&quot;
               </p>
             </div>
           </div>
@@ -454,29 +447,29 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIII — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Sound the Thunder Makes</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIV — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Who Has Business Inside</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The vote went around the fire and ended on Korroc, who would not lock the company in a tie:
-              the cemetery first. Thane walked out of the arguing and into the dark to scout ahead — and
-              found, with Nageru shadowing him, something worse along the way: four huge demon-fused beasts
-              chained to the piers of Ahari Bridge, living demolition waiting for the order to pull the
-              crusade&apos;s road down into the riverbed. At dawn the four broke the cemetery&apos;s curse —
-              ghouls in the antechamber, a winged horror feeding in the dark, and a desecrated mausoleum of
-              Iomedae that Caleth&apos;s quiet unmaking turned back to hallowed ground. Then the bridge:
-              handlers dropped before they could shout, a caster&apos;s fireball returned to him as ice,
-              every chain shattered off the piers by the adamantine hammer. And then it came down out of the
-              north sky — a three-headed thing, snow leopard and white dragon and mountain goat, breathing a
-              storm of cutting ice that nearly finished Korroc and left Caleth a breath from the dark before
-              daggers from nowhere ended it. By evening the army stood camped at the Ahari&apos;s south edge,
-              engineers shoring the span. And Aravashnial gave the day its dread: the three-headed beast was
-              enhanced — in the same way the stone changed the four. The enemy is making mythic things of
-              its own.
+              The saboteur the company had hunted since Kenabres finally showed a hand in the dark —
+              shadowblood flung into a prisoner&apos;s cage, an invisible knife opening a tent-wall — and at
+              the end of it, soaked and cornered and bound, stood the Queen&apos;s own chronicler: a Templar
+              spy who had walked the whole march at their side. With the traitor caught, the four turned to
+              the towers. Four watchtowers of goat-headed demons — creatures that breathe boiling blood and
+              shrug off fire and lightning both — guarded the army&apos;s road to the citadel, and the four
+              climbed them in the dark, broke every one, and fouled the catapults that crowned them. Then
+              Caleth folded the party onto the citadel&apos;s own roof, where a succubus had left a dozen dead
+              without a single defensive wound. In a barracks of butchered siege-crews below, they found a
+              captain who had turned on her own masters — and Thane, reading the bodies, stayed the killing
+              blow and sent her out to safety instead. She left them two gifts: a dungeon beneath every map
+              the dwarves ever drew, where the stolen Banner is kept, and word of a crack in the enemy&apos;s
+              house — the commander&apos;s own brother, ill-used and resentful, who might yet open a door for
+              them. The strike team stands inside the walls at last, an unmapped dark below and a whole
+              citadel ahead.
             </p>
           </div>
 
@@ -487,10 +480,11 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She never lived to see Drezen. But the crusade she died for stands now at the Ahari with
-              the citadel in open sight, and the four she pulled from the sky are twice what they were when
-              she saved them. Her scales slept quiet at their belts through the whole of the bridge —
-              unspent, patient. Some gifts keep their own counsel about when they will be needed.&rdquo;
+              &ldquo;She hid among the people of Kenabres as a woman in grey, and died as their shield. Now
+              the four she pulled from the falling sky stand inside the enemy&apos;s own citadel — and in its
+              darkest room, one of them lowered his blades and gave mercy to a stranger who had not earned it.
+              She would have known that choice. It was the one she made every day she walked the world wearing
+              a kind face.&rdquo;
             </p>
           </div>
 
@@ -501,25 +495,25 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The Painter’s Fury",
-                contribution: "Put lightning through a ghoul at the range of a caress, then unmade a tomb’s desecration with a quiet incantation — hallowed ground handed back to Iomedae. Took an enemy caster’s own fireball, folded it inside out, and returned it as a flower of ice across the bridge deck. Threw a ward of warmth over every friend he could see when the chimera breathed. Was dragged to the very edge of the dark by the dragon head’s bite — and walked back into camp within the hour, straight as a spear. “Damn, that hurt.”",
+                contribution: "Measured four unknown towers off a map with his fingertips, gave the whole company the walls to climb them, and folded the strike team from roof to roof through the dark. Turned his fire inside-out against demons that only laughed at flame — bolts of force and killing cold where they braced for a blaze. And when the last enemy in the citadel proved to be a victim, he wrote her a safe-passage note in his own hand and sent her out of the war with a touch.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
                 role: "The Thunder’s Reach",
-                contribution: "Followed Thane into the dark without being asked, and read the chained beasts for what they were — living demolition. Caught a crossbow bolt out of the air and returned it through its owner. And when the chimera’s ice put Korroc halfway to his knees and the dragon head bit down, the still water finally broke: fists lit with holy fire, a leap across the channel, and the first time any of them had ever heard him raise his voice — one word. “NO!” He was first to fallen Caleth, grace ready in both hands.",
+                contribution: "Heard a fight erupt across the entire width of camp and simply arrived — a bronze blur, one fist, and the invisible saboteur folded, stunned. Warded against fire, he let the towers’ boiling blood slide off him and crossed their tops in a blink to break the goat-headed things that held them. And when the traitor sat bound in the command tent, it was Nageru who put his face to hers and asked the only question worth asking: why.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "Shadow of Judgment",
-                contribution: "Walked out of a council that kept talking and went to read the ground himself — the chained beasts were found because he would not wait. Picked both locks of the cursed mausoleum (“Big doors, common lock”) and kept the door while the paladins cleaned, a watchman’s verse of the same prayer. Unseen through the whole of the bridge fight — and when the chimera reared over fallen Caleth, mother’s knife and father’s found the one seam where its three lives ran together. It died mid-scream.",
+                contribution: "Ran the saboteur to ground at last — dropped water on an invisible knife-hand to paint it into the open, wore its acid across his shoulder, and pulled the hood back on the Queen’s own chronicler, a Templar spy the whole march long. Then, in the citadel, the harder judgment: he read a room full of the enemy’s dead, saw a captain who had turned on her own masters, and lowered his blades. A doorkeeper does not ask whether the trespasser is wicked — only whether they have business inside. He judged the crime, and let the woman live.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The Wall That Walks",
-                contribution: "Broke the war-council deadlock by voting against his own argument — “Cemetery. I won’t lock us up.” Shattered every chain off the Ahari’s piers with the adamantine hammer. Took the chimera’s winter twice as deep as any of them — a child of the forge, and cold finds him the way water finds a crack — and let go of the life-link rather than fall, standing alone in his own body for the first time in days. Rooted into the stone, took three heads on his shield, and was still standing when it died.",
+                contribution: "Knelt in the mud and named the poison by its smell — shadowblood — and dragged a convulsing prisoner back from death, then felt down the bond that his cousin was under attack a camp away. On the towers he rooted into the stone until it turned a demon’s killing thrust to a shallow one; in the citadel he drank half of Nageru’s wounds down the link so the monk could stand. And when a spared enemy swore herself to their cause, he named the risk plainly — and still let the mercy stand.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -534,16 +528,16 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Road West Is Open</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Ahari cleared · The citadel in sight</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Inside the Walls</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The saboteur unmasked · The strike team within Drezen</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The cemetery&apos;s curse is broken, and the dead of the First Crusade sleep clean. Ahari Bridge
-              stands — its four chained engines dead, its chains shattered, its strained piers in the
-              engineers&apos; hands — and the army camps at its south edge with the citadel&apos;s silhouette
-              on the sky ahead. The four came out of the day changed again: the power that woke in them at
-              Kenabres has deepened. So has the dread that answers it. The three-headed thing they killed at
-              the bridge was enhanced the way the stone enhanced them — the enemy is making mythic things of
-              its own. And the saboteur in the company remains unproven, unnamed, and loose.
+              The traitor who shadowed the march since Kenabres is caught at last — the Queen&apos;s own
+              chronicler, a Templar spy, now bound and silenced under guard. The four watchtowers that would
+              have torn the army apart are broken, their catapults fouled, and the crusade presses up the
+              Ahari toward the gate. The strike team stands inside Citadel Drezen itself, high above a war it
+              can hear starting below — a succubus loose in the halls, a dungeon beneath every map the dwarves
+              ever drew, the stolen Banner somewhere in that dark, and one thin thread of hope: the enemy
+              commander&apos;s ill-used brother, who may open a door no siege could force.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>

@@ -346,11 +346,14 @@ function EditorContent_Inner() {
       })
     }
 
-    // When editing, preserve the original slug, date, and book from entryId
-    // When creating new, generate slug from title
+    // Preserve the original identity so the API can migrate the KV key when
+    // an editable key field (date or book) changes.
     let finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled'
     let finalDate = sessionDate
     let finalBook = book
+    let originalDate: string | undefined
+    let originalBook: string | undefined
+    let originalSlug: string | undefined
     
     if (isEditing && entryId) {
       // Parse the entryId format: "book-YYYY-MM-DD-slug"
@@ -359,9 +362,12 @@ function EditorContent_Inner() {
       
       if (match) {
         const dateIndex = entryId.indexOf(match[1])
-        finalBook = entryId.substring(0, dateIndex - 1) // Everything before the date (minus the hyphen)
-        finalDate = match[1] // The matched date
-        finalSlug = entryId.substring(dateIndex + finalDate.length + 1) // Everything after the date (minus the hyphen)
+        originalBook = entryId.substring(0, dateIndex - 1)
+        originalDate = match[1]
+        originalSlug = entryId.substring(dateIndex + originalDate.length + 1)
+        // Slugs are not currently exposed as an editable field. Keep the
+        // original slug while allowing the selected date and book to change.
+        finalSlug = originalSlug
       }
     }
     
@@ -371,6 +377,9 @@ function EditorContent_Inner() {
       slug: finalSlug,
       story: storyBlocks,
       coverUrl: image.trim() ? image.trim() : undefined,
+      ...(isEditing && originalBook && originalDate && originalSlug
+        ? { originalBook, originalDate, originalSlug }
+        : {}),
     }
 
     const endpoint = '/api/stories'
