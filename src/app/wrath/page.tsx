@@ -123,7 +123,7 @@ export default function WrathPage() {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
             {/* Level/Mythic Tier — KEEP IN SYNC with the Campaign Arc Status milestone box further down this page. Both display this info; both must update together. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 8 Gestalt • Mythic Tier 2</span>
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 9 Gestalt • Mythic Tier 2</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -203,7 +203,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken, its roof breached, its upper halls being fought through room by room. Still enemy-held — a master somewhere ahead, and, far below, a stair the old maps mark only for storage, where they believe the stolen Banner now lies in the dark. The war ends here.</p>
+                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken, its roof breached, its upper halls cleared, and its master dead on the floor of his own map room. Still not taken — everything that matters now lies below, past a stair the old maps mark only for storage, where the stolen Banner waits in the dark. The war ends here.</p>
                 </div>
               </div>
 
@@ -243,7 +243,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Crusader Camp</h4>
-                  <p className="text-sm text-zinc-400 italic">The towers are down and the signal given. The army presses up the Ahari toward the citadel&apos;s gate while the four strike from within.</p>
+                  <p className="text-sm text-zinc-400 italic">The towers are down and the signal given. The army has the upper hand on the field below while the four cut the citadel apart from inside. A bound prisoner waits here for the Queen&apos;s judgment.</p>
                 </div>
               </div>
 
@@ -264,14 +264,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. The four are still fighting their way through its upper halls; what matters most, they suspect, lies far below — past a stair the old dwarven maps mark for storage and nothing more.
+                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. Its upper halls are cleared and the traitor who held them is dead, but the fortress is not yet taken: what matters most lies far below, past a stair the old dwarven maps mark for storage and nothing more, in chambers no dwarf ever drew.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;A demon met them in a chapel wearing the Inheritor&apos;s own face, and holy men knelt to it before the blades came out. Trust nothing inside these walls that wears a kind face or a sacred one — the enemy has learned to forge both.&quot;
+                &quot;Vhane is dead, and I&apos;ll not pretend I&apos;m sorry. But mark what it cost us: a demon wore a goddess&apos;s face, and then a rescued man&apos;s, and one of them fought at our own side for two rooms before it struck. Below us are halls no map of ours has ever shown. Trust the work of a thing, not the face of it.&quot;
               </p>
             </div>
           </div>
@@ -447,29 +447,28 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XV — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Beauty Has Teeth</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XVI — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Two Brothers of the Same Forge</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              Past the roof-door and down into the citadel proper, the four fought room by room through a
-              fortress that lied with craft. They silenced a gallery of archers raining death on the army
-              below, then opened a chapel door onto a demon wearing the Inheritor&apos;s own face — a
-              beautiful, holy lie that had ensnared four crusaders and turned even a sworn paladin&apos;s
-              guard against him for a breath, until dwarven blades tore it out of its stolen shape and
-              banished it. Deeper in, the Banner they had climbed a fortress to find proved a decoy — but a
-              suit of gold-and-mithral armor beside it settled onto Korroc as though a master had forged it
-              for him and no one else, and only now, after all these years, brought it home. They cut down a
-              vulture-headed horror and a fire-hooved demon in the ruined great court, broke a knot of the
-              enemy in the halls, and came at last to a chapel of the dwarven Father — its every surface
-              defiled, its statues risen to hunt the two dwarves among them. They shattered the statues; and
-              then Caleth knelt and washed the filth away with the smallest magics he knew, giving a defiled
-              holy place its face back. Deeper into the citadel there is more to fight through yet, and beyond
-              it the way down — a stair the old dwarven maps mark for storage alone, and only guesswork for
-              whatever the enemy has carved beneath it.
+              They fought the length of the citadel&apos;s northern wall to reach him. Goat-headed demons on
+              an open parapet; a winged horror in a barracks, feeding on the dead of its own garrison — the
+              price, as Korroc named it, of thinking there is ever a bargain with such things. In a locked
+              bunkroom they found a chained man with no evil on him at all, broke the spell binding him,
+              gave him back his sword, and took him along; and he fought at their side through two rooms
+              before the shape came apart and a demon stood where he had stood, with a blade of ice already
+              in Caleth&apos;s back. And in a chamber hung with maps of the Worldwound, the name the company
+              has carried north since Kenabres finally walked out of the dark and greeted them by their
+              father&apos;s house: <span className="text-zinc-300">Staunton Vhane</span>, traitor of the
+              Fourth Crusade, who once sat at the table of the two dwarves now come to kill him. He named
+              them cowards. He put a monk on the floor and a killing blow through a paladin that the stone
+              in that paladin&apos;s blood refused to let land. He died with holy steel through him — and
+              with him died every name he could have given up. Behind him knelt a younger brother he had
+              used badly for years, who was offered a judgment instead of a grave, and took it.
             </p>
           </div>
 
@@ -480,11 +479,12 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She wore a plain grey face over all her glory and walked among the people of Kenabres
-              because she loved them, and died as their shield. In the enemy&apos;s citadel her four survivors
-              met the mirror of that: a thing that wore glory over rot, a holy face pulled across a hunger.
-              They are learning what she always knew — that a face can be a gift or a lie, and telling the two
-              apart is the whole of the war.&rdquo;
+              &ldquo;She wore a plain grey face over all her glory, and died as a shield for people who never
+              knew what stood among them. Her four survivors have now met every other kind: a demon in a
+              goddess&apos;s face, a demon in a rescued man&apos;s, and at the last a traitor who wore a
+              crusader&apos;s face for seventy-five years and used it to sell the men who trusted him. Three
+              lies and one gift, and only her face was ever the gift. That is the arithmetic of this
+              war.&rdquo;
             </p>
           </div>
 
@@ -494,26 +494,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The Painter’s Fury",
-                contribution: "Named the demon in Iomedae’s stolen face for the lie it was in a single glance — and learned, when it reached past his guard anyway, that knowing a thing is evil is not always proof against it. He tore a stone-jawed horror off his own chest with a bolt of the wardstone’s own fire, and put holy steel through demons that shrugged off flame. Then, in the defiled chapel of a god not his own, he spent his smallest magics washing the filth from the Father’s house — beauty given back where a demon had only ever defiled it.",
+                role: "The Answering Blade",
+                contribution: "Twice in one morning a demon wore a face he could not see past: first a goddess’s, which he named correctly and was taken by anyway, and then a chained prisoner’s, which he never doubted at all until the blade went into his back. He turned inside its guard and destroyed it — which settles nothing, and he knows it. Then, with the traitor of the Fourth Crusade on one knee and still refusing to fall, he stepped past a burning dwarf and put Radiance through Staunton Vhane three times, ending the name this company has carried since Kenabres.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The Thunder’s Reach",
-                contribution: "Plucked an arrow out of the air point-blank and sent it back through the man who loosed it, then found the hidden seam in a wall that opened the way to the citadel’s treasury. When statues rose in the Father’s chapel to hunt the dwarves among them, the monk who fights with nothing but his hands took up a fallen adamantine axe and used it — wordless, exact — smashing the runed stone off his brothers. Every strike a prayer, whatever the shape of the tool.",
+                role: "The Word Before the Fist",
+                contribution: "Was told to talk instead of strike, in the middle of the worst fight of the campaign, and did it — offering the traitor’s ill-used brother a place among good dwarves, and then the smaller mercy underneath it: stay here, and we will not hurt you. That offer is the only reason a man knelt at the end instead of dying. He paid for the words: three glaive-thrusts put him on the stone, and he rose again and went back in.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "Shadow of Judgment",
-                contribution: "Read a fortress built to deceive and opened its every hidden door — the archer-gallery lock that silenced the arrows falling on the army, and the two stone doors behind Nageru’s seam that led to the treasury. And when a demon stood cloaked in the Inheritor’s own holy face, it was Thane’s daggers, driven up under its guard, that tore it out of the stolen shape and forced the truth into the light. A false credential at a sacred door is still a trespasser — and the doorkeeper knows one on sight.",
+                role: "The Patient Dark",
+                contribution: "Distrusted the chained man from the first word and was overruled, and was proved right in the worst way. So he did what he does: went unseen, waited behind a man who had forgotten there was a behind, and put five blades into Staunton Vhane before the traitor knew the room had a back to it. He asked for the man alive — a living door into the whole rotten chain — and was refused by his own cousin. He wiped both blades and said nothing about it.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The Wall That Walks",
-                contribution: "Knew the Inheritor’s face on sight and named the lie wearing it — then put his own body between the fight and four ensnared crusaders and tried to talk them free rather than cut them down. He carried the ruined great court on his shoulders, drinking his cousin’s wounds down the bond and refusing to fall. And in a demon’s hoard he found a suit of gold-and-mithral armor that closed around him as though it had been forged for him and no one else — a thing he feels, bone-deep, he ought to remember, and cannot yet.",
+                role: "The Open Hand",
+                contribution: "Found no evil on a chained prisoner, broke the spell on him, and told his cousin to give the man his sword back — and the man was a demon, and it cost them dearly. Minutes later he opened his hand again anyway, calling for the traitor’s brother to be spared. He burned, for the second time in his life, as a thing of golden fire; he took a blow meant to kill him and the stone in his blood would not let it through; and he offered a dwarf sworn to the Dark Smith a judgment instead of a grave.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -528,24 +528,24 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Toward the Dark Below</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The false vision undone · The way down still ahead</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Traitor Is Dead</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">A debt three generations old · The way down still ahead</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              Room by room, the four are fighting through the upper citadel — an archer-gallery silenced, a
-              demon that wore the Inheritor&apos;s own face unmasked and banished, the crusaders it had
-              ensnared set free, and the defiled chapel of the dwarven Father washed clean. The Banner they
-              came to seize proved a decoy; the true one, they believe, lies far below — down a stair the old
-              dwarven maps mark for storage alone, and beneath it whatever the enemy has since carved into the
-              dark. More of the citadel stands between them and that descent — the master somewhere ahead,
-              another demon of the same stolen-face kind still loose in the citadel — and the whole
-              war may turn on what they find at the bottom.
+              The upper citadel is cleared, and <span className="text-zinc-300">Staunton Vhane</span>{" "}
+              is dead — the traitor who broke the Fourth Crusade from the inside, who sat at the table of two dwarves
+              whose sons finally reached him, and who was killed with holy steel in a room hung with maps of
+              the Worldwound. The victory is not clean. The whole Templar chain he could have been made to
+              name died with him, over one cousin&apos;s objection. But his brother knelt rather than fall
+              beside him, and has agreed to lead the four to what they came for. The Banner they seized above
+              was a decoy; the true one lies below, in chambers no dwarf ever drew — where a sorceress is said to 
+              wait, and where the whole war may turn on what is found at the bottom.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">2</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">8</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">9</span></span>
             </div>
           </div>
 
