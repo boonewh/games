@@ -203,7 +203,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Its watchtowers broken, its roof breached, its upper halls cleared, and its master dead on the floor of his own map room. Still not taken — everything that matters now lies below, past a stair the old maps mark only for storage, where the stolen Banner waits in the dark. The war ends here.</p>
+                  <p className="text-sm text-zinc-400 italic">Upper halls cleared, master dead, and the company now four levels beneath it in cells and forges that appear on no dwarven map. A ritual meant to level half the city has been broken. The Banner hung at the bottom of the deepest hall was a fake. Still not taken. The war ends here.</p>
                 </div>
               </div>
 
@@ -264,14 +264,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. Its upper halls are cleared and the traitor who held them is dead, but the fortress is not yet taken: what matters most lies far below, past a stair the old dwarven maps mark for storage and nothing more, in chambers no dwarf ever drew.
+                Seventy-five years in demon hands. The citadel is not a target in the war — it is the war. Above, it is a fortress. Below, it is something else: prison rows, an interrogation block warded against magic itself, a forge built to strip the holiness out of captured relics, and halls of murdered gods. None of it was drawn by dwarves. All of it was cut into their work afterward.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;Vhane is dead, and I&apos;ll not pretend I&apos;m sorry. But mark what it cost us: a demon wore a goddess&apos;s face, and then a rescued man&apos;s, and one of them fought at our own side for two rooms before it struck. Below us are halls no map of ours has ever shown. Trust the work of a thing, not the face of it.&quot;
+                &quot;We found his book. Seventy years of it, in his own hand, and he kept a ledger of every holy thing he ever fed to that forge — a blade, a shield, a breastplate with the family filed off it. He wrote down all of them. He invited us to read every name. Understand me: he did not write down ours. Whatever else this fortress owes us, it will not be an answer.&quot;
               </p>
             </div>
           </div>
@@ -447,28 +447,27 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XVI — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Two Brothers of the Same Forge</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XVII — Sword of Valor</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Every Name But Two</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              They fought the length of the citadel&apos;s northern wall to reach him. Goat-headed demons on
-              an open parapet; a winged horror in a barracks, feeding on the dead of its own garrison — the
-              price, as Korroc named it, of thinking there is ever a bargain with such things. In a locked
-              bunkroom they found a chained man with no evil on him at all, broke the spell binding him,
-              gave him back his sword, and took him along; and he fought at their side through two rooms
-              before the shape came apart and a demon stood where he had stood, with a blade of ice already
-              in Caleth&apos;s back. And in a chamber hung with maps of the Worldwound, the name the company
-              has carried north since Kenabres finally walked out of the dark and greeted them by their
-              father&apos;s house: <span className="text-zinc-300">Staunton Vhane</span>, traitor of the
-              Fourth Crusade, who once sat at the table of the two dwarves now come to kill him. He named
-              them cowards. He put a monk on the floor and a killing blow through a paladin that the stone
-              in that paladin&apos;s blood refused to let land. He died with holy steel through him — and
-              with him died every name he could have given up. Behind him knelt a younger brother he had
-              used badly for years, who was offered a judgment instead of a grave, and took it.
+              Standing over the body, they found the traitor&apos;s journal — seventy years of it, in his own
+              hand, honest in a way no one was prepared for.{" "}
+              <span className="text-zinc-300">He took the Sword of Valor himself.</span>{" "}
+              He wrote that Minagho gave him the opportunity and that the choice was
+              his. He kept a ledger of every holy thing his brother&apos;s forge unmade, page after page of
+              them, and he invited whoever found the book to read every name in it. Two names are not in it.
+              Then the way down: prison rows where murdered paladins still stood in their cells; warded jail
+              cells sunk in dead magic; and one of them carved floor to ceiling with a
+              thousand butterflies and a prayer, by something out of the Abyss that had spent years asking to
+              be made clean — and had gotten out. Below that, a vampire in a library, a forge tended by
+              salamanders, and a tiefling conjurer six words into a ritual meant to level half the city of
+              Drezen. They killed her. The great crystal cracked and fell and shattered. The candles went out.
+              And the whispering that had followed them through every room since the cells did not stop.
             </p>
           </div>
 
@@ -479,12 +478,12 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She wore a plain grey face over all her glory, and died as a shield for people who never
-              knew what stood among them. Her four survivors have now met every other kind: a demon in a
-              goddess&apos;s face, a demon in a rescued man&apos;s, and at the last a traitor who wore a
-              crusader&apos;s face for seventy-five years and used it to sell the men who trusted him. Three
-              lies and one gift, and only her face was ever the gift. That is the arithmetic of this
-              war.&rdquo;
+              &ldquo;She could have been anywhere in the world. She chose a city, and a plain grey face to
+              walk it in, and a long ordinary life among people who would never once look up and know what
+              was standing beside them. When the sky finally opened, she did not leave. She spent the last
+              thing she had slowing four strangers&apos; fall. They are a long way underground tonight, in a
+              fortress that has not heard her name in seventy-five years, and they are still carrying her
+              scales — and still spending them, one at a time, the way she spent herself.&rdquo;
             </p>
           </div>
 
@@ -494,26 +493,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The Answering Blade",
-                contribution: "Twice in one morning a demon wore a face he could not see past: first a goddess’s, which he named correctly and was taken by anyway, and then a chained prisoner’s, which he never doubted at all until the blade went into his back. He turned inside its guard and destroyed it — which settles nothing, and he knows it. Then, with the traitor of the Fourth Crusade on one knee and still refusing to fall, he stepped past a burning dwarf and put Radiance through Staunton Vhane three times, ending the name this company has carried since Kenabres.",
+                role: "The Case for Mending",
+                contribution: "Argued against destroying the corruption forge — because if the ruin it worked can be run backwards, it is the only thing in the world that can give a hundred families their stolen steel back. Thane wants it broken. The argument was cut off mid-sentence and has not been finished. He walked wide around a cell warded against magic and would not say why, even as Radiance dimmed in his hand near the door. Ended the ritualist himself, with two draughts of mythic reserve poured into one white sheet of lightning.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The Word Before the Fist",
-                contribution: "Was told to talk instead of strike, in the middle of the worst fight of the campaign, and did it — offering the traitor’s ill-used brother a place among good dwarves, and then the smaller mercy underneath it: stay here, and we will not hurt you. That offer is the only reason a man knelt at the end instead of dying. He paid for the words: three glaive-thrusts put him on the stone, and he rose again and went back in.",
+                role: "The One Who Makes Sure",
+                contribution: "Walked out of a side room reading the traitor’s journal, and gave the day its only prophecy in four words. Tumbled under a hostage to reach the thing drinking from him. When the vampire burst into smoke and fled to its coffin, he followed it down and did the whole grim liturgy in order — stake, then axe, then holy water, poured slow over both pieces until the steaming stopped. He does not leave things half-killed. His first blow at the forge threw a demon into the great crystal hard enough to crack it, and nobody noticed.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The Patient Dark",
-                contribution: "Distrusted the chained man from the first word and was overruled, and was proved right in the worst way. So he did what he does: went unseen, waited behind a man who had forgotten there was a behind, and put five blades into Staunton Vhane before the traitor knew the room had a back to it. He asked for the man alive — a living door into the whole rotten chain — and was refused by his own cousin. He wiped both blades and said nothing about it.",
+                role: "The Name Not Written",
+                contribution: "Wanted the traitor alive for his answers and got his diary instead. Found in it a ledger of ruined relics — a warhammer, three shields of an order that once hired him, a breastplate of Torag with the family markings filed off — and no way on earth to learn whose they were. Read the invitation to know every name and understood exactly which two were missing. Below, the doors began beating him: a snapped pick at the forge, then a trap he crawled the floor for and could not find until it went off in his face. He opened the last one anyway.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The Open Hand",
-                contribution: "Found no evil on a chained prisoner, broke the spell on him, and told his cousin to give the man his sword back — and the man was a demon, and it cost them dearly. Minutes later he opened his hand again anyway, calling for the traitor’s brother to be spared. He burned, for the second time in his life, as a thing of golden fire; he took a blow meant to kill him and the stone in his blood would not let it through; and he offered a dwarf sworn to the Dark Smith a judgment instead of a grave.",
+                role: "The Smith’s Patience",
+                contribution: "Stopped his own cousin from burning a prisoner’s holy book, because you do not begin by breaking the man you mean to mend. Carried the traitor’s journal across the room and offered it to the brother it insulted. Told a dwarf sworn to the Dark Smith that Torag was waiting for him — and tied a death sentence to the offer, so it would be honest. The man came back down the stair on his own to help them. Then a ritualist’s claw went into his back, and when he reached for his god to close it, nothing came.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -528,17 +527,19 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Traitor Is Dead</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">A debt three generations old · The way down still ahead</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Something Is Still Whispering</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The city saved · The Banner still missing · A door nobody was meant to find</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The upper citadel is cleared, and <span className="text-zinc-300">Staunton Vhane</span>{" "}
-              is dead — the traitor who broke the Fourth Crusade from the inside, who sat at the table of two dwarves
-              whose sons finally reached him, and who was killed with holy steel in a room hung with maps of
-              the Worldwound. The victory is not clean. The whole Templar chain he could have been made to
-              name died with him, over one cousin&apos;s objection. But his brother knelt rather than fall
-              beside him, and has agreed to lead the four to what they came for. The Banner they seized above
-              was a decoy; the true one lies below, in chambers no dwarf ever drew — where a sorceress is said to 
-              wait, and where the whole war may turn on what is found at the bottom.
+              Half of Drezen was to be destroyed today and was not. The conjurer running the ritual is dead,
+              her guards with her, her crystal in pieces on the floor. But the low whispering that has run
+              under every room since the prison rows was never the ritual — it did not stop when she did, and
+              nobody can find where it comes from. Deeper still, at the end of a hall of murdered gods, the
+              company found{" "}
+              <span className="text-zinc-300">the Sword of Valor</span>{" "}
+              hanging in an iron frame — and it was a joke. The trap fired, the cloth went black, and Iomedae&apos;s sunburst turned
+              into the mark of the Locust Lord in front of them. So they searched the room again, and found a
+              seam twenty feet up a blank wall, and behind that door another door. Nobody builds that to guard
+              a storeroom.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>

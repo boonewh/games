@@ -26,16 +26,39 @@ export async function getTrackerSession(): Promise<TrackerSession | null> {
 /**
  * Ensures a user_profile row exists for the current session user.
  * Idempotent — safe to call on every request.
+ *
+ * This runs on every tracker request but is a no-op after the first one, so a
+ * transient failure here must not take down the request that triggered it:
+ * retry once, and only throw if the profile genuinely doesn't exist (which
+ * would break the FKs every other table hangs off).
  */
 export async function ensureUserProfile(session: TrackerSession): Promise<void> {
-  const { error } = await supabase.from('user_profile').upsert(
-    {
-      user_id: session.userId,
-      display_name: session.name
-    },
-    { onConflict: 'user_id', ignoreDuplicates: true }
+  const upsert = () =>
+    supabase.from('user_profile').upsert(
+      {
+        user_id: session.userId,
+        display_name: session.name
+      },
+      { onConflict: 'user_id', ignoreDuplicates: true }
+    )
+
+  if (!(await upsert()).error) return
+
+  const { error } = await upsert()
+  if (!error) return
+
+  const { data: existing } = await supabase
+    .from('user_profile')
+    .select('user_id')
+    .eq('user_id', session.userId)
+    .maybeSingle()
+
+  if (!existing) throw new Error(`user_profile upsert failed: ${error.message}`)
+
+  console.error(
+    `[tracker:user_profile] upsert failed for ${session.userId} but the profile exists — continuing`,
+    error.message
   )
-  if (error) throw new Error(`user_profile upsert failed: ${error.message}`)
 }
 
 /**
