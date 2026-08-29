@@ -68,7 +68,7 @@ const adventureBooks: AdventureBook[] = [
     title: 'Sword of Valor',
     description: 'With mythic power awakening within them, the heroes lead the charge to retake the city of Drezen and recover the legendary Sword of Valor, a sacred banner that can turn the tide of the crusade.',
     bookNumber: 2,
-    status: 'current',
+    status: 'completed',
     theme: 'from-red-950 to-stone-900'
   },
   {
@@ -76,7 +76,7 @@ const adventureBooks: AdventureBook[] = [
     title: "Demon's Heresy",
     description: 'Now commanders of crusader forces, the heroes must root out corruption within the crusade itself while facing new demonic threats. A conspiracy threatens everything they have fought to achieve.',
     bookNumber: 3,
-    status: 'not-started',
+    status: 'current',
     theme: 'from-amber-950 to-stone-900'
   },
   {

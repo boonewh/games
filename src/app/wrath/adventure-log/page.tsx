@@ -62,7 +62,7 @@ const adventureBooks: AdventureBook[] = [
     description: 'With mythic power awakening within them, the heroes lead the charge to retake the city of Drezen and recover the legendary Sword of Valor, a sacred banner that can turn the tide of the crusade.',
     bookNumber: 2,
     coverImage: '/images/wrath/watchers.jpg',
-    status: 'current',
+    status: 'completed',
     theme: 'from-red-950 to-stone-900'
   },
   {
@@ -70,8 +70,8 @@ const adventureBooks: AdventureBook[] = [
     title: "Demon's Heresy",
     description: 'Now commanders of crusader forces, the heroes must root out corruption within the crusade itself while facing new demonic threats. A conspiracy threatens everything they have fought to achieve.',
     bookNumber: 3,
-    coverImage: '/images/wrath/wrath-hero.jpg',
-    status: 'not-started',
+    coverImage: '/images/wrath/meeting.jpg',
+    status: 'current',
     theme: 'from-amber-950 to-stone-900'
   },
   {
