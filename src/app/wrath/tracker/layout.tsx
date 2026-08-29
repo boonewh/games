@@ -3,11 +3,17 @@
 
 import { redirect } from 'next/navigation'
 import { getTrackerSession } from '@/lib/tracker/auth'
+import { TrackerNav } from '@/components/tracker/TrackerNav'
 
 export default async function TrackerLayout({ children }: { children: React.ReactNode }) {
   const session = await getTrackerSession()
   if (!session) {
     redirect('/sign-in?callbackUrl=/wrath/tracker')
   }
-  return <>{children}</>
+  return (
+    <>
+      <TrackerNav />
+      {children}
+    </>
+  )
 }

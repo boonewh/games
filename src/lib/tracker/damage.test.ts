@@ -13,7 +13,7 @@ import type {
 type CharState = DamageContext['character']
 
 function char(over: Partial<CharState> = {}): CharState {
-  return { current_hp: 20, temp_hp: 0, fortification_percent: 0, ...over }
+  return { current_hp: 20, temp_hp: 0, nonlethal: 0, fortification_percent: 0, ...over }
 }
 
 function ctx(over: Partial<DamageContext> = {}): DamageContext {
@@ -137,6 +137,105 @@ describe('calculateDamage — energy resistance & vulnerability', () => {
 })
 
 // --- crits & fortification -------------------------------------------------
+
+describe('calculateDamage — force & negative energy', () => {
+  // PF1e: neither is reduced by DR, and energy resistance/vulnerability only
+  // ever covers the five energy types — so nothing mitigates them.
+  for (const damage_type of ['force', 'negative'] as const) {
+    it(`ignores DR for ${damage_type}`, () => {
+      const r = calculateDamage(req({ amount: 10, damage_type }), ctx({ drs: [dr(5)] }))
+      expect(r.breakdown.dr_applied).toBe(0)
+      expect(r.breakdown.applied).toBe(10)
+    })
+
+    it(`ignores energy resistance for ${damage_type}`, () => {
+      const r = calculateDamage(
+        req({ amount: 10, damage_type }),
+        ctx({ resistances: [res('fire', 5), res('cold', 5)] })
+      )
+      expect(r.breakdown.resist_applied).toBe(0)
+      expect(r.breakdown.applied).toBe(10)
+    })
+
+    it(`never takes a vulnerability multiplier for ${damage_type}`, () => {
+      const r = calculateDamage(
+        req({ amount: 10, damage_type }),
+        ctx({ vulnerabilities: [vuln('fire')] })
+      )
+      expect(r.breakdown.vulnerability_multiplier).toBe(1)
+      expect(r.breakdown.applied).toBe(10)
+    })
+
+    it(`still crits and is soaked by temp HP for ${damage_type}`, () => {
+      const r = calculateDamage(
+        req({ amount: 10, damage_type, is_crit: true, crit_multiplier: 2 }),
+        ctx({ character: char({ current_hp: 20, temp_hp: 6 }), drs: [dr(5)] })
+      )
+      expect(r.breakdown.applied).toBe(20)
+      expect(r.breakdown.temp_consumed).toBe(6)
+      expect(r.newTempHp).toBe(0)
+      expect(r.newCurrentHp).toBe(6)
+    })
+
+    it(`bypasses_dr changes nothing for ${damage_type}`, () => {
+      const withFlag = calculateDamage(
+        req({ amount: 10, damage_type, bypasses_dr: true }),
+        ctx({ drs: [dr(5)] })
+      )
+      const without = calculateDamage(req({ amount: 10, damage_type }), ctx({ drs: [dr(5)] }))
+      expect(withFlag.breakdown.applied).toBe(without.breakdown.applied)
+    })
+  }
+
+  it('labels negative energy in the player-facing message', () => {
+    const r = calculateDamage(req({ amount: 10, damage_type: 'negative' }), ctx())
+    expect(r.message).toContain('negative energy')
+  })
+})
+
+describe('calculateDamage — nonlethal', () => {
+  it('accumulates in the nonlethal pool and leaves hit points alone', () => {
+    const r = calculateDamage(
+      req({ amount: 10, nonlethal: true }),
+      ctx({ character: char({ current_hp: 20, nonlethal: 4 }) })
+    )
+    expect(r.newNonlethal).toBe(14)
+    expect(r.nonlethalDelta).toBe(10)
+    expect(r.newCurrentHp).toBe(20)
+    expect(r.breakdown.nonlethal).toBe(true)
+  })
+
+  it('is still reduced by DR (a sap against DR 5)', () => {
+    const r = calculateDamage(req({ amount: 10, nonlethal: true }), ctx({ drs: [dr(5)] }))
+    expect(r.breakdown.dr_applied).toBe(5)
+    expect(r.newNonlethal).toBe(5)
+  })
+
+  it('is not absorbed by temp HP', () => {
+    const r = calculateDamage(
+      req({ amount: 10, nonlethal: true }),
+      ctx({ character: char({ temp_hp: 8 }) })
+    )
+    expect(r.breakdown.temp_consumed).toBe(0)
+    expect(r.newTempHp).toBe(8)
+    expect(r.newNonlethal).toBe(10)
+  })
+
+  it('still crits', () => {
+    const r = calculateDamage(
+      req({ amount: 6, nonlethal: true, is_crit: true, crit_multiplier: 2 }),
+      ctx()
+    )
+    expect(r.newNonlethal).toBe(12)
+  })
+
+  it('reports a zero delta for lethal damage', () => {
+    const r = calculateDamage(req({ amount: 10 }), ctx({ character: char({ nonlethal: 3 }) }))
+    expect(r.nonlethalDelta).toBe(0)
+    expect(r.newNonlethal).toBe(3)
+    expect(r.breakdown.nonlethal).toBe(false)
+  })
+})
 
 describe('calculateDamage — crits & fortification', () => {
   it('multiplies by the crit multiplier', () => {

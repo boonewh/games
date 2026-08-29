@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { CharacterDetail, DamageType } from '@/lib/tracker/types'
-import { DAMAGE_TYPES } from '@/lib/tracker/types'
+import { DAMAGE_TYPES, DAMAGE_TYPE_LABEL, mitigationFor } from '@/lib/tracker/types'
+import { nonlethalStatus } from '@/lib/tracker/nonlethal'
 import { CharacterEditModal } from './CharacterEditModal'
 import { ConditionsBar } from './ConditionsBar'
 import { PoolsCard } from './PoolsCard'
@@ -19,6 +20,7 @@ export function HpPanel({ character, onChanged }: Props) {
   const [damageType, setDamageType] = useState<DamageType>('physical')
   const [bypassesDr, setBypassesDr] = useState(false)
   const [isCrit, setIsCrit] = useState(false)
+  const [isNonlethal, setIsNonlethal] = useState(false)
   const [critMultiplier, setCritMultiplier] = useState(2)
   const [tempHpInput, setTempHpInput] = useState('')
   const [status, setStatus] = useState<string | null>(null)
@@ -37,8 +39,10 @@ export function HpPanel({ character, onChanged }: Props) {
           ? '#d9952f'
           : 'var(--hp, #52bf80)'
 
+  const mitigation = mitigationFor(damageType)
+  const nlStatus = nonlethalStatus(character.current_hp, character.nonlethal)
   const vulnTypes = new Set(character.vulnerabilities.filter((v) => v.enabled).map((v) => v.energy_type))
-  const willBeVulnerable = damageType !== 'physical' && vulnTypes.has(damageType as never)
+  const willBeVulnerable = mitigation === 'energy' && vulnTypes.has(damageType as never)
 
   async function postHp(action: string, body: Record<string, unknown>) {
     setBusy(true)
@@ -65,13 +69,15 @@ export function HpPanel({ character, onChanged }: Props) {
         damage_type: damageType,
         bypasses_dr: damageType === 'physical' ? bypassesDr : undefined,
         is_crit: isCrit,
-        crit_multiplier: isCrit ? critMultiplier : undefined
+        crit_multiplier: isCrit ? critMultiplier : undefined,
+        nonlethal: isNonlethal
       })
       setStatus(res.message)
       setStatusKind('damage')
       setAmount('')
       setBypassesDr(false)
       setIsCrit(false)
+      setIsNonlethal(false)
       setCritMultiplier(2)
       await onChanged()
     } catch (e) {
@@ -278,8 +284,23 @@ export function HpPanel({ character, onChanged }: Props) {
           )}
 
           {character.nonlethal > 0 && (
-            <div className="mt-2 font-oswald uppercase tracking-wider text-[11px] text-amber-300 border border-amber-700/50 bg-amber-900/30 px-2 py-0.5 rounded-md self-start">
-              Nonlethal {character.nonlethal}
+            <div className="mt-2 self-start">
+              <div
+                className={`font-oswald uppercase tracking-wider text-[11px] px-2 py-0.5 rounded-md border ${
+                  nlStatus === 'unconscious'
+                    ? 'text-parchment border-abyssal-red/70 bg-abyssal-red/30'
+                    : 'text-amber-300 border-amber-700/50 bg-amber-900/30'
+                }`}
+              >
+                Nonlethal {character.nonlethal} / {character.current_hp}
+              </div>
+              {nlStatus !== 'none' && (
+                <div className="text-[11px] italic mt-1 text-amber-300/90">
+                  {nlStatus === 'unconscious'
+                    ? 'Exceeds current HP — unconscious.'
+                    : 'Equals current HP — staggered.'}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -336,11 +357,11 @@ export function HpPanel({ character, onChanged }: Props) {
                 style={{ background: 'var(--panel, #17130d)', border: '1px solid var(--border, rgba(190,158,92,0.14))', color: 'var(--ink, #e8e0d0)' }}
               >
                 {DAMAGE_TYPES.map((t) => (
-                  <option key={t} value={t}>{t}</option>
+                  <option key={t} value={t}>{DAMAGE_TYPE_LABEL[t]}</option>
                 ))}
               </select>
             </label>
-            {damageType === 'physical' && (
+            {mitigation === 'dr' && (
               <label className="flex items-center gap-2 font-oswald uppercase tracking-[.05em] text-[12px] cursor-pointer" style={{ color: 'var(--muted, #9a907c)' }}>
                 <input
                   type="checkbox"
@@ -361,6 +382,16 @@ export function HpPanel({ character, onChanged }: Props) {
               />
               Critical hit
             </label>
+            <label className="flex items-center gap-2 font-oswald uppercase tracking-[.05em] text-[12px] cursor-pointer" style={{ color: 'var(--muted, #9a907c)' }}>
+              <input
+                type="checkbox"
+                checked={isNonlethal}
+                onChange={(e) => setIsNonlethal(e.target.checked)}
+                className="w-4 h-4 cursor-pointer"
+                style={{ accentColor: '#fcd34d' }}
+              />
+              Nonlethal
+            </label>
             {isCrit && (
               <label className="flex items-center gap-1.5 font-oswald uppercase tracking-[.05em] text-[12px]" style={{ color: 'var(--muted, #9a907c)' }}>
                 ×
@@ -379,19 +410,32 @@ export function HpPanel({ character, onChanged }: Props) {
           </div>
 
           {/* Contextual warnings */}
-          {(willBeVulnerable || (isCrit && character.fortification_percent > 0) || damageType !== 'physical') && (
+          {(willBeVulnerable || (isCrit && character.fortification_percent > 0) || mitigation !== 'dr' || isNonlethal) && (
             <div className="mt-2 text-xs space-y-0.5">
+              {isNonlethal && (
+                <div className="text-amber-300">
+                  Nonlethal: goes to its own pool, not hit points. DR and resistance still
+                  apply; temp HP does not absorb it.
+                </div>
+              )}
               {willBeVulnerable && (
-                <div style={{ color: 'var(--dmg, #cc4d42)' }}>⚠ Vulnerable to {damageType} — damage will be ×1.5.</div>
+                <div style={{ color: 'var(--dmg, #cc4d42)' }}>
+                  ⚠ Vulnerable to {DAMAGE_TYPE_LABEL[damageType]} — damage will be ×1.5.
+                </div>
               )}
               {isCrit && character.fortification_percent > 0 && (
                 <div className="text-wardstone-blue">
                   Will roll fortification ({character.fortification_percent}%) for crit negation.
                 </div>
               )}
-              {damageType !== 'physical' && (
+              {mitigation === 'energy' && (
                 <div style={{ color: 'var(--faint, #6b6253)' }}>
                   DR does not apply to {damageType}. Energy resistance is subtracted automatically.
+                </div>
+              )}
+              {mitigation === 'none' && (
+                <div style={{ color: 'var(--faint, #6b6253)' }}>
+                  Neither DR nor energy resistance applies to {DAMAGE_TYPE_LABEL[damageType]} — it lands in full.
                 </div>
               )}
             </div>

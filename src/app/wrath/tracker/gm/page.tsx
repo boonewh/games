@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { Character, Condition, Party, ResourcePool } from '@/lib/tracker/types'
+import { nonlethalStatus } from '@/lib/tracker/nonlethal'
 import { ZoomControls } from '@/components/tracker/ZoomControls'
 import { useTrackerZoom } from '@/hooks/useTrackerZoom'
 
@@ -287,6 +288,7 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
           ? 'text-abyssal-red'
           : 'text-abyssal-red'
   const ratioPct = Math.max(0, Math.min(100, Math.round(ratio * 100)))
+  const nlStatus = nonlethalStatus(character.current_hp, character.nonlethal)
 
   return (
     <article className="rounded border border-stone-light bg-stone-light/40 p-4">
@@ -401,8 +403,21 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
             </span>
           )}
           {character.nonlethal > 0 && (
-            <span className="px-1.5 py-0.5 rounded bg-amber-900/30 border border-amber-700/50">
-              Nonlethal {character.nonlethal}
+            <span
+              className={`px-1.5 py-0.5 rounded border ${
+                nlStatus === 'unconscious'
+                  ? 'bg-abyssal-red/30 border-abyssal-red/70 text-parchment'
+                  : 'bg-amber-900/30 border-amber-700/50'
+              }`}
+              title={
+                nlStatus === 'unconscious'
+                  ? 'Nonlethal exceeds current HP — unconscious.'
+                  : nlStatus === 'staggered'
+                    ? 'Nonlethal equals current HP — staggered.'
+                    : undefined
+              }
+            >
+              Nonlethal {character.nonlethal} / {character.current_hp}
             </span>
           )}
         </div>

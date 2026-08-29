@@ -10,8 +10,15 @@
 //     unless the attack bypasses DR.
 //   - Energy damage skips DR entirely; matching vulnerability multiplies ×1.5;
 //     matching resistance subtracts.
+//   - Force and negative energy skip every defense: DR doesn't reduce them, and
+//     PF1e energy resistance/vulnerability only ever covers the five energy
+//     types, so there is nothing to check them against. They land in full.
 //   - Temp HP absorbs first, then current HP.
+//   - Nonlethal damage is mitigated identically (DR still reduces nonlethal
+//     from a weapon) but accumulates in its own pool rather than coming off hit
+//     points, so temp HP does not absorb it and current HP does not move.
 
+import { DAMAGE_TYPE_LABEL, mitigationFor } from './types'
 import type {
   Character,
   DamageReduction,
@@ -32,10 +39,12 @@ export interface DamageBreakdown {
   applied: number
   /** Of `applied`, how much was absorbed by temp HP (the rest hit current HP). */
   temp_consumed: number
+  /** True when `applied` went to the nonlethal pool instead of hit points. */
+  nonlethal: boolean
 }
 
 export interface DamageContext {
-  character: Pick<Character, 'current_hp' | 'temp_hp' | 'fortification_percent'>
+  character: Pick<Character, 'current_hp' | 'temp_hp' | 'nonlethal' | 'fortification_percent'>
   drs: DamageReduction[]
   resistances: EnergyResistance[]
   vulnerabilities: EnergyVulnerability[]
@@ -45,6 +54,9 @@ export interface DamageContext {
 export interface DamageResult {
   newCurrentHp: number
   newTempHp: number
+  newNonlethal: number
+  /** Signed change to the nonlethal pool, recorded on hp_event for undo. */
+  nonlethalDelta: number
   breakdown: DamageBreakdown
   /** Human-readable summary shown to the player. */
   message: string
@@ -74,7 +86,9 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
   let resistApplied = 0
   let vulnMultiplier = 1
 
-  if (request.damage_type === 'physical') {
+  const mitigation = mitigationFor(request.damage_type)
+
+  if (mitigation === 'dr') {
     if (!request.bypasses_dr) {
       const drMax = ctx.drs
         .filter((d) => d.enabled)
@@ -82,7 +96,7 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
       drApplied = Math.min(workingDamage, drMax)
       workingDamage -= drApplied
     }
-  } else {
+  } else if (mitigation === 'energy') {
     const hasVuln = ctx.vulnerabilities.some(
       (v) => v.enabled && v.energy_type === request.damage_type
     )
@@ -98,19 +112,29 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
       workingDamage -= resistApplied
     }
   }
+  // mitigation === 'none' (force, negative energy): nothing reduces it.
 
   const applied = Math.max(0, workingDamage)
+  const isNonlethal = request.nonlethal === true
 
-  // Temp HP soaks first
+  // Temp HP soaks first — but only for damage that actually comes off hit
+  // points. Nonlethal is a running total compared against current HP, so it
+  // leaves both HP pools alone.
   let newTempHp = ctx.character.temp_hp
-  let remaining = applied
+  let newNonlethal = ctx.character.nonlethal
+  let newCurrentHp = ctx.character.current_hp
   let tempConsumed = 0
-  if (newTempHp > 0 && remaining > 0) {
-    tempConsumed = Math.min(newTempHp, remaining)
-    newTempHp -= tempConsumed
-    remaining -= tempConsumed
+  if (isNonlethal) {
+    newNonlethal += applied
+  } else {
+    let remaining = applied
+    if (newTempHp > 0 && remaining > 0) {
+      tempConsumed = Math.min(newTempHp, remaining)
+      newTempHp -= tempConsumed
+      remaining -= tempConsumed
+    }
+    newCurrentHp -= remaining
   }
-  const newCurrentHp = ctx.character.current_hp - remaining
 
   const breakdown: DamageBreakdown = {
     raw,
@@ -122,15 +146,18 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
     dr_applied: drApplied,
     resist_applied: resistApplied,
     applied,
-    temp_consumed: tempConsumed
+    temp_consumed: tempConsumed,
+    nonlethal: isNonlethal
   }
 
   // Build the friendly message
+  const typeLabel = DAMAGE_TYPE_LABEL[request.damage_type] ?? request.damage_type
   const parts: string[] = []
+  const hitLabel = isNonlethal ? `nonlethal ${typeLabel}` : typeLabel
   if (request.is_crit) {
-    parts.push(`Crit! ${raw} × ${multiplier} = ${critTotal} ${request.damage_type}.`)
+    parts.push(`Crit! ${raw} × ${multiplier} = ${critTotal} ${hitLabel}.`)
   } else {
-    parts.push(`Took ${raw} ${request.damage_type}.`)
+    parts.push(`Took ${raw} ${hitLabel}.`)
   }
   if (fortRoll !== null) {
     parts.push(
@@ -143,9 +170,10 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
   }
   if (vulnMultiplier > 1) parts.push('Vulnerable: ×1.5.')
   if (drApplied > 0) parts.push(`DR ${drApplied} reduced it.`)
-  if (resistApplied > 0) parts.push(`Resist ${resistApplied} ${request.damage_type}.`)
-  if (request.bypasses_dr && request.damage_type === 'physical') parts.push('(Bypassed DR.)')
-  parts.push(`Lost ${applied} HP.`)
+  if (resistApplied > 0) parts.push(`Resist ${resistApplied} ${typeLabel}.`)
+  if (request.bypasses_dr && mitigation === 'dr') parts.push('(Bypassed DR.)')
+  if (mitigation === 'none') parts.push(`No defense applies to ${typeLabel}.`)
+  parts.push(isNonlethal ? `Nonlethal now ${newNonlethal}.` : `Lost ${applied} HP.`)
 
   // Compact note for audit log
   const noteParts: string[] = []
@@ -154,11 +182,14 @@ export function calculateDamage(request: DamageRequest, ctx: DamageContext): Dam
     noteParts.push(`fort ${fortRoll}/${ctx.character.fortification_percent}${fortNegated ? '✓' : '✗'}`)
   }
   if (vulnMultiplier > 1) noteParts.push('vuln×1.5')
+  if (isNonlethal) noteParts.push('nonlethal')
   if (request.note) noteParts.push(request.note)
 
   return {
     newCurrentHp,
     newTempHp,
+    newNonlethal,
+    nonlethalDelta: newNonlethal - ctx.character.nonlethal,
     breakdown,
     message: parts.join(' '),
     noteSummary: noteParts.length > 0 ? noteParts.join(' ') : null

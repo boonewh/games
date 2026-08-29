@@ -1,5 +1,5 @@
 // HP actions on a character. One endpoint, action discriminator in the body.
-//   POST { action: 'damage', amount, damage_type, bypasses_dr?, is_crit?, crit_multiplier?, note? }
+//   POST { action: 'damage', amount, damage_type, bypasses_dr?, is_crit?, crit_multiplier?, nonlethal?, note? }
 //   POST { action: 'heal',   amount, note? }
 //   POST { action: 'temp_hp', amount }
 //   POST { action: 'long_rest' }
@@ -12,6 +12,7 @@ import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { bad, fail, json, notFound, requireCharacter } from '@/lib/tracker/http'
 import { calculateDamage } from '@/lib/tracker/damage'
+import { NONLETHAL_AUTO_NOTE, NONLETHAL_CONDITIONS, nonlethalStatus } from '@/lib/tracker/nonlethal'
 import type {
   Character,
   DamageReduction,
@@ -61,6 +62,57 @@ export async function POST(req: NextRequest, ctx: Ctx) {
   }
 }
 
+/**
+ * Keep the staggered / unconscious conditions in step with the nonlethal pool.
+ *
+ * Only rows tagged with NONLETHAL_AUTO_NOTE are ever removed, so a staggered
+ * condition applied by hand (from a spell, say) survives. And if a condition of
+ * the wanted type is already present from any source, no duplicate is added —
+ * the character is staggered once, however they got there.
+ *
+ * Best-effort: a failure here must not fail the HP action that triggered it,
+ * so errors are logged and swallowed. The number itself is always saved.
+ */
+async function reconcileNonlethalConditions(
+  characterId: string,
+  currentHp: number,
+  nonlethal: number
+): Promise<void> {
+  try {
+    const desired = nonlethalStatus(currentHp, nonlethal)
+
+    const { data: rows, error } = await supabase
+      .from('condition')
+      .select('id, type, notes')
+      .eq('character_id', characterId)
+      .in('type', NONLETHAL_CONDITIONS)
+    if (error) throw error
+
+    const present = (rows ?? []) as Array<{ id: string; type: string; notes: string | null }>
+
+    // Drop our own rows that no longer describe the current state.
+    const stale = present.filter((c) => c.notes === NONLETHAL_AUTO_NOTE && c.type !== desired)
+    if (stale.length > 0) {
+      await supabase
+        .from('condition')
+        .delete()
+        .in('id', stale.map((c) => c.id))
+    }
+
+    // Add the wanted one unless something already covers it.
+    if (desired !== 'none' && !present.some((c) => c.type === desired)) {
+      await supabase.from('condition').insert({
+        character_id: characterId,
+        type: desired,
+        duration_rounds: null,
+        notes: NONLETHAL_AUTO_NOTE
+      })
+    }
+  } catch (e) {
+    console.error('[tracker:nonlethal] condition reconcile failed', e)
+  }
+}
+
 async function handleDamage(characterId: string, request: DamageRequest) {
   if (!Number.isFinite(request.amount) || request.amount < 0) return bad('amount must be a non-negative number')
 
@@ -68,7 +120,7 @@ async function handleDamage(characterId: string, request: DamageRequest) {
   const { data, error } = await supabase
     .from('character')
     .select(
-      `current_hp, temp_hp, fortification_percent, max_hp,
+      `current_hp, temp_hp, nonlethal, fortification_percent, max_hp,
        damage_reduction(*),
        energy_resistance(*),
        energy_vulnerability(*)`
@@ -82,6 +134,7 @@ async function handleDamage(characterId: string, request: DamageRequest) {
   const ctxData = data as {
     current_hp: number
     temp_hp: number
+    nonlethal: number
     fortification_percent: number
     max_hp: number
     damage_reduction: DamageReduction[]
@@ -100,7 +153,11 @@ async function handleDamage(characterId: string, request: DamageRequest) {
   const [{ data: updated, error: updateErr }, { data: event, error: insertErr }] = await Promise.all([
     supabase
       .from('character')
-      .update({ current_hp: result.newCurrentHp, temp_hp: result.newTempHp })
+      .update({
+        current_hp: result.newCurrentHp,
+        temp_hp: result.newTempHp,
+        nonlethal: result.newNonlethal
+      })
       .eq('id', characterId)
       .select()
       .single(),
@@ -108,12 +165,13 @@ async function handleDamage(characterId: string, request: DamageRequest) {
       .from('hp_event')
       .insert({
         character_id: characterId,
-        kind: 'damage',
+        kind: result.breakdown.nonlethal ? 'nonlethal' : 'damage',
         raw_amount: result.breakdown.raw,
         applied_amount: result.breakdown.applied,
         damage_type: request.damage_type,
         dr_applied: result.breakdown.dr_applied,
         temp_consumed: result.breakdown.temp_consumed,
+        nonlethal_delta: result.nonlethalDelta,
         note: result.noteSummary
       })
       .select()
@@ -122,6 +180,8 @@ async function handleDamage(characterId: string, request: DamageRequest) {
 
   if (updateErr) return fail(`update: ${updateErr.message}`)
   if (insertErr) return fail(`event: ${insertErr.message}`)
+
+  await reconcileNonlethalConditions(characterId, result.newCurrentHp, result.newNonlethal)
 
   return json({
     character: updated as Character,
@@ -136,7 +196,7 @@ async function handleHeal(characterId: string, amount: number, note?: string) {
 
   const { data: character, error } = await supabase
     .from('character')
-    .select('current_hp, max_hp')
+    .select('current_hp, max_hp, nonlethal')
     .eq('id', characterId)
     .single()
   if (error) return fail(error.message)
@@ -147,10 +207,16 @@ async function handleHeal(characterId: string, amount: number, note?: string) {
   const applied = Math.min(raw, room)
   const newCurrent = character.current_hp + applied
 
+  // PF1e: an effect that cures hit point damage removes an equal amount of
+  // nonlethal damage. Keyed to the full amount healed rather than the part that
+  // fit under max HP, so topping off a staggered character still clears them.
+  const nonlethalRemoved = Math.min(character.nonlethal, raw)
+  const newNonlethal = character.nonlethal - nonlethalRemoved
+
   const [{ data: updated, error: updateErr }, { data: event, error: insertErr }] = await Promise.all([
     supabase
       .from('character')
-      .update({ current_hp: newCurrent })
+      .update({ current_hp: newCurrent, nonlethal: newNonlethal })
       .eq('id', characterId)
       .select()
       .single(),
@@ -163,6 +229,7 @@ async function handleHeal(characterId: string, amount: number, note?: string) {
         applied_amount: applied,
         damage_type: null,
         dr_applied: 0,
+        nonlethal_delta: -nonlethalRemoved,
         note: note ?? null
       })
       .select()
@@ -172,8 +239,11 @@ async function handleHeal(characterId: string, amount: number, note?: string) {
   if (updateErr) return fail(`update: ${updateErr.message}`)
   if (insertErr) return fail(`event: ${insertErr.message}`)
 
-  const message = raw === applied ? `Healed ${applied} HP.` : `Healed ${applied} HP (capped at max).`
-  return json({ character: updated as Character, event: event as HpEvent, message })
+  await reconcileNonlethalConditions(characterId, newCurrent, newNonlethal)
+
+  const parts = [raw === applied ? `Healed ${applied} HP.` : `Healed ${applied} HP (capped at max).`]
+  if (nonlethalRemoved > 0) parts.push(`Cleared ${nonlethalRemoved} nonlethal.`)
+  return json({ character: updated as Character, event: event as HpEvent, message: parts.join(' ') })
 }
 
 async function handleTempHp(characterId: string, amount: number) {
@@ -304,6 +374,8 @@ async function handleLongRest(characterId: string) {
     .single()
   if (insertErr) return fail(`event: ${insertErr.message}`)
 
+  await reconcileNonlethalConditions(characterId, newCurrentHp, 0)
+
   const parts = [
     healAmount > 0 && `healed ${healAmount} HP`,
     `cleared nonlethal`,
@@ -327,7 +399,7 @@ async function handleLongRest(characterId: string) {
 async function handleFullHeal(characterId: string) {
   const { data: pre, error: preErr } = await supabase
     .from('character')
-    .select('current_hp, max_hp')
+    .select('current_hp, max_hp, nonlethal')
     .eq('id', characterId)
     .single()
   if (preErr || !pre) return fail(preErr?.message ?? 'character missing')
@@ -350,6 +422,7 @@ async function handleFullHeal(characterId: string) {
         applied_amount: healed,
         damage_type: null,
         dr_applied: 0,
+        nonlethal_delta: -pre.nonlethal,
         note: 'full heal'
       })
       .select()
@@ -358,6 +431,8 @@ async function handleFullHeal(characterId: string) {
 
   if (updateErr) return fail(`update: ${updateErr.message}`)
   if (insertErr) return fail(`event: ${insertErr.message}`)
+
+  await reconcileNonlethalConditions(characterId, pre.max_hp, 0)
 
   return json({
     character: updated as Character,
@@ -415,11 +490,16 @@ async function handleUndo(characterId: string) {
     newTemp += tempConsumed
   } else if (last.kind === 'heal') newCurrent -= last.applied_amount
   else if (last.kind === 'temp_hp') newTemp -= last.applied_amount
+  // 'nonlethal' events never moved the HP pools; they're covered entirely below.
+
+  // Every kind records how far it moved the nonlethal pool, so one line reverses
+  // all of them: nonlethal damage (+N), a heal that cleared some (-N), full heal.
+  const newNonlethal = Math.max(0, character.nonlethal - (last.nonlethal_delta ?? 0))
 
   const [{ data: updated, error: updateErr }, { data: undoEvent, error: insertErr }] = await Promise.all([
     supabase
       .from('character')
-      .update({ current_hp: newCurrent, temp_hp: newTemp })
+      .update({ current_hp: newCurrent, temp_hp: newTemp, nonlethal: newNonlethal })
       .eq('id', characterId)
       .select()
       .single(),
@@ -432,6 +512,7 @@ async function handleUndo(characterId: string) {
         applied_amount: 0,
         damage_type: null,
         dr_applied: 0,
+        nonlethal_delta: 0,
         note: String(last.id)
       })
       .select()
@@ -440,6 +521,8 @@ async function handleUndo(characterId: string) {
 
   if (updateErr) return fail(`update: ${updateErr.message}`)
   if (insertErr) return fail(`event: ${insertErr.message}`)
+
+  await reconcileNonlethalConditions(characterId, newCurrent, newNonlethal)
 
   return json({
     character: updated as Character,

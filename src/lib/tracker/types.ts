@@ -2,9 +2,38 @@
 // IDs are UUID strings (not integers like the standalone tracker had).
 
 export type EnergyType = 'fire' | 'cold' | 'electricity' | 'acid' | 'sonic'
-export type DamageType = 'physical' | EnergyType
+
+/**
+ * Damage types that nothing in this tracker mitigates. PF1e's energy resistance
+ * and vulnerability only ever cover the five energy types above, and neither
+ * force nor negative energy is reduced by DR — so both land in full.
+ */
+export type UnmitigatedType = 'force' | 'negative'
+
+export type DamageType = 'physical' | EnergyType | UnmitigatedType
 export const ENERGY_TYPES: EnergyType[] = ['fire', 'cold', 'electricity', 'acid', 'sonic']
-export const DAMAGE_TYPES: DamageType[] = ['physical', ...ENERGY_TYPES]
+export const UNMITIGATED_TYPES: UnmitigatedType[] = ['force', 'negative']
+export const DAMAGE_TYPES: DamageType[] = ['physical', ...ENERGY_TYPES, ...UNMITIGATED_TYPES]
+
+/** Display name for a damage type; only 'negative' differs from its raw value. */
+export const DAMAGE_TYPE_LABEL: Record<DamageType, string> = {
+  physical: 'physical',
+  fire: 'fire',
+  cold: 'cold',
+  electricity: 'electricity',
+  acid: 'acid',
+  sonic: 'sonic',
+  force: 'force',
+  negative: 'negative energy'
+}
+
+/** Which defense, if any, a damage type is checked against. */
+export type Mitigation = 'dr' | 'energy' | 'none'
+
+export function mitigationFor(type: DamageType): Mitigation {
+  if (type === 'physical') return 'dr'
+  return (ENERGY_TYPES as string[]).includes(type) ? 'energy' : 'none'
+}
 
 export type HpEventKind = 'damage' | 'heal' | 'temp_hp' | 'nonlethal' | 'rest' | 'undo'
 
@@ -140,6 +169,8 @@ export interface HpEvent {
   dr_applied: number
   /** Of applied_amount, how much was absorbed by temp HP. Used to undo the split. */
   temp_consumed: number
+  /** Signed change this event made to the nonlethal pool. Undo subtracts it. */
+  nonlethal_delta: number
   note: string | null
 }
 
@@ -252,6 +283,12 @@ export interface DamageRequest {
   bypasses_dr?: boolean
   is_crit?: boolean
   crit_multiplier?: number
+  /**
+   * Nonlethal damage (sap, unarmed strike, etc). Mitigation is unchanged — DR
+   * still reduces nonlethal from a weapon — but the total lands in the
+   * character's nonlethal pool instead of coming off hit points.
+   */
+  nonlethal?: boolean
   note?: string
 }
 
