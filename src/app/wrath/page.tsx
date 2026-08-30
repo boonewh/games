@@ -447,28 +447,28 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XVIII — Sword of Valor</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Mark It Chose</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIX — The Wounded Lands</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Twenty Feet of Stone</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              Past a second hidden door, past a six-armed idol looming over a pit that was four times deeper
-              than it looked, they came to a room where light went in and did not come back. Six purple
-              crystals stood in six alcoves and every one of them was a cheap carved fake — and things came
-              out of them anyway. Something reached into Korroc and pulled at his soul before it ever took a
-              shape. A shadow demon came out of the floor, and it could not be reliably hit, and it could not
-              be held, and when the four of them had finally cornered it, it poured itself into Thane&apos;s
-              mouth and stood up wearing him. What followed was the ugliest three minutes of the war: a
-              dwarf turning his cousin&apos;s knives on his own shield, an aasimar pulling every strike, and
-              a warhammer coming down twice on the crystal that held a friend&apos;s soul on nothing but a
-              wizard&apos;s word. Then Caleth put his hand on a heap of red cloth left on a marble slab, and{" "}
-              <span className="text-zinc-300">the true Sword of Valor</span>{" "}
-              went off like a dam breaking. Every fake in the room shattered at once. The dark came apart.
-              And the whispering that had run under every room for a day — that was never the ritual, that
-              nobody has ever found the source of — stopped, and no one can tell you why.
+              An elven wizard laid four separate records side by side on one table and proved that the story
+              the crusade has told for forty years is a lie the enemy built on purpose. A company of forty
+              dwarves went into the Worldwound. Eight came home. The expedition was a trap, the survivors
+              were let go so nobody would look, and most of the rest were not killed —{" "}
+              <span className="text-zinc-300">they were brought here, to Drezen, and put to work on the walls they had helped build</span>{" "}
+              thirty years before. Two of those names are Stonevein. They were appalling prisoners. They
+              stole tools, and they were written up for it, and nobody in this fortress ever understood
+              why: the cells had been cut to within twenty feet of a water tunnel the demons did not know
+              existed. It took better than a year. Neither man is on the list of the dead. Neither was
+              recorded as recaptured. Then letters came up the road from home, and four crusaders read them
+              standing in a gateway and said nothing at all to each other afterward. And then there was a
+              priest to find — a young Erastilian who had cleaned a block of ruined city by himself, and
+              wrecked his own shrine with his own hands, and walked south into a chasm full of molten rock
+              to die of the shame of it.
             </p>
           </div>
 
@@ -479,13 +479,14 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She was the oldest thing in Kenabres and she never once said so. A silver dragon who
-              took a plain grey face and a small ordinary life and kept them for longer than most kingdoms
-              last, because being known would have cost that city more than it ever gave her. She died in
-              the same street she had walked in that face — not on a wall, not over the wardstone, but
-              spending the last of herself to slow four strangers&apos; fall. There is a banner over Drezen
-              tonight. It is up there because those four went on falling in the direction she pointed
-              them.&rdquo;
+              &ldquo;They have started finding people alive. Names struck out of ledgers, men who were
+              supposed to be ash, a priest hauled off a coffin with five days of dying still on him — the
+              record keeps turning out to be wrong, and almost always in the direction of hope. Hers never
+              will be. She died in the open, in a street she had walked for a century in a plain face and a
+              small ordinary life, because being known would have cost that city more than it ever gave
+              her. There is no ledger anywhere that is going to revise it. She spent the last thing she had
+              slowing four strangers&apos; fall, and they are falling still, in the direction she
+              pointed them.&rdquo;
             </p>
           </div>
 
@@ -495,26 +496,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Picked It Up",
-                contribution: "Named the six crystals as fakes and was right about the stone and wrong about what it was doing. Worked out, on nothing but reasoning, that a friend’s soul was inside the seventh — and was believed, because of who had been asked. Then found a heap of red cloth that told him nothing at all, said so plainly, and picked it up anyway. He unfurled it from the tall tower himself. He never did finish the argument about the forge; a commander took the decision off him before either side gave an inch.",
+                role: "The One Who Read the Name",
+                contribution: "Recognized a name smeared in blood across a desecrated altar and knew whose it was — an old heretic priestess dead centuries, and the reason a good man had walked south to die. Cleared four wasp swarms with a single fireball and sent a locust demon home without killing it. Restrained a possessed priest and flushed the thing out of him by accident. Then, slowed to a crawl by a spell and alone with a demon at his back, he did not block: he drifted four inches out of the line, came up out of the movement with the glaive already rising, and Radiance outshone a river of molten rock. He walked the party home that night under a light visible for six miles, on purpose.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Said No",
-                contribution: "Fought a thing his fists mostly passed through and kept finding the parts of it that were there. When it opened its mouth to draw his soul out of him from three feet away, he looked into it and shook his head once — “Not today” — and that was the whole of his answer. Struck a possessed friend with every blow pulled short and apologised while doing it. Landed the killing blow the instant the demon was torn loose. Later, six caged crusaders who had died a long time ago got the full liturgy, in order, one after another, and he did not hurry any of them.",
+                role: "The One With Farther to Go",
+                contribution: "His first throw was lightning and the thing was immune to it, and his face did not change; he simply picked up cold iron instead. The whole day kept him at the wrong distance — a demon in the sky, then fifty feet of open pit — and with holy fire already burning in his fists and nothing in reach to put it in, he poured the smite down the shaft of a javelin and threw that instead. When he finally crossed, he crossed in one step. He is the reason a dead woman still has her grave goods: not our tomb, not our dead, and nobody here with the right to decide. A letter came from his order with a task in it he has not explained to anyone.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The Blade He Wiped Clean",
-                contribution: "Opened the second hidden door, and was nearly put down a forty-foot pit by a trap that picked him out of four because he was the one reading the floor. Then the demon poured itself into him and used his hands on his own cousin. When it was finally torn out and he came back to himself, he did not say anything at all. He picked up his mother’s blade, took out the rag, and wiped a knife that had not touched a thing. No Stonevein has ever sheathed a wet blade. It was how everyone in the room knew he was back.",
+                role: "The One Who Knew the Look",
+                contribution: "He sorted the paper on that table before the wizard said a word, and understood from the count of it that this was a man who was certain. Afterward he went out alone to a dry riverbed against orders, searched it properly until full dark, and found nothing — then walked the last two hundred yards he had not covered anyway. In the tomb he was the one who said something was wrong with the priest, off nothing but the way the man’s heels argued with his knees, and nobody asked him how he knew. He put a dagger he forged himself through a demon’s chest. He wiped three clean blades twice that day, where no one could see.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The Smith Who Stood Aside",
-                contribution: "Something reached past his armour and his skin and took hold of his soul before the fight even started. He cut every thread binding him to his cousin rather than let a demon walk down them, then broke the crystal holding that cousin’s soul on a wizard’s word alone. At dawn he knelt in a ruined chapel and found Torag’s hammer and anvil cut into the gold over his heart, where another god’s mark had been — armour that reads the man inside it and decides. And when the cleansing of the forge came down to arcane hands or holy ones, he wanted it to be his, weighed it honestly, and told them to do it the better way.",
+                role: "The Hand on the Wall",
+                contribution: "He knelt at a broken bridge pier with his gauntlets flat on the ground and grew four courses of good stone out of the rubble, then went gray around the mouth and left his cousin to it. His mother had asked him for something: walk out into the ruins, find old stone away from the repairs, put his hand on it and tell the city she remembers her. He did it out loud, in an ordinary voice, in an empty street. Later he rooted himself in the floor of a chasm and hauled a dying man back over a ledge one-handed — and when evil came rolling off that man, he named it correctly and out loud: it is the demon’s mark, it is not him. Then he offered him a way back.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -529,23 +530,22 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Drezen Is Taken</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Banner recovered · The citadel held · Four vials unaccounted for</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Trail Begins in a Riverbed</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The fathers survived · The priest recovered · The Queen turns them south and west</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              They carried it up to the tallest tower in the fortress and let it fall down the side, and the
-              sound that came off the field was not a cheer to start with — it was a hole in the noise, and
-              then it was weather. Below,{" "}
-              <span className="text-zinc-300">every escape-road the demons had simply closed</span>{" "}
-              and the shield wall stopped grinding and started running. The gates went in a quarter of an
-              hour later. Seventy-five years, ended in an afternoon. What followed was a week of the
-              unglamorous work: room by room, a debt gone back for in the dark, six caged crusaders finally
-              given their rites, and four days of argument and chalk-marks that turned a relic-corrupting
-              forge into an honest one. It has a new name now. Somewhere in this rock, or out of it, there
-              are still four vials of the stuff that made a traitor into what he was — and nobody knows what
-              was whispering, only that it stopped.
+              The Queen&apos;s answer has come north with paladins, clerics, workers and supplies, and it
+              says the taking of Drezen was the first of many steps: hold the fortress, and range out into
+              the Wounded Lands for anything that can be used against the Abyss. The first errand was a
+              missing priest, and it ended two hundred feet down a chasm with a river of molten rock in it —
+              a man rescued from something that had been wearing him for a month, and a dead heretic&apos;s
+              grave left deliberately untouched because nobody present had the right to open it. But the
+              thing that will not let go is older. Somewhere east of the walls there is{" "}
+              <span className="text-zinc-300">a mile and a half of dry riverbed and an engineer&apos;s crew about to open the ground</span>{" "}
+              where a tunnel came out forty years ago. Two dwarves walked out of it and were never seen
+              again, and their sons have just found out.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
-              <span className="text-zinc-600">Book <span className="text-wotr-gold">2</span> of 6</span>
+              <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">3</span></span>
               <span className="text-zinc-800">|</span>
