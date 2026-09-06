@@ -173,7 +173,7 @@ export default function WrathPage() {
         <div className="flex flex-col md:flex-row items-baseline justify-between border-b border-zinc-800 pb-4 mb-8">
           <div>
             <h2 className="font-cinzel text-3xl text-wotr-gold uppercase tracking-widest">Theater of War</h2>
-            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: The Drezen Approach</p>
+            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] mt-2">Intelligence Report: The Marchlands</p>
           </div>
           <div className="flex gap-4 mt-4 md:mt-0 text-[10px] font-bold uppercase tracking-widest">
             <span className="flex items-center gap-2 text-wardstone-blue"><span className="w-2 h-2 rounded-full bg-wardstone-blue animate-pulse"></span> Crusader Held</span>
@@ -188,72 +188,77 @@ export default function WrathPage() {
             {/* Decorative Border/Frame */}
             <div className="absolute -inset-1 bg-gradient-to-tr from-wotr-gold/20 via-transparent to-wardstone-blue/20 rounded-sm blur-sm"></div>
 
-            <div className="relative bg-black border border-zinc-800 overflow-hidden shadow-2xl aspect-[16/10]">
+            <div className="relative bg-black border border-zinc-800 overflow-hidden shadow-2xl aspect-[3/2]">
               {/* The Base Map (Image 1) */}
               <Image
-                src="/images/wrath/drezen.jpg"
-                alt="Tactical map of Drezen"
+                src="/images/wrath/worldwound-map2.jpg"
+                alt="The Marchlands — map of the country around Citadel Drezen, showing Vilareth Ford, Eagle Rock, Wintersun Hall, Delamere's Tomb, Keeper's Canyon, the Chapel of Shelyn and the Molten Scar"
                 fill
                 className="object-cover"
+                sizes="(max-width: 1280px) 100vw, 1024px"
+                priority
               />
 
               {/* FLOATING HOTSPOT (Citadel Drezen) */}
-              <div className="absolute top-[28%] left-[41%] group/pin">
+              <div className="absolute top-[19%] left-[60%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Taken. The Banner came down the side of the tall tower and every road out of this place closed at once; the gates went in within the hour. Seventy-five years ended in an afternoon. The forge beneath it has been cleansed and given a new name.</p>
+                  <p className="text-sm text-zinc-400 italic">Held. The Banner flies over it and the objective of the march is complete. The work now is the unglamorous kind — room by room, drain by drain — and the relic-corrupting forge below has been argued back into an honest tool and given a new name.</p>
                 </div>
               </div>
 
-              {/* FLOATING HOTSPOT (Ahari Bridge) */}
-              <div className="absolute top-[56%] left-[40%] group/pin">
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
-                <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">Ahari Bridge</h4>
-                  <p className="text-sm text-zinc-400 italic">Cleared. Four chained beasts meant to drop the span are dead; engineers shore the piers. The road west is open.</p>
-                </div>
-              </div>
-
-              {/* FLOATING HOTSPOT (Paradise Hill) */}
-              <div className="absolute top-[39%] left-[75%] group/pin">
+              {/* FLOATING HOTSPOT (Vilareth Ford) */}
+              <div className="absolute top-[57%] left-[85%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">Paradise Hill</h4>
-                  <p className="text-sm text-zinc-400 italic">Some two hundred prisoners freed. Many now carry bows for the crusade.</p>
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Vilareth Ford</h4>
+                  <p className="text-sm text-zinc-400 italic">The supply road’s one gate, and twice the size it was a week ago. Four dozen Kellids who were raiding this depot now camp beside it, taking work. Its quartermaster looked at the whole problem walking over the hill and said only: all right, we can do this.</p>
                 </div>
               </div>
 
-              {/* FLOATING HOTSPOT (The Unnamed Bridge) */}
-              <div className="absolute top-[62%] left-[82%] group/pin">
+              {/* FLOATING HOTSPOT (Eagle Rock) */}
+              <div className="absolute top-[53%] left-[75%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">The Unnamed Bridge</h4>
-                  <p className="text-sm text-zinc-400 italic">Taken and held. Paradise Hill sealed at its back — nothing reaches the hill now but wings or magic.</p>
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Eagle Rock</h4>
+                  <p className="text-sm text-zinc-400 italic">The only place along the escarpment a wagon can climb, which makes it the only western road. Reported to have demons living in it. Scouted for an hour and nothing found — a thing that flies leaves nothing on the ground to read.</p>
                 </div>
               </div>
 
-              {/* FLOATING HOTSPOT (Crusader Camp) */}
-              <div className="absolute top-[69%] left-[39%] group/pin">
+              {/* FLOATING HOTSPOT (Wintersun Hall) */}
+              <div className="absolute top-[68%] left-[68%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">Crusader Camp</h4>
-                  <p className="text-sm text-zinc-400 italic">Emptying. The companies have moved up into the citadel and the prisoners with them, into cells cut for the purpose. One prisoner never made the walk — she chose to run, and then chose to fight.</p>
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Wintersun Hall</h4>
+                  <p className="text-sm text-zinc-400 italic">Empty. A windowless stone hall with no sentries but a refuse heap that shrieks when disturbed, and a clan living in tents pitched inside the footprints of their grandparents’ town. Their chieftain is ash outside the door and the rest of them have gone east to the Ford.</p>
                 </div>
               </div>
 
-              {/* FLOATING HOTSPOT (The Cemetery) */}
-              <div className="absolute top-[67%] left-[9%] group/pin">
+              {/* FLOATING HOTSPOT (Delamere’s Tomb) */}
+              <div className="absolute top-[50%] left-[60%] group/pin">
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full animate-ping absolute inset-0"></div>
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
-                  <h4 className="font-cinzel text-wardstone-blue text-base">The Cemetery</h4>
-                  <p className="text-sm text-zinc-400 italic">The curse is broken and the tomb re-hallowed. The dead of the First Crusade sleep clean at last.</p>
+                  <h4 className="font-cinzel text-wardstone-blue text-base">Delamere’s Tomb</h4>
+                  <p className="text-sm text-zinc-400 italic">Two hundred feet down a chasm with a river of molten rock in it. A priest was pulled off the coffin alive. The heretic inside it still wears her grave goods and still has a bow laid at her side, because nobody present had the right to open a stranger’s grave.</p>
+                </div>
+              </div>
+
+              {/* FLOATING HOTSPOT (The Molten Scar) — sits low in the frame, so this tooltip is anchored
+                  bottom-0 and opens UPWARD instead of being vertically centered on the pin. A centered
+                  tooltip on any pin below roughly 70% runs past the frame and is clipped by its
+                  overflow-hidden. Use this same anchoring for any future low pin. */}
+              <div className="absolute top-[87%] left-[43%] group/pin">
+                <div className="w-4 h-4 bg-red-600 rounded-full animate-ping absolute inset-0"></div>
+                <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
+                <div className="absolute left-6 bottom-0 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
+                  <h4 className="font-cinzel text-red-600 text-base">The Molten Scar</h4>
+                  <p className="text-sm text-zinc-400 italic">Demon ground, and the reason the map stops meaning anything to the southwest. The Queen has ordered the Wounded Lands ranged for whatever can be turned against the Abyss. This is the direction that order points.</p>
                 </div>
               </div>
             </div>
@@ -271,7 +276,7 @@ export default function WrathPage() {
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;Enjoy tonight. Tomorrow I want every room, every crate, every loose flagstone in this rock turned over. There were five vials of the stuff that made the traitor what he was. He drank one. I do not know where the other four are, and until I do, nobody in this army eats, drinks, or pockets anything they find in Drezen. Say it to every company by noon.&quot;
+                &quot;There are four dozen Kellids at Vilareth Ford as of this week, and they are ours. I am aware of what they were doing to that road a month ago. I am aware of what they look like. I will say this once to every company: the man who made them do it is dead and burned, and the ones who are left were as much his prisoners as the crusaders they took. They will be given work, they will be given rations, and they will be given the ordinary courtesy of the camp. It will not be a problem unless somebody in this army decides to make it one.&quot;
               </p>
             </div>
           </div>
@@ -447,28 +452,29 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XIX — The Wounded Lands</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Twenty Feet of Stone</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XX — The Marchlands</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Kind One</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              An elven wizard laid four separate records side by side on one table and proved that the story
-              the crusade has told for forty years is a lie the enemy built on purpose. A company of forty
-              dwarves went into the Worldwound. Eight came home. The expedition was a trap, the survivors
-              were let go so nobody would look, and most of the rest were not killed —{" "}
-              <span className="text-zinc-300">they were brought here, to Drezen, and put to work on the walls they had helped build</span>{" "}
-              thirty years before. Two of those names are Stonevein. They were appalling prisoners. They
-              stole tools, and they were written up for it, and nobody in this fortress ever understood
-              why: the cells had been cut to within twenty feet of a water tunnel the demons did not know
-              existed. It took better than a year. Neither man is on the list of the dead. Neither was
-              recorded as recaptured. Then letters came up the road from home, and four crusaders read them
-              standing in a gateway and said nothing at all to each other afterward. And then there was a
-              priest to find — a young Erastilian who had cleaned a block of ruined city by himself, and
-              wrecked his own shrine with his own hands, and walked south into a chasm full of molten rock
-              to die of the shame of it.
+              The supply road to Drezen had been bleeding for months. Raiders out of the west, taking
+              grain and taking people, and every account of them agreed: bone spikes coming up through the
+              skin, the Abyss somewhere inside them, and a ferocity that was not bravery. It was a good
+              description and it was wrong. The spikes came off a dead man&apos;s shoulder in one hand —{" "}
+              <span className="text-zinc-300">drilled, pegged through the leather and lashed down with sinew, with ordinary scarred skin underneath</span>{" "}
+              — because only their chieftain ever grew them, and only when his temper went. The rest of
+              them had spent a generation dressing as the thing that ate them, in the hope it would look
+              past them. What the company found at the end of that road was not a war camp. It was four
+              dozen frightened people living in tents pitched inside the footprints of the town their
+              grandparents fled, with a midden of human remains against the hall wall serving as the only
+              sentry they had. A duel was offered to end it without killing anyone. The offer was made
+              well, and won three times over, and won too contemptuously — and a man who had murdered
+              three brothers for challenging him broke his word rather than be laughed at. He died for it
+              in two hammer blows. And by the clan&apos;s own law, everything he had passed to the dwarf
+              holding the hammer.
             </p>
           </div>
 
@@ -479,14 +485,14 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;They have started finding people alive. Names struck out of ledgers, men who were
-              supposed to be ash, a priest hauled off a coffin with five days of dying still on him — the
-              record keeps turning out to be wrong, and almost always in the direction of hope. Hers never
-              will be. She died in the open, in a street she had walked for a century in a plain face and a
-              small ordinary life, because being known would have cost that city more than it ever gave
-              her. There is no ledger anywhere that is going to revise it. She spent the last thing she had
-              slowing four strangers&apos; fall, and they are falling still, in the direction she
-              pointed them.&rdquo;
+              &ldquo;She wore a plain face for a hundred years. Not to be spared — nothing in that city
+              could have touched her — but because a dragon standing in the open is a reason for the Abyss
+              to come, and she wanted the market to stay a market. She bought her bread. She let people be
+              rude to her. Every ordinary morning she spent being nobody was a morning Kenabres did not
+              have to be defended, and not one soul she passed ever knew they had been given anything. Then
+              the sky opened and the disguise stopped being useful, and she dropped it in the street and
+              went up into the thing that killed her, in front of everybody, so that four strangers falling
+              through a hole in the world would fall slowly enough to live.&rdquo;
             </p>
           </div>
 
@@ -496,26 +502,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Read the Name",
-                contribution: "Recognized a name smeared in blood across a desecrated altar and knew whose it was — an old heretic priestess dead centuries, and the reason a good man had walked south to die. Cleared four wasp swarms with a single fireball and sent a locust demon home without killing it. Restrained a possessed priest and flushed the thing out of him by accident. Then, slowed to a crawl by a spell and alone with a demon at his back, he did not block: he drifted four inches out of the line, came up out of the movement with the glaive already rising, and Radiance outshone a river of molten rock. He walked the party home that night under a light visible for six miles, on purpose.",
+                role: "The One Who Won It Too Well",
+                contribution: "He learned their language out of a book at nineteen because a trader had been rude to him in it, and twenty years later it was the only reason anyone in that hall could be spoken to at all. He read the village in ninety seconds and got it right. Then he offered a duel to end the thing without blood — hit me once in three attempts and we concede — and won it three times over without cutting anybody. The offer was real. The oath was broken by the man who swore it, who had murdered three of his own brothers for less. What Caleth missed was smaller and entirely his own: he spent that whole hour on the man in the chair, and never once looked at the frightened people standing in a ring around them.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One With Farther to Go",
-                contribution: "His first throw was lightning and the thing was immune to it, and his face did not change; he simply picked up cold iron instead. The whole day kept him at the wrong distance — a demon in the sky, then fifty feet of open pit — and with holy fire already burning in his fists and nothing in reach to put it in, he poured the smite down the shaft of a javelin and threw that instead. When he finally crossed, he crossed in one step. He is the reason a dead woman still has her grave goods: not our tomb, not our dead, and nobody here with the right to decide. A letter came from his order with a task in it he has not explained to anyone.",
+                role: "The One Who Turned Back",
+                contribution: "He was at the horse’s head before anyone saw him move, six inches from a rolling white eye, talking it down onto four feet while something the size of an elephant came out of the dark. And then he asked leave to go, and would not say why until he did: a promise had been made to the rescued priest and not yet kept, and once that man reached a bed in a fortress he would stop being someone who was offered something and start being a patient, and a patient is a thing that waits. So he went back to Drezen — the half-elf folded the three of them there between one step and the next — to stand in a room while somebody else performed a rite. It does not require an audience. It requires a witness.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Knew the Look",
-                contribution: "He sorted the paper on that table before the wizard said a word, and understood from the count of it that this was a man who was certain. Afterward he went out alone to a dry riverbed against orders, searched it properly until full dark, and found nothing — then walked the last two hundred yards he had not covered anyway. In the tomb he was the one who said something was wrong with the priest, off nothing but the way the man’s heels argued with his knees, and nobody asked him how he knew. He put a dagger he forged himself through a demon’s chest. He wiped three clean blades twice that day, where no one could see.",
+                role: "The One Who Remembered Her",
+                contribution: "He killed the thing on the night road without hurrying — invisible, two cuts along the underside, put exactly where a man would put them after ten seconds of watching it walk. At dawn, watching the half-elf crouch over a dead raider and turn the bone on its shoulder the way you test a hinge, he got there on his own three seconds later by a different road — and remembered a woman in a fortress with horns bolted to her armor, whom two paladins had read as evil and he had spared anyway, and who had told them nothing but the truth. In a hall full of armed men he was the one singled out to be killed first, and had both daggers out before the sentence finished. And when a forgiven man said out loud that a man can be forgiven and still owe, he went very still and said nothing at all.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The Hand on the Wall",
-                contribution: "He knelt at a broken bridge pier with his gauntlets flat on the ground and grew four courses of good stone out of the rubble, then went gray around the mouth and left his cousin to it. His mother had asked him for something: walk out into the ruins, find old stone away from the repairs, put his hand on it and tell the city she remembers her. He did it out loud, in an ordinary voice, in an empty street. Later he rooted himself in the floor of a chasm and hauled a dying man back over a ledge one-handed — and when evil came rolling off that man, he named it correctly and out loud: it is the demon’s mark, it is not him. Then he offered him a way back.",
+                role: "The One They Turned To",
+                contribution: "He took an exploding ball of ice meant for two men and healed it off himself standing on the ground it had frozen, and finished the chieftain in two blows after the man broke his word — and then a stranger walked out of the crowd and told him the tribe was his. He did not want it and did not refuse it. The raids stop, he said. Then: why are you people living here. Then, when it was suggested the clan be sent back where they came from, he looked at them and said three words and that was the end of the argument. He spent the evening on his knees in the mud driving tent pegs and telling frightened people true things, and it worked better than any plan anyone had written down.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -530,19 +536,20 @@ export default function WrathPage() {
           {/* Milestone: The Road to Drezen */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Trail Begins in a Riverbed</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The fathers survived · The priest recovered · The Queen turns them south and west</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Dwarf Has a Tribe</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The raids stopped · The clan resettled · One vial that undoes a death</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The Queen&apos;s answer has come north with paladins, clerics, workers and supplies, and it
-              says the taking of Drezen was the first of many steps: hold the fortress, and range out into
-              the Wounded Lands for anything that can be used against the Abyss. The first errand was a
-              missing priest, and it ended two hundred feet down a chasm with a river of molten rock in it —
-              a man rescued from something that had been wearing him for a month, and a dead heretic&apos;s
-              grave left deliberately untouched because nobody present had the right to open it. But the
-              thing that will not let go is older. Somewhere east of the walls there is{" "}
-              <span className="text-zinc-300">a mile and a half of dry riverbed and an engineer&apos;s crew about to open the ground</span>{" "}
-              where a tunnel came out forty years ago. Two dwarves walked out of it and were never seen
-              again, and their sons have just found out.
+              The supply road is quiet for the first time in months, and the reason is standing in the
+              camp at Vilareth Ford eating its rations. Four dozen Kellids, a people who were marched back
+              into the Worldwound by a man they were all afraid of, now doubling the size of the depot
+              they were raiding a week ago and taking whatever work they are given. Their liege is a dwarf
+              who never asked for them, and who has promised them out loud that when the war ends they go
+              wherever they like. Back at the fortress a priest has been given his absolution and has left
+              to go earn it, a locked chest nobody will discuss has reached a wizard by courier, and an
+              old potion out of a traitor&apos;s quarters has turned out to be{" "}
+              <span className="text-zinc-300">one draught of the philosopher&apos;s stone — poured on a dead body, it brings them back</span>{" "}
+              once, on one corpse, spent in a hurry by whoever is still standing. The half-elf carries it
+              over his heart, and cannot make himself picture the day it gets used.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
