@@ -122,19 +122,20 @@ export default function WrathPage() {
         <section className="mb-32">
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
-            {/* LEVEL — KEEP IN SYNC with the Campaign Arc Status milestone footer further down this page.
-                MYTHIC TIERS are now PER CHARACTER (they diverge as each PC completes a personal quest) and live
-                on each card below as `tier`. The milestone footer shows the party's tier RANGE. When any
-                character's tier changes, update that card AND the footer range together. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 10 Gestalt</span>
+            {/* LEVEL + MYTHIC TIER — KEEP IN SYNC with the Campaign Arc Status milestone footer further down
+                this page. Tiers diverged for one session (Session 21, when only Nageru had finished his personal
+                quest) and were carried on the individual cards; as of Session 22 all four match again, so the
+                tier lives here with the level and the per-card `tier` field is gone. If they ever diverge again,
+                put it back on the cards and show a RANGE in the footer. */}
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 10 Gestalt · Mythic 4</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Caleth', classes: 'Paladin / Wizard',   tier: 3, src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     tier: 4, src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
-              { name: 'Thane',  classes: 'Inquisitor / Rogue', tier: 3, src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
-              { name: 'Korroc', classes: 'Paladin / Oracle',   tier: 3, src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
+              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
             ].map((character) => (
               <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
@@ -161,9 +162,6 @@ export default function WrathPage() {
                 <div className="text-center">
                   <h3 className="font-cinzel text-lg text-parchment uppercase tracking-widest">{character.name}</h3>
                   <p className="text-xs text-zinc-500 font-spectral italic mt-1">{character.classes}</p>
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-cinzel mt-2 text-zinc-600">
-                    Mythic Tier <span className="text-wotr-gold">{character.tier}</span>
-                  </p>
                 </div>
               </div>
             ))}
@@ -211,7 +209,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held, and hurt. The day after the company rode west, a six-legged dragon came over the walls and kept coming back to the courtyard. The elf went up a tower to draw it off. The tower came down, and the dragon took him and four soldiers with it.</p>
+                  <p className="text-sm text-zinc-400 italic">Held, and short one wizard. The four soldiers carried off the broken tower were brought home alive out of a cave four hundred miles south. The dragon that took them is dead. Aravashnial was moved somewhere else before the company could reach him, and the scrying will not find him now.</p>
                 </div>
               </div>
 
@@ -271,7 +269,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 bottom-0 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">The Molten Scar</h4>
-                  <p className="text-sm text-zinc-400 italic">Demon ground, and the reason the map stops meaning anything to the southwest. The Queen has ordered the Wounded Lands ranged for whatever can be turned against the Abyss. This is the direction that order points.</p>
+                  <p className="text-sm text-zinc-400 italic">A river of lava where a river used to be, with the old caravan levee — the Gray Road — running along the bank. Four days from Drezen on foot. The Templars were holding prisoners in a cavern above it, and there was an Abyssal rift burning at the far end of that cavern at midday which was simply gone by dark.</p>
                 </div>
               </div>
             </div>
@@ -282,14 +280,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                Seventy-five years in demon hands, taken in an afternoon, and now struck from the air. A tower stands broken over the courtyard where the dragon kept circling back, and the garrison is running on shouted orders and not much sleep. A helm, a sword, some armor and a wizard&apos;s staff snapped in two are laid out on the command table, because nobody knows yet what else to do with them.
+                The broken tower is still broken and the garrison is still short of sleep, but four men everyone had written off walked back into the infirmary under their own power, more or less. The staff is still on the command table, snapped in two, because the man it belonged to has not come back for it.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;Search parties go out in threes and come back before dark. Nobody goes alone and nobody goes up what is left of that tower. I want every sighting of that dragon written down, the hour, the direction, and which way it was flying. Five of ours were carried off. Until someone brings me a body, they are missing, and we look for missing people.&quot;
+                &quot;Four of the five are home and the dragon is carrion, so I will hear no more about whether it was worth going. The fifth is alive, or was. We have a name for who holds him and nothing at all for where. Write down every road, every rumor and every Templar we take breathing. Until someone brings me a body, he is missing — and we look for missing people.&quot;
               </p>
             </div>
           </div>
@@ -465,26 +463,27 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXI — The Lost Fane</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">What Was Lost</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXII — The Worm That Walks</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Shadow That Cast None</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              Scouts found an active temple of Baphomet thirty miles west of Drezen, and the company rode
-              out to empty it. On the way, a demon off the top of a rock nearly killed the monk, and the
-              thing it had been fighting up there turned out to be an axe that cursed in Dwarven and wanted
-              demon blood. The temple was exactly what the scouts said. Templars, a tattooed woman with a
-              crossbow, a winged beast, and a great goat-headed idol sitting cross-legged over all of
-              it. And when the last of them fell, the stone began to shake, and the company watched the
-              place{" "}
-              <span className="text-zinc-300">remember what it had been before anyone carved a demon over it</span>{" "}
-              — a lost house of Irori, mended by hands that had been waiting a very long time. One of
-              them bowed to the monk as an equal and called him by a name that none of the four has said
-              aloud since. They came home a week later to a broken tower, a chaotic garrison, and a
-              wizard&apos;s staff snapped in two on the command table.
+              They asked two questions about the thing that had come over the walls — what color it was,
+              and what came out of its mouth — and the two answers did not belong together, which is how
+              the company learned that{" "}
+              <span className="text-zinc-300">somebody is building dragons now</span>{" "}
+              and sending them at fortresses. A kettle of water found the wizard four hundred miles
+              south, bound in a cavern full of Templars, while an elegant woman in very good clothes
+              read his spellbook, decided what he was, and had him taken away — leaving the soldiers
+              captured with him for the dragon. The company went in on top of them without waiting for
+              morning. They brought all four soldiers home. They killed the dragon. They put a holy blade
+              three times through a woman who turned out not to be a woman, and she vanished before she
+              hit the floor. They did not get the wizard. And the next morning the water found him again,
+              in the dark, in a cage too small to stand up in — with something in the room that was not a
+              man and made no footfalls at all.
             </p>
           </div>
 
@@ -495,13 +494,13 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;There is no shrine to her. No temple is going to put itself back together in her
-              name. Where she fell there is a patch of swept stone in a Kenabres square, and people cross
-              it on their way to market, and most of them do not know why that stretch is cleaner than the
-              rest. She spent a hundred years being walked past in that city. It is possible she would have
-              wanted it that way. It is certain she was owed more. What she left behind was four silver
-              scales, given in the last breath she had, to strangers she had no reason to trust — and
-              those four have carried her gift a year into the Wound.&rdquo;
+              &ldquo;There was never a body. Whatever came down in that square at Armasse was gone before
+              anyone could go back for it, and what Kenabres has in its place is a patch of swept stone
+              that people cross on their way to market. Not a grave. An absence with the edges worn
+              smooth. She spent a hundred years being walked past in that city, and then spent herself
+              in about four seconds on four strangers she had no reason to trust, and left them a silver
+              scale apiece and no instructions whatsoever. The company is only now learning what that
+              particular kind of loss costs — the kind with no body in it, and no word.&rdquo;
             </p>
           </div>
 
@@ -511,26 +510,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Went Still",
-                contribution: "When a demon turned the sky upside down and threw three of them a hundred and forty feet into the air, he caught both dwarves on the way up and folded them to the ground behind it. Then he walked in under its arm and ended it with his bare hand and a great deal of lightning. Inside the temple his spells met something in the stone that would not let them work, and he swore about it, properly. At the end of the road home there was a broken staff on a table, and he did not say anything at all.",
+                role: "The One Who Asked the Color",
+                contribution: "He asked what color the thing was and what came out of its mouth, and when the two answers did not match he walked out of the command room without explaining himself to anyone. In the wizard’s study he found a page in that familiar sloped hand with three lines added at the bottom in a different ink, and sat down harder than he meant to, and put it inside his coat. Then he built a window in a kettle of water and took the company through it. He was pinned against a cave ceiling with a glaive in his hand when they carried his friend out the far door.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One They Waited For",
-                contribution: "He walked into a temple of Baphomet and felt it grieving at him, and did not understand why. A demon chose him first on the road and he stood through it bleeding. The woman with the tattoo chose him first in the temple, and he answered with five blows. Then the stone shook, and an old monk walked out of the light, bowed to him the way equals bow, and said welcome home. He knelt, and found the robes of his order waiting at the feet of his god. He has not spoken of it since.",
+                role: "The One Who Broke the Dragon",
+                contribution: "He held out both hands to say he would go, and went, and searched a room beside his friend for an hour without once asking what they were looking for. He heard something said aloud in that room that he has repeated to nobody. In the cavern he put two men on the floor in four seconds. Then he turned his back on a third and walked to the dragon that was standing on Korroc, went under its tail, came up swinging, and hit it five times. It did not get up. He was bleeding from the collarbone down before it fell.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One the Axe Knew",
-                contribution: "Something on top of a rock was cursing a demon in Dwarven, and he floated up to see what, and came back down carrying an axe that talks in many voices and wants blood. He knew its name before anyone told him. He read the map. He opened a lock that let a four-armed mist out of a cabinet, lost the color from his face, and slid out of its grip anyway. He found the door under the idol. Reading a bounty on a runaway succubus, he said good luck to her, and did not seem to notice he had.",
+                role: "The One Who Saw the Blade",
+                contribution: "He said the hard thing first — that you cannot track a flying creature, that there is nothing to read. In the cavern he put a man’s shoulder against a pillar of rock and killed him off the counter, then went through five more without ever appearing to hurry. Afterward, counting coins over a dragon’s hoard, he looked up and asked whether her blood was still on the glaive. It was. And when the hunt failed anyway, he said flatly that he could not have picked the man out of a line of three either, which was the kindest thing anyone said all night.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Saw It First",
-                contribution: "On the night road home from the tomb he told them something big had crossed the moon, and nobody else saw it. This time all four of them did, and he stood up and pointed and said see, that is what I saw. In the temple three blades found the seams in his armor and two of them stopped at the stone in his blood. He healed the room, dropped the last cultist across it with fire, and read that their enemy was an elven woman, and snorted.",
+                role: "The One Who Said Of Course",
+                contribution: "Asked whether they ought to go after five people carried off by a dragon, he shrugged and said of course, and a carefully built argument died unused in another man’s mouth. He bound half of two men’s wounds to his own body, then stood still in the dragon’s acid so that four tied prisoners would not have to. Six claws came down and he got his shield on three. Most of the blood he lost that night was somebody else’s, arriving through a door he had opened on purpose.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -545,24 +544,26 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Temple Found, a Wizard Taken</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The fane restored · A tower fallen · A bounty on a runaway</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Everything Except the One Thing</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The dragon dead · Four soldiers home · A name in the dark</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The company went west to clear one enemy temple and came back with more than it went for.
-              A lost house of Irori is standing clean again in the Marchlands. A cabinet of Templar papers
-              names the Ivory Sanctum and puts it somewhere in the Marchlands, which narrows nothing. The
-              woman who signs the orders is called elven, which nobody in the company believes, and she
-              has posted{" "}
-              <span className="text-zinc-300">a thousand platinum for a succubus who escaped from under Drezen</span>{" "}
-              — which tells them exactly how badly she is wanted. And while they were gone, the fortress
-              they had just won was hit from the sky, and Aravashnial went up a tower so other people could
-              get out of the courtyard. Nobody has found him. Nobody has stopped looking.
+              They crossed four hundred miles in a single step and did very nearly everything right. The
+              four soldiers taken off that tower are in the Drezen infirmary and two of them will be back
+              on duty inside the week. The six-legged dragon is dead on a cavern floor near the Molten
+              Scar. The woman who signs the Templars&apos; orders left her blood on a holy blade and got
+              away on a spell she had laid into herself in advance — and she is not elven, whatever the
+              paperwork says, because the blade told them so the moment it went in. But the wizard was
+              carried out a different door while the fighting was still going on, and the water cannot
+              find him. What it found the next morning was an iron cage, and a courteous voice with no
+              footsteps under it, and{" "}
+              <span className="text-zinc-300">a name this company now has to learn how to hunt</span>{" "}
+              — Xanthir Vang.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              {/* Tier RANGE across the party — per-character tiers live on the Vanguard cards. Keep in sync. */}
-              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">3–4</span></span>
+              {/* All four match again as of Session 22 — keep in sync with the Vanguard header line above. */}
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4</span></span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Level <span className="text-wotr-gold">10</span></span>
             </div>

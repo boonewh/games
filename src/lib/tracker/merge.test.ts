@@ -47,6 +47,7 @@ function detail(over: Partial<CharacterDetail> = {}): CharacterDetail {
     drs: [],
     resistances: [],
     vulnerabilities: [],
+    sections: [],
     abilities: [],
     conditions: [],
     pools: [],
@@ -61,6 +62,7 @@ function ability(over: Partial<Ability> = {}): Ability {
   return {
     id: 'a1',
     character_id: 'c1',
+    section_id: null,
     name: 'Lay on Hands',
     category: 'class_feature',
     action_type: 'standard',
