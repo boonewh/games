@@ -116,3 +116,18 @@ Tell William. Two minutes to revert a bad deploy. Your character data isn't affe
 ---
 
 That's the whole thing. Now go remember to use your swift action.
+
+
+## HP boost per level
+
+In the Hit Points card, choose **HP boost → Set up**, enter the extra HP per
+character level, and save. For a +4 Constitution effect, enter **2 HP per level**.
+Switch the boost on when the effect starts and off when it ends. The amount is
+remembered across visits. Set your total character level in the editor first.
+
+The boost adds to both current and maximum HP, separately from temporary HP.
+Damage and healing work normally while it is active. Ending it subtracts the
+full bonus from current HP, even below zero. Base maximum HP stays unchanged.
+Level changes recalculate an active boost. End it manually when its effect ends;
+Long Rest does not automatically turn it off. Undo reverses damage/healing;
+use the boost control itself to change or end a boost.

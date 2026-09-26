@@ -11,6 +11,7 @@
 import { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { bad, fail, json, notFound, requireCharacter } from '@/lib/tracker/http'
+import { effectiveMaxHp, hpBoostAmount } from '@/lib/tracker/hp-boost'
 import { calculateDamage } from '@/lib/tracker/damage'
 import { NONLETHAL_AUTO_NOTE, NONLETHAL_CONDITIONS, nonlethalStatus } from '@/lib/tracker/nonlethal'
 import type {
@@ -31,6 +32,7 @@ type Action =
   | { action: 'long_rest' }
   | { action: 'full_heal' }
   | { action: 'undo' }
+  | { action: 'hp_boost'; per_level: number; active: boolean }
 
 export async function POST(req: NextRequest, ctx: Ctx) {
   const { id } = await ctx.params
@@ -45,6 +47,8 @@ export async function POST(req: NextRequest, ctx: Ctx) {
   }
 
   switch (body.action) {
+    case 'hp_boost':
+      return await handleHpBoost(id, body.per_level, body.active)
     case 'damage':
       return await handleDamage(id, body)
     case 'heal':
@@ -111,6 +115,30 @@ async function reconcileNonlethalConditions(
   } catch (e) {
     console.error('[tracker:nonlethal] condition reconcile failed', e)
   }
+}
+
+async function handleHpBoost(characterId: string, perLevel: number, active: boolean) {
+  if (!Number.isSafeInteger(perLevel) || perLevel < 0 || perLevel > 1000) {
+    return bad('HP per level must be a whole number between 0 and 1000')
+  }
+  if (typeof active !== 'boolean') return bad('active must be true or false')
+  if (active && perLevel === 0) return bad('Set HP per level before enabling the boost')
+
+  // The database adjusts current HP by the change in bonus and logs it atomically.
+  // Sending an explicit state makes retries safe: on twice only applies it once.
+  const { data, error } = await supabase.from('character')
+    .update({ hp_boost_per_level: perLevel, hp_boost_active: active })
+    .eq('id', characterId).select().single()
+  if (error) return error.code === '23514' ? bad(error.message) : fail(error.message)
+  if (!data) return notFound('character')
+  const character = data as Character
+  await reconcileNonlethalConditions(characterId, character.current_hp, character.nonlethal)
+  return json({
+    character,
+    message: active
+      ? `HP boost on: +${hpBoostAmount(character)} HP (${perLevel} per level).`
+      : 'HP boost off. Per-level amount saved.'
+  })
 }
 
 async function handleDamage(characterId: string, request: DamageRequest) {
@@ -196,14 +224,14 @@ async function handleHeal(characterId: string, amount: number, note?: string) {
 
   const { data: character, error } = await supabase
     .from('character')
-    .select('current_hp, max_hp, nonlethal')
+    .select('current_hp, max_hp, nonlethal, level, hp_boost_per_level, hp_boost_active')
     .eq('id', characterId)
     .single()
   if (error) return fail(error.message)
   if (!character) return notFound('character')
 
   const raw = Math.floor(amount)
-  const room = Math.max(0, character.max_hp - character.current_hp)
+  const room = Math.max(0, effectiveMaxHp(character) - character.current_hp)
   const applied = Math.min(raw, room)
   const newCurrent = character.current_hp + applied
 
@@ -293,12 +321,12 @@ async function handleLongRest(characterId: string) {
   // PF1e: a night's rest restores HP equal to character level (capped at max).
   const { data: pre, error: preErr } = await supabase
     .from('character')
-    .select('current_hp, max_hp, level')
+    .select('current_hp, max_hp, level, hp_boost_per_level, hp_boost_active')
     .eq('id', characterId)
     .single()
   if (preErr || !pre) return fail(preErr?.message ?? 'character missing')
 
-  const healAmount = Math.max(0, Math.min(pre.max_hp - pre.current_hp, pre.level ?? 0))
+  const healAmount = Math.max(0, Math.min(effectiveMaxHp(pre) - pre.current_hp, pre.level ?? 0))
   const newCurrentHp = pre.current_hp + healAmount
 
   const { data: updated, error: updateErr } = await supabase
@@ -399,17 +427,17 @@ async function handleLongRest(characterId: string) {
 async function handleFullHeal(characterId: string) {
   const { data: pre, error: preErr } = await supabase
     .from('character')
-    .select('current_hp, max_hp, nonlethal')
+    .select('current_hp, max_hp, nonlethal, level, hp_boost_per_level, hp_boost_active')
     .eq('id', characterId)
     .single()
   if (preErr || !pre) return fail(preErr?.message ?? 'character missing')
 
-  const healed = Math.max(0, pre.max_hp - pre.current_hp)
+  const healed = Math.max(0, effectiveMaxHp(pre) - pre.current_hp)
 
   const [{ data: updated, error: updateErr }, { data: event, error: insertErr }] = await Promise.all([
     supabase
       .from('character')
-      .update({ current_hp: pre.max_hp, nonlethal: 0 })
+      .update({ current_hp: effectiveMaxHp(pre), nonlethal: 0 })
       .eq('id', characterId)
       .select()
       .single(),
@@ -432,12 +460,12 @@ async function handleFullHeal(characterId: string) {
   if (updateErr) return fail(`update: ${updateErr.message}`)
   if (insertErr) return fail(`event: ${insertErr.message}`)
 
-  await reconcileNonlethalConditions(characterId, pre.max_hp, 0)
+  await reconcileNonlethalConditions(characterId, effectiveMaxHp(pre), 0)
 
   return json({
     character: updated as Character,
     event: event as HpEvent,
-    message: healed > 0 ? `Topped off to full (${pre.max_hp} HP), cleared nonlethal.` : 'Already at full HP; cleared nonlethal.'
+    message: healed > 0 ? `Topped off to full (${effectiveMaxHp(pre)} HP), cleared nonlethal.` : 'Already at full HP; cleared nonlethal.'
   })
 }
 
@@ -463,6 +491,9 @@ async function handleUndo(characterId: string) {
 
   if (!last) {
     return json({ character, event: null, message: 'Nothing to undo.' })
+  }
+  if (last.kind === 'hp_boost') {
+    return json({ character, event: null, message: 'Use the HP boost control to change or end the boost.' })
   }
   if (last.kind === 'rest') {
     return json({ character, event: null, message: 'Long rest cannot be undone automatically.' })

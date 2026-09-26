@@ -21,6 +21,8 @@ function detail(over: Partial<CharacterDetail> = {}): CharacterDetail {
     name: 'Korroc',
     class_summary: 'Paladin 4',
     level: 4,
+    hp_boost_per_level: 0,
+    hp_boost_active: false,
     max_hp: 40,
     current_hp: 30,
     temp_hp: 0,

@@ -35,7 +35,7 @@ export function mitigationFor(type: DamageType): Mitigation {
   return (ENERGY_TYPES as string[]).includes(type) ? 'energy' : 'none'
 }
 
-export type HpEventKind = 'damage' | 'heal' | 'temp_hp' | 'nonlethal' | 'rest' | 'undo'
+export type HpEventKind = 'damage' | 'heal' | 'temp_hp' | 'nonlethal' | 'rest' | 'hp_boost' | 'undo'
 
 export type AbilityCategory = 'class_feature' | 'feat' | 'spell' | 'sla' | 'item' | 'reminder'
 export type ActionType = 'free' | 'swift' | 'move' | 'standard' | 'full' | 'immediate' | 'reaction' | 'passive'
@@ -103,7 +103,10 @@ export interface Character {
   name: string
   class_summary: string | null
   level: number | null
+  /** Permanent maximum, excluding the per-level HP boost. */
   max_hp: number
+  hp_boost_per_level: number
+  hp_boost_active: boolean
   current_hp: number
   temp_hp: number
   nonlethal: number

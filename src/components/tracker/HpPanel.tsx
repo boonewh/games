@@ -5,6 +5,8 @@ import type { CharacterDetail, DamageType } from '@/lib/tracker/types'
 import { DAMAGE_TYPES, DAMAGE_TYPE_LABEL, mitigationFor } from '@/lib/tracker/types'
 import { nonlethalStatus } from '@/lib/tracker/nonlethal'
 import { CharacterEditModal } from './CharacterEditModal'
+import { HpBoostControl } from './HpBoostControl'
+import { effectiveMaxHp } from '@/lib/tracker/hp-boost'
 import { ConditionsBar } from './ConditionsBar'
 import { PoolsCard } from './PoolsCard'
 import { SpellDcsCard } from './SpellDcsCard'
@@ -28,7 +30,8 @@ export function HpPanel({ character, onChanged }: Props) {
   const [busy, setBusy] = useState(false)
   const [editing, setEditing] = useState(false)
 
-  const ratio = character.max_hp > 0 ? character.current_hp / character.max_hp : 0
+  const maxHp = effectiveMaxHp(character)
+  const ratio = maxHp > 0 ? character.current_hp / maxHp : 0
   const hpPct = Math.max(0, Math.min(100, ratio * 100))
   const hpColor =
     character.current_hp <= 0
@@ -57,6 +60,20 @@ export function HpPanel({ character, onChanged }: Props) {
       return json
     } finally {
       setBusy(false)
+    }
+  }
+
+  async function saveHpBoost(perLevel: number, active: boolean): Promise<boolean> {
+    try {
+      const res = await postHp('hp_boost', { per_level: perLevel, active })
+      setStatus(res.message)
+      setStatusKind('info')
+      await onChanged()
+      return true
+    } catch (e) {
+      setStatus(e instanceof Error ? e.message : String(e))
+      setStatusKind('info')
+      return false
     }
   }
 
@@ -202,8 +219,9 @@ export function HpPanel({ character, onChanged }: Props) {
             <span className="font-cinzel font-semibold text-5xl leading-none" style={{ color: hpColor }}>
               {character.current_hp}
             </span>
-            <span className="font-cinzel text-[22px] text-parchment/40">/ {character.max_hp}</span>
+            <span className="font-cinzel text-[22px] text-parchment/40">/ {maxHp}</span>
           </div>
+          <HpBoostControl key={character.id} character={character} busy={busy} onSave={saveHpBoost} />
           {/* HP bar */}
           <div className="h-[9px] rounded-full bg-black/35 border border-[rgba(190,158,92,0.14)] overflow-hidden mt-2.5">
             <div

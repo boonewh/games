@@ -8,6 +8,8 @@
 
 'use client'
 
+import { effectiveMaxHp } from '@/lib/tracker/hp-boost'
+
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -165,7 +167,7 @@ export default function JoinPartyPage() {
                       {c.class_summary && <div className="text-xs opacity-70">{c.class_summary}</div>}
                     </div>
                     <div className="text-sm tabular-nums opacity-80">
-                      HP {c.current_hp} / {c.max_hp}
+                      HP {c.current_hp} / {effectiveMaxHp(c)}
                       {c.ac != null && <span className="ml-3">AC {c.ac}</span>}
                     </div>
                   </label>

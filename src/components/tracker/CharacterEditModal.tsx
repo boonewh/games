@@ -164,6 +164,9 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
         </div>
         {parseError && <div className="text-abyssal-red text-sm mb-3">Parse failed: {parseError}</div>}
 
+        {character.hp_boost_active && (
+          <p className="mb-3 text-sm text-wotr-gold">HP boost is on. Base max HP excludes the boost; current HP includes it. Changing level also adjusts current HP by the change in boost.</p>
+        )}
         <div className="space-y-3">
           <label className="block">
             <span className="block text-sm opacity-80 mb-1">Name</span>
@@ -192,7 +195,7 @@ export function CharacterEditModal({ character, onClose, onSaved }: Props) {
 
           <div className="grid grid-cols-3 gap-3">
             <label className="block">
-              <span className="block text-sm opacity-80 mb-1">Max HP</span>
+              <span className="block text-sm opacity-80 mb-1">Base max HP</span>
               <input
                 type="number"
                 value={maxHp}

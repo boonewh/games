@@ -3,6 +3,8 @@
 
 'use client'
 
+import { effectiveMaxHp } from '@/lib/tracker/hp-boost'
+
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { Character } from '@/lib/tracker/types'
@@ -94,7 +96,7 @@ export default function TrackerRosterPage() {
                       <div className="font-cinzel text-lg text-parchment">{c.name}</div>
                       <div className="text-sm tabular-nums">
                         HP <span className="text-wotr-gold">{c.current_hp}</span>
-                        <span className="opacity-60"> / {c.max_hp}</span>
+                        <span className="opacity-60"> / {effectiveMaxHp(c)}</span>
                       </div>
                     </div>
                     {c.class_summary && <div className="text-xs opacity-70 mt-1">{c.class_summary}</div>}

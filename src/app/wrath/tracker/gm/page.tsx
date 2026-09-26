@@ -8,6 +8,8 @@
 
 'use client'
 
+import { effectiveMaxHp } from '@/lib/tracker/hp-boost'
+
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -278,7 +280,7 @@ export default function GmDashboardPage() {
 }
 
 function PartyMemberCard({ character }: { character: DashboardCharacter }) {
-  const ratio = character.max_hp > 0 ? character.current_hp / character.max_hp : 0
+  const ratio = effectiveMaxHp(character) > 0 ? character.current_hp / effectiveMaxHp(character) : 0
   const hpColor =
     ratio > 0.66
       ? 'text-emerald-400'
@@ -308,7 +310,7 @@ function PartyMemberCard({ character }: { character: DashboardCharacter }) {
         <div className="shrink-0 flex flex-col items-end">
           <div className={`text-2xl font-bold tabular-nums ${hpColor}`}>
             {character.current_hp}
-            <span className="opacity-50 text-base"> / {character.max_hp}</span>
+            <span className="opacity-50 text-base"> / {effectiveMaxHp(character)}</span>
           </div>
           <div className="text-[10px] uppercase tracking-wider opacity-50">HP</div>
         </div>
