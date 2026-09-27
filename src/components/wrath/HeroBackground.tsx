@@ -16,6 +16,7 @@ export default function HeroBackground() {
     const updatePreference = () => {
       setMotionAllowed(!preference.matches);
       setReady(false);
+      setPlaying(false);
     };
     updatePreference();
     preference.addEventListener('change', updatePreference);
@@ -54,7 +55,7 @@ export default function HeroBackground() {
           onError={() => setFailed(true)}
         />
       )}
-      {showVideo && ready && (
+      {showVideo && (
         <button
           type="button"
           className="absolute bottom-5 right-5 z-20 flex h-8 w-8 items-center justify-center rounded border border-white/20 bg-black/60 text-white/80 hover:bg-black/80 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
@@ -63,7 +64,8 @@ export default function HeroBackground() {
             const video = videoRef.current;
             if (!video) return;
             if (video.paused) {
-              void video.play().catch(() => setFailed(true));
+              // A playback-policy rejection is not a broken video; allow another try.
+              void video.play().catch(() => setPlaying(false));
             } else {
               video.pause();
             }
