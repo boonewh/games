@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/wrath/Header";
+import HeroBackground from "@/components/wrath/HeroBackground";
 import Footer from "@/components/wrath/Footer";
 import WrathMiniatureGallery from "@/components/wrath/MiniatureGallery";
 import { StoryEntry } from "@/types/story";
@@ -84,14 +85,7 @@ export default function WrathPage() {
 
       {/* HERO SECTION */}
       <header className="relative h-screen w-full flex items-center justify-center overflow-hidden border-b-2 border-wotr-gold">
-        {/* Main Crusader/Wardstone Image */}
-        <Image
-          src="/images/wrath/wrath-hero.jpg"
-          alt="The Fifth Crusade"
-          fill
-          className="object-cover"
-          priority
-        />
+        <HeroBackground />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-dark/0 via-stone-dark/40 to-stone-dark"></div>
 
         <div className="relative z-10 text-center px-4">
@@ -209,7 +203,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held, and short one wizard. The four soldiers carried off the broken tower were brought home alive out of a cave four hundred miles south. The dragon that took them is dead. Aravashnial was moved somewhere else before the company could reach him, and the scrying will not find him now.</p>
+                  <p className="text-sm text-zinc-400 italic">Held, and ordered to leave. A giggling demon flew up to the north wall with the ultimatum — abandon the city within the week — and was given a one-word answer. The escape tunnel under the eastern bridge is open at last. The wizard is still missing, and every morning the scrying is shut in the company’s face.</p>
                 </div>
               </div>
 
@@ -280,14 +274,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The broken tower is still broken and the garrison is still short of sleep, but four men everyone had written off walked back into the infirmary under their own power, more or less. The staff is still on the command table, snapped in two, because the man it belonged to has not come back for it.
+                The east gate is reinforced, the watch is doubled, and a dwarf stonemason who answered the call for masons turned out to be Korroc&apos;s mother, and is already telling the engineers what they are doing wrong. The tunnel under the bridge is open. None of the dead in it were dwarves. The staff is still on the command table.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;Four of the five are home and the dragon is carrion, so I will hear no more about whether it was worth going. The fifth is alive, or was. We have a name for who holds him and nothing at all for where. Write down every road, every rumor and every Templar we take breathing. Until someone brings me a body, he is missing — and we look for missing people.&quot;
+                &quot;A demon hovered thirty feet off my wall and told me to abandon Drezen within the week. I put the question to the knights. One of them said &apos;nope,&apos; and I have decided to treat that as the citadel&apos;s formal reply. We fortify. And if four of my best ride north at nightfall after two men nobody has seen in decades, I let them go — because I would have gone myself.&quot;
               </p>
             </div>
           </div>
@@ -463,27 +457,26 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXII — The Worm That Walks</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Shadow That Cast None</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIII — The Road North</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Children Are Not Equations</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              They asked two questions about the thing that had come over the walls — what color it was,
-              and what came out of its mouth — and the two answers did not belong together, which is how
-              the company learned that{" "}
-              <span className="text-zinc-300">somebody is building dragons now</span>{" "}
-              and sending them at fortresses. A kettle of water found the wizard four hundred miles
-              south, bound in a cavern full of Templars, while an elegant woman in very good clothes
-              read his spellbook, decided what he was, and had him taken away — leaving the soldiers
-              captured with him for the dragon. The company went in on top of them without waiting for
-              morning. They brought all four soldiers home. They killed the dragon. They put a holy blade
-              three times through a woman who turned out not to be a woman, and she vanished before she
-              hit the floor. They did not get the wizard. And the next morning the water found him again,
-              in the dark, in a cage too small to stand up in — with something in the room that was not a
-              man and made no footfalls at all.
+              The thing that holds the wizard sent a messenger: a small red demon that hovered off the
+              north wall, giggling, and told the citadel to be gone within the week or more would be
+              taken. It threw the wizard&apos;s own journal at them, torn to pieces, as proof. Sewn inside
+              the cover were two old letters that Caleth read twice and has not spoken of since. Four
+              days later, while riders on drakes tore through the digging at the eastern bridge, the
+              escape tunnel the Stonevein fathers dug their way out through was finally opened. None of
+              the dead inside it were dwarves. One of them, asked by a priest, said the two brothers were
+              the reason anyone got out at all — that one of them was hurt, and that they had meant to
+              make for a crypt somewhere up the dry riverbed. He did not know if they reached it. So{" "}
+              <span className="text-zinc-300">the company rode north at nightfall</span>{" "}
+              with three days left on a demon&apos;s deadline, and Korroc&apos;s mother watched them go
+              from the gate.
             </p>
           </div>
 
@@ -510,26 +503,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Asked the Color",
-                contribution: "He asked what color the thing was and what came out of its mouth, and when the two answers did not match he walked out of the command room without explaining himself to anyone. In the wizard’s study he found a page in that familiar sloped hand with three lines added at the bottom in a different ink, and sat down harder than he meant to, and put it inside his coat. Then he built a window in a kettle of water and took the company through it. He was pinned against a cave ceiling with a glaive in his hand when they carried his friend out the far door.",
+                role: "The One Who Kept the Letters",
+                contribution: "He found the one drawer in the wizard’s study that had ever been locked, and asked Thane to open it, and did not say what he found. On the wall, two old letters fell out of a torn journal’s cover; he read them twice and put them inside his coat, where the pocket is getting crowded. He killed the drake that was carrying Thane away by standing directly in front of it, and it landed on him. On the road north he woke with his hand clamped to his shoulder and said he believes the wizard is trying to reach him.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Broke the Dragon",
-                contribution: "He held out both hands to say he would go, and went, and searched a room beside his friend for an hour without once asking what they were looking for. He heard something said aloud in that room that he has repeated to nobody. In the cavern he put two men on the floor in four seconds. Then he turned his back on a third and walked to the dragon that was standing on Korroc, went under its tail, came up swinging, and hit it five times. It did not get up. He was bleeding from the collarbone down before it fell.",
+                role: "The One Who Found the Seam",
+                contribution: "He picked up the ruined cover of the wizard’s journal, ran his thumb along the inside edge, and felt what nobody else would have — a second seam, too carefully made. He handed it over without asking what was in it. At the bridge he was first into the fight and three of the lancers did not get up; when a drake spat acid at him he simply dropped beneath it. He turned down a horse for the night ride and ran beside them, and promised a dwarf woman he had just met that he would bring her boys home.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Saw the Blade",
-                contribution: "He said the hard thing first — that you cannot track a flying creature, that there is nothing to read. In the cavern he put a man’s shoulder against a pillar of rock and killed him off the counter, then went through five more without ever appearing to hurry. Afterward, counting coins over a dragon’s hoard, he looked up and asked whether her blood was still on the glaive. It was. And when the hunt failed anyway, he said flatly that he could not have picked the man out of a line of three either, which was the kindest thing anyone said all night.",
+                role: "The One Who Asked the Dead",
+                contribution: "A lance found the seam under his arm and a drake carried him off the field; he woke in its claws, tore loose, floated, was taken again, and when he came down he killed the man who had put him there. He told his aunt to her face what he had never managed to put in a letter. In the tunnel he asked a dead man four questions about his father, and one of the answers was no. Then he said he needed a horse, and nobody could talk him out of it.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Said Of Course",
-                contribution: "Asked whether they ought to go after five people carried off by a dragon, he shrugged and said of course, and a carefully built argument died unused in another man’s mouth. He bound half of two men’s wounds to his own body, then stood still in the dragon’s acid so that four tied prisoners would not have to. Six claws came down and he got his shield on three. Most of the blood he lost that night was somebody else’s, arriving through a door he had opened on purpose.",
+                role: "The One Who Said Nope",
+                contribution: "Asked whether the citadel meant to obey a demon’s ultimatum, he shook his head and said nope, and that was the whole of the council. His mother walked into Drezen unannounced and he could not stop grinning. When a drake carried his cousin into the sky he ran under it on borrowed speed and threw healing upward like a man throwing a stone, and it landed. He asked the dead where his father went. Then he climbed onto a horse, cursing it, because Thane was going.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -544,20 +537,18 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Everything Except the One Thing</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The dragon dead · Four soldiers home · A name in the dark</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Day&apos;s Ride Among the Dead</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">An ultimatum refused · The tunnel opened · Three days left on the week</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              They crossed four hundred miles in a single step and did very nearly everything right. The
-              four soldiers taken off that tower are in the Drezen infirmary and two of them will be back
-              on duty inside the week. The six-legged dragon is dead on a cavern floor near the Molten
-              Scar. The woman who signs the Templars&apos; orders left her blood on a holy blade and got
-              away on a spell she had laid into herself in advance — and she is not elven, whatever the
-              paperwork says, because the blade told them so the moment it went in. But the wizard was
-              carried out a different door while the fighting was still going on, and the water cannot
-              find him. What it found the next morning was an iron cage, and a courteous voice with no
-              footsteps under it, and{" "}
-              <span className="text-zinc-300">a name this company now has to learn how to hunt</span>{" "}
-              — Xanthir Vang.
+              Drezen stays. Irabeth is fortifying against whatever Xanthir Vang sends when his week runs
+              out, and the scrying that found the wizard twice now finds nothing at all — it is shut off
+              every morning before it can take hold, and the last time it was thrown back hard. The four
+              knights are not in the citadel to see what comes. They are camped along the dry riverbed a
+              few hours north, riding for the place Korroc&apos;s mother remembers from before the fall:{" "}
+              <span className="text-zinc-300">a graveyard for the dwarves who died when Khar-Zadûn fell</span>
+              , a day out, with a waystation on its grounds where travelers once stopped for food and a
+              roof. Two escaped prisoners may have gone there, decades ago, one of them hurt. Nobody knows
+              whether it is still standing.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
