@@ -116,20 +116,20 @@ export default function WrathPage() {
         <section className="mb-32">
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
-            {/* LEVEL + MYTHIC TIER — KEEP IN SYNC with the Campaign Arc Status milestone footer further down
-                this page. Tiers diverged for one session (Session 21, when only Nageru had finished his personal
-                quest) and were carried on the individual cards; as of Session 22 all four match again, so the
-                tier lives here with the level and the per-card `tier` field is gone. If they ever diverge again,
-                put it back on the cards and show a RANGE in the footer. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 10 Gestalt · Mythic 4</span>
+            {/* LEVEL — KEEP IN SYNC with the Campaign Arc Status milestone footer further down this page.
+                MYTHIC TIERS have DIVERGED again (Session 24: Caleth 4, the other three 5), so they live on each
+                card below as `tier`, and the milestone footer shows the party's tier RANGE. When any character's
+                tier changes, update that card AND the footer range together. If all four match again, move the
+                tier back up here ("Level N Gestalt · Mythic N") and drop the per-card field. */}
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 11 Gestalt</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
-              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
-              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
+              { name: 'Caleth', classes: 'Paladin / Wizard',   tier: 4, src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     tier: 5, src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', tier: 5, src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   tier: 5, src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
             ].map((character) => (
               <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
@@ -156,6 +156,9 @@ export default function WrathPage() {
                 <div className="text-center">
                   <h3 className="font-cinzel text-lg text-parchment uppercase tracking-widest">{character.name}</h3>
                   <p className="text-xs text-zinc-500 font-spectral italic mt-1">{character.classes}</p>
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-cinzel mt-2 text-zinc-600">
+                    Mythic Tier <span className="text-wotr-gold">{character.tier}</span>
+                  </p>
                 </div>
               </div>
             ))}
@@ -203,7 +206,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held, and ordered to leave. A giggling demon flew up to the north wall with the ultimatum — abandon the city within the week — and was given a one-word answer. The escape tunnel under the eastern bridge is open at last. The wizard is still missing, and every morning the scrying is shut in the company’s face.</p>
+                  <p className="text-sm text-zinc-400 italic">Held. The demon’s week ran out and nothing came over the walls. Four mornings later the missing wizard walked in out of the west — barefoot, collared, with three constructs hunting him across the open ground. He is asleep in the infirmary now.</p>
                 </div>
               </div>
 
@@ -274,14 +277,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The east gate is reinforced, the watch is doubled, and a dwarf stonemason who answered the call for masons turned out to be Korroc&apos;s mother, and is already telling the engineers what they are doing wrong. The tunnel under the bridge is open. None of the dead in it were dwarves. The staff is still on the command table.
+                The deadline came and went and the walls were never tested. The engineers are shoring the old tunnel under the eastern bridge for use. Korroc&apos;s mother is back at her stonework. A day north, at a dead village called Sesker&apos;s Gully, two Stonevein brothers lie side by side under fieldstones, and the family has decided to leave them there.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;A demon hovered thirty feet off my wall and told me to abandon Drezen within the week. I put the question to the knights. One of them said &apos;nope,&apos; and I have decided to treat that as the citadel&apos;s formal reply. We fortify. And if four of my best ride north at nightfall after two men nobody has seen in decades, I let them go — because I would have gone myself.&quot;
+                &quot;I tripled the watch for the last nights of that demon&apos;s week, and nothing came, and I do not trust it. I told this citadel once that until someone brought me a body, the wizard was missing. Nobody brought me a body. He walked here himself, and the knights were off the wall before my soldier had finished telling me so.&quot;
               </p>
             </div>
           </div>
@@ -457,26 +460,26 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIII — The Road North</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">Children Are Not Equations</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIV — Two Humans Came Back</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Graves at Sesker&apos;s Gully</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The thing that holds the wizard sent a messenger: a small red demon that hovered off the
-              north wall, giggling, and told the citadel to be gone within the week or more would be
-              taken. It threw the wizard&apos;s own journal at them, torn to pieces, as proof. Sewn inside
-              the cover were two old letters that Caleth read twice and has not spoken of since. Four
-              days later, while riders on drakes tore through the digging at the eastern bridge, the
-              escape tunnel the Stonevein fathers dug their way out through was finally opened. None of
-              the dead inside it were dwarves. One of them, asked by a priest, said the two brothers were
-              the reason anyone got out at all — that one of them was hurt, and that they had meant to
-              make for a crypt somewhere up the dry riverbed. He did not know if they reached it. So{" "}
-              <span className="text-zinc-300">the company rode north at nightfall</span>{" "}
-              with three days left on a demon&apos;s deadline, and Korroc&apos;s mother watched them go
-              from the gate.
+              The dry riverbed led a day north to Sesker&apos;s Gully, a dead village built on the
+              foundations of an old dwarven waystation, and to the graveyard of the dwarves who died when
+              Khar-Zadûn fell. A crusader&apos;s ghost kept the gate of his family&apos;s broken tomb,
+              shut out of it by a demon gnawing his dead below. The knights cleared the crypt, found the
+              ghost&apos;s own bones where he had fallen and never been carried home, and laid him in the
+              one coffin that had always stood empty. In return he led them over the hill to five graves
+              marked with fieldstones and names scratched in by hand. Two of them read{" "}
+              <span className="text-zinc-300">Thorek and Borin</span>{" "}
+              Stonevein. Borin died there of the wound he carried out of the tunnel, and his brother
+              buried him and walked on. Some time later, two strangers carried Thorek back to lie beside
+              him. Nobody knows who they were. Korroc&apos;s mother has ruled that her men stay where they
+              are, among their own.
             </p>
           </div>
 
@@ -487,13 +490,14 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;There was never a body. Whatever came down in that square at Armasse was gone before
-              anyone could go back for it, and what Kenabres has in its place is a patch of swept stone
-              that people cross on their way to market. Not a grave. An absence with the edges worn
-              smooth. She spent a hundred years being walked past in that city, and then spent herself
-              in about four seconds on four strangers she had no reason to trust, and left them a silver
-              scale apiece and no instructions whatsoever. The company is only now learning what that
-              particular kind of loss costs — the kind with no body in it, and no word.&rdquo;
+              &ldquo;Nobody carried her home. There was nothing to carry — whatever came down in that
+              square at Armasse was gone before anyone could go back for it, and Kenabres keeps a patch
+              of swept stone where a grave should be. She lived a hundred years in that city as a
+              stranger, and died in about four seconds for four more strangers she had no reason to
+              trust, and asked nothing of them. The scales she left are the nearest thing she has to a
+              headstone: four small pieces of silver, carried a long way from where she fell by people
+              she never knew. This season the company learned what it is worth, to be carried by
+              strangers.&rdquo;
             </p>
           </div>
 
@@ -503,26 +507,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Kept the Letters",
-                contribution: "He found the one drawer in the wizard’s study that had ever been locked, and asked Thane to open it, and did not say what he found. On the wall, two old letters fell out of a torn journal’s cover; he read them twice and put them inside his coat, where the pocket is getting crowded. He killed the drake that was carrying Thane away by standing directly in front of it, and it landed on him. On the road north he woke with his hand clamped to his shoulder and said he believes the wizard is trying to reach him.",
+                role: "The One Who Showed the Mark",
+                contribution: "He swore the company to a dead crusader’s errand before anyone could object. In an empty square he went still for two heartbeats and came back saying that whatever took the wizard has been watching him; that night he woke screaming, pulled off his shirt by the fire, and showed his friends a pale spiral he has carried since birth — and said only that he had been told what it was called. When a stranger fell in the grass west of Drezen and the hood came back, the name he cried out was the loudest thing his friends have ever heard from him.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Found the Seam",
-                contribution: "He picked up the ruined cover of the wizard’s journal, ran his thumb along the inside edge, and felt what nobody else would have — a second seam, too carefully made. He handed it over without asking what was in it. At the bridge he was first into the fight and three of the lancers did not get up; when a drake spat acid at him he simply dropped beneath it. He turned down a horse for the night ride and ran beside them, and promised a dwarf woman he had just met that he would bring her boys home.",
+                role: "The One at His Shoulder",
+                contribution: "He left a perfectly good shadow the instant two friends were caught in the open, and let a screaming swarm feed on him until it was gone. When Caleth froze in that square, it was Nageru’s hand on his other shoulder that brought him back, and that night he sat beside him until dawn, an inch away, saying nothing. At the Stonevein graves he stood well back with his head bowed, both days. West of Drezen he broke three walking constructs the size of elephants, rolled out from under the one that exploded, and looked mildly annoyed about it.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Asked the Dead",
-                contribution: "A lance found the seam under his arm and a drake carried him off the field; he woke in its claws, tore loose, floated, was taken again, and when he came down he killed the man who had put him there. He told his aunt to her face what he had never managed to put in a letter. In the tunnel he asked a dead man four questions about his father, and one of the answers was no. Then he said he needed a horse, and nobody could talk him out of it.",
+                role: "The One Who Read the Fifth Stone",
+                contribution: "He asked a fading ghost one question — had it seen dwarves pass this way — and it led him over a hill to five graves. He read three names he did not know, then his uncle’s, and did not need to read the fifth. His father had buried his brother there and walked on, and died somewhere else, and two strangers Thane will never be able to thank carried him back. A week later he picked a demon’s collar off the throat of a man who had walked home for days, then sat on the step outside and wiped his knives for a long time.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Said Nope",
-                contribution: "Asked whether the citadel meant to obey a demon’s ultimatum, he shook his head and said nope, and that was the whole of the council. His mother walked into Drezen unannounced and he could not stop grinning. When a drake carried his cousin into the sky he ran under it on borrowed speed and threw healing upward like a man throwing a stone, and it landed. He asked the dead where his father went. Then he climbed onto a horse, cursing it, because Thane was going.",
+                role: "The One the Ghost Knew",
+                contribution: "A ghost at a graveyard gate looked at him and said: and now the child comes before me. It had fought his father there, years ago. He stood at Borin’s grave with his face wet into his beard and did nothing about it, and the next morning went back up the hill alone. In the crypt his cousin threw him a screaming axe, and it has not stopped talking to him since. When a stranger fell in the grass west of Drezen, he was the one who said aloud that it might be the wizard — and he sat at that bedside until it was only sleep.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -537,26 +541,27 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Day&apos;s Ride Among the Dead</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">An ultimatum refused · The tunnel opened · Three days left on the week</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">He Walked Home</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The fathers found · The deadline passed · The wizard home</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              Drezen stays. Irabeth is fortifying against whatever Xanthir Vang sends when his week runs
-              out, and the scrying that found the wizard twice now finds nothing at all — it is shut off
-              every morning before it can take hold, and the last time it was thrown back hard. The four
-              knights are not in the citadel to see what comes. They are camped along the dry riverbed a
-              few hours north, riding for the place Korroc&apos;s mother remembers from before the fall:{" "}
-              <span className="text-zinc-300">a graveyard for the dwarves who died when Khar-Zadûn fell</span>
-              , a day out, with a waystation on its grounds where travelers once stopped for food and a
-              roof. Two escaped prisoners may have gone there, decades ago, one of them hurt. Nobody knows
-              whether it is still standing.
+              Xanthir Vang&apos;s week ran out and nothing came over the walls. Four mornings after the
+              graves, a lone figure was seen from Drezen&apos;s west wall, walking in out of the
+              Worldwound, falling and getting up again, with three great constructed spiders coming over
+              the rise behind it. It was{" "}
+              <span className="text-zinc-300">Aravashnial</span>
+              , barefoot and beaten, wearing a collar that kept him from casting a single spell. The
+              knights broke the spiders, Thane picked the collar open, and the wizard said four
+              words — that he had been walking for days — and went to sleep in the infirmary, where Korroc
+              has not left his side. How he got out, nobody knows. Caleth now carries the collar, and an
+              old ivory reliquary that a demon on the road begged to be rid of.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              {/* All four match again as of Session 22 — keep in sync with the Vanguard header line above. */}
-              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4</span></span>
+              {/* Tier RANGE across the party (Session 24: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4–5</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">10</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">11</span></span>
             </div>
           </div>
 
