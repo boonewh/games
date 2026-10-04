@@ -30,6 +30,19 @@ import type { ExtractedAbility, ExtractedCharacter, ExtractedPool, ExtractedSpel
 
 export type MergeBucket = 'unchanged' | 'changed' | 'new' | 'removed'
 
+export type MergeItemAction = 'add' | 'take' | 'keep' | 'delete' | 'none'
+
+// Missing PDF entries start checked so custom items are preserved. Unchecking
+// one explicitly removes it; the review UI labels that outcome beside the row.
+export const defaultMergeChecked = (bucket: MergeBucket): boolean => bucket !== 'unchanged'
+
+export function mergeSelectionAction(bucket: MergeBucket, checked: boolean): MergeItemAction {
+  if (bucket === 'new') return checked ? 'add' : 'none'
+  if (bucket === 'changed') return checked ? 'take' : 'keep'
+  if (bucket === 'removed') return checked ? 'keep' : 'delete'
+  return 'none'
+}
+
 export interface ScalarDiff {
   field: string
   label: string

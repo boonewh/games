@@ -1,7 +1,13 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { buildMergePlan, type MergeBucket } from '@/lib/tracker/merge'
+import {
+  buildMergePlan,
+  defaultMergeChecked,
+  mergeSelectionAction,
+  type MergeBucket,
+  type MergeItemAction
+} from '@/lib/tracker/merge'
 import type { CharacterDetail } from '@/lib/tracker/types'
 import type { ExtractedCharacter } from '@/lib/tracker/extracted'
 
@@ -11,8 +17,6 @@ interface Props {
   onClose: () => void
   onApplied: () => void | Promise<void>
 }
-
-type ItemAction = 'add' | 'take' | 'keep' | 'delete' | 'none'
 
 // The minimal shape every per-category diff shares — lets one Section render all.
 interface DiffRow {
@@ -24,14 +28,13 @@ interface DiffRow {
 
 const fmt = (v: string | number | null) => (v === null || v === '' ? '—' : String(v))
 
-function toAction(bucket: MergeBucket, checked: boolean): ItemAction {
-  if (bucket === 'new') return checked ? 'add' : 'none'
-  if (bucket === 'changed') return checked ? 'take' : 'keep'
-  if (bucket === 'removed') return checked ? 'delete' : 'keep'
-  return 'none'
+const actionLabels: Record<MergeItemAction, string> = {
+  add: 'Add',
+  take: 'Update',
+  keep: 'Keep',
+  delete: 'Remove',
+  none: 'Skip'
 }
-
-const defaultChecked = (bucket: MergeBucket) => bucket === 'new' || bucket === 'changed'
 
 export function MergeReviewModal({ characterId, incoming, onClose, onApplied }: Props) {
   const [detail, setDetail] = useState<CharacterDetail | null>(null)
@@ -66,7 +69,7 @@ export function MergeReviewModal({ characterId, incoming, onClose, onApplied }: 
     for (const s of plan.scalars) init[`scalar:${s.field}`] = true
     const seed = (cat: string, diffs: DiffRow[]) => {
       for (const d of diffs) {
-        if (d.bucket !== 'unchanged') init[`${cat}:${d.key}`] = defaultChecked(d.bucket)
+        if (d.bucket !== 'unchanged') init[`${cat}:${d.key}`] = defaultMergeChecked(d.bucket)
       }
     }
     seed('ability', plan.abilities)
@@ -93,11 +96,11 @@ export function MergeReviewModal({ characterId, incoming, onClose, onApplied }: 
     setSubmitError(null)
     try {
       const cat = (prefix: string, diffs: DiffRow[]) => {
-        const m: Record<string, ItemAction> = {}
+        const m: Record<string, MergeItemAction> = {}
         for (const d of diffs) {
           if (d.bucket === 'unchanged') continue
-          const checked = selections[`${prefix}:${d.key}`] ?? defaultChecked(d.bucket)
-          m[d.key] = toAction(d.bucket, checked)
+          const checked = selections[`${prefix}:${d.key}`] ?? defaultMergeChecked(d.bucket)
+          m[d.key] = mergeSelectionAction(d.bucket, checked)
         }
         return m
       }
@@ -134,7 +137,8 @@ export function MergeReviewModal({ characterId, incoming, onClose, onApplied }: 
         <h2 className="font-cinzel text-2xl text-wotr-gold mb-1">Update from PDF</h2>
         <p className="text-xs opacity-60 mb-4">
           Review what the new PDF changes. Your current uses, enabled/hidden state, and ordering are preserved on
-          anything you update.
+          anything you update. Items marked “Not in PDF” are kept while checked; uncheck them to remove them
+          from your character.
         </p>
 
         {loadError && <div className="text-abyssal-red text-sm mb-3">Couldn&apos;t load character: {loadError}</div>}
@@ -229,7 +233,7 @@ function Section({
             <input
               type="checkbox"
               className="mt-0.5 accent-wotr-gold"
-              checked={selections[`${prefix}:${d.key}`] ?? defaultChecked(d.bucket)}
+              checked={selections[`${prefix}:${d.key}`] ?? defaultMergeChecked(d.bucket)}
               onChange={() => toggle(`${prefix}:${d.key}`)}
             />
             <BucketBadge bucket={d.bucket} />
@@ -238,6 +242,9 @@ function Section({
               {d.bucket === 'changed' && d.changedFields.length > 0 && (
                 <span className="opacity-50"> · {d.changedFields.join(', ')}</span>
               )}
+            </span>
+            <span className="shrink-0 text-xs opacity-70">
+              {actionLabels[mergeSelectionAction(d.bucket, selections[`${prefix}:${d.key}`] ?? defaultMergeChecked(d.bucket))]}
             </span>
           </label>
         ))}

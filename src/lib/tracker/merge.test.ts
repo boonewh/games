@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import {
   buildMergePlan,
+  defaultMergeChecked,
+  mergeSelectionAction,
   normalizeName,
   mergedAbilityFields,
   mergedSpellFields,
@@ -288,6 +290,30 @@ describe('buildMergePlan — spells', () => {
 })
 
 // --- defenses --------------------------------------------------------------
+
+describe('PDF review selections', () => {
+  it.each(['new', 'changed', 'removed', 'unchanged'] as const)('agrees with the plan default for %s items', (bucket) => {
+    const expected = { new: 'add', changed: 'take', removed: 'keep', unchanged: 'none' }
+    expect(mergeSelectionAction(bucket, defaultMergeChecked(bucket))).toBe(expected[bucket])
+  })
+
+  it('removes an unchecked DR missing from the PDF and keeps it when checked', () => {
+    const plan = buildMergePlan(
+      detail({ drs: [{ id: 'd1', character_id: 'c1', amount: 10, bypass: 'adamantine', enabled: true }] }),
+      extracted()
+    )
+    const dr = plan.drs[0]
+    expect(dr.bucket).toBe('removed')
+    expect(defaultMergeChecked(dr.bucket)).toBe(true)
+    expect(mergeSelectionAction(dr.bucket, true)).toBe(dr.defaultAction)
+    expect(mergeSelectionAction(dr.bucket, false)).toBe('delete')
+  })
+
+  it('skips unchecked additions and preserves unchecked updates', () => {
+    expect(mergeSelectionAction('new', false)).toBe('none')
+    expect(mergeSelectionAction('changed', false)).toBe('keep')
+  })
+})
 
 describe('buildMergePlan — defenses', () => {
   it('matches DR by bypass and flags an amount change', () => {
