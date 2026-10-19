@@ -206,7 +206,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held. The demon’s week ran out and nothing came over the walls. Four mornings later the missing wizard walked in out of the west — barefoot, collared, with three constructs hunting him across the open ground. He is asleep in the infirmary now.</p>
+                  <p className="text-sm text-zinc-400 italic">Held, and mended. The wall the glabrezu broke has been rebuilt better than before. Now the knights have brought home something no sentry was ever told to watch for: a demon, walking in under a knight&apos;s protection.</p>
                 </div>
               </div>
 
@@ -216,7 +216,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Temple of Irori</h4>
-                  <p className="text-sm text-zinc-400 italic">Reported as a temple of Baphomet, and it was one. Underneath, it was a lost house of Irori. When the last cultist fell it put itself back together, stone by stone, and it is clean now. Its keepers said they would wait.</p>
+                  <p className="text-sm text-zinc-400 italic">A lost house of Irori that put itself back together when the last cultist fell. Its ghostly keepers are gone, and a handful of pilgrims from the crusade camps tend it now. The knights rested here a night, then walked west for a week after a voice in a dream.</p>
                 </div>
               </div>
 
@@ -266,7 +266,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-red-600 rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 bottom-0 bg-black/90 border border-red-600 p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-red-600 text-base">The Molten Scar</h4>
-                  <p className="text-sm text-zinc-400 italic">A river of lava where a river used to be, with the old caravan levee — the Gray Road — running along the bank. Four days from Drezen on foot. The Templars were holding prisoners in a cavern above it, and there was an Abyssal rift burning at the far end of that cavern at midday which was simply gone by dark.</p>
+                  <p className="text-sm text-zinc-400 italic">A river of lava, four days from Drezen on foot. The Templars were holding prisoners in a cavern above it, and there was an Abyssal rift burning at the far end of that cavern at midday which was simply gone by dark.</p>
                 </div>
               </div>
             </div>
@@ -277,14 +277,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The deadline came and went and the walls were never tested. The engineers are shoring the old tunnel under the eastern bridge for use. Korroc&apos;s mother is back at her stonework. A day north, at a dead village called Sesker&apos;s Gully, two Stonevein brothers lie side by side under fieldstones, and the family has decided to leave them there.
+                The walls are mended and the forges are still making bolt heads. The knights went west after a voice in a dream and came back a week later with no horses, a wounded wizard, and a demon. She walks the citadel now under a knight&apos;s protection, and every paladin in Drezen is to be told so. She has been to the Ivory Sanctum. She knows the way.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;I tripled the watch for the last nights of that demon&apos;s week, and nothing came, and I do not trust it. I told this citadel once that until someone brought me a body, the wizard was missing. Nobody brought me a body. He walked here himself, and the knights were off the wall before my soldier had finished telling me so.&quot;
+                &quot;What are they doing to me? I have three hundred paladins in this citadel who have spent their lives killing her kind, and tomorrow I have to tell every one of them that this one is under Caleth&apos;s protection. He will not be the only one they answer to. I looked at the other three, and I know that much. She says she knows the way to Vang&apos;s door. Then she had better be worth it.&quot;
               </p>
             </div>
           </div>
@@ -460,26 +460,24 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIV — Two Humans Came Back</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Graves at Sesker&apos;s Gully</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXVI — Under My Protection</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Hallowed Tower</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The dry riverbed led a day north to Sesker&apos;s Gully, a dead village built on the
-              foundations of an old dwarven waystation, and to the graveyard of the dwarves who died when
-              Khar-Zadûn fell. A crusader&apos;s ghost kept the gate of his family&apos;s broken tomb,
-              shut out of it by a demon gnawing his dead below. The knights cleared the crypt, found the
-              ghost&apos;s own bones where he had fallen and never been carried home, and laid him in the
-              one coffin that had always stood empty. In return he led them over the hill to five graves
-              marked with fieldstones and names scratched in by hand. Two of them read{" "}
-              <span className="text-zinc-300">Thorek and Borin</span>{" "}
-              Stonevein. Borin died there of the wound he carried out of the tunnel, and his brother
-              buried him and walked on. Some time later, two strangers carried Thorek back to lie beside
-              him. Nobody knows who they were. Korroc&apos;s mother has ruled that her men stay where they
-              are, among their own.
+              Nageru led them west for a week on foot, toward a place only he could see. They crossed the
+              Gray Road, a dead river fifty feet deep and seven miles wide, one fold at a time, and came
+              through a forest of trees turned to stone to a ruined fortress of Desna where demons were
+              hunting a woman in a tower. Thane climbed to the top of it and rang the silver bell that
+              hung there. One note, and the tower was holy ground. The knights broke the hunt in the dark,
+              and the hag who led it died with a dwarf&apos;s knives in her back. Inside the tower, sitting
+              unharmed on ground that should have burned her, was{" "}
+              <span className="text-zinc-300">Arueshalae</span>{" "}
+              — and she told them how a goddess had reached into a demon and woken the woman she used to
+              be.
             </p>
           </div>
 
@@ -490,14 +488,12 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;Nobody carried her home. There was nothing to carry — whatever came down in that
-              square at Armasse was gone before anyone could go back for it, and Kenabres keeps a patch
-              of swept stone where a grave should be. She lived a hundred years in that city as a
-              stranger, and died in about four seconds for four more strangers she had no reason to
-              trust, and asked nothing of them. The scales she left are the nearest thing she has to a
-              headstone: four small pieces of silver, carried a long way from where she fell by people
-              she never knew. This season the company learned what it is worth, to be carried by
-              strangers.&rdquo;
+              &ldquo;She never asked Kenabres for leave to guard it. For a hundred years she stood in its
+              streets unremarked, and nobody vouched for her, and nobody had to. When the sky fell she put
+              herself between the city and the fire and did not stop to explain what she was or why she
+              stayed. She was dead before most of them understood. The scales she left are warm still, the
+              knights say, and this season one of them learned what she knew all along: what it costs to
+              stand in front of something and say, this one is mine to keep.&rdquo;
             </p>
           </div>
 
@@ -507,26 +503,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Showed the Mark",
-                contribution: "He swore the company to a dead crusader’s errand before anyone could object. In an empty square he went still for two heartbeats and came back saying that whatever took the wizard has been watching him; that night he woke screaming, pulled off his shirt by the fire, and showed his friends a pale spiral he has carried since birth — and said only that he had been told what it was called. When a stranger fell in the grass west of Drezen and the hood came back, the name he cried out was the loudest thing his friends have ever heard from him.",
+                role: "The One Who Stood Beside Her",
+                contribution: "He took the company down into the Gray Road and up the far side one fold at a time, thirty-six of them, and refilled the wand that night. In the ruined temple he fought with a dwarf at his back, turned fire into winter, and sent a spider the size of a house back where it came from. In the tower he was first to see that the ground was holy and the demon was not burning, and he asked her plainly why they should not send her home. Then he said aloud that he means to kill the man behind it all, and stood beside her in front of Drezen’s commanders and named her under his protection.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One at His Shoulder",
-                contribution: "He left a perfectly good shadow the instant two friends were caught in the open, and let a screaming swarm feed on him until it was gone. When Caleth froze in that square, it was Nageru’s hand on his other shoulder that brought him back, and that night he sat beside him until dawn, an inch away, saying nothing. At the Stonevein graves he stood well back with his head bowed, both days. West of Drezen he broke three walking constructs the size of elephants, rolled out from under the one that exploded, and looked mildly annoyed about it.",
+                role: "The One Who Said “I’m Here”",
+                contribution: "He walked in front of the horses for a week, pointing at a place no map shows, and never once lost the line. At the top of the tower he read Desna’s runes on the bell; at its foot he held out his empty hands to the woman from his dream and said, “I’m here.” He went over a wall onto the hag while she cursed his god and sank her claws into his back, and tore himself free. When the others went home ahead to warn the citadel, he stayed behind with her alone.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Read the Fifth Stone",
-                contribution: "He asked a fading ghost one question — had it seen dwarves pass this way — and it led him over a hill to five graves. He read three names he did not know, then his uncle’s, and did not need to read the fifth. His father had buried his brother there and walked on, and died somewhere else, and two strangers Thane will never be able to thank carried him back. A week later he picked a demon’s collar off the throat of a man who had walked home for days, then sat on the step outside and wiped his knives for a long time.",
+                role: "The One Who Rang the Bell",
+                contribution: "He rose up the face of the tower on the dragon’s scale, climbed in at the window, and struck the silver bell, and the tower became holy ground. He was the first to meet her on the stair, and called her by name before she could draw again. Unseen, he got behind the hag who led the hunt and put his knives in her back until she fell. Then he asked the one question that mattered, and she answered it: she knows the way to the Ivory Sanctum.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One the Ghost Knew",
-                contribution: "A ghost at a graveyard gate looked at him and said: and now the child comes before me. It had fought his father there, years ago. He stood at Borin’s grave with his face wet into his beard and did nothing about it, and the next morning went back up the hill alone. In the crypt his cousin threw him a screaming axe, and it has not stopped talking to him since. When a stranger fell in the grass west of Drezen, he was the one who said aloud that it might be the wizard — and he sat at that bedside until it was only sleep.",
+                role: "The One Who Said Yes",
+                contribution: "On the last morning he bound himself to take half of three friends’ wounds, before there was anything to fight. A spider demon tore the armor off his body, and he fought the rest of the battle in his mail, then turned to living gold and healed everyone near him. He felt the wizard bleeding through the thread he keeps on him and sent Caleth running. In the tower he looked at the demon and said she was not evil, and when the others said she could not come back, he said, “Yes we can,” and stuffed his own screaming axe into his pack.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -541,24 +537,24 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">He Walked Home</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The fathers found · The deadline passed · The wizard home</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Demon in Drezen</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The bell was rung · The hag is dead · She knows the way</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              Xanthir Vang&apos;s week ran out and nothing came over the walls. Four mornings after the
-              graves, a lone figure was seen from Drezen&apos;s west wall, walking in out of the
-              Worldwound, falling and getting up again, with three great constructed spiders coming over
-              the rise behind it. It was{" "}
-              <span className="text-zinc-300">Aravashnial</span>
-              , barefoot and beaten, wearing a collar that kept him from casting a single spell. The
-              knights broke the spiders, Thane picked the collar open, and the wizard said four
-              words — that he had been walking for days — and went to sleep in the infirmary, where Korroc
-              has not left his side. How he got out, nobody knows. Caleth now carries the collar, and an
-              old ivory reliquary that a demon on the road begged to be rid of.
+              The knights came home by Caleth&apos;s folds the same night, without their horses, which
+              bolted in the stone forest and were never found. The wizard who rode with them was found up
+              a stone tree with a bitten leg, and is home again too. The bell could not come. It is bound
+              to its place and weighs as much as a house, and it still hangs in its tower far to the west.
+              What came home instead was the demon. In the command room, before Irabeth and the
+              citadel&apos;s leaders, Caleth said she was under his protection and that anyone who touched
+              her would answer to him. Irabeth looked at the other three and said she did not think he
+              would be the only one. Now there is a demon in a citadel of three hundred paladins, and she
+              knows the way to the{" "}
+              <span className="text-zinc-300">Ivory Sanctum</span>.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              {/* Tier RANGE across the party (Session 24: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
+              {/* Tier RANGE across the party (Sessions 24–26: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4–5</span></span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Level <span className="text-wotr-gold">11</span></span>
