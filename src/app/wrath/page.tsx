@@ -206,7 +206,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held, and mended. The wall the glabrezu broke has been rebuilt better than before. Now the knights have brought home something no sentry was ever told to watch for: a demon, walking in under a knight&apos;s protection.</p>
+                  <p className="text-sm text-zinc-400 italic">Held. Its commander keeps a dwarven axe on her table that has not said a word in days, and half her engineers are far to the west, working out how to bring a silver bell home. The knights have gone southwest, with a demon to show them the way.</p>
                 </div>
               </div>
 
@@ -277,14 +277,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The walls are mended and the forges are still making bolt heads. The knights went west after a voice in a dream and came back a week later with no horses, a wounded wizard, and a demon. She walks the citadel now under a knight&apos;s protection, and every paladin in Drezen is to be told so. She has been to the Ivory Sanctum. She knows the way.
+                The demon told them everything she knew in one night, and pointed to a blank place on the map southwest of the citadel: the Green Gate, where the Ivory Sanctum hides. Twenty of Drezen&apos;s people have gone west to the Bell of Mercy to bring it home. The knights rested one day, made something of their weapons on the forge floor, and left with her at dawn.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;What are they doing to me? I have three hundred paladins in this citadel who have spent their lives killing her kind, and tomorrow I have to tell every one of them that this one is under Caleth&apos;s protection. He will not be the only one they answer to. I looked at the other three, and I know that much. She says she knows the way to Vang&apos;s door. Then she had better be worth it.&quot;
+                &quot;The dwarf laid his axe on my table and told me it talks, in Dwarven, in several voices, and that I am not to hold it by the haft. He said I was not to let it think it had been left. It is lent, he says. He is coming back for it. I have hung it where it can see the door. If anything comes over my walls while they are gone, I will find out what it has to say.&quot;
               </p>
             </div>
           </div>
@@ -460,24 +460,24 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXVI — Under My Protection</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Hallowed Tower</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXVII — What the Hand Remembers</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">False Stone</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              Nageru led them west for a week on foot, toward a place only he could see. They crossed the
-              Gray Road, a dead river fifty feet deep and seven miles wide, one fold at a time, and came
-              through a forest of trees turned to stone to a ruined fortress of Desna where demons were
-              hunting a woman in a tower. Thane climbed to the top of it and rang the silver bell that
-              hung there. One note, and the tower was holy ground. The knights broke the hunt in the dark,
-              and the hag who led it died with a dwarf&apos;s knives in her back. Inside the tower, sitting
-              unharmed on ground that should have burned her, was{" "}
+              The night they brought her home, the demon stood over the map in the command room and told
+              them who holds the Ivory Sanctum and why: Xanthir Vang, keeping it while Baphomet&apos;s
+              daughter harvests crystals in the Abyss. Then she put her finger on a blank place southwest
+              of Drezen. They gave one day to getting ready. Korroc mended his torn armor beside the
+              prisoner he once threatened to kill, and three of the knights sat a whole day on the forge floor
+              until the things they carry woke. Then they rode out on horses made of smoke, through a
+              forest that was still alive, down into a gorge, and in by a back door through walls of
+              stone that were not stone. The guide who knew the way was{" "}
               <span className="text-zinc-300">Arueshalae</span>{" "}
-              — and she told them how a goddess had reached into a demon and woken the woman she used to
-              be.
+              — who had come and gone there once as one of them.
             </p>
           </div>
 
@@ -488,12 +488,12 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She never asked Kenabres for leave to guard it. For a hundred years she stood in its
-              streets unremarked, and nobody vouched for her, and nobody had to. When the sky fell she put
-              herself between the city and the fire and did not stop to explain what she was or why she
-              stayed. She was dead before most of them understood. The scales she left are warm still, the
-              knights say, and this season one of them learned what she knew all along: what it costs to
-              stand in front of something and say, this one is mine to keep.&rdquo;
+              &ldquo;She had a hoard, as dragons do, and nobody in Kenabres ever saw it. What she left
+              instead was a single silver scale to each of the few who were with her at the end, with a
+              little of her in it and no instructions. She did not tell them what to save it for. She
+              trusted them to know. A year on, the dwarves still spend theirs on the least heroic thing
+              imaginable, drifting down cliffs they would rather not climb, and she would have laughed
+              at that, the knights think, and called it exactly what it was for.&rdquo;
             </p>
           </div>
 
@@ -503,26 +503,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Stood Beside Her",
-                contribution: "He took the company down into the Gray Road and up the far side one fold at a time, thirty-six of them, and refilled the wand that night. In the ruined temple he fought with a dwarf at his back, turned fire into winter, and sent a spider the size of a house back where it came from. In the tower he was first to see that the ground was holy and the demon was not burning, and he asked her plainly why they should not send her home. Then he said aloud that he means to kill the man behind it all, and stood beside her in front of Drezen’s commanders and named her under his protection.",
+                role: "The One Who Asked Her Everything",
+                contribution: "He stood over the map and asked the questions until the Ivory Sanctum had a place on it. The next day he carried twenty of Drezen’s people to the bell and came back for more, ten folds before nightfall, and copied a working into his book that makes horses out of nothing. He took all five of them up a cliff in a single step. Deep under the Green Gate, looking at three great spiders standing still in the dark, he said quietly what they all were thinking: so that is where they came from.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Said “I’m Here”",
-                contribution: "He walked in front of the horses for a week, pointing at a place no map shows, and never once lost the line. At the top of the tower he read Desna’s runes on the bell; at its foot he held out his empty hands to the woman from his dream and said, “I’m here.” He went over a wall onto the hag while she cursed his god and sank her claws into his back, and tore himself free. When the others went home ahead to warn the citadel, he stayed behind with her alone.",
+                role: "The One Who Taught Them to Sit",
+                contribution: "When Caleth asked whether a demon could be trusted, he answered that this one had been touched by a goddess. He felt before anyone that the things they carried had been taking in what the wardstone left in them, and he sat two dwarves down on a forge floor and showed them how to meet it, with the amulet from under his tunic in his palm. He walked down a hundred-foot wall on bare feet. In the dark he settled lower and struck from the floor, and a construct the size of an elephant folded under him.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Rang the Bell",
-                contribution: "He rose up the face of the tower on the dragon’s scale, climbed in at the window, and struck the silver bell, and the tower became holy ground. He was the first to meet her on the stair, and called her by name before she could draw again. Unseen, he got behind the hag who led the hunt and put his knives in her back until she fell. Then he asked the one question that mattered, and she answered it: she knows the way to the Ivory Sanctum.",
+                role: "The One Who Found the Door",
+                contribution: "He sat the long day on the forge floor, and the knife he made with his own hands woke. On the road he cast the night’s rest for all of them and spent it pressing the back of his neck, sure that something out in the dark was watching, though nothing ever came. Under the Green Gate he killed two of the great spiders from behind and found a door in a blank wall that he refused to ask the demon about. Two more demons went home on his knives. Then he looked at three doors and asked the only question left.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Said Yes",
-                contribution: "On the last morning he bound himself to take half of three friends’ wounds, before there was anything to fight. A spider demon tore the armor off his body, and he fought the rest of the battle in his mail, then turned to living gold and healed everyone near him. He felt the wizard bleeding through the thread he keeps on him and sent Caleth running. In the tower he looked at the demon and said she was not evil, and when the others said she could not come back, he said, “Yes we can,” and stuffed his own screaming axe into his pack.",
+                role: "The One Who Left the Axe",
+                contribution: "He mended his torn armor through the night beside the prisoner he once threatened to kill, and when it was done he held out his hand and the man took it. He sat a day on the forge floor until his shield woke. He laid his talking axe on Irabeth’s table so it would not spend the road screaming at their guide, and told her he was coming back for it. Under the Green Gate he walked twice into stone that was not stone, was lifted off the floor in a construct’s jaws, and answered with fire.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -537,24 +537,22 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">A Demon in Drezen</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The bell was rung · The hag is dead · She knows the way</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Three Doors</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Sanctum found · The back way taken · Which one?</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The knights came home by Caleth&apos;s folds the same night, without their horses, which
-              bolted in the stone forest and were never found. The wizard who rode with them was found up
-              a stone tree with a bitten leg, and is home again too. The bell could not come. It is bound
-              to its place and weighs as much as a house, and it still hangs in its tower far to the west.
-              What came home instead was the demon. In the command room, before Irabeth and the
-              citadel&apos;s leaders, Caleth said she was under his protection and that anyone who touched
-              her would answer to him. Irabeth looked at the other three and said she did not think he
-              would be the only one. Now there is a demon in a citadel of three hundred paladins, and she
-              knows the way to the{" "}
-              <span className="text-zinc-300">Ivory Sanctum</span>.
+              The front gate is veiled and a basilisk keeps it, so she took them the way only the
+              Sanctum&apos;s own were meant to know. Past the false walls, three great constructs stood
+              motionless in a cavern, the same kind that once came over a rise outside Drezen, and they
+              woke. Up a stair that ended in a blank wall, through a door the wall did not admit to, two
+              demons went home. Now the knights stand in a room thirty feet high, tiled in pale ivory and
+              cut with a maze that makes the eye ache, under a carving of a goat-headed demon. There are
+              three doors, and this is the house of{" "}
+              <span className="text-zinc-300">Xanthir Vang</span>.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              {/* Tier RANGE across the party (Sessions 24–26: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
+              {/* Tier RANGE across the party (Sessions 24–27: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4–5</span></span>
               <span className="text-zinc-800">|</span>
               <span className="text-zinc-600">Level <span className="text-wotr-gold">11</span></span>
