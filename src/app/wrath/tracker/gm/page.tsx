@@ -32,6 +32,17 @@ interface DashboardPayload {
 }
 
 const POLL_MS = 5000
+const COLUMN_PREFERENCE_KEY = 'tracker-gm-columns'
+const COLUMN_CLASSES = {
+  auto: 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3',
+  '1': 'grid-cols-1',
+  '2': 'grid-cols-2',
+} as const
+type ColumnPreference = keyof typeof COLUMN_CLASSES
+
+function isColumnPreference(value: string | null): value is ColumnPreference {
+  return value === 'auto' || value === '1' || value === '2'
+}
 
 export default function GmDashboardPage() {
   const router = useRouter()
@@ -48,6 +59,26 @@ export default function GmDashboardPage() {
   const [deleting, setDeleting] = useState(false)
   const pollTimer = useRef<ReturnType<typeof setInterval> | null>(null)
   const zoom = useTrackerZoom()
+  const [columns, setColumns] = useState<ColumnPreference>('auto')
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(COLUMN_PREFERENCE_KEY)
+      if (isColumnPreference(saved)) setColumns(saved)
+    } catch {
+      // Keep Auto when browser storage is unavailable.
+    }
+  }, [])
+
+  function changeColumns(value: string) {
+    if (!isColumnPreference(value)) return
+    setColumns(value)
+    try {
+      localStorage.setItem(COLUMN_PREFERENCE_KEY, value)
+    } catch {
+      // The selection still works for this visit if storage is unavailable.
+    }
+  }
 
   // Load parties on mount, filter to GM-owned (we need user_id for that)
   const loadParties = useCallback(async () => {
@@ -174,14 +205,14 @@ export default function GmDashboardPage() {
     <main className="min-h-screen bg-stone-dark text-parchment font-spectral">
       <div style={{ zoom: zoom.zoom }}>
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <div className="flex items-baseline justify-between mb-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
           <div>
             <Link href="/wrath/tracker" className="text-sm text-wotr-gold/80 hover:text-wotr-gold underline">
               ← Roster
             </Link>
             <h1 className="font-cinzel text-3xl text-wotr-gold mt-2">GM Dashboard</h1>
           </div>
-          <div className="flex items-start gap-3">
+          <div className="flex flex-wrap items-start gap-3">
             <ZoomControls
               isMin={zoom.isMin}
               isMax={zoom.isMax}
@@ -189,6 +220,18 @@ export default function GmDashboardPage() {
               onChange={zoom.change}
               onReset={zoom.reset}
             />
+            <label className="flex items-center gap-2 text-sm text-parchment/80">
+              Layout
+              <select
+                value={columns}
+                onChange={(e) => changeColumns(e.target.value)}
+                className="rounded border border-stone-light bg-stone-dark px-2 py-1 text-parchment focus:outline-none focus:border-wotr-gold/50"
+              >
+                <option value="auto">Auto</option>
+                <option value="1">1 column</option>
+                <option value="2">2 columns</option>
+              </select>
+            </label>
             <div className="text-right">
               {parties.length > 1 ? (
                 <select
@@ -233,7 +276,7 @@ export default function GmDashboardPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+          <div className={`grid ${COLUMN_CLASSES[columns]} gap-3`}>
             {dashboard.characters.map((c) => (
               <PartyMemberCard key={c.id} character={c} />
             ))}
