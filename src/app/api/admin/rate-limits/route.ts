@@ -1,14 +1,11 @@
 // app/api/admin/rate-limits/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { kv } from '@vercel/kv'
 
 export async function GET() {
-  const session = await getServerSession()
-  
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const denied = await requireSignedIn()
+  if (denied) return denied
 
   try {
     // Get all rate limit keys for today
@@ -41,11 +38,8 @@ export async function GET() {
 }
 
 export async function DELETE(request: NextRequest) {
-  const session = await getServerSession()
-  
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const denied = await requireSignedIn()
+  if (denied) return denied
 
   try {
     const { searchParams } = new URL(request.url)

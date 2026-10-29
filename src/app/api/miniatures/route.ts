@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { NextResponse } from 'next/server';
 import { put, list, del } from '@vercel/blob';
 import sharp from 'sharp';
@@ -29,6 +30,9 @@ export async function GET(req: Request) {
 
 // POST - Upload new miniature image (optionally campaign-prefixed)
 export async function POST(req: Request) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const { searchParams } = new URL(req.url);
     const campaign = searchParams.get('campaign');
@@ -93,6 +97,9 @@ export async function POST(req: Request) {
 
 // DELETE - Remove a miniature image
 export async function DELETE(req: Request) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const { searchParams } = new URL(req.url);
     const url = searchParams.get('url');

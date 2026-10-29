@@ -349,8 +349,8 @@ function EditorContent_Inner() {
     // Preserve the original identity so the API can migrate the KV key when
     // an editable key field (date or book) changes.
     let finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled'
-    let finalDate = sessionDate
-    let finalBook = book
+    const finalDate = sessionDate
+    const finalBook = book
     let originalDate: string | undefined
     let originalBook: string | undefined
     let originalSlug: string | undefined

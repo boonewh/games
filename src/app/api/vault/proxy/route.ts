@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { NextResponse } from "next/server";
 import BackblazeB2 from "backblaze-b2";
 
@@ -18,11 +19,9 @@ export async function GET(req: Request) {
   
   // Check if this is a public character sheet or if user is authenticated
   const isPublicFile = fileName && publicCharacterSheets.includes(fileName);
-  const cookies = req.headers.get('cookie') || ''
-  const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
-  
-  if (!isPublicFile && !hasSessionToken) {
-    return new NextResponse("Unauthorized", { status: 401 })
+  if (!isPublicFile) {
+    const denied = await requireSignedIn()
+    if (denied) return denied
   }
 
   // Quick runtime check for required Backblaze env vars so misconfiguration

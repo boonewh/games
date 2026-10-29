@@ -8,7 +8,7 @@
 // these. For a friend-group app this is acceptable. Tighten later if needed.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { kv } from '@vercel/kv'
 import bcrypt from 'bcryptjs'
 
@@ -25,8 +25,8 @@ function normalizeEmail(raw: string): string {
 }
 
 export async function GET() {
-  const session = await getServerSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const denied = await requireSignedIn()
+  if (denied) return denied
 
   const keys = await kv.keys('users:*')
   const users: Array<{ id: string; email: string; passwordType: 'hashed' | 'plaintext' }> = []
@@ -43,8 +43,8 @@ export async function GET() {
 }
 
 export async function DELETE(request: NextRequest) {
-  const session = await getServerSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const denied = await requireSignedIn()
+  if (denied) return denied
 
   const email = request.nextUrl.searchParams.get('email')
   if (!email) return NextResponse.json({ error: 'Missing email parameter' }, { status: 400 })
@@ -58,8 +58,8 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const denied = await requireSignedIn()
+  if (denied) return denied
 
   let body: { email?: string; password?: string }
   try {

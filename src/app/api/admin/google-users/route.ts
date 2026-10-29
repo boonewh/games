@@ -1,7 +1,11 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { kv } from '@vercel/kv'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const { emails } = await request.json()
     
@@ -22,6 +26,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const allowedUsers = await kv.get('settings:allowedGoogleUsers') as string[] || []
     return NextResponse.json({ allowedEmails: allowedUsers })

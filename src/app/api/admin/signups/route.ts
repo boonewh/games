@@ -1,7 +1,11 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { NextRequest, NextResponse } from 'next/server'
 import { kv } from '@vercel/kv'
 
 export async function POST(request: NextRequest) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     // ============================================================
     // 🚪 MASTER SIGNUP TOGGLE - CONTROLS ALL NEW SIGNUPS
@@ -25,6 +29,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const allowSignups = await kv.get('settings:allowSignups')
     const status = allowSignups ? 'ENABLED' : 'DISABLED'

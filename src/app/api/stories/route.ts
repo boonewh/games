@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 import { listAllKey, listKey, saveStory, storyKey, listStories } from '@/lib/storage';
@@ -62,6 +63,9 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const body = (await req.json()) as StoryRequestBody;
     const storyData = { date: body.date, book: body.book, slug: body.slug, story: body.story, coverUrl: body.coverUrl };
@@ -84,6 +88,9 @@ export async function POST(req: Request) {
 
 // PUT behaves like update and re-pushes this key to the list head for freshness
 export async function PUT(req: Request) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const body = (await req.json()) as StoryRequestBody;
     const storyData = { date: body.date, book: body.book, slug: body.slug, story: body.story, coverUrl: body.coverUrl };

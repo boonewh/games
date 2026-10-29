@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import sharp from 'sharp';
 import { NextResponse } from 'next/server';
 import { makeBlobPath, sanitizeBaseName, saveWebPToBlob } from '@/lib/storage';
@@ -21,6 +22,9 @@ async function rateLimit(ip: string) {
 }
 
 export async function POST(req: Request) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0]?.trim() || 'unknown';
     if (!(await rateLimit(ip))) {

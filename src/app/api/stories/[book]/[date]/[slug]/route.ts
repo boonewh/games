@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 import { NextResponse } from 'next/server';
 import { getStory, storyKey } from '@/lib/storage';
 import { kv } from '@vercel/kv';
@@ -29,6 +30,9 @@ export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ book: string; date: string; slug: string }> }
 ) {
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
   try {
     const { book, date, slug } = await params;
     const key = storyKey(book, date, slug);

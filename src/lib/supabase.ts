@@ -12,6 +12,8 @@ if (!url) throw new Error('SUPABASE_URL is not set in environment')
 if (!key) throw new Error('SUPABASE_SECRET_KEY is not set in environment')
 
 export const supabase = createClient(url, key, {
+  // The tracker owns retry/recovery decisions; do not add implicit DB retries.
+  db: { retry: false },
   auth: {
     persistSession: false,
     autoRefreshToken: false

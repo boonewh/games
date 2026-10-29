@@ -1,3 +1,4 @@
+import { requireSignedIn } from '@/lib/require-signed-in'
 // app/api/vault/upload/route.ts
 import { NextResponse } from "next/server";
 import { uploadFile } from "@/lib/b2";
@@ -5,13 +6,9 @@ import { uploadFile } from "@/lib/b2";
 export const runtime = "nodejs"; // ensure Node runtime for Buffer
 
 export async function POST(request: Request) {
-  // Simple auth check - look for NextAuth session token in cookies
-  const cookies = request.headers.get('cookie') || ''
-  const hasSessionToken = cookies.includes('next-auth.session-token') || cookies.includes('__Secure-next-auth.session-token')
-  
-  if (!hasSessionToken) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+  const denied = await requireSignedIn()
+  if (denied) return denied
+
 
   try {
     const form = await request.formData();

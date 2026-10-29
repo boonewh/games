@@ -1,0 +1,41 @@
+name: Games checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: games-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  NEXT_TELEMETRY_DISABLED: '1'
+  SUPABASE_URL: https://database.example.test
+  SUPABASE_SECRET_KEY: synthetic-build-key
+  NEXTAUTH_SECRET: synthetic-local-build-secret-not-real
+  NEXTAUTH_URL: http://127.0.0.1:3210
+  GOOGLE_CLIENT_ID: synthetic-client
+  GOOGLE_CLIENT_SECRET: synthetic-secret
+  B2_APPLICATION_KEY_ID: synthetic-key-id
+  B2_APPLICATION_KEY: synthetic-key
+  B2_BUCKET_NAME: synthetic-bucket
+  B2_BUCKET_ID: synthetic-bucket-id
+jobs:
+  games:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.22.1
+          cache: npm
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

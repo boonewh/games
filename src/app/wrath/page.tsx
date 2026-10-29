@@ -306,12 +306,12 @@ export default function WrathPage() {
 
           {/* Optional centered text overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4">
-              <div className="h-px w-96 bg-gradient-to-r from-transparent via-wardstone-blue to-transparent mb-4"></div>
+            <div className="w-full max-w-[26rem] text-center px-4">
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-wardstone-blue to-transparent mb-4"></div>
               <p className="font-cinzel text-2xl md:text-4xl text-wardstone-blue drop-shadow-[0_0_20px_rgba(0,212,255,0.8)] tracking-wider uppercase">
                 The Worldwound
               </p>
-              <div className="h-px w-96 bg-gradient-to-r from-transparent via-wardstone-blue to-transparent mt-4"></div>
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-wardstone-blue to-transparent mt-4"></div>
             </div>
           </div>
         </div>
