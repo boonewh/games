@@ -116,20 +116,19 @@ export default function WrathPage() {
         <section className="mb-32">
           <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-10">
             <h2 className="font-cinzel text-2xl text-wotr-gold uppercase tracking-widest">The Vanguard</h2>
-            {/* LEVEL — KEEP IN SYNC with the Campaign Arc Status milestone footer further down this page.
-                MYTHIC TIERS have DIVERGED again (Session 24: Caleth 4, the other three 5), so they live on each
-                card below as `tier`, and the milestone footer shows the party's tier RANGE. When any character's
-                tier changes, update that card AND the footer range together. If all four match again, move the
-                tier back up here ("Level N Gestalt · Mythic N") and drop the per-card field. */}
-            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 11 Gestalt</span>
+            {/* LEVEL + MYTHIC TIER — KEEP IN SYNC with the Campaign Arc Status milestone footer further down this page.
+                As of Session 29 all four PCs share one tier again (Level 12, Mythic 5), so it lives here.
+                Tiers are granted per character by personal quest: if they DIVERGE again, move the tier onto each
+                card below as `tier` (with a "Mythic Tier" line under the classes) and show a RANGE in the footer. */}
+            <span className="text-xs uppercase tracking-widest text-zinc-500">Level 12 Gestalt · Mythic 5</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Caleth', classes: 'Paladin / Wizard',   tier: 4, src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
-              { name: 'Nageru', classes: 'Monk / Paladin',     tier: 5, src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
-              { name: 'Thane',  classes: 'Inquisitor / Rogue', tier: 5, src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
-              { name: 'Korroc', classes: 'Paladin / Oracle',   tier: 5, src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
+              { name: 'Caleth', classes: 'Paladin / Wizard',   src: '/images/wrath/caleth1.jpg', sheet: 'caleth.pdf' },
+              { name: 'Nageru', classes: 'Monk / Paladin',     src: '/images/wrath/nageru3.jpg', sheet: 'nageru.pdf' },
+              { name: 'Thane',  classes: 'Inquisitor / Rogue', src: '/images/wrath/thane1.jpg',   sheet: 'thane.pdf' },
+              { name: 'Korroc', classes: 'Paladin / Oracle',   src: '/images/wrath/korroc1.jpg',  sheet: 'korroc.pdf' },
             ].map((character) => (
               <div key={character.name} className="group bg-stone-light/40 border border-zinc-800 hover:border-wardstone-blue transition-all duration-500 p-4">
                 <div className="relative aspect-[3/4] bg-black mb-6 overflow-hidden border border-zinc-800">
@@ -156,9 +155,6 @@ export default function WrathPage() {
                 <div className="text-center">
                   <h3 className="font-cinzel text-lg text-parchment uppercase tracking-widest">{character.name}</h3>
                   <p className="text-xs text-zinc-500 font-spectral italic mt-1">{character.classes}</p>
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-cinzel mt-2 text-zinc-600">
-                    Mythic Tier <span className="text-wotr-gold">{character.tier}</span>
-                  </p>
                 </div>
               </div>
             ))}
@@ -460,24 +456,25 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXVII — What the Hand Remembers</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">False Stone</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIX — No More Games</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Center of the Fire</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The night they brought her home, the demon stood over the map in the command room and told
-              them who holds the Ivory Sanctum and why: Xanthir Vang, keeping it while Baphomet&apos;s
-              daughter harvests crystals in the Abyss. Then she put her finger on a blank place southwest
-              of Drezen. They gave one day to getting ready. Korroc mended his torn armor beside the
-              prisoner he once threatened to kill, and three of the knights sat a whole day on the forge floor
-              until the things they carry woke. Then they rode out on horses made of smoke, through a
-              forest that was still alive, down into a gorge, and in by a back door through walls of
-              stone that were not stone. The guide who knew the way was{" "}
-              <span className="text-zinc-300">Arueshalae</span>{" "}
-              — who had come and gone there once as one of them.
+              The house had kept its best things out of sight. Behind a robing room and a locked door
+              was a lead-lined chamber full of runes, with a dead thing rising out of the water there, and
+              on shelves that only Caleth could see, the plunder of a lifetime: the armor of the paladin
+              Yaniel, whose sword he carries, and the stolen books of the Blackwing Library. At the foot of
+              the stair the master was waiting for them in his long black hall, with the woman they had
+              been hunting since the Molten Scar beside him. He offered them terms. Caleth refused him
+              before he could finish them. The woman turned out to be something far bigger than they had
+              believed, and Nageru sent her home. Then the worms came for Caleth, and he spoke two
+              sentences to the thing they made up and set himself on fire, and when the smoke cleared, all
+              that was left of{" "}
+              <span className="text-zinc-300">Xanthir Vang</span> was a heap of empty robes.
             </p>
           </div>
 
@@ -503,26 +500,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Asked Her Everything",
-                contribution: "He stood over the map and asked the questions until the Ivory Sanctum had a place on it. The next day he carried twenty of Drezen’s people to the bell and came back for more, ten folds before nightfall, and copied a working into his book that makes horses out of nothing. He took all five of them up a cliff in a single step. Deep under the Green Gate, looking at three great spiders standing still in the dark, he said quietly what they all were thinking: so that is where they came from.",
+                role: "The Center of the Fire",
+                contribution: "He was the only one who could see the invisible shelves, and on them he found Yaniel’s armor; Radiance knew it before he did. On the landing a mark on his shoulder started burning and would not stop, and everyone saw. When Vang offered to stop if one of them stayed, Caleth cut him off: you will stop because you will die. He put Radiance through him. Buried in worms, he said: you killed my father, you killed my mother. Then the fire came out of his whole body, and after that he dropped a fireball on the floor for good measure.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Taught Them to Sit",
-                contribution: "When Caleth asked whether a demon could be trusted, he answered that this one had been touched by a goddess. He felt before anyone that the things they carried had been taking in what the wardstone left in them, and he sat two dwarves down on a forge floor and showed them how to meet it, with the amulet from under his tunic in his palm. He walked down a hundred-foot wall on bare feet. In the dark he settled lower and struck from the floor, and a construct the size of an elephant folded under him.",
+                role: "The One Who Shouted",
+                contribution: "He was inside the thanadaemon’s reach before it could turn around, and he finished it with four blows to the ribs. In the long hall he was fighting two blue horned demons when he saw a giant’s jaws close on Caleth’s shoulder. He rolled between their legs and ran the length of the hall with his fists blazing, shouting for the first time anyone could remember: you will not get away again. The thing they had called Jerribeth did not get away. He sent her home.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Found the Door",
-                contribution: "He sat the long day on the forge floor, and the knife he made with his own hands woke. On the road he cast the night’s rest for all of them and spent it pressing the back of his neck, sure that something out in the dark was watching, though nothing ever came. Under the Green Gate he killed two of the great spiders from behind and found a door in a blank wall that he refused to ask the demon about. Two more demons went home on his knives. Then he looked at three doors and asked the only question left.",
+                role: "The One Who Read the Joins",
+                contribution: "With a mason’s stick of charcoal he took apart a wall of necromantic runes, marking not the runes themselves but the seams between them. He crept to the edge of the light at the foot of the stair and looked into the hall first. At the height of the fight he put the arrow from the platinum box on the string, breathed, let it go, and missed Vang by a hand’s width. He swore in Dwarven. Afterward he walked down the hall and picked it up, still true. Then he looked at Caleth for a long time, like a lock he means to come back to.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Left the Axe",
-                contribution: "He mended his torn armor through the night beside the prisoner he once threatened to kill, and when it was done he held out his hand and the man took it. He sat a day on the forge floor until his shield woke. He laid his talking axe on Irabeth’s table so it would not spend the road screaming at their guide, and told her he was coming back for it. Under the Green Gate he walked twice into stone that was not stone, was lifted off the floor in a construct’s jaws, and answered with fire.",
+                role: "The One Who Wouldn’t Come Apart",
+                contribution: "His shield stopped every claw the shadows threw at it. On the top shelf he found a plain staff bound in silver, said Oh in a voice nobody had heard from him before, and held out his hand for it. When Vang’s spell tried to unmake him one piece at a time, he refused to come apart. He felt Caleth’s mark burn down the life link and said nothing. Then he stood squarely inside his friend’s fireball, picked roasted worms out of his beard, and gave the only verdict that mattered: Rooms.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -537,25 +534,25 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Three Doors</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Sanctum found · The back way taken · Which one?</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Rooms</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The master destroyed · The mark gone quiet · The front door still to come</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The front gate is veiled and a basilisk keeps it, so she took them the way only the
-              Sanctum&apos;s own were meant to know. Past the false walls, three great constructs stood
-              motionless in a cavern, the same kind that once came over a rise outside Drezen, and they
-              woke. Up a stair that ended in a blank wall, through a door the wall did not admit to, two
-              demons went home. Now the knights stand in a room thirty feet high, tiled in pale ivory and
-              cut with a maze that makes the eye ache, under a carving of a goat-headed demon. There are
-              three doors, and this is the house of{" "}
-              <span className="text-zinc-300">Xanthir Vang</span>.
+              The knights are still inside the Ivory Sanctum, standing in a long black hall where nothing
+              moves. Vang&apos;s templars are dead, his minotaurs are dead, and his demons have been sent
+              back where they came from for a hundred years. Caleth&apos;s bag is heavier by a dead paladin&apos;s
+              armor and a stolen library. Nobody can say for certain that a thing made of worms is finished,
+              and Caleth least of all, but nothing on that floor has moved, and the mark on his shoulder,
+              which had ached every night for weeks, has gone quiet. Arueshalae says there are still several
+              rooms they have not seen, and still the one that guards the{" "}
+              <span className="text-zinc-300">front door</span>.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
               <span className="text-zinc-800">|</span>
-              {/* Tier RANGE across the party (Sessions 24–27: Caleth 4, the rest 5) — per-character tiers live on the Vanguard cards. Keep in sync. */}
-              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">4–5</span></span>
+              {/* Single party tier (Session 29: all four Mythic 5) — matches the Vanguard header. Keep in sync; show a range if tiers diverge. */}
+              <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">5</span></span>
               <span className="text-zinc-800">|</span>
-              <span className="text-zinc-600">Level <span className="text-wotr-gold">11</span></span>
+              <span className="text-zinc-600">Level <span className="text-wotr-gold">12</span></span>
             </div>
           </div>
 
