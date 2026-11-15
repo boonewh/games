@@ -202,7 +202,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held. Its commander keeps a dwarven axe on her table that has not said a word in days, and half her engineers are far to the west, working out how to bring a silver bell home. The knights have gone southwest, with a demon to show them the way.</p>
+                  <p className="text-sm text-zinc-400 italic">Held, and turned inside out. The knights are back, with a starved elf in the infirmary and the news that the man who has advised this fortress since the spring was never the man at all. Every room was searched between dusk and dawn. Nothing was found.</p>
                 </div>
               </div>
 
@@ -273,14 +273,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The demon told them everything she knew in one night, and pointed to a blank place on the map southwest of the citadel: the Green Gate, where the Ivory Sanctum hides. Twenty of Drezen&apos;s people have gone west to the Bell of Mercy to bring it home. The knights rested one day, made something of their weapons on the forge floor, and left with her at dawn.
+                The Ivory Sanctum is cleared and abandoned. What came back from it is a wizard who has been in a cage southwest of here since the spring, and the knowledge that the version of him who has been giving this fortress advice for two months was something else wearing his face. It left before they arrived. The warden rode four hours beside it that morning and talked about a bell.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;The dwarf laid his axe on my table and told me it talks, in Dwarven, in several voices, and that I am not to hold it by the haft. He said I was not to let it think it had been left. It is lent, he says. He is coming back for it. I have hung it where it can see the door. If anything comes over my walls while they are gone, I will find out what it has to say.&quot;
+                &quot;I have had every room in this citadel opened tonight, including my own, and I do not know what I told them to look for. It answered to his name for two months. It argued with me about the eastern bridge. Four of the best people I have, two of them sworn paladins, looked straight at it and saw nothing. So I will not be telling my soldiers to watch for anything in particular. I will be telling them to watch.&quot;
               </p>
             </div>
           </div>
@@ -456,25 +456,25 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXIX — No More Games</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Center of the Fire</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXX — Is That Really You This Time</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">What Came Back Clean</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              The house had kept its best things out of sight. Behind a robing room and a locked door
-              was a lead-lined chamber full of runes, with a dead thing rising out of the water there, and
-              on shelves that only Caleth could see, the plunder of a lifetime: the armor of the paladin
-              Yaniel, whose sword he carries, and the stolen books of the Blackwing Library. At the foot of
-              the stair the master was waiting for them in his long black hall, with the woman they had
-              been hunting since the Molten Scar beside him. He offered them terms. Caleth refused him
-              before he could finish them. The woman turned out to be something far bigger than they had
-              believed, and Nageru sent her home. Then the worms came for Caleth, and he spoke two
-              sentences to the thing they made up and set himself on fire, and when the smoke cleared, all
-              that was left of{" "}
-              <span className="text-zinc-300">Xanthir Vang</span> was a heap of empty robes.
+              With the master of the house dead, they went through the rooms he had left. A circle of
+              iron in the floor that turned out to be a chair for things called up out of the Abyss, and
+              came apart under a cold chisel. A cavern hung with pale growths that would not burn, and
+              the creatures asleep in them with men&apos;s minds kept in blisters on their backs. Then a room
+              with two slabs in it, and two strangers opened on the slabs, and a pile of clothing that had
+              been cut off its owners. Behind that, a row of cages where no sound carries — and in the
+              third one down, weighing nothing at all, the elf they had been told walked home two months
+              ago. He has been here the whole time. Which leaves the question of who has been sitting in
+              his chair in{" "}
+              <span className="text-zinc-300">Citadel Drezen</span>{" "}
+              since the spring, listening to everything.
             </p>
           </div>
 
@@ -485,12 +485,12 @@ export default function WrathPage() {
             <p className="text-zinc-600 text-xs font-spectral italic mb-4">Silver Dragon · Protector of Kenabres</p>
             <div className="h-px w-full bg-zinc-800 mb-4"></div>
             <p className="text-zinc-500 text-sm font-spectral italic leading-relaxed">
-              &ldquo;She had a hoard, as dragons do, and nobody in Kenabres ever saw it. What she left
-              instead was a single silver scale to each of the few who were with her at the end, with a
-              little of her in it and no instructions. She did not tell them what to save it for. She
-              trusted them to know. A year on, the dwarves still spend theirs on the least heroic thing
-              imaginable, drifting down cliffs they would rather not climb, and she would have laughed
-              at that, the knights think, and called it exactly what it was for.&rdquo;
+              &ldquo;For most of a century she walked Kenabres as a plain woman in gray traveling
+              clothes, and the city did not know what it had. She bought bread. She stood in crowds. The
+              only people who ever learned the truth learned it in the half-second before she died for
+              them. There are men in this company who have started to flinch at the thought of a face
+              that is not what it looks like — and the first one of those any of them ever met was hers,
+              and she was better than she looked, not worse.&rdquo;
             </p>
           </div>
 
@@ -500,26 +500,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The Center of the Fire",
-                contribution: "He was the only one who could see the invisible shelves, and on them he found Yaniel’s armor; Radiance knew it before he did. On the landing a mark on his shoulder started burning and would not stop, and everyone saw. When Vang offered to stop if one of them stayed, Caleth cut him off: you will stop because you will die. He put Radiance through him. Buried in worms, he said: you killed my father, you killed my mother. Then the fire came out of his whole body, and after that he dropped a fireball on the floor for good measure.",
+                role: "The One Who Saw It Happen",
+                contribution: "At the cell-block door the mark on his shoulder took hold of him, and for four or five breaths he was not in the room at all. What he saw was months of the elf being dragged onto a table, and the thing that was done to him at the end of it. He came back and told all of them, in order, in a voice that did not change once. Later, when Thane refused an order, he put the whole of it down and asked instead. He stripped the dead master’s burned robes off the floor on the way past, because they can be mended.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Shouted",
-                contribution: "He was inside the thanadaemon’s reach before it could turn around, and he finished it with four blows to the ribs. In the long hall he was fighting two blue horned demons when he saw a giant’s jaws close on Caleth’s shoulder. He rolled between their legs and ran the length of the hall with his fists blazing, shouting for the first time anyone could remember: you will not get away again. The thing they had called Jerribeth did not get away. He sent her home.",
+                role: "The One Who Said It Plainly",
+                contribution: "He stepped into a doorway, squared himself, and breathed acid at a thing the size of a cart — something none of them had seen him do in a year. Asked about it, he said only: it is old. He missed four swings running at a creature that was reading him, stopped dead in the middle of the fight, moved his back foot four inches, and killed it with the next one. Afterward, sitting on a rock with a dwarf whose faith in his own eyes had just come apart, he refused to pretend: we did everything there is to do. There was nothing to find.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Read the Joins",
-                contribution: "With a mason’s stick of charcoal he took apart a wall of necromantic runes, marking not the runes themselves but the seams between them. He crept to the edge of the light at the foot of the stair and looked into the hall first. At the height of the fight he put the arrow from the platinum box on the string, breathed, let it go, and missed Vang by a hand’s width. He swore in Dwarven. Afterward he walked down the hall and picked it up, still true. Then he looked at Caleth for a long time, like a lock he means to come back to.",
+                role: "The One Who Asked First",
+                contribution: "He said the thing nobody wanted said: we do not know that this is the real one either. He was not wrong, and nobody could answer him. What moved him was being asked rather than ordered. Then he took a trapped, keyless, mechanism-less collar off a dying man’s throat in ten minutes, reading the smith’s own notebook in a language he has been quietly teaching himself for a year. And when his cousin went down at the third stone, he had the tongs out of his hand before anyone spoke: I’m not a paladin either.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Wouldn’t Come Apart",
-                contribution: "His shield stopped every claw the shadows threw at it. On the top shelf he found a plain staff bound in silver, said Oh in a voice nobody had heard from him before, and held out his hand for it. When Vang’s spell tried to unmake him one piece at a time, he refused to come apart. He felt Caleth’s mark burn down the life link and said nothing. Then he stood squarely inside his friend’s fireball, picked roasted worms out of his beard, and gave the only verdict that mattered: Rooms.",
+                role: "The One Who Could Not Put It Down",
+                contribution: "He found the elf by feel through a wall of silence, and carried him out himself, and said afterward that he had never lifted anyone who weighed so little. He cut five purple stones out of the man with a forge-master’s smallest tongs, took them bare-handed once and will not do that again, and broke all five with his hammer. He gave two butchered strangers the last rites in Old Dwarven and then in Common, so they would hear it in a tongue they knew. And at the end of it he sat down beside the bed, put his hand out over a sleeping man’s chest, and found that he could not do the one thing he has never had to think about.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -534,17 +534,17 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Rooms</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The master destroyed · The mark gone quiet · The front door still to come</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Fortress Searching Itself</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Sanctum emptied · The prisoner home · Something loose in Drezen</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The knights are still inside the Ivory Sanctum, standing in a long black hall where nothing
-              moves. Vang&apos;s templars are dead, his minotaurs are dead, and his demons have been sent
-              back where they came from for a hundred years. Caleth&apos;s bag is heavier by a dead paladin&apos;s
-              armor and a stolen library. Nobody can say for certain that a thing made of worms is finished,
-              and Caleth least of all, but nothing on that floor has moved, and the mark on his shoulder,
-              which had ached every night for weeks, has gone quiet. Arueshalae says there are still several
-              rooms they have not seen, and still the one that guards the{" "}
-              <span className="text-zinc-300">front door</span>.
+              The Ivory Sanctum is finished. They walked a starved elf out of it on a carpet that flies,
+              through rooms nobody will describe out loud afterward, and brought him home to a bed in the
+              infirmary. He woke once, long enough to ask whether it was really them{" "}
+              <span className="text-zinc-300">this time</span>, and to be calmed by a goddess&apos;s name.
+              Four hours before they arrived, the other one — the one that has eaten at their table and sat
+              in their war councils since the spring — put down a cup in its study, pushed back its chair
+              and walked out. The cup was still cool when they found it. The whole citadel is awake and
+              looking, and nothing in it knows what it is looking for.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
               <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
