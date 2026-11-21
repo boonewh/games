@@ -71,7 +71,7 @@ const adventureBooks: AdventureBook[] = [
     description: 'Now commanders of crusader forces, the heroes must root out corruption within the crusade itself while facing new demonic threats. A conspiracy threatens everything they have fought to achieve.',
     bookNumber: 3,
     coverImage: '/images/wrath/meeting.jpg',
-    status: 'current',
+    status: 'completed',
     theme: 'from-amber-950 to-stone-900'
   },
   {
@@ -80,7 +80,7 @@ const adventureBooks: AdventureBook[] = [
     description: 'The heroes must venture into the Abyss itself, traveling to the Midnight Isles—the realm of Nocticula, demon lord of darkness and lust—to secure a powerful weapon against the demonic hordes.',
     bookNumber: 4,
     coverImage: '/images/wrath/wrath-hero.jpg',
-    status: 'not-started',
+    status: 'current',
     theme: 'from-indigo-950 to-stone-900'
   },
   {
