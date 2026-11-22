@@ -500,7 +500,7 @@ export default function WrathPage() {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
                 role: "The One Who Read the Plates",
-                contribution: "He spent an hour over a basin until his face went gray, and when the water showed him the impostor he folded the four of them across the town without asking. He asked the questions in the cell, and when the thing smiled about how it had beaten every test, he spat on the floor and walked out. Then the Queen laid two copper plates in front of him, written in half a dozen tongues that change from line to line, and he could read every one. Nobody yet knows why.",
+                contribution: "He spent an hour over a basin until his face went gray, and when the water showed him the impostor he folded the four of them across the town without asking. He asked the questions in the cell, and when the thing smiled about how it had beaten every test, he spat on the floor and walked out. Then the Queen laid two copper plates in front of him, written in half a dozen tongues that change from line to line, and he knew every one of them. The scholars of the south had managed three.",
               },
               {
                 name: "Nageru",
