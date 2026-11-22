@@ -202,7 +202,7 @@ export default function WrathPage() {
                 <div className="w-4 h-4 bg-wardstone-blue rounded-full border-2 border-white relative z-10"></div>
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/90 border border-wardstone-blue p-2 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity z-20 pointer-events-none">
                   <h4 className="font-cinzel text-wardstone-blue text-base">Citadel Drezen</h4>
-                  <p className="text-sm text-zinc-400 italic">Held, and turned inside out. The knights are back, with a starved elf in the infirmary and the news that the man who has advised this fortress since the spring was never the man at all. Every room was searched between dusk and dawn. Nothing was found.</p>
+                  <p className="text-sm text-zinc-400 italic">Held. The thing that wore the wizard&apos;s face for two months is in the strongest cell under the citadel, gray and featureless, and nobody is allowed to talk to it. The Queen came, and left again within the week — west, with the knights.</p>
                 </div>
               </div>
 
@@ -273,14 +273,14 @@ export default function WrathPage() {
             <div>
               <h4 className="font-cinzel text-wotr-gold text-base tracking-widest mb-2 border-b border-wotr-gold/20 pb-1">Citadel Drezen</h4>
               <p className="text-base text-zinc-400 leading-relaxed">
-                The Ivory Sanctum is cleared and abandoned. What came back from it is a wizard who has been in a cage southwest of here since the spring, and the knowledge that the version of him who has been giving this fortress advice for two months was something else wearing his face. It left before they arrived. The warden rode four hours beside it that morning and talked about a bell.
+                The impostor is caught. It never left. A scrying found it walking the lower town in the face of one of the knights, leading the wizard and the demon out of the gate toward a bounty. It is a mercenary, it says, and very good at what it does. Then the Queen rode in with a few dozen paladins and two copper plates, and rode out again two hundred and forty miles west.
               </p>
             </div>
 
             <div className="p-4 bg-red-950/10 border border-red-900/30">
               <h4 className="font-cinzel text-red-500 text-sm tracking-[0.2em] mb-2 uppercase">Commander&apos;s Note</h4>
               <p className="text-base text-red-200/60 leading-tight">
-                &quot;I have had every room in this citadel opened tonight, including my own, and I do not know what I told them to look for. It answered to his name for two months. It argued with me about the eastern bridge. Four of the best people I have, two of them sworn paladins, looked straight at it and saw nothing. So I will not be telling my soldiers to watch for anything in particular. I will be telling them to watch.&quot;
+                &quot;The monk carried it up the hill on his own shoulder, wearing his own face, and set it down on my floor. I have commanded soldiers a long time and I have never before had to ask which of two men in front of me was the real one. Then the Queen took all four of them west, the wizard and the demon besides, and left me a fortress and a thing in a cell that smiles when you ask it how it fooled us.&quot;
               </p>
             </div>
           </div>
@@ -456,25 +456,24 @@ export default function WrathPage() {
 
           {/* Session Header */}
           <div className="mb-14">
-            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXX — Is That Really You This Time</p>
-            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">What Came Back Clean</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-abyssal-red font-cinzel mb-3">Session XXXI — The Midnight Fane</p>
+            <h2 className="font-cinzel text-3xl md:text-4xl text-wotr-gold tracking-tight mb-5">The Face I Wear</h2>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-24 bg-gradient-to-r from-transparent to-wotr-gold/40"></div>
               <div className="w-1.5 h-1.5 bg-wotr-gold rotate-45 flex-shrink-0"></div>
               <div className="h-px w-24 bg-gradient-to-l from-transparent to-wotr-gold/40"></div>
             </div>
             <p className="text-zinc-400 font-spectral italic leading-relaxed max-w-2xl mx-auto text-base">
-              With the master of the house dead, they went through the rooms he had left. A circle of
-              iron in the floor that turned out to be a chair for things called up out of the Abyss, and
-              came apart under a cold chisel. A cavern hung with pale growths that would not burn, and
-              the creatures asleep in them with men&apos;s minds kept in blisters on their backs. Then a room
-              with two slabs in it, and two strangers opened on the slabs, and a pile of clothing that had
-              been cut off its owners. Behind that, a row of cages where no sound carries — and in the
-              third one down, weighing nothing at all, the elf they had been told walked home two months
-              ago. He has been here the whole time. Which leaves the question of who has been sitting in
-              his chair in{" "}
-              <span className="text-zinc-300">Citadel Drezen</span>{" "}
-              since the spring, listening to everything.
+              The impostor never left Drezen. A scrying found it walking the lower town in a borrowed
+              face — one of the knights&apos; own — with the wizard and the demon beside it, on their way to a
+              bounty. It is in a cell now, and it says it is a mercenary, and that it is good at what it
+              does. Then the Queen came north with two plates of copper and an errand: close the rift
+              that carries the enemy&apos;s crystals into this world, with the four of them as the power
+              behind the ritual, and someone standing on the Abyss side of it when it shuts. Two hundred
+              and forty miles west, past a hill that is not where it appears to be, they walked in through
+              the front doors of{" "}
+              <span className="text-zinc-300">the Midnight Fane</span>{" "}
+              and were told they were expected.
             </p>
           </div>
 
@@ -500,26 +499,26 @@ export default function WrathPage() {
               {
                 name: "Caleth",
                 classes: "Paladin / Wizard",
-                role: "The One Who Saw It Happen",
-                contribution: "At the cell-block door the mark on his shoulder took hold of him, and for four or five breaths he was not in the room at all. What he saw was months of the elf being dragged onto a table, and the thing that was done to him at the end of it. He came back and told all of them, in order, in a voice that did not change once. Later, when Thane refused an order, he put the whole of it down and asked instead. He stripped the dead master’s burned robes off the floor on the way past, because they can be mended.",
+                role: "The One Who Read the Plates",
+                contribution: "He spent an hour over a basin until his face went gray, and when the water showed him the impostor he folded the four of them across the town without asking. He asked the questions in the cell, and when the thing smiled about how it had beaten every test, he spat on the floor and walked out. Then the Queen laid two copper plates in front of him, written in half a dozen tongues that change from line to line, and he could read every one. Nobody yet knows why.",
               },
               {
                 name: "Nageru",
                 classes: "Monk / Paladin",
-                role: "The One Who Said It Plainly",
-                contribution: "He stepped into a doorway, squared himself, and breathed acid at a thing the size of a cart — something none of them had seen him do in a year. Asked about it, he said only: it is old. He missed four swings running at a creature that was reading him, stopped dead in the middle of the fight, moved his back foot four inches, and killed it with the next one. Afterward, sitting on a rock with a dwarf whose faith in his own eyes had just come apart, he refused to pretend: we did everything there is to do. There was nothing to find.",
+                role: "The One Who Fought Himself",
+                contribution: "He looked into the water and saw his own face walking down a street. Then he was standing in front of it: one blow missed, two held back at the last instant, and he carried himself up through the gate on his shoulder while the town stopped to stare. His order to the guards was never to speak to it, whatever face it wore. Before the Queen he vouched for the demon in a single sentence and stopped there — and of bargaining with a demon lord he said only that a promise will hold if it serves her.",
               },
               {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
-                role: "The One Who Asked First",
-                contribution: "He said the thing nobody wanted said: we do not know that this is the real one either. He was not wrong, and nobody could answer him. What moved him was being asked rather than ordered. Then he took a trapped, keyless, mechanism-less collar off a dying man’s throat in ten minutes, reading the smith’s own notebook in a language he has been quietly teaching himself for a year. And when his cousin went down at the third stone, he had the tongs out of his hand before anyone spoke: I’m not a paladin either.",
+                role: "The One Who Asked How They Get Back",
+                contribution: "His Abyssal broke the dead master’s cipher, with a scholar and a wizard on either side of him. He traded a pile of Sanctum loot for a hole you can fold up and keep in your belt, and was very pleased with himself until he was told what happens if you put it in the wrong bag. When the Queen’s advisor explained that someone must hold a plate on the far side of a rift that closes behind them, he asked the only question in the room: and how does that someone get back? Then he pushed open the Fane’s front doors as if he belonged there.",
               },
               {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
-                role: "The One Who Could Not Put It Down",
-                contribution: "He found the elf by feel through a wall of silence, and carried him out himself, and said afterward that he had never lifted anyone who weighed so little. He cut five purple stones out of the man with a forge-master’s smallest tongs, took them bare-handed once and will not do that again, and broke all five with his hammer. He gave two butchered strangers the last rites in Old Dwarven and then in Common, so they would hear it in a tongue they knew. And at the end of it he sat down beside the bed, put his hand out over a sleeping man’s chest, and found that he could not do the one thing he has never had to think about.",
+                role: "The One Who Struck Exactly Hard Enough",
+                contribution: "He took his axe back off the commander’s wall and swore he would not leave it hanging again. Then he stood over the thing that had walked past his paladin’s sight for two months and hit it three times — each blow measured, each stopping short of what that hammer can do — and afterward stood a long moment looking at nothing. He argued it into the cell that blocks all magic. And on the cold hillside outside the Fane, when the axe would not stop talking about the demon thirty feet away, he dropped it into his cousin’s hole for some peace.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
@@ -534,20 +533,19 @@ export default function WrathPage() {
           {/* Milestone: current status */}
           <div className="border border-wotr-gold/30 bg-wotr-gold/5 p-8 max-w-2xl mx-auto">
             <p className="text-xs uppercase tracking-[0.4em] text-wotr-gold/50 font-cinzel mb-3">Current Status</p>
-            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">The Fortress Searching Itself</h3>
-            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The Sanctum emptied · The prisoner home · Something loose in Drezen</p>
+            <h3 className="font-cinzel text-xl text-wotr-gold mb-1">Inside the Midnight Fane</h3>
+            <p className="text-zinc-500 text-xs font-spectral italic mb-5">The impostor caged · The Queen&apos;s errand · An audience with no name</p>
             <p className="text-zinc-400 font-spectral text-sm leading-relaxed mb-6">
-              The Ivory Sanctum is finished. They walked a starved elf out of it on a carpet that flies,
-              through rooms nobody will describe out loud afterward, and brought him home to a bed in the
-              infirmary. He woke once, long enough to ask whether it was really them{" "}
-              <span className="text-zinc-300">this time</span>, and to be calmed by a goddess&apos;s name.
-              Four hours before they arrived, the other one — the one that has eaten at their table and sat
-              in their war councils since the spring — put down a cup in its study, pushed back its chair
-              and walked out. The cup was still cool when they found it. The whole citadel is awake and
-              looking, and nothing in it knows what it is looking for.
+              The Queen waits in a fold of ground a mile out, her paladins wearing the enemy&apos;s marks.
+              The four knights and the demon who led them here went in under the hill, past a statue that
+              hails the Locust Lord and a giant with a pick, and an incubus bowed and offered them an
+              audience with the mistress of the place. They followed him above a floor where crystals are
+              packed for the road like eggs, into a room where elixirs are brewed — and there, in the armor
+              of Iomedae, a woman turned to face them wearing the face of a paladin{" "}
+              <span className="text-zinc-300">dead for decades</span>.
             </p>
             <div className="flex items-center justify-center gap-6 text-xs font-cinzel uppercase tracking-widest pt-4 border-t border-wotr-gold/20">
-              <span className="text-zinc-600">Book <span className="text-wotr-gold">3</span> of 6</span>
+              <span className="text-zinc-600">Book <span className="text-wotr-gold">4</span> of 6</span>
               <span className="text-zinc-800">|</span>
               {/* Single party tier (Session 29: all four Mythic 5) — matches the Vanguard header. Keep in sync; show a range if tiers diverge. */}
               <span className="text-zinc-600">Mythic Tier <span className="text-wotr-gold">5</span></span>
