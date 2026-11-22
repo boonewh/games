@@ -11,6 +11,7 @@ import { blockText, contentToTiptapChildren } from '@/lib/story-blocks';
 import Header from '@/components/wrath/Header';
 import Footer from '@/components/wrath/Footer';
 import { adventureBooks } from '@/lib/wrath-books';
+import { storyDate } from '@/lib/story-date';
 
 export const dynamic = 'force-dynamic'
 
@@ -188,6 +189,17 @@ export default function WrathAdventureBookPage() {
             }))
             .sort((a: AdventureEntry, b: AdventureEntry) => new Date(a.sessionDate).getTime() - new Date(b.sessionDate).getTime());
           setEntries(bookEntries);
+
+          // Deep link: ?entry=<book>-<date>-<slug> opens that entry directly.
+          // Used by "Read Full Entry" on /wrath and the Latest Entry card on the adventure log.
+          const wanted = new URLSearchParams(window.location.search).get('entry');
+          if (wanted) {
+            const index = bookEntries.findIndex(e => e.id === wanted);
+            if (index >= 0) {
+              setSelectedEntry(bookEntries[index]);
+              setCurrentEntryIndex(index);
+            }
+          }
         }
       } catch (error) {
         console.error('Failed to load entries:', error);
@@ -232,7 +244,13 @@ export default function WrathAdventureBookPage() {
     setCurrentEntryIndex(index);
   };
 
-  const closeEntry = () => setSelectedEntry(null);
+  const closeEntry = () => {
+    setSelectedEntry(null);
+    // Drop a deep-link ?entry= so a refresh shows the list, not the entry again.
+    if (window.location.search.includes('entry=')) {
+      window.history.replaceState(null, '', pathname);
+    }
+  };
 
   const deleteEntry = async (entry: AdventureEntry) => {
     if (!confirm(`Are you sure you want to delete "${entry.title}"? This action cannot be undone.`)) {
@@ -310,7 +328,7 @@ export default function WrathAdventureBookPage() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center text-sm text-parchment/70">
                   <Calendar size={16} className="mr-2" />
-                  {new Date(selectedEntry.sessionDate).toLocaleDateString()}
+                  {storyDate(selectedEntry.sessionDate).toLocaleDateString()}
                 </div>
 
                 {userId && (
@@ -490,7 +508,7 @@ export default function WrathAdventureBookPage() {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center text-sm text-zinc-500">
                           <Calendar size={16} className="mr-2" />
-                          {new Date(entry.sessionDate).toLocaleDateString()}
+                          {storyDate(entry.sessionDate).toLocaleDateString()}
                         </div>
 
                         {userId && (

@@ -10,6 +10,7 @@ import { BookOpen, Calendar, Sparkles, PenLine, ArrowRight } from 'lucide-react'
 import Header from '@/components/wrath/Header'
 import Footer from '@/components/wrath/Footer'
 import { adventureBooks } from '@/lib/wrath-books'
+import { storyDate } from '@/lib/story-date'
 
 // Helper function to get a readable title or excerpt from a story
 function getStoryTitle(story: StoryEntry): string {
@@ -105,9 +106,9 @@ export default function WrathAdventureLogPage() {
 
   const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' })
   const journeyRange = latestEntry && earliestEntry && stories.length > 1
-    ? `${dateFormatter.format(new Date(earliestEntry.date))} — ${dateFormatter.format(new Date(latestEntry.date))}`
+    ? `${dateFormatter.format(storyDate(earliestEntry.date))} — ${dateFormatter.format(storyDate(latestEntry.date))}`
     : latestEntry
-    ? dateFormatter.format(new Date(latestEntry.date))
+    ? dateFormatter.format(storyDate(latestEntry.date))
     : 'The crusade awaits'
 
   const totalSessions = stories.length
@@ -214,15 +215,20 @@ export default function WrathAdventureLogPage() {
                 </p>
               </div>
 
-              <div className="rounded-sm border border-zinc-800 bg-stone-dark/70 p-6 shadow-lg">
-                <div className="flex items-center gap-3 text-wotr-gold">
-                  <Sparkles size={24} />
-                  <span className="text-sm uppercase tracking-[0.2em] text-wotr-gold/70 font-cinzel">Latest Entry</span>
-                </div>
-                <p className="mt-4 text-3xl font-bold text-parchment font-cinzel">
-                  {latestEntry ? dateFormatter.format(new Date(latestEntry.date)) : 'Soon'}
-                </p>
-                {latestEntry && (
+              {latestEntry ? (
+                // Always points at the newest entry across every book (stories are sorted newest-first).
+                // Same URL shape the /wrath page's "From the War Chronicle" link uses.
+                <Link
+                  href={`/wrath/adventure-log/${latestEntry.book}?entry=${latestEntry.book}-${latestEntry.date}-${latestEntry.slug}`}
+                  className="group block rounded-sm border border-zinc-800 bg-stone-dark/70 p-6 shadow-lg transition-colors hover:border-wotr-gold/50 hover:bg-stone-dark/90"
+                >
+                  <div className="flex items-center gap-3 text-wotr-gold">
+                    <Sparkles size={24} />
+                    <span className="text-sm uppercase tracking-[0.2em] text-wotr-gold/70 font-cinzel">Latest Entry</span>
+                  </div>
+                  <p className="mt-4 text-3xl font-bold text-parchment font-cinzel group-hover:text-wotr-gold transition-colors">
+                    {dateFormatter.format(storyDate(latestEntry.date))}
+                  </p>
                   <div className="mt-2">
                     <p className="text-sm font-medium text-zinc-300">
                       &ldquo;{getStoryTitle(latestEntry)}&rdquo;
@@ -230,14 +236,23 @@ export default function WrathAdventureLogPage() {
                     <p className="text-xs text-zinc-500 mt-1">
                       {getStoryExcerpt(latestEntry, 80)}
                     </p>
+                    <p className="mt-3 inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-wotr-gold/70 font-cinzel group-hover:text-wotr-gold transition-colors">
+                      Read it <ArrowRight size={14} />
+                    </p>
                   </div>
-                )}
-                {!latestEntry && (
+                </Link>
+              ) : (
+                <div className="rounded-sm border border-zinc-800 bg-stone-dark/70 p-6 shadow-lg">
+                  <div className="flex items-center gap-3 text-wotr-gold">
+                    <Sparkles size={24} />
+                    <span className="text-sm uppercase tracking-[0.2em] text-wotr-gold/70 font-cinzel">Latest Entry</span>
+                  </div>
+                  <p className="mt-4 text-3xl font-bold text-parchment font-cinzel">Soon</p>
                   <p className="mt-2 text-sm text-zinc-400">
                     Chronicles will appear here as they are penned.
                   </p>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -317,9 +332,9 @@ export default function WrathAdventureLogPage() {
                         <div className="flex items-center text-sm text-zinc-500">
                           <Calendar size={16} className="mr-2 text-wardstone-blue" />
                           {book.earliestStory && book.latestStory && book.storyCount > 1
-                            ? `${new Date(book.earliestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${new Date(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
+                            ? `${storyDate(book.earliestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${storyDate(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
                             : book.latestStory
-                            ? new Date(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                            ? storyDate(book.latestStory.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
                             : 'Not started'
                           }
                         </div>

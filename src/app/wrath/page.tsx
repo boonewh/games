@@ -9,6 +9,7 @@ import Footer from "@/components/wrath/Footer";
 import WrathMiniatureGallery from "@/components/wrath/MiniatureGallery";
 import { StoryEntry } from "@/types/story";
 import { blockText } from "@/lib/story-blocks";
+import { storyDate } from "@/lib/story-date";
 
 const WRATH_BOOKS: Record<string, string> = {
   'the-worldwound-incursion': 'The Worldwound Incursion',
@@ -585,7 +586,7 @@ export default function WrathPage() {
                       <h3 className="font-cinzel text-xl text-parchment tracking-tight mb-2">{getStoryTitle(latestStory)}</h3>
                       <div className="flex items-center gap-4 text-xs uppercase tracking-widest">
                         <span className="text-zinc-500 font-spectral">
-                          {new Date(latestStory.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                          {storyDate(latestStory.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </span>
                         <span className="text-wotr-gold font-cinzel">
                           {WRATH_BOOKS[latestStory.book] ?? latestStory.book}
