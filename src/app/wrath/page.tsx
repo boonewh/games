@@ -513,7 +513,7 @@ export default function WrathPage() {
                 name: "Thane",
                 classes: "Inquisitor / Rogue",
                 role: "The One Who Asked How They Get Back",
-                contribution: "His Abyssal broke the dead master’s cipher, with a scholar and a wizard on either side of him. He traded a pile of Sanctum loot for a hole you can fold up and keep in your belt, and was very pleased with himself until he was told what happens if you put it in the wrong bag. When the Queen’s advisor explained that someone must hold a plate on the far side of a rift that closes behind them, he asked the only question in the room: and how does that someone get back? Then he pushed open the Fane’s front doors as if he belonged there.",
+                contribution: "He sat down with Caleth and the wizard over the dead master’s coded journal, three readers of Abyssal against one cipher, and between them they broke it. He traded a pile of Sanctum loot for a hole you can fold up and keep in your belt, and was very pleased with himself until he was told what happens if you put it in the wrong bag. When the Queen’s advisor explained that someone must hold a plate on the far side of a rift that closes behind them, he asked the only question in the room: and how does that someone get back? Then he pushed open the Fane’s front doors as if he belonged there.",
               },
               {
                 name: "Korroc",
