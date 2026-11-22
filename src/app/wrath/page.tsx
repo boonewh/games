@@ -518,7 +518,7 @@ export default function WrathPage() {
                 name: "Korroc",
                 classes: "Paladin / Oracle",
                 role: "The One Who Struck Exactly Hard Enough",
-                contribution: "He took his axe back off the commander’s wall and swore he would not leave it hanging again. Then he stood over the thing that had walked past his paladin’s sight for two months and hit it three times — each blow measured, each stopping short of what that hammer can do — and afterward stood a long moment looking at nothing. He argued it into the cell that blocks all magic. And on the cold hillside outside the Fane, when the axe would not stop talking about the demon thirty feet away, he dropped it into his cousin’s hole for some peace.",
+                contribution: "He took his axe back off the commander’s wall and swore he would not leave it hanging again. Then he stood over the thing that had walked past his paladin’s sight for two months and hit it three times — each blow measured, each stopping short of what that hammer can do — and afterward stood a long moment looking at nothing. He argued it into the cell that blocks all magic. And on the cold hillside outside the Fane, when the axe would not stop talking about the demon thirty feet away, he dropped it into Thane’s portable hole for some peace.",
               },
             ].map((c) => (
               <div key={c.name} className="border border-zinc-800 bg-zinc-950/60 p-6 text-center flex flex-col">
